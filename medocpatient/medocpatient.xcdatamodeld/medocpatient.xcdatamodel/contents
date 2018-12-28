@@ -1,4 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Medicine" representedClassName="Medicine" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repeattimeslot" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeslot" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Prescription" representedClassName="Prescription" syncable="YES" codeGenerationType="class">
+        <attribute name="pretitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+        <attribute name="address1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aexplainFood" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aexplainInsects" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aexplainMedicine" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aexplainOther" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aexplainPlants" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="afood" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="age" optional="YES" attributeType="String" defaultValueString="Age" syncable="YES"/>
+        <attribute name="ainsects" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="allergy" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="amedicine" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="aother" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="aplants" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bloodGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bloodPressure" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateofbirth" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="declare" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ec1name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ec1number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ec1relationship" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ec2name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ec2number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ec2relationship" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gAddress1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gAddress2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="gMobileNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gSubcity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="lselecteddate1" optional="YES" attributeType="String" defaultValueString="Selected Date" syncable="YES"/>
+        <attribute name="lselecteddate2" optional="YES" attributeType="String" defaultValueString="Selected Date" syncable="YES"/>
+        <attribute name="lselecteddate3" optional="YES" attributeType="String" defaultValueString="Selected Date" syncable="YES"/>
+        <attribute name="lselecteddate4" optional="YES" attributeType="String" defaultValueString="Selected Date" syncable="YES"/>
+        <attribute name="mbp" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mcancer" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mdiebetes" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mexplainBp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mexplainCancer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mexplainDiebetes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mexplainHeartDisease" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mexplainLeukemia" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mexplainRestrict" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mheartdisease" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mleukemia" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mobileNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrecentMC" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrestrict" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ppname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ppnumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pppolicy" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pppolicynumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subcity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Reports" representedClassName="Reports" syncable="YES" codeGenerationType="class">
+        <attribute name="aboutReport" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="reportimage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="selectedPrescription" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Medicine" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Prescription" positionX="-36" positionY="9" width="128" height="60"/>
+        <element name="Profile" positionX="-63" positionY="-18" width="128" height="945"/>
+        <element name="Reports" positionX="-18" positionY="27" width="128" height="105"/>
+    </elements>
 </model>

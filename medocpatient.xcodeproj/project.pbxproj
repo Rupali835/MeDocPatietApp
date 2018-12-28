@@ -7,23 +7,135 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		57254B5021D4BC5B00B38849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B4F21D4BC5B00B38849 /* AppDelegate.swift */; };
-		57254B5221D4BC5B00B38849 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B5121D4BC5B00B38849 /* ViewController.swift */; };
-		57254B5521D4BC5B00B38849 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B5321D4BC5B00B38849 /* Main.storyboard */; };
-		57254B5821D4BC5B00B38849 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57254B5621D4BC5B00B38849 /* medocpatient.xcdatamodeld */; };
-		57254B5A21D4BC5C00B38849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57254B5921D4BC5C00B38849 /* Assets.xcassets */; };
-		57254B5D21D4BC5C00B38849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B5B21D4BC5C00B38849 /* LaunchScreen.storyboard */; };
+		57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6721D4BD6B00B38849 /* Assets.xcassets */; };
+		57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B6821D4BD6B00B38849 /* AppDelegate.swift */; };
+		57254B6E21D4BD6C00B38849 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6921D4BD6B00B38849 /* Main.storyboard */; };
+		57254B6F21D4BD6C00B38849 /* PatientExplaning.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */; };
+		57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */; };
+		57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */; };
+		57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B8F21D4BE7E00B38849 /* FAQData.swift */; };
+		57254B9921D4BE7F00B38849 /* ApiServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9021D4BE7F00B38849 /* ApiServices.swift */; };
+		57254B9A21D4BE7F00B38849 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9121D4BE7F00B38849 /* GradientView.swift */; };
+		57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9221D4BE7F00B38849 /* SwiftLoader.swift */; };
+		57254B9C21D4BE7F00B38849 /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9321D4BE7F00B38849 /* CoreDataModel.swift */; };
+		57254B9D21D4BE7F00B38849 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9421D4BE7F00B38849 /* Alert.swift */; };
+		57254B9E21D4BE7F00B38849 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9521D4BE7F00B38849 /* Utilities.swift */; };
+		57254B9F21D4BE7F00B38849 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B9621D4BE7F00B38849 /* DataModel.swift */; };
+		57254BA421D4BE9900B38849 /* PatientHomePageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BA021D4BE9800B38849 /* PatientHomePageCollectionViewCell.swift */; };
+		57254BA521D4BE9900B38849 /* PatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BA121D4BE9800B38849 /* PatientTableViewCell.swift */; };
+		57254BA621D4BE9900B38849 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BA221D4BE9800B38849 /* QRViewController.swift */; };
+		57254BA721D4BE9900B38849 /* PatientHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BA321D4BE9900B38849 /* PatientHomePageViewController.swift */; };
+		57254BA921D4BEC300B38849 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BA821D4BEC300B38849 /* ProfilePageViewController.swift */; };
+		57254BAE21D4BEE400B38849 /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BAA21D4BEE400B38849 /* GetStartedViewController.swift */; };
+		57254BAF21D4BEE400B38849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BAB21D4BEE400B38849 /* RegisterViewController.swift */; };
+		57254BB021D4BEE400B38849 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BAC21D4BEE400B38849 /* LoginPage.swift */; };
+		57254BB121D4BEE400B38849 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BAD21D4BEE400B38849 /* PageViewController.swift */; };
+		57254BB421D4BEF400B38849 /* FAQTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BB221D4BEF400B38849 /* FAQTableViewCell.swift */; };
+		57254BB521D4BEF400B38849 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BB321D4BEF400B38849 /* FAQViewController.swift */; };
+		57254BB921D4BF1300B38849 /* MedicineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BB621D4BF1300B38849 /* MedicineViewController.swift */; };
+		57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */; };
+		57254BBB21D4BF1300B38849 /* AddMedicinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BB821D4BF1300B38849 /* AddMedicinesViewController.swift */; };
+		57254BBD21D4BF2400B38849 /* RatingUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BBC21D4BF2400B38849 /* RatingUsViewController.swift */; };
+		57254BBF21D4BF3700B38849 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BBE21D4BF3700B38849 /* PromotionViewController.swift */; };
+		57254BC421D4BF5100B38849 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC021D4BF5000B38849 /* ReportViewController.swift */; };
+		57254BC521D4BF5100B38849 /* imageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC121D4BF5000B38849 /* imageCell.swift */; };
+		57254BC621D4BF5100B38849 /* AddReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC221D4BF5000B38849 /* AddReportViewController.swift */; };
+		57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */; };
+		57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */; };
+		57254BCC21D4BF7900B38849 /* PrescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */; };
+		575259CC21D6061C008DB872 /* IQTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B621D6061C008DB872 /* IQTextView.swift */; };
+		575259CD21D6061C008DB872 /* IQPreviousNextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B821D6061C008DB872 /* IQPreviousNextView.swift */; };
+		575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B921D6061C008DB872 /* IQTitleBarButtonItem.swift */; };
+		575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259BA21D6061C008DB872 /* IQBarButtonItem.swift */; };
+		575259D021D6061C008DB872 /* IQToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259BB21D6061C008DB872 /* IQToolbar.swift */; };
+		575259D121D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259BC21D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift */; };
+		575259D221D6061C008DB872 /* IQInvocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259BD21D6061C008DB872 /* IQInvocation.swift */; };
+		575259D321D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259BF21D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift */; };
+		575259D421D6061C008DB872 /* IQKeyboardManagerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C021D6061C008DB872 /* IQKeyboardManagerConstants.swift */; };
+		575259D521D6061C008DB872 /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 575259C221D6061C008DB872 /* IQKeyboardManager.bundle */; };
+		575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C321D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift */; };
+		575259D721D6061C008DB872 /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C421D6061C008DB872 /* IQKeyboardManager.swift */; };
+		575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C721D6061C008DB872 /* IQUIScrollView+Additions.swift */; };
+		575259D921D6061C008DB872 /* IQUIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C821D6061C008DB872 /* IQUIViewController+Additions.swift */; };
+		575259DA21D6061C008DB872 /* IQUITextFieldView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259C921D6061C008DB872 /* IQUITextFieldView+Additions.swift */; };
+		575259DB21D6061C008DB872 /* IQUIView+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259CA21D6061C008DB872 /* IQUIView+Hierarchy.swift */; };
+		575259DC21D6061C008DB872 /* IQNSArray+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259CB21D6061C008DB872 /* IQNSArray+Sort.swift */; };
+		575259E621D65DE3008DB872 /* QueueToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E121D65DE1008DB872 /* QueueToast.swift */; };
+		575259E721D65DE3008DB872 /* EasyToastConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E221D65DE2008DB872 /* EasyToastConfiguration.swift */; };
+		575259E821D65DE3008DB872 /* ToastContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E321D65DE2008DB872 /* ToastContainerVC.swift */; };
+		575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E421D65DE2008DB872 /* ToastWindow.swift */; };
+		575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E521D65DE2008DB872 /* UIView+Toast.swift */; };
+		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
+		E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E344C21990F2680276BFEC /* Pods_medocpatient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21E344C21990F2680276BFEC /* Pods_medocpatient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_medocpatient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57254B4C21D4BC5B00B38849 /* medocpatient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medocpatient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		57254B4F21D4BC5B00B38849 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		57254B5121D4BC5B00B38849 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		57254B5421D4BC5B00B38849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		57254B5721D4BC5B00B38849 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
-		57254B5921D4BC5C00B38849 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		57254B5C21D4BC5C00B38849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		57254B5E21D4BC5C00B38849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57254B6721D4BD6B00B38849 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57254B6821D4BD6B00B38849 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		57254B6921D4BD6B00B38849 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PatientExplaning.jpg; sourceTree = "<group>"; };
+		57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKRadioButton.swift; sourceTree = "<group>"; };
+		57254B8F21D4BE7E00B38849 /* FAQData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQData.swift; sourceTree = "<group>"; };
+		57254B9021D4BE7F00B38849 /* ApiServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiServices.swift; sourceTree = "<group>"; };
+		57254B9121D4BE7F00B38849 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		57254B9221D4BE7F00B38849 /* SwiftLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLoader.swift; sourceTree = "<group>"; };
+		57254B9321D4BE7F00B38849 /* CoreDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		57254B9421D4BE7F00B38849 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		57254B9521D4BE7F00B38849 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		57254B9621D4BE7F00B38849 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		57254BA021D4BE9800B38849 /* PatientHomePageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientHomePageCollectionViewCell.swift; sourceTree = "<group>"; };
+		57254BA121D4BE9800B38849 /* PatientTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTableViewCell.swift; sourceTree = "<group>"; };
+		57254BA221D4BE9800B38849 /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		57254BA321D4BE9900B38849 /* PatientHomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientHomePageViewController.swift; sourceTree = "<group>"; };
+		57254BA821D4BEC300B38849 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		57254BAA21D4BEE400B38849 /* GetStartedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
+		57254BAB21D4BEE400B38849 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		57254BAC21D4BEE400B38849 /* LoginPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		57254BAD21D4BEE400B38849 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		57254BB221D4BEF400B38849 /* FAQTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQTableViewCell.swift; sourceTree = "<group>"; };
+		57254BB321D4BEF400B38849 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		57254BB621D4BF1300B38849 /* MedicineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MedicineViewController.swift; sourceTree = "<group>"; };
+		57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MedicineTableViewCell.swift; sourceTree = "<group>"; };
+		57254BB821D4BF1300B38849 /* AddMedicinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMedicinesViewController.swift; sourceTree = "<group>"; };
+		57254BBC21D4BF2400B38849 /* RatingUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingUsViewController.swift; sourceTree = "<group>"; };
+		57254BBE21D4BF3700B38849 /* PromotionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionViewController.swift; sourceTree = "<group>"; };
+		57254BC021D4BF5000B38849 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		57254BC121D4BF5000B38849 /* imageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageCell.swift; sourceTree = "<group>"; };
+		57254BC221D4BF5000B38849 /* AddReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReportViewController.swift; sourceTree = "<group>"; };
+		57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrescriptionViewController.swift; sourceTree = "<group>"; };
+		57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		575259B621D6061C008DB872 /* IQTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQTextView.swift; sourceTree = "<group>"; };
+		575259B821D6061C008DB872 /* IQPreviousNextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQPreviousNextView.swift; sourceTree = "<group>"; };
+		575259B921D6061C008DB872 /* IQTitleBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQTitleBarButtonItem.swift; sourceTree = "<group>"; };
+		575259BA21D6061C008DB872 /* IQBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQBarButtonItem.swift; sourceTree = "<group>"; };
+		575259BB21D6061C008DB872 /* IQToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQToolbar.swift; sourceTree = "<group>"; };
+		575259BC21D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIView+IQKeyboardToolbar.swift"; sourceTree = "<group>"; };
+		575259BD21D6061C008DB872 /* IQInvocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQInvocation.swift; sourceTree = "<group>"; };
+		575259BF21D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQKeyboardManagerConstantsInternal.swift; sourceTree = "<group>"; };
+		575259C021D6061C008DB872 /* IQKeyboardManagerConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQKeyboardManagerConstants.swift; sourceTree = "<group>"; };
+		575259C221D6061C008DB872 /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
+		575259C321D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQKeyboardReturnKeyHandler.swift; sourceTree = "<group>"; };
+		575259C421D6061C008DB872 /* IQKeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
+		575259C521D6061C008DB872 /* IQKeyboardManagerSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManagerSwift.h; sourceTree = "<group>"; };
+		575259C721D6061C008DB872 /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
+		575259C821D6061C008DB872 /* IQUIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIViewController+Additions.swift"; sourceTree = "<group>"; };
+		575259C921D6061C008DB872 /* IQUITextFieldView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUITextFieldView+Additions.swift"; sourceTree = "<group>"; };
+		575259CA21D6061C008DB872 /* IQUIView+Hierarchy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIView+Hierarchy.swift"; sourceTree = "<group>"; };
+		575259CB21D6061C008DB872 /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQNSArray+Sort.swift"; sourceTree = "<group>"; };
+		575259DD21D60FDC008DB872 /* medocpatient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = medocpatient.entitlements; sourceTree = "<group>"; };
+		575259E121D65DE1008DB872 /* QueueToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueToast.swift; sourceTree = "<group>"; };
+		575259E221D65DE2008DB872 /* EasyToastConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyToastConfiguration.swift; sourceTree = "<group>"; };
+		575259E321D65DE2008DB872 /* ToastContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContainerVC.swift; sourceTree = "<group>"; };
+		575259E421D65DE2008DB872 /* ToastWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastWindow.swift; sourceTree = "<group>"; };
+		575259E521D65DE2008DB872 /* UIView+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Toast.swift"; sourceTree = "<group>"; };
+		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
+		71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.debug.xcconfig"; sourceTree = "<group>"; };
+		72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.release.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +143,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		507BA617EE740E3FFFD38585 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */,
+				72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		57254B4321D4BC5B00B38849 = {
 			isa = PBXGroup;
 			children = (
 				57254B4E21D4BC5B00B38849 /* medocpatient */,
 				57254B4D21D4BC5B00B38849 /* Products */,
+				507BA617EE740E3FFFD38585 /* Pods */,
+				74839B46AB7FE7B2DED5ABBE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +180,215 @@
 		57254B4E21D4BC5B00B38849 /* medocpatient */ = {
 			isa = PBXGroup;
 			children = (
-				57254B4F21D4BC5B00B38849 /* AppDelegate.swift */,
-				57254B5121D4BC5B00B38849 /* ViewController.swift */,
-				57254B5321D4BC5B00B38849 /* Main.storyboard */,
-				57254B5921D4BC5C00B38849 /* Assets.xcassets */,
-				57254B5B21D4BC5C00B38849 /* LaunchScreen.storyboard */,
+				575259DD21D60FDC008DB872 /* medocpatient.entitlements */,
+				57254B8D21D4BE6600B38849 /* utility */,
+				57254B8C21D4BE6400B38849 /* home */,
+				57254B8B21D4BE6100B38849 /* profile */,
+				57254B8A21D4BE5E00B38849 /* login */,
+				57254B8921D4BE5C00B38849 /* FAQ */,
+				57254B8821D4BE5800B38849 /* medicine */,
+				57254B8721D4BE5500B38849 /* ratingus */,
+				57254B8621D4BE5200B38849 /* promotion */,
+				57254B8521D4BE4F00B38849 /* report */,
+				57254BC821D4BF6400B38849 /* prescription */,
+				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
+				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
+				57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */,
+				57254B6921D4BD6B00B38849 /* Main.storyboard */,
+				57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */,
 				57254B5E21D4BC5C00B38849 /* Info.plist */,
-				57254B5621D4BC5B00B38849 /* medocpatient.xcdatamodeld */,
+				57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */,
 			);
 			path = medocpatient;
+			sourceTree = "<group>";
+		};
+		57254B8521D4BE4F00B38849 /* report */ = {
+			isa = PBXGroup;
+			children = (
+				57254BC221D4BF5000B38849 /* AddReportViewController.swift */,
+				57254BC121D4BF5000B38849 /* imageCell.swift */,
+				57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */,
+				57254BC021D4BF5000B38849 /* ReportViewController.swift */,
+			);
+			path = report;
+			sourceTree = "<group>";
+		};
+		57254B8621D4BE5200B38849 /* promotion */ = {
+			isa = PBXGroup;
+			children = (
+				57254BBE21D4BF3700B38849 /* PromotionViewController.swift */,
+			);
+			path = promotion;
+			sourceTree = "<group>";
+		};
+		57254B8721D4BE5500B38849 /* ratingus */ = {
+			isa = PBXGroup;
+			children = (
+				57254BBC21D4BF2400B38849 /* RatingUsViewController.swift */,
+			);
+			path = ratingus;
+			sourceTree = "<group>";
+		};
+		57254B8821D4BE5800B38849 /* medicine */ = {
+			isa = PBXGroup;
+			children = (
+				57254BB821D4BF1300B38849 /* AddMedicinesViewController.swift */,
+				57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */,
+				57254BB621D4BF1300B38849 /* MedicineViewController.swift */,
+			);
+			path = medicine;
+			sourceTree = "<group>";
+		};
+		57254B8921D4BE5C00B38849 /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				57254BB221D4BEF400B38849 /* FAQTableViewCell.swift */,
+				57254BB321D4BEF400B38849 /* FAQViewController.swift */,
+			);
+			path = FAQ;
+			sourceTree = "<group>";
+		};
+		57254B8A21D4BE5E00B38849 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				57254BAA21D4BEE400B38849 /* GetStartedViewController.swift */,
+				57254BAC21D4BEE400B38849 /* LoginPage.swift */,
+				57254BAD21D4BEE400B38849 /* PageViewController.swift */,
+				57254BAB21D4BEE400B38849 /* RegisterViewController.swift */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		57254B8B21D4BE6100B38849 /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				57254BA821D4BEC300B38849 /* ProfilePageViewController.swift */,
+			);
+			path = profile;
+			sourceTree = "<group>";
+		};
+		57254B8C21D4BE6400B38849 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				57254BA321D4BE9900B38849 /* PatientHomePageViewController.swift */,
+				57254BA021D4BE9800B38849 /* PatientHomePageCollectionViewCell.swift */,
+				57254BA221D4BE9800B38849 /* QRViewController.swift */,
+				57254BA121D4BE9800B38849 /* PatientTableViewCell.swift */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
+		57254B8D21D4BE6600B38849 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				575259E021D65DCC008DB872 /* EasyToast */,
+				57254B9421D4BE7F00B38849 /* Alert.swift */,
+				57254B9021D4BE7F00B38849 /* ApiServices.swift */,
+				57254B9321D4BE7F00B38849 /* CoreDataModel.swift */,
+				57254B9621D4BE7F00B38849 /* DataModel.swift */,
+				57254B8F21D4BE7E00B38849 /* FAQData.swift */,
+				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
+				57254B9121D4BE7F00B38849 /* GradientView.swift */,
+				57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */,
+				57254B9221D4BE7F00B38849 /* SwiftLoader.swift */,
+				57254B9521D4BE7F00B38849 /* Utilities.swift */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		57254BC821D4BF6400B38849 /* prescription */ = {
+			isa = PBXGroup;
+			children = (
+				57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */,
+				57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */,
+			);
+			path = prescription;
+			sourceTree = "<group>";
+		};
+		575259B421D6061C008DB872 /* IQKeyboardManagerSwift */ = {
+			isa = PBXGroup;
+			children = (
+				575259B521D6061C008DB872 /* IQTextView */,
+				575259B721D6061C008DB872 /* IQToolbar */,
+				575259BE21D6061C008DB872 /* Constants */,
+				575259C121D6061C008DB872 /* Resources */,
+				575259C321D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift */,
+				575259C421D6061C008DB872 /* IQKeyboardManager.swift */,
+				575259C521D6061C008DB872 /* IQKeyboardManagerSwift.h */,
+				575259C621D6061C008DB872 /* Categories */,
+			);
+			path = IQKeyboardManagerSwift;
+			sourceTree = "<group>";
+		};
+		575259B521D6061C008DB872 /* IQTextView */ = {
+			isa = PBXGroup;
+			children = (
+				575259B621D6061C008DB872 /* IQTextView.swift */,
+			);
+			path = IQTextView;
+			sourceTree = "<group>";
+		};
+		575259B721D6061C008DB872 /* IQToolbar */ = {
+			isa = PBXGroup;
+			children = (
+				575259B821D6061C008DB872 /* IQPreviousNextView.swift */,
+				575259B921D6061C008DB872 /* IQTitleBarButtonItem.swift */,
+				575259BA21D6061C008DB872 /* IQBarButtonItem.swift */,
+				575259BB21D6061C008DB872 /* IQToolbar.swift */,
+				575259BC21D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift */,
+				575259BD21D6061C008DB872 /* IQInvocation.swift */,
+			);
+			path = IQToolbar;
+			sourceTree = "<group>";
+		};
+		575259BE21D6061C008DB872 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				575259BF21D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift */,
+				575259C021D6061C008DB872 /* IQKeyboardManagerConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		575259C121D6061C008DB872 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				575259C221D6061C008DB872 /* IQKeyboardManager.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		575259C621D6061C008DB872 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				575259C721D6061C008DB872 /* IQUIScrollView+Additions.swift */,
+				575259C821D6061C008DB872 /* IQUIViewController+Additions.swift */,
+				575259C921D6061C008DB872 /* IQUITextFieldView+Additions.swift */,
+				575259CA21D6061C008DB872 /* IQUIView+Hierarchy.swift */,
+				575259CB21D6061C008DB872 /* IQNSArray+Sort.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		575259E021D65DCC008DB872 /* EasyToast */ = {
+			isa = PBXGroup;
+			children = (
+				575259E221D65DE2008DB872 /* EasyToastConfiguration.swift */,
+				575259E121D65DE1008DB872 /* QueueToast.swift */,
+				575259E321D65DE2008DB872 /* ToastContainerVC.swift */,
+				575259E421D65DE2008DB872 /* ToastWindow.swift */,
+				575259E521D65DE2008DB872 /* UIView+Toast.swift */,
+			);
+			name = EasyToast;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		74839B46AB7FE7B2DED5ABBE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21E344C21990F2680276BFEC /* Pods_medocpatient.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +398,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57254B6121D4BC5C00B38849 /* Build configuration list for PBXNativeTarget "medocpatient" */;
 			buildPhases = (
+				CCE541CA1F8B8134C1CCA050 /* [CP] Check Pods Manifest.lock */,
 				57254B4821D4BC5B00B38849 /* Sources */,
 				57254B4921D4BC5B00B38849 /* Frameworks */,
 				57254B4A21D4BC5B00B38849 /* Resources */,
+				3FE83E2A3E05B1B4B51A2692 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -99,6 +425,18 @@
 				TargetAttributes = {
 					57254B4B21D4BC5B00B38849 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -125,45 +463,130 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57254B5D21D4BC5C00B38849 /* LaunchScreen.storyboard in Resources */,
-				57254B5A21D4BC5C00B38849 /* Assets.xcassets in Resources */,
-				57254B5521D4BC5B00B38849 /* Main.storyboard in Resources */,
+				575259D521D6061C008DB872 /* IQKeyboardManager.bundle in Resources */,
+				57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */,
+				57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */,
+				57254B6E21D4BD6C00B38849 /* Main.storyboard in Resources */,
+				57254B6F21D4BD6C00B38849 /* PatientExplaning.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3FE83E2A3E05B1B4B51A2692 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCE541CA1F8B8134C1CCA050 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-medocpatient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		57254B4821D4BC5B00B38849 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57254B5221D4BC5B00B38849 /* ViewController.swift in Sources */,
-				57254B5021D4BC5B00B38849 /* AppDelegate.swift in Sources */,
-				57254B5821D4BC5B00B38849 /* medocpatient.xcdatamodeld in Sources */,
+				57254BB021D4BEE400B38849 /* LoginPage.swift in Sources */,
+				57254BA421D4BE9900B38849 /* PatientHomePageCollectionViewCell.swift in Sources */,
+				57254B9D21D4BE7F00B38849 /* Alert.swift in Sources */,
+				57254BC521D4BF5100B38849 /* imageCell.swift in Sources */,
+				57254BB921D4BF1300B38849 /* MedicineViewController.swift in Sources */,
+				57254BA721D4BE9900B38849 /* PatientHomePageViewController.swift in Sources */,
+				57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */,
+				575259E621D65DE3008DB872 /* QueueToast.swift in Sources */,
+				575259E821D65DE3008DB872 /* ToastContainerVC.swift in Sources */,
+				57254BA621D4BE9900B38849 /* QRViewController.swift in Sources */,
+				575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */,
+				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
+				575259D221D6061C008DB872 /* IQInvocation.swift in Sources */,
+				575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */,
+				575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */,
+				57254BBB21D4BF1300B38849 /* AddMedicinesViewController.swift in Sources */,
+				57254BCC21D4BF7900B38849 /* PrescriptionTableViewCell.swift in Sources */,
+				57254BA521D4BE9900B38849 /* PatientTableViewCell.swift in Sources */,
+				575259DB21D6061C008DB872 /* IQUIView+Hierarchy.swift in Sources */,
+				57254B9F21D4BE7F00B38849 /* DataModel.swift in Sources */,
+				575259DA21D6061C008DB872 /* IQUITextFieldView+Additions.swift in Sources */,
+				57254BA921D4BEC300B38849 /* ProfilePageViewController.swift in Sources */,
+				57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */,
+				575259DC21D6061C008DB872 /* IQNSArray+Sort.swift in Sources */,
+				575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */,
+				57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */,
+				575259E721D65DE3008DB872 /* EasyToastConfiguration.swift in Sources */,
+				575259D121D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift in Sources */,
+				575259CD21D6061C008DB872 /* IQPreviousNextView.swift in Sources */,
+				57254BC621D4BF5100B38849 /* AddReportViewController.swift in Sources */,
+				575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */,
+				575259D421D6061C008DB872 /* IQKeyboardManagerConstants.swift in Sources */,
+				57254BAF21D4BEE400B38849 /* RegisterViewController.swift in Sources */,
+				575259D021D6061C008DB872 /* IQToolbar.swift in Sources */,
+				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
+				57254BB121D4BEE400B38849 /* PageViewController.swift in Sources */,
+				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
+				57254B9C21D4BE7F00B38849 /* CoreDataModel.swift in Sources */,
+				57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */,
+				57254B9A21D4BE7F00B38849 /* GradientView.swift in Sources */,
+				57254BBD21D4BF2400B38849 /* RatingUsViewController.swift in Sources */,
+				57254BB421D4BEF400B38849 /* FAQTableViewCell.swift in Sources */,
+				57254BB521D4BEF400B38849 /* FAQViewController.swift in Sources */,
+				57254BC421D4BF5100B38849 /* ReportViewController.swift in Sources */,
+				57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */,
+				57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */,
+				57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */,
+				57254BAE21D4BEE400B38849 /* GetStartedViewController.swift in Sources */,
+				575259D921D6061C008DB872 /* IQUIViewController+Additions.swift in Sources */,
+				57254B9E21D4BE7F00B38849 /* Utilities.swift in Sources */,
+				575259D721D6061C008DB872 /* IQKeyboardManager.swift in Sources */,
+				57254BBF21D4BF3700B38849 /* PromotionViewController.swift in Sources */,
+				57254B9921D4BE7F00B38849 /* ApiServices.swift in Sources */,
+				575259D321D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		57254B5321D4BC5B00B38849 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				57254B5421D4BC5B00B38849 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		57254B5B21D4BC5C00B38849 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				57254B5C21D4BC5C00B38849 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		57254B5F21D4BC5C00B38849 /* Debug */ = {
@@ -284,17 +707,22 @@
 		};
 		57254B6221D4BC5C00B38849 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6GBQ93JCQJ;
+				DEVELOPMENT_TEAM = SHJ664BYA4;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatientg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -302,17 +730,21 @@
 		};
 		57254B6321D4BC5C00B38849 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6GBQ93JCQJ;
+				DEVELOPMENT_TEAM = SHJ664BYA4;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatientg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -342,12 +774,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		57254B5621D4BC5B00B38849 /* medocpatient.xcdatamodeld */ = {
+		57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				57254B5721D4BC5B00B38849 /* medocpatient.xcdatamodel */,
+				57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */,
 			);
-			currentVersion = 57254B5721D4BC5B00B38849 /* medocpatient.xcdatamodel */;
+			currentVersion = 57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */;
 			path = medocpatient.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
