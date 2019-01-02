@@ -33,7 +33,7 @@ class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utilities.shared.bottomBorderSetup(fields: [FullNameTF,EmailTF,NumberTF,PasswordTF,ConfirmPasswordTF],color: UIColor(hexString: "FFFFFF"))
+       // Utilities.shared.bottomBorderSetup(fields: [FullNameTF,EmailTF,NumberTF,PasswordTF,ConfirmPasswordTF],color: UIColor(hexString: "FFFFFF"))
         Utilities.shared.borderRadius(objects: [RegisterNow], color: UIColor(hexString: "4CAF50"))
         Utilities.shared.cornerRadius(objects: [RegisterNow,Signup], number: 5.0)
         

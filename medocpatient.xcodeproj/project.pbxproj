@@ -299,8 +299,8 @@
 		57254BC821D4BF6400B38849 /* prescription */ = {
 			isa = PBXGroup;
 			children = (
-				57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */,
 				57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */,
+				57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */,
 			);
 			path = prescription;
 			sourceTree = "<group>";
@@ -715,16 +715,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SHJ664BYA4;
 				INFOPLIST_FILE = medocpatient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatientg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patientg";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -738,15 +739,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SHJ664BYA4;
 				INFOPLIST_FILE = medocpatient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kspl.medocpatientg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patientg";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

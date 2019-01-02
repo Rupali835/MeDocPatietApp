@@ -95,18 +95,26 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
     }
     @objc func addAttachmentAction(){
-        APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
-           // let attachment = self.attachmentArray[0] as! DBAttachment
-            self.Filetitle.text = attachmentArray[0].fileName
-            attachmentArray[0].loadOriginalImage(completion: { (image) in
-                self.imagesPicView.image = image
-            })
-
-        }, cancel: nil)
-        APC.mediaType = [.other,.image]
-        APC.allowsMultipleSelection = false
-        APC.allowsSelectionFromOtherApps = true
-        APC.present(on: self)
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == PHAuthorizationStatus.notDetermined {
+                self.addAttachmentAction()
+            } else {
+                self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
+                    // let attachment = self.attachmentArray[0] as! DBAttachment
+                    self.Filetitle.text = attachmentArray[0].fileName
+                    attachmentArray[0].loadOriginalImage(completion: { (image) in
+                        self.imagesPicView.image = image
+                    })
+                    
+                }, cancel: nil)
+                self.APC.mediaType = [.other,.image]
+                self.APC.allowsMultipleSelection = false
+                self.APC.allowsSelectionFromOtherApps = true
+                self.APC.present(on: self)
+            }
+            
+        }
+        
     }
     @objc func closeAction(){
         self.dismiss(animated: true, completion: nil)

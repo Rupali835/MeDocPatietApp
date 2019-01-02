@@ -5,6 +5,7 @@
         <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repeattimeslot" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeslot" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="took" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Prescription" representedClassName="Prescription" syncable="YES" codeGenerationType="class">
         <attribute name="pretitle" optional="YES" attributeType="String" syncable="YES"/>
@@ -78,7 +79,7 @@
         <attribute name="selectedPrescription" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Medicine" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Medicine" positionX="-54" positionY="-9" width="128" height="120"/>
         <element name="Prescription" positionX="-36" positionY="9" width="128" height="60"/>
         <element name="Profile" positionX="-63" positionY="-18" width="128" height="945"/>
         <element name="Reports" positionX="-18" positionY="27" width="128" height="105"/>

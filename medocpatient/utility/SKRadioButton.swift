@@ -47,6 +47,7 @@ open class SKRadioButton: UIButton {
 
   override open func draw(_ rect: CGRect) {
     if iconView == nil {
+        
       iconView = UIView(frame: CGRect(x: 0.0, y: self.frame.origin.y/2.0, width: CGFloat(iconSize), height: CGFloat(iconSize)))
       iconView?.clipsToBounds = true
       iconSecondInnerView = UIView(frame: CGRect(x: 0, y: 0, width: iconSize*0.8, height: iconSize*0.8))
@@ -92,6 +93,7 @@ open class SKRadioButton: UIButton {
     textLabel?.textColor = titleTextColor
     textLabel?.backgroundColor = titleTextBackgroundColor
     textLabel?.numberOfLines = numberOfLines
+    textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
    }
   
 }

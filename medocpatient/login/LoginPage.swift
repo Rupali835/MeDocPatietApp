@@ -20,7 +20,7 @@ class LoginPage: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utilities.shared.bottomBorderSetup(fields: [PatientTextField,PasswordTextField],color: UIColor(hexString: "FFFFFF"))
+     //   Utilities.shared.bottomBorderSetup(fields: [PatientTextField,PasswordTextField],color: UIColor(hexString: "FFFFFF"))
         Utilities.shared.borderRadius(objects: [LoginNow], color: UIColor(hexString: "4CAF50"))
         Utilities.shared.cornerRadius(objects: [LoginNow,Register], number: 5.0)
         Register.addTarget(self, action: #selector(registerAction), for: .touchUpInside)

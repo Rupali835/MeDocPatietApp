@@ -38,14 +38,15 @@ class AddMedicinesViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     @objc func doneAction(){
-        if selectedtime.isEmpty {
-            view.showToast("selecttime", position: .bottom, popTime: 3, dismissOnTap: true)
+        if (medicineTF.text?.isEmpty)! {
+            view.showToast("Enter Medicine Name", position: .bottom, popTime: 3, dismissOnTap: true)
+        }
+            
+        else if selectedtime.isEmpty {
+            view.showToast("select time", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else if selectedhr == ""{
-            view.showToast("selecthr", position: .bottom, popTime: 3, dismissOnTap: true)
-        }
-        else if (medicineTF.text?.isEmpty)! {
-            view.showToast("Enter Medicine Name", position: .bottom, popTime: 3, dismissOnTap: true)
+            view.showToast("select repeated hour", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else {
             

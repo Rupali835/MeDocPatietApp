@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
 class PatientHomePageViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
+    @IBOutlet var imagesPicView: UIImageView!
+    @IBOutlet var Name: UILabel!
+    @IBOutlet var DateOfBirth: UILabel!
+    @IBOutlet var Gender: UILabel!
     
     let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "star.png")]
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","FAQ","Rating US"]
-    
+    let appdel = UIApplication.shared.delegate as! AppDelegate
+    let user = User()
     override func viewDidLoad(){
         super.viewDidLoad()
       //  fetchDoctor()
+        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
@@ -53,6 +60,51 @@ class PatientHomePageViewController: UIViewController {
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        retrivedata()
+    }
+    func retrivedata(){
+        let managedobject = self.appdel.persistentContainer.viewContext
+        let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
+        do {
+            let result = try managedobject.fetch(fetchReq)
+            for data in result as! [NSManagedObject]{
+                //user
+                let imgdata = data.value(forKey: user.image) as? Data
+                if imgdata != nil{
+                    self.imagesPicView.image = UIImage(data: imgdata!)
+                }
+                else {
+                    self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
+                }
+                let name = data.value(forKey: user.name) as? String
+                if name == ""{
+                    self.Name.text = "Patient Name"
+                } else {
+                    self.Name.text = name
+                }
+                let dob = data.value(forKey: user.dateofbirth) as? String
+                if dob == ""{
+                    self.DateOfBirth.text = "Date of Birth"
+                } else {
+                    self.DateOfBirth.text =  dob
+                }
+                let gender = data.value(forKey: user.gender) as? Int ?? 4
+                switch gender {
+                    case 0:
+                        self.Gender.text = "Male";
+                    case 1:
+                        self.Gender.text = "Female";
+                    case 2:
+                        self.Gender.text = "Other";
+                    default:
+                        self.Gender.text = "Gender";
+                }
+            }
+        } catch {
+            print("failed")
         }
     }
 }

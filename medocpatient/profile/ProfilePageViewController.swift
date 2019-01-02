@@ -163,17 +163,24 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
        // Do any additional setup after loading the view.
     }
     @objc func addAttachmentAction(){
-        APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
-            
-            attachmentArray[0].loadOriginalImage(completion: { (image) in
-                self.imagesPicView.image = image
-            })
-            
-        }, cancel: nil)
-        APC.mediaType = [.image]
-        APC.allowsMultipleSelection = false
-        APC.allowsSelectionFromOtherApps = false
-        APC.present(on: self)
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == PHAuthorizationStatus.notDetermined {
+                self.addAttachmentAction()
+            } else {
+                self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
+                    
+                    attachmentArray[0].loadOriginalImage(completion: { (image) in
+                        self.imagesPicView.image = image
+                    })
+                    
+                }, cancel: nil)
+                self.APC.mediaType = [.image]
+                self.APC.allowsMultipleSelection = false
+                self.APC.allowsSelectionFromOtherApps = false
+                self.APC.present(on: self)
+            }
+        }
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {

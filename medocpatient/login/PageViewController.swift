@@ -92,9 +92,12 @@ class PageViewController: UIPageViewController , UIPageViewControllerDelegate, U
         return orderedViewControllers[nextIndex]
     }
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        let pageContentViewController = pageViewController.viewControllers![0]
-        self.pageControl.currentPage = orderedViewControllers.index(of: pageContentViewController)!
-        self.pageControl.hidesForSinglePage = true
+        UIView.animate(withDuration: 0.3, delay: 0.3, usingSpringWithDamping: 5.0, initialSpringVelocity: 5.0, options: .transitionFlipFromRight, animations: {
+            let pageContentViewController = pageViewController.viewControllers![0]
+            self.pageControl.currentPage = self.orderedViewControllers.index(of: pageContentViewController)!
+            self.pageControl.hidesForSinglePage = true
+        }, completion: nil)
+        
     }
     func nextPageWithIndex(index: Int) {
         setViewControllers([orderedViewControllers[index]], direction: .forward, animated: true, completion: nil)

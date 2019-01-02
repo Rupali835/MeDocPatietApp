@@ -56,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         print("terminate")
-        UserDefaults.standard.set(false, forKey: "took")
         self.saveContext()
     }
 

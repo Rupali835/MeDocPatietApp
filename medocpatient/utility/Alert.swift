@@ -37,18 +37,18 @@ class Alert {
         return nil
     }
     func ActionAlert(vc: UIViewController,title: String,msg: String,buttontitle: String,button2title: String,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
-//        if (checkIfAlertViewHasPresented() != nil) {
-//
-//        } else {
+        if (checkIfAlertViewHasPresented() != nil) {
+
+        } else {
  
             let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
             alertWindow.windowLevel = UIWindow.Level.alert + 1
             alertWindow.backgroundColor = UIColor.clear
-            
+
             let alertcontroller = UIAlertController(title: title, message: msg, preferredStyle: .actionSheet)
             alertcontroller.view.backgroundColor = UIColor.clear
-            
+        
             let cancel = UIAlertAction(title: button2title, style: .cancel) { (action) in
                 Action2Completion()
             }
@@ -59,8 +59,8 @@ class Alert {
             alertcontroller.addAction(cancel)
             alertWindow.makeKeyAndVisible()
             alertWindow.rootViewController?.present(alertcontroller, animated: true, completion: nil)
-        //}
-      //  vc.present(alertcontroller, animated: true, completion: nil)
+        }
+        //    vc.present(alertcontroller, animated: true, completion: nil)
     }
     func RejectReason(vc: UIViewController,title: String,msg: String,ActionCompletion: @escaping () -> ()){
         let alertcontroller = UIAlertController(title: title, message: msg, preferredStyle: .alert)
@@ -103,5 +103,30 @@ class Alert {
         alertcontroller.addAction(Send)
         alertcontroller.addAction(cancel)
         vc.present(alertcontroller, animated: true, completion: nil)
+    }
+}
+extension Date
+{
+    
+    func dateAt(hours: Int, minutes: Int) -> Date
+    {
+        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+        
+        //get the month/day/year componentsfor today's date.
+        
+        
+        var date_components = calendar.components(
+            [NSCalendar.Unit.year,
+             NSCalendar.Unit.month,
+             NSCalendar.Unit.day],
+            from: self)
+        
+        //Create an NSDate for the specified time today.
+        date_components.hour = hours
+        date_components.minute = minutes
+        date_components.second = 0
+        
+        let newDate = calendar.date(from: date_components)!
+        return newDate
     }
 }

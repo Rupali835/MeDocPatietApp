@@ -18,12 +18,9 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
     var notificationGranted = false
     
     var timerDic = NSMutableDictionary()
-    var took = Bool()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        SearchAction()
-        took = UserDefaults.standard.bool(forKey: "took")
+     //   SearchAction()
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reloadmedicine"), object: nil)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add
@@ -51,18 +48,6 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
         content.body = body
         content.categoryIdentifier = "medicine.reminder.category"
         
-        //for testing
-//        content.userInfo["endDate"] = Date(timeIntervalSinceNow: 60.00)
-//
-//       //  Set the end date to a number of days
-//        let dayInSeconds = 10.0
-//        content.userInfo["endDate"] = Date(timeIntervalSinceNow: dayInSeconds)
-        
-      //  A repeat trigger for every minute
-      //  You cannot make a repeat shorter than this.
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60.0, repeats: true)
-        
-        //Date component trigger
         var dateComponents = DateComponents()
         let date = Date()
         let calendar = Calendar.current
@@ -94,7 +79,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
         searchController.searchBar.barTintColor = UIColor.white
         searchController.searchBar.tintColor = UIColor.white
         self.navigationItem.hidesSearchBarWhenScrolling = false
-     //   self.navigationItem.searchController = searchController
+        self.navigationItem.searchController = searchController
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
             textfield.textColor = UIColor.blue
             if let backgroundview = textfield.subviews.first {
@@ -132,18 +117,6 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
             searchController.searchBar.showsCancelButton = true
         } else {
             searchController.searchBar.showsCancelButton = true
-          /*  filter = getAllusersdata.filter({ (filterdata) -> Bool in
-                tableview.reloadData()
-                if self.filter.count == 0{
-                    self.nofound.isHidden = false
-                    self.nofound.text = "No Member Found"
-                    self.tableview.isHidden = true
-                } else {
-                    self.nofound.isHidden = true
-                    self.tableview.isHidden = false
-                }
-                return filterdata.user_name!.localizedCaseInsensitiveContains(searchController.searchBar.text!)
-            })*/
             tableview.reloadData()
         } 
     }
@@ -158,6 +131,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
             
         }
     }
+    
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -171,47 +145,53 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         medicinecell.quantity.text = "Quantity: \(items[indexPath.row].quantity!)"
         medicinecell.timeslot.text = "Time Slot: \(items[indexPath.row].timeslot!)"
         medicinecell.repeattimeslot.text = "Repeat Time Slot: \(items[indexPath.row].repeattimeslot!) hr"
+
         if notificationGranted {
             repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
         } else {
             print("notification not granted")
         }
-        if items.count > 0{
-            if self.took == false {
-                Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(items[indexPath.row].name!)", buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
-                    UserDefaults.standard.set(true, forKey: "took")
-                    UserDefaults.standard.synchronize()
-                    self.took = true
-                }) {
-                    self.took = false
-                    UserDefaults.standard.set(false, forKey: "took")
-                    UserDefaults.standard.synchronize()
-                    self.timerDic = ["msg":"-\(self.items[indexPath.row].name!)"]
-                    Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
+        for i in items {
+            if items.count > 0{
+                if i.took == false {
+                    
+                    let now = Date()
+                    let first = now.dateAt(hours: 12, minutes: 0)
+                    let second = now.dateAt(hours: 16, minutes: 30)
+                    
+                    if now >= first &&
+                        now <= second
+                    {
+                        print("The time is between 12:00 and 16:30")
+                        Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(i.name!)", buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
+                            i.took = true
+                        }) {
+                            i.took = false
+                            self.timerDic = ["msg":"-\(i.name!)","took":i.took]
+                            Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
+                        }
+                    }
+                } else {
+                    // Alert.shared.dismissAlert(vc: self)
                 }
-            } else {
-                Alert.shared.dismissAlert(vc: self)
             }
         }
         return medicinecell
     }
     @objc func remind(timer: Timer){
         if let timerDic = timer.userInfo as? NSMutableDictionary {
-            if self.took == false {
+            var took = timerDic["took"] as? Bool
+            if took == false {
                 if let msg = timerDic["msg"] as? String {
                     Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: msg, buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
-                        self.took = true
-                        UserDefaults.standard.set(true, forKey: "took")
-                        UserDefaults.standard.synchronize()
+                        took = true
                     }) {
-                        self.took = false
-                        UserDefaults.standard.set(false, forKey: "took")
-                        UserDefaults.standard.synchronize()
+                        took = false
                         Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: ["msg":msg], repeats: true)
                     }
                 }
             } else {
-                Alert.shared.dismissAlert(vc: self)
+           //     Alert.shared.dismissAlert(vc: self)
             }
             
         }

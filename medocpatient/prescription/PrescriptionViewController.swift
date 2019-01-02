@@ -63,10 +63,10 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if status == "1"{
             NotificationCenter.default.post(name: NSNotification.Name("change"), object: self, userInfo: ["title" : data[indexPath.row]])
+            self.dismiss(animated: true, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 50
     }
 }
