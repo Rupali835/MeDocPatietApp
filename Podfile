@@ -9,4 +9,5 @@ target 'medocpatient' do
   pod 'FSCalendar'
 pod 'DBAttachmentPickerController', '~> 1.1.0'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
+pod 'CryptoSwift'
 end

@@ -8,13 +8,13 @@
 //
 
 import UIKit
+import CryptoSwift
 
 class QRViewController: UIViewController {
 
     @IBOutlet var qrimage: UIImageView!
     var qrcodeImage: CIImage!
     @IBOutlet var uniqueCode: UILabel!
-    @IBOutlet var OtpTF: UITextField!
     @IBOutlet var Send: UIButton!
     var fiveDigitNumber: String {
         var result = ""
@@ -24,13 +24,16 @@ class QRViewController: UIViewController {
         } while result.count < 5
         return result
     }
-
+    var hex = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         let text = "\(fiveDigitNumber)"
-        let data = text.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+        
+        encrypt(text: text)
+        
+        let data = hex.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
  
         let filter = CIFilter(name: "CIQRCodeGenerator")
  
@@ -39,9 +42,28 @@ class QRViewController: UIViewController {
  
         qrcodeImage = filter!.outputImage
         displayQRCodeImage()
+        print(text)
         
-        uniqueCode.text = "Unique ID : \(fiveDigitNumber)"
+        let dec = decrypt(hexString: hex)
+        uniqueCode.text = "Unique ID : \(dec!)"
+        
+        
         // Do any additional setup after loading the view.
+    }
+    func encrypt(text: String) -> String?  {
+        if let aes = try? AES(key: "passwordpassword", iv: "drowssapdrowssap"),
+            let encrypted = try? aes.encrypt(Array(text.utf8)) {
+            hex = encrypted.toHexString()
+            return encrypted.toHexString()
+        }
+        return nil
+    }
+    func decrypt(hexString: String) -> String? {
+        if let aes = try? AES(key: "passwordpassword", iv: "drowssapdrowssap"),
+            let decrypted = try? aes.decrypt(Array<UInt8>(hex: hexString)) {
+            return String(data: Data(bytes: decrypted), encoding: .utf8)
+        }
+        return nil
     }
     func displayQRCodeImage() {
         let scaleX = qrimage.frame.size.width / qrcodeImage.extent.size.width

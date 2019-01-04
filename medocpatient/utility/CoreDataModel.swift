@@ -14,6 +14,7 @@ struct User {
     var dateofbirth = "dateofbirth"
     var age = "age"
     var gender = "gender"
+    var email = "email"
     
     var bloodGroup = "bloodGroup"
     var weight = "weight"

@@ -17,8 +17,8 @@ class PatientHomePageViewController: UIViewController {
     @IBOutlet var DateOfBirth: UILabel!
     @IBOutlet var Gender: UILabel!
     
-    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "star.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","FAQ","Rating US"]
+    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "question.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","FAQ"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     override func viewDidLoad(){
@@ -35,7 +35,7 @@ class PatientHomePageViewController: UIViewController {
     func navItem(){
         let title = UILabel()
         title.textColor = UIColor.white
-        title.font = UIFont.boldSystemFont(ofSize: 25)
+        title.font = UIFont.boldSystemFont(ofSize: 23)
         title.text = "Medoc Patient"
         let titlebar = UIBarButtonItem(customView: title)
         self.navigationItem.leftBarButtonItem = titlebar
@@ -45,7 +45,11 @@ class PatientHomePageViewController: UIViewController {
  
     }
     @objc func LogoutAction(){
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            UserDefaults.standard.set(false, forKey: "Logged")
+            UserDefaults.standard.synchronize()
+            self.appdel.SwitchLogin()
+        }
     }
     func fetchDoctor(){
         ApiServices.shared.FetchGetRequestDataFromURL(vc: self, withOutBaseUrl: "doctors", parameter: [                                                                                                 "user_key" : "6cb6362cf70555f1c3f1e230bb1a9d98","query":"Toothache"], onSuccessCompletion: { 
@@ -177,12 +181,6 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             FAQvc.navigationItem.largeTitleDisplayMode = .never
             FAQvc.navigationItem.title = titles[indexPath.row]
             self.navigationController?.pushViewController(FAQvc, animated: true)
-        }
-        else if indexPath.row == 7{
-            let RatingUsvc = self.storyboard?.instantiateViewController(withIdentifier: "RatingUsViewController") as! RatingUsViewController
-            RatingUsvc.navigationItem.largeTitleDisplayMode = .never
-            RatingUsvc.navigationItem.title = titles[indexPath.row]
-            self.navigationController?.pushViewController(RatingUsvc, animated: true)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

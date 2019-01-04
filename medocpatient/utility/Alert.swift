@@ -46,7 +46,16 @@ class Alert {
             alertWindow.windowLevel = UIWindow.Level.alert + 1
             alertWindow.backgroundColor = UIColor.clear
 
-            let alertcontroller = UIAlertController(title: title, message: msg, preferredStyle: .actionSheet)
+            let alertcontroller = UIAlertController(title: "", message: "", preferredStyle: .alert)
+            let titleFont = [NSAttributedString.Key.font: UIFont(name: "ArialHebrew-Bold", size: 18.0)!]
+            let messageFont = [NSAttributedString.Key.font: UIFont(name: "ArialHebrew-Bold", size: 15.0)!]
+            
+            let titleAttrString = NSMutableAttributedString(string: title, attributes: titleFont)
+            let messageAttrString = NSMutableAttributedString(string: msg, attributes: messageFont)
+            
+            alertcontroller.setValue(titleAttrString, forKey: "attributedTitle")
+            alertcontroller.setValue(messageAttrString, forKey: "attributedMessage")
+            
             alertcontroller.view.backgroundColor = UIColor.clear
         
             let cancel = UIAlertAction(title: button2title, style: .cancel) { (action) in

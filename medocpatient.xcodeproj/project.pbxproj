@@ -193,6 +193,7 @@
 				57254BC821D4BF6400B38849 /* prescription */,
 				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
 				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
+				57254BA221D4BE9800B38849 /* QRViewController.swift */,
 				57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */,
 				57254B6921D4BD6B00B38849 /* Main.storyboard */,
 				57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */,
@@ -251,9 +252,9 @@
 		57254B8A21D4BE5E00B38849 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				57254BAD21D4BEE400B38849 /* PageViewController.swift */,
 				57254BAA21D4BEE400B38849 /* GetStartedViewController.swift */,
 				57254BAC21D4BEE400B38849 /* LoginPage.swift */,
-				57254BAD21D4BEE400B38849 /* PageViewController.swift */,
 				57254BAB21D4BEE400B38849 /* RegisterViewController.swift */,
 			);
 			path = login;
@@ -272,7 +273,6 @@
 			children = (
 				57254BA321D4BE9900B38849 /* PatientHomePageViewController.swift */,
 				57254BA021D4BE9800B38849 /* PatientHomePageCollectionViewCell.swift */,
-				57254BA221D4BE9800B38849 /* QRViewController.swift */,
 				57254BA121D4BE9800B38849 /* PatientTableViewCell.swift */,
 			);
 			path = home;
@@ -281,13 +281,13 @@
 		57254B8D21D4BE6600B38849 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
 				575259E021D65DCC008DB872 /* EasyToast */,
 				57254B9421D4BE7F00B38849 /* Alert.swift */,
 				57254B9021D4BE7F00B38849 /* ApiServices.swift */,
 				57254B9321D4BE7F00B38849 /* CoreDataModel.swift */,
 				57254B9621D4BE7F00B38849 /* DataModel.swift */,
 				57254B8F21D4BE7E00B38849 /* FAQData.swift */,
-				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
 				57254B9121D4BE7F00B38849 /* GradientView.swift */,
 				57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */,
 				57254B9221D4BE7F00B38849 /* SwiftLoader.swift */,
@@ -483,6 +483,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
@@ -491,6 +492,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",

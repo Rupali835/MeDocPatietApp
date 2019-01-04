@@ -21,15 +21,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         
         UNUserNotificationCenter.current().cleanRepeatingNotifications()
-        UserDefaults.standard.set(false, forKey: "took")
-        UserDefaults.standard.synchronize()
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
         
         setCategories()
+        
+        let Logged = UserDefaults.standard.bool(forKey: "Logged")
+        if Logged == true{
+            RootPatientHomeVC()
+        } else {
+            SwitchLogin()
+        }
         // Override point for customization after application launch.
         return true
     }
-
+    func SwitchLogin(){
+        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        window?.rootViewController = loginViewController
+    }
+    func RootPatientHomeVC(){
+        let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootManagerVC")
+        window?.rootViewController = Rootvc
+    }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -56,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         print("terminate")
+        let singleitem = Medicine(context: self.persistentContainer.viewContext)
+        singleitem.took = false
         self.saveContext()
     }
 

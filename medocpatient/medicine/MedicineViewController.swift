@@ -121,6 +121,9 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
         } 
     }
     override func viewDidAppear(_ animated: Bool) {
+        fetchdata()
+    }
+    func fetchdata(){
         let appdel = UIApplication.shared.delegate as! AppDelegate
         let context = appdel.persistentContainer.viewContext
         
@@ -145,37 +148,68 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         medicinecell.quantity.text = "Quantity: \(items[indexPath.row].quantity!)"
         medicinecell.timeslot.text = "Time Slot: \(items[indexPath.row].timeslot!)"
         medicinecell.repeattimeslot.text = "Repeat Time Slot: \(items[indexPath.row].repeattimeslot!) hr"
-
+        print(items[indexPath.row].took)
         if notificationGranted {
             repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
         } else {
             print("notification not granted")
         }
-        for i in items {
-            if items.count > 0{
-                if i.took == false {
-                    
-                    let now = Date()
-                    let first = now.dateAt(hours: 12, minutes: 0)
-                    let second = now.dateAt(hours: 16, minutes: 30)
-                    
-                    if now >= first &&
-                        now <= second
-                    {
-                        print("The time is between 12:00 and 16:30")
-                        Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(i.name!)", buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
-                            i.took = true
-                        }) {
-                            i.took = false
-                            self.timerDic = ["msg":"-\(i.name!)","took":i.took]
-                            Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
+        for _ in 0...items.count{
+            for i in items {
+                if items.count > 0{
+                    if i.took == false {
+                        
+                        let now = Date()
+                        var first = Date()
+                        var second = Date()
+                        
+                        if (i.timeslot?.contains(find: "Morning"))! {
+                            first = now.dateAt(hours: 8, minutes: 0)
+                            second = now.dateAt(hours: 11, minutes: 00)
+                            print("M-\(first)-\(second)")
+                            break
                         }
+                        else if (i.timeslot?.contains(find: "Afternoon"))! {
+                            first = now.dateAt(hours: 12, minutes: 0)
+                            second = now.dateAt(hours: 15, minutes: 00)
+                            print("A-\(first)-\(second)")
+                            break
+                        }
+                        else if (i.timeslot?.contains(find: "Evening"))! {
+                            first = now.dateAt(hours: 17, minutes: 0)
+                            second = now.dateAt(hours: 19, minutes: 00)
+                            print("E-\(first)-\(second)")
+                            break
+                        }
+                        else if (i.timeslot?.contains(find: "Night"))! {
+                            first = now.dateAt(hours: 20, minutes: 0)
+                            second = now.dateAt(hours: 23, minutes: 59)
+                            print("N-\(first)-\(second)")
+                            break
+                        }
+                        print("\(first)-\(second)")
+                        print("BT: \(now >= first) && \(now <= second)")
+                        if now >= first &&
+                            now <= second
+                        {
+                            DispatchQueue.main.async {
+                                print("BT: \(now >= first) && \(now <= second)")
+                                Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(i.name!)", buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
+                                    i.took = true
+                                }) {
+                                    i.took = false
+                                    self.timerDic = ["msg":"-\(i.name!)","took":i.took]
+                                    Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
+                                }
+                            }
+                        }
+                    } else {
+                        // Alert.shared.dismissAlert(vc: self)
                     }
-                } else {
-                    // Alert.shared.dismissAlert(vc: self)
                 }
             }
         }
+       
         return medicinecell
     }
     @objc func remind(timer: Timer){

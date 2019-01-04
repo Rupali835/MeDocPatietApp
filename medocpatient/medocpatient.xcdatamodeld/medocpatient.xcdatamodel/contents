@@ -36,6 +36,7 @@
         <attribute name="ec2name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ec2number" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ec2relationship" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gAddress1" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gAddress2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gCity" optional="YES" attributeType="String" syncable="YES"/>
@@ -81,7 +82,7 @@
     <elements>
         <element name="Medicine" positionX="-54" positionY="-9" width="128" height="120"/>
         <element name="Prescription" positionX="-36" positionY="9" width="128" height="60"/>
-        <element name="Profile" positionX="-63" positionY="-18" width="128" height="945"/>
+        <element name="Profile" positionX="-63" positionY="-18" width="128" height="960"/>
         <element name="Reports" positionX="-18" positionY="27" width="128" height="105"/>
     </elements>
 </model>

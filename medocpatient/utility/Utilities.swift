@@ -104,7 +104,67 @@ class Utilities {
         }
     }
 }
+extension String {
+    func contains(find: String) -> Bool{
+        return self.range(of: find) != nil
+    }
+    func containsIgnoringCase(find: String) -> Bool{
+        return self.range(of: find, options: .caseInsensitive) != nil
+    }
+}
+extension String {
+    //To check text field or String is blank or not
+    var isBlank: Bool {
+        get {
+            let trimmed = trimmingCharacters(in: CharacterSet.whitespaces)
+            return trimmed.isEmpty
+        }
+    }
+    
+    //Validate Email
+    func isValidEmail() -> Bool {
+        // here, `try!` will always succeed because the pattern is valid
+        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9a-z._%+-]{2,}@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}$", options: .caseInsensitive)
+        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
+    }
+    func isValidPhone(phone: String) -> Bool {
+        let phoneRegex = "^[0-9]{6,14}$";
+        let valid = NSPredicate(format: "SELF MATCHES %@", phoneRegex).evaluate(with: phone)
+        return valid
+    }
+    var isAlphanumeric: Bool {
+        return !isEmpty && range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil
+    }
+    var isValidIndianContact: Bool {
+        let phoneNumberRegex = "^[7-9][0-9]{8,9}$"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
+        let isValidPhone = phoneTest.evaluate(with: self)
+        return isValidPhone
+    }
+    //validate Password
+    func isValidPassword() -> Bool {
+        /*
+         Minimum 8 characters at least 1 Alphabet and 1 Number:
+         
+         "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+         Minimum 8 characters at least 1 Alphabet, 1 Number and 1 Special Character:
+         
+         "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$"
+         Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet and 1 Number:
+         
+         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"
+         Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character:
+         
+         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{8,}"
+         Minimum 8 and Maximum 10 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character:
+         
+         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#])[A-Za-z\\d$@$!%*?&#]{8,10}"
+ */
+        let passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{7,}$"
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
+    }
 
+}
 extension UIColor {
     convenience init(hexString: String) {
         let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

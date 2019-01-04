@@ -11,7 +11,7 @@ import UIKit
 
 class ApiServices {
     var data = Data()
-    let baseUrl = "https://api.betterdoctor.com/2016-03-01/"
+    let baseUrl = "http://192.168.1.112/kspatient2/public/api/"
     
     static let shared: ApiServices = ApiServices()
     private init() {}
@@ -26,8 +26,8 @@ class ApiServices {
         let myParams = parameter
         let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
         let body = postData
-        urlReq.httpMethod = "GET"
-        urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlReq.httpMethod = "Post"
+        urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         //      urlReq.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         urlReq.httpBody = body
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
