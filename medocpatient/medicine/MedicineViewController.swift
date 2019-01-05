@@ -26,12 +26,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add
             , target: self, action: #selector(add))
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted, error) in
-            self.notificationGranted = granted
-            if let error = error {
-                print("granted, but Error in notification permission:\(error.localizedDescription)")
-            }
-        }
+       
         UNUserNotificationCenter.current().cleanRepeatingNotifications()
         
         self.tableview.tableFooterView = UIView(frame: .zero)

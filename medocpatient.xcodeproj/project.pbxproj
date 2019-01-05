@@ -65,6 +65,7 @@
 		575259E821D65DE3008DB872 /* ToastContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E321D65DE2008DB872 /* ToastContainerVC.swift */; };
 		575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E421D65DE2008DB872 /* ToastWindow.swift */; };
 		575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E521D65DE2008DB872 /* UIView+Toast.swift */; };
+		575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
 		E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E344C21990F2680276BFEC /* Pods_medocpatient.framework */; };
 /* End PBXBuildFile section */
@@ -133,6 +134,7 @@
 		575259E321D65DE2008DB872 /* ToastContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastContainerVC.swift; sourceTree = "<group>"; };
 		575259E421D65DE2008DB872 /* ToastWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastWindow.swift; sourceTree = "<group>"; };
 		575259E521D65DE2008DB872 /* UIView+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Toast.swift"; sourceTree = "<group>"; };
+		575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewController.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
 		71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.debug.xcconfig"; sourceTree = "<group>"; };
 		72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.release.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.release.xcconfig"; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		57254B4E21D4BC5B00B38849 /* medocpatient */ = {
 			isa = PBXGroup;
 			children = (
+				575ADB9E21E0DDE600235111 /* Appointment */,
 				575259DD21D60FDC008DB872 /* medocpatient.entitlements */,
 				57254B8D21D4BE6600B38849 /* utility */,
 				57254B8C21D4BE6400B38849 /* home */,
@@ -383,6 +386,14 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
+		575ADB9E21E0DDE600235111 /* Appointment */ = {
+			isa = PBXGroup;
+			children = (
+				575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */,
+			);
+			path = Appointment;
+			sourceTree = "<group>";
+		};
 		74839B46AB7FE7B2DED5ABBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +496,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 			);
@@ -494,6 +506,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 			);
@@ -534,6 +547,7 @@
 				57254BB021D4BEE400B38849 /* LoginPage.swift in Sources */,
 				57254BA421D4BE9900B38849 /* PatientHomePageCollectionViewCell.swift in Sources */,
 				57254B9D21D4BE7F00B38849 /* Alert.swift in Sources */,
+				575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */,
 				57254BC521D4BF5100B38849 /* imageCell.swift in Sources */,
 				57254BB921D4BF1300B38849 /* MedicineViewController.swift in Sources */,
 				57254BA721D4BE9900B38849 /* PatientHomePageViewController.swift in Sources */,

@@ -17,8 +17,8 @@ class PatientHomePageViewController: UIViewController {
     @IBOutlet var DateOfBirth: UILabel!
     @IBOutlet var Gender: UILabel!
     
-    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "question.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","FAQ"]
+    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "blood.png"),#imageLiteral(resourceName: "question.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","Appointment","FAQ"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     override func viewDidLoad(){
@@ -69,6 +69,7 @@ class PatientHomePageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         retrivedata()
     }
+    
     func retrivedata(){
         let managedobject = self.appdel.persistentContainer.viewContext
         let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
@@ -177,6 +178,12 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             self.navigationController?.pushViewController(Promotionvc, animated: true)
         }
         else if indexPath.row == 6{
+            let Appointmentvc = self.storyboard?.instantiateViewController(withIdentifier: "AppointmentViewController") as! AppointmentViewController
+            Appointmentvc.navigationItem.largeTitleDisplayMode = .never
+            Appointmentvc.navigationItem.title = titles[indexPath.row]
+            self.navigationController?.pushViewController(Appointmentvc, animated: true)
+        }
+        else if indexPath.row == 7{
             let FAQvc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
             FAQvc.navigationItem.largeTitleDisplayMode = .never
             FAQvc.navigationItem.title = titles[indexPath.row]

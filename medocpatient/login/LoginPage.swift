@@ -39,6 +39,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         PasswordTextField.rightView = button
         PasswordTextField.rightViewMode = .always
         NotificationCenter.default.addObserver(self, selector: #selector(update(notification: )), name: NSNotification.Name("loginupdate"), object: nil)
+        PasswordTextField.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
         LoginNow.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -73,37 +74,56 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     func login(){
         print("0")
         SwiftLoader.show(title: "Please Wait..", animated: true)
-        ApiServices.shared.FetchPostDataFromURL(vc: self, withOutBaseUrl: "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
-                let msg = json.value(forKey: "message") as! String
+                var msg = ""
+                
+                if let error = json.value(forKey: "msg") as? String {
+                    msg = error
+                } else {
+                    msg = json.value(forKey: "message") as! String
+                }
+                
                 if msg == "success"{
                     let data = json.value(forKey: "data") as! NSDictionary
                     let token = json.value(forKey: "token") as! String
                     
                     let contact_no = data.value(forKey: "contact_no") as! String
                     let email = data.value(forKey: "email") as! String
-                    let id = data.value(forKey: "id") as! Int
+                    //let guid = data.value(forKey: "guid") as! String
                     let name = data.value(forKey: "name") as! String
                     let pid = data.value(forKey: "patient_id") as! String
-                  //  let gender = data.value(forKey: "gender") as! Int
+                    let gender = data.value(forKey: "gender") as! Int
                     UserDefaults.standard.set(true, forKey: "Logged")
                     
                     UserDefaults.standard.set(contact_no, forKey: "contact_no")
                     UserDefaults.standard.set(email, forKey: "email")
-                    UserDefaults.standard.set(id, forKey: "id")
+                    //UserDefaults.standard.set(guid, forKey: "guid")
                     UserDefaults.standard.set(name, forKey: "name")
                     UserDefaults.standard.set(pid, forKey: "Patient_id")
                     UserDefaults.standard.set(token, forKey: "token")
                     
-                   // self.savedata(name: name, gender: gender, email: email, contact: contact_no)
+                    self.savedata(name: name, gender: gender, email: email, contact: contact_no)
                     
                     UserDefaults.standard.synchronize()
                     DispatchQueue.main.async {
                         self.appdel.RootPatientHomeVC()
                         SwiftLoader.hide()
                         self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                    }
+                }
+                else if msg == "User not registered"{
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        self.view.showToast("\(msg)", position: .bottom, popTime: 3, dismissOnTap: true)
+                    }
+                }
+                else if msg == "Unauthorised"{
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        self.view.showToast("Maybe You Entered Wrong Password", position: .bottom, popTime: 3, dismissOnTap: true)
                     }
                 }
             } catch {
@@ -123,7 +143,12 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         else if (PasswordTextField.text?.isEmpty)! {
             self.view.showToast("Enter \(PasswordTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
         }
-        else if PatientTextField.text?.isEmpty == false && PasswordTextField.text?.isEmpty == false {
+        else if (self.PatientTextField.text?.contains(find: "@"))! {
+            if (self.PatientTextField.text?.isValidEmail())! && (self.PasswordTextField.text?.isValidPassword())! {
+                login()
+            }
+        }
+        else if PatientTextField.text?.isEmpty == false && (self.PasswordTextField.text?.isValidPassword())! {
             login()
         }
     }
@@ -134,6 +159,27 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         } else {
             sender.setTitle("Show", for: .normal)
             PasswordTextField.isSecureTextEntry = true
+        }
+    }
+    @objc func updatePassword(){
+        if PasswordTextField.isFirstResponder {
+            if let text = PasswordTextField.text {
+                if let floatingLabelTextField = PasswordTextField as? SkyFloatingLabelTextField {
+                    if text.isEmpty {
+                        floatingLabelTextField.errorMessage = PasswordTextField.placeholder
+                    }
+                    else if text.count > 1{
+                        if text.isValidPassword() {
+                            floatingLabelTextField.errorMessage = ""
+                        } else {
+                            floatingLabelTextField.errorMessage = "Invalid password"
+                        }
+                    }
+                    else if text.count < 1{
+                        floatingLabelTextField.errorMessage = ""
+                    }
+                }
+            }
         }
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -156,25 +202,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                 }
             }
         }
-        if PasswordTextField.isFirstResponder {
-            if let text = PasswordTextField.text {
-                if let floatingLabelTextField = PasswordTextField as? SkyFloatingLabelTextField {
-                    if text.isEmpty {
-                        floatingLabelTextField.errorMessage = PasswordTextField.placeholder
-                    }
-                    else if text.count > 1{
-                        if text.isValidPassword() {
-                            floatingLabelTextField.errorMessage = ""
-                        } else {
-                            floatingLabelTextField.errorMessage = "Invalid password"
-                        }
-                    }
-                    else if text.count < 1{
-                        floatingLabelTextField.errorMessage = ""
-                    }
-                }
-            }
-        }
+        
         return true
     }
     override func viewWillLayoutSubviews() {

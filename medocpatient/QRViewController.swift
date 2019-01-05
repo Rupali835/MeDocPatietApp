@@ -27,9 +27,9 @@ class QRViewController: UIViewController {
     var hex = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        let patientid = UserDefaults.standard.string(forKey: "Patient_id")
         
-        
-        let text = "\(fiveDigitNumber)"
+        let text = "\(patientid!)"
         
         encrypt(text: text)
         
@@ -45,7 +45,7 @@ class QRViewController: UIViewController {
         print(text)
         
         let dec = decrypt(hexString: hex)
-        uniqueCode.text = "Unique ID : \(dec!)"
+        uniqueCode.text = "Patient ID : \(dec!)"
         
         
         // Do any additional setup after loading the view.

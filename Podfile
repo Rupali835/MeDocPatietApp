@@ -10,4 +10,5 @@ target 'medocpatient' do
 pod 'DBAttachmentPickerController', '~> 1.1.0'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'CryptoSwift'
+pod 'DropDown'
 end

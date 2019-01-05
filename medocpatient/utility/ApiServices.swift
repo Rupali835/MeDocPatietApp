@@ -16,6 +16,39 @@ class ApiServices {
     static let shared: ApiServices = ApiServices()
     private init() {}
     
+    func Login_and_Register(vc: UIViewController,
+                              withOutBaseUrl: String,
+                              parameter: String,
+                              onSuccessCompletion: @escaping ()->(),
+                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+    {
+        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        let myParams = parameter
+        let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
+        let body = postData
+        urlReq.httpMethod = "Post"
+        urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        let token = AppDelegate().devicetoken
+        urlReq.setValue(token, forHTTPHeaderField: "token")
+        //      urlReq.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        urlReq.httpBody = body
+        URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
+            if error != nil{
+                print("error")
+                if (error?.localizedDescription) != nil{
+                    Alert.shared.basicalert(vc: vc, title: "Maybe , Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                    }
+                }
+            } else {
+                self.data = data!
+                onSuccessCompletion()
+            }
+            }.resume()
+    }
+    
     func FetchPostDataFromURL(vc: UIViewController,
                               withOutBaseUrl: String,
                               parameter: String,
@@ -34,9 +67,9 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn ON Mobile Data or Wifi Connection")
+                    Alert.shared.basicalert(vc: vc, title: "Maybe , Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
                     DispatchQueue.main.async {
-                       // SwiftLoader.hide()
+                        SwiftLoader.hide()
                     }
                 }
             } else {
@@ -45,6 +78,7 @@ class ApiServices {
             }
             }.resume()
     }
+    
     func FetchGetRequestDataFromURL(vc: UIViewController,
                               withOutBaseUrl: String,
                               parameter: [String:String],
@@ -66,7 +100,7 @@ class ApiServices {
                 if (error?.localizedDescription) != nil{
                     Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn ON Mobile Data or Wifi Connection")
                     DispatchQueue.main.async {
-                        // SwiftLoader.hide()
+                         SwiftLoader.hide()
                     }
                 }
             } else {

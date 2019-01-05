@@ -14,12 +14,17 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var devicetoken = "6292dndhbb26382b2jnsv9bb2b27bk1922jn"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
-       
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted, error) in
+            if let error = error {
+                print("granted, but Error in notification permission:\(error.localizedDescription)")
+            }
+        }
         UNUserNotificationCenter.current().delegate = self
-        
+        application.registerForRemoteNotifications()
         UNUserNotificationCenter.current().cleanRepeatingNotifications()
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
         
@@ -41,6 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func RootPatientHomeVC(){
         let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootManagerVC")
         window?.rootViewController = Rootvc
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        devicetoken = token
+        print(deviceToken)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("i am not available in simulator \(error)")
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

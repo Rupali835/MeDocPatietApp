@@ -80,8 +80,42 @@ class RegisterViewController: UIViewController{
         PasswordTF.rightView = button
         PasswordTF.rightViewMode = .always
         
+        PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
+        ConfirmPasswordTF.addTarget(self, action: #selector(updateConfirmPassword), for: .editingChanged)
+
         Signup.addTarget(self, action: #selector(SignupAction), for: .touchUpInside)
         // Do any additional setup after loading the view.
+    }
+    @objc func updateConfirmPassword(){
+        
+        //check confirm password == password
+        if let text = ConfirmPasswordTF.text {
+            if let floatingLabelTextField = ConfirmPasswordTF as? SkyFloatingLabelTextField {
+                if text.count >= 0{
+                    if text == PasswordTF.text! && text.isValidPassword() {
+                        floatingLabelTextField.errorMessage = ""
+                    } else {
+                        floatingLabelTextField.errorMessage = "Not Matched With Password"
+                    }
+                }
+            }
+        }
+    }
+    @objc func updatePassword(){
+        
+        if PasswordTF.isFirstResponder {
+            if let text = PasswordTF.text {
+                if let floatingLabelTextField = PasswordTF as? SkyFloatingLabelTextField {
+                    if text.count >= 0{
+                        if text.isValidPassword() {
+                            floatingLabelTextField.errorMessage = ""
+                        } else {
+                            floatingLabelTextField.errorMessage = "Invalid password"
+                        }
+                    }
+                }
+            }
+        }
     }
     @objc func ChangeGender(sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0{
@@ -137,16 +171,6 @@ class RegisterViewController: UIViewController{
         else if (self.ConfirmPasswordTF.text?.isEmpty)! {
             self.view.showToast("Enter \(self.ConfirmPasswordTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
         }
-        //check confirm password == password
-        else if self.ConfirmPasswordTF.text != self.PasswordTF.text {
-            if let text = ConfirmPasswordTF.text {
-                if text == PasswordTF.text! && text.isValidPassword() {
-                    print("Match Password")
-                } else {
-                    self.view.showToast("Not Matched With Password", position: .bottom, popTime: 3, dismissOnTap: true)
-                }
-            }
-        }
         // check single validation false
         else if self.EmailTF.text?.isValidEmail() == false{
             self.view.showToast("Invalid Email", position: .bottom, popTime: 3, dismissOnTap: true)
@@ -154,8 +178,14 @@ class RegisterViewController: UIViewController{
         else if self.NumberTF.text?.isValidIndianContact == false{
             self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
         }
+        else if self.NumberTF.text?.count != 10{
+            self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
+        }
         else if self.PasswordTF.text?.isValidPassword() == false{
             self.view.showToast("Invalid Password", position: .bottom, popTime: 3, dismissOnTap: true)
+        }
+        else if self.ConfirmPasswordTF.text != self.PasswordTF.text {
+            self.view.showToast("Not Matched With Password", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         //check all validation
         else if (self.EmailTF.text?.isValidEmail())! && (self.PasswordTF.text?.isValidPassword())! && (self.NumberTF.text?.isValidIndianContact)! {
@@ -167,21 +197,21 @@ class RegisterViewController: UIViewController{
                 } else {
                     print("0")
                     let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.PatientIDTF.text!)"
-                    //register(parameter: with_patient_id)
+                    register(parameter: with_patient_id)
                 }
             }
             else if HaveIDselected == 1{
                 print("1")
                 //without patient id
                 let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)"
-                //register(parameter: without_patient_id)
+                register(parameter: without_patient_id)
             }
             
         }
     }
     func register(parameter: String){
         SwiftLoader.show(animated: true)
-        ApiServices.shared.FetchPostDataFromURL(vc: self, withOutBaseUrl: "patientregister", parameter:  parameter, onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregister", parameter:  parameter, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -205,7 +235,7 @@ class RegisterViewController: UIViewController{
     func fetchDetailByPatientID(){
         SwiftLoader.show(animated: true)
         PatientIDTF.endEditing(true)
-        ApiServices.shared.FetchPostDataFromURL(vc: self, withOutBaseUrl: "patientregisterusingid", parameter: "patient_id=\(PatientIDTF.text!)", onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregisterusingid", parameter: "patient_id=\(PatientIDTF.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -324,19 +354,6 @@ extension RegisterViewController: UITextFieldDelegate {
                             floatingLabelTextField.errorMessage = ""
                         } else {
                             floatingLabelTextField.errorMessage = "Invalid email"
-                        }
-                    }
-                }
-            }
-        }
-        if PasswordTF.isFirstResponder {
-            if let text = PasswordTF.text {
-                if let floatingLabelTextField = PasswordTF as? SkyFloatingLabelTextField {
-                    if text.count >= 0{
-                        if text.isValidPassword() {
-                            floatingLabelTextField.errorMessage = ""
-                        } else {
-                            floatingLabelTextField.errorMessage = "Invalid password"
                         }
                     }
                 }
