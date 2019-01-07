@@ -138,12 +138,14 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
+        if items.count > 0 {
+            medicinecell.name.text = "Medicine Name: \(items[indexPath.row].name!)"
+            medicinecell.quantity.text = "Quantity: \(items[indexPath.row].quantity!)"
+            medicinecell.timeslot.text = "Time Slot: \(items[indexPath.row].timeslot!)"
+            medicinecell.repeattimeslot.text = "Repeat Time Slot: \(items[indexPath.row].repeattimeslot!) hr"
+            print(items[indexPath.row].took)
+        }
         
-        medicinecell.name.text = "Medicine Name: \(items[indexPath.row].name!)"
-        medicinecell.quantity.text = "Quantity: \(items[indexPath.row].quantity!)"
-        medicinecell.timeslot.text = "Time Slot: \(items[indexPath.row].timeslot!)"
-        medicinecell.repeattimeslot.text = "Repeat Time Slot: \(items[indexPath.row].repeattimeslot!) hr"
-        print(items[indexPath.row].took)
         if notificationGranted {
             repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
         } else {

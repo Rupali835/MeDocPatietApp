@@ -9,7 +9,7 @@
 import UIKit
 import DBAttachmentPickerController
 import CoreData
-
+import DropDown
 class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate {
     
     @IBOutlet var close : UIButton!
@@ -25,7 +25,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     @IBOutlet var imagesPicView: UIImageView!
     @IBOutlet var deleteButton: UIButton!
     @IBOutlet var Filetitle: UILabel!
-   // let dropdown = DropDown()
+    let dropdown = DropDown()
     var prescriptionObject = [NSManagedObject]()
     
     var attachmentArray : NSMutableArray = []
@@ -42,11 +42,11 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         selectPrescription.addTarget(self, action: #selector(addPrescription), for: .touchUpInside)
         self.attachmentArray = NSMutableArray.init(capacity: 10)
         Done.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
-//        dropdown.arrowIndicationX = 50
-//        dropdown.anchorView = selectPrescription
-//        dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
-//
-//        DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 18)
+        dropdown.arrowIndicationX = selectPrescription.frame.width / 2
+        dropdown.anchorView = selectPrescription
+        dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
+        dropdown.dataSource = ["dd1","dd2"]
+        DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 18)
         // Do any additional setup after loading the view.
     }
     @objc func doneAction(){
@@ -80,7 +80,12 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     @objc func addPrescription(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
         vc.status = "1"
-        self.present(vc, animated: true, completion: nil)
+        dropdown.show()
+        dropdown.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.selectPrescription.setTitle(item, for: .normal)
+            print("Selected item: \(item) at index: \(index)")
+        }
+        //self.present(vc, animated: true, completion: nil)
     }
     @objc func Reload(){
         self.imageCollectionView.reloadData()

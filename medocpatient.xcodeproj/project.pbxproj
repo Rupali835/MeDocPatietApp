@@ -66,6 +66,7 @@
 		575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E421D65DE2008DB872 /* ToastWindow.swift */; };
 		575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E521D65DE2008DB872 /* UIView+Toast.swift */; };
 		575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */; };
+		575B403121E3398300DBBDB4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B403021E3398300DBBDB4 /* Reachability.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
 		E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E344C21990F2680276BFEC /* Pods_medocpatient.framework */; };
 /* End PBXBuildFile section */
@@ -135,6 +136,7 @@
 		575259E421D65DE2008DB872 /* ToastWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastWindow.swift; sourceTree = "<group>"; };
 		575259E521D65DE2008DB872 /* UIView+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Toast.swift"; sourceTree = "<group>"; };
 		575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewController.swift; sourceTree = "<group>"; };
+		575B403021E3398300DBBDB4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
 		71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.debug.xcconfig"; sourceTree = "<group>"; };
 		72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.release.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.release.xcconfig"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */,
 				57254B9221D4BE7F00B38849 /* SwiftLoader.swift */,
 				57254B9521D4BE7F00B38849 /* Utilities.swift */,
+				575B403021E3398300DBBDB4 /* Reachability.swift */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */,
 				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
 				575259D221D6061C008DB872 /* IQInvocation.swift in Sources */,
+				575B403121E3398300DBBDB4 /* Reachability.swift in Sources */,
 				575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */,
 				575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */,
 				57254BBB21D4BF1300B38849 /* AddMedicinesViewController.swift in Sources */,

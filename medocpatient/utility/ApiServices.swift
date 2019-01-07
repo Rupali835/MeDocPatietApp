@@ -11,7 +11,8 @@ import UIKit
 
 class ApiServices {
     var data = Data()
-    let baseUrl = "http://192.168.1.112/kspatient2/public/api/"
+    let baseUrl = "http://otgmart.com/medoc/patient-api/public/api/"
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     
     static let shared: ApiServices = ApiServices()
     private init() {}
@@ -31,15 +32,19 @@ class ApiServices {
         
         let token = AppDelegate().devicetoken
         urlReq.setValue(token, forHTTPHeaderField: "token")
-        //      urlReq.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         urlReq.httpBody = body
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    Alert.shared.basicalert(vc: vc, title: "Maybe , Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
                     }
                 }
             } else {
@@ -48,37 +53,75 @@ class ApiServices {
             }
             }.resume()
     }
-    
-    func FetchPostDataFromURL(vc: UIViewController,
+    func FetchPostDataFromUrl(vc: UIViewController,
+                            withOutBaseUrl: String,
+                            parameter: String,
+                            onSuccessCompletion: @escaping ()->(),
+                            HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+    {
+        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        urlReq.httpMethod = "Post"
+        let bt = bearertoken!
+        urlReq.setValue("Bearer \(bt)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
+        URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
+            if error != nil{
+                print("error")
+                if (error?.localizedDescription) != nil{
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
+                    }
+                }
+            } else {
+                self.data = data!
+                onSuccessCompletion()
+            }
+            }.resume()
+    }
+    func FetchGetDataFromUrl(vc: UIViewController,
                               withOutBaseUrl: String,
                               parameter: String,
                               onSuccessCompletion: @escaping ()->(),
                               HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
     {
         var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
-        let myParams = parameter
-        let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
-        let body = postData
-        urlReq.httpMethod = "Post"
-        urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        //      urlReq.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
-        urlReq.httpBody = body
+        urlReq.httpMethod = "GET"
+        let bt = bearertoken!
+        print(bt)
+        urlReq.setValue("Bearer \(bt)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+       // urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    Alert.shared.basicalert(vc: vc, title: "Maybe , Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
                     }
                 }
             } else {
                 self.data = data!
                 onSuccessCompletion()
             }
-            }.resume()
+        }.resume()
     }
-    
     func FetchGetRequestDataFromURL(vc: UIViewController,
                               withOutBaseUrl: String,
                               parameter: [String:String],
@@ -98,9 +141,14 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn ON Mobile Data or Wifi Connection")
-                    DispatchQueue.main.async {
-                         SwiftLoader.hide()
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
                     }
                 }
             } else {

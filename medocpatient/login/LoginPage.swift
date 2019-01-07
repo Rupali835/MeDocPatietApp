@@ -88,14 +88,14 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                 
                 if msg == "success"{
                     let data = json.value(forKey: "data") as! NSDictionary
-                    let token = json.value(forKey: "token") as! String
+                    let bearertoken = json.value(forKey: "token") as! String
                     
                     let contact_no = data.value(forKey: "contact_no") as! String
                     let email = data.value(forKey: "email") as! String
                     //let guid = data.value(forKey: "guid") as! String
                     let name = data.value(forKey: "name") as! String
                     let pid = data.value(forKey: "patient_id") as! String
-                    let gender = data.value(forKey: "gender") as! Int
+                    let gender = data.value(forKey: "gender") as! String
                     UserDefaults.standard.set(true, forKey: "Logged")
                     
                     UserDefaults.standard.set(contact_no, forKey: "contact_no")
@@ -103,9 +103,9 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     //UserDefaults.standard.set(guid, forKey: "guid")
                     UserDefaults.standard.set(name, forKey: "name")
                     UserDefaults.standard.set(pid, forKey: "Patient_id")
-                    UserDefaults.standard.set(token, forKey: "token")
+                    UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
                     
-                    self.savedata(name: name, gender: gender, email: email, contact: contact_no)
+                    self.savedata(name: name, gender: Int(gender)!, email: email, contact: contact_no)
                     
                     UserDefaults.standard.synchronize()
                     DispatchQueue.main.async {

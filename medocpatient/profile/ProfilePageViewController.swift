@@ -168,12 +168,12 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 self.addAttachmentAction()
             } else {
                 self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
-                    
                     attachmentArray[0].loadOriginalImage(completion: { (image) in
                         self.imagesPicView.image = image
                     })
                     
                 }, cancel: nil)
+                
                 self.APC.mediaType = [.image]
                 self.APC.allowsMultipleSelection = false
                 self.APC.allowsSelectionFromOtherApps = false

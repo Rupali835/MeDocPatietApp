@@ -13,6 +13,7 @@ class ReportViewController: UIViewController {
     @IBOutlet var tableview: UITableView!
     
     var items : [Reports] = []
+    var dict = NSDictionary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +27,41 @@ class ReportViewController: UIViewController {
         self.tableview.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
-        let appdel = UIApplication.shared.delegate as! AppDelegate
-        let context = appdel.persistentContainer.viewContext
-        
-        do{
-            items = try context.fetch(Reports.fetchRequest())
-            self.tableview.reloadData()
-        } catch {
-            
-        }
+        fetchreport()
+//        let appdel = UIApplication.shared.delegate as! AppDelegate
+//        let context = appdel.persistentContainer.viewContext
+//
+//        do{
+//            items = try context.fetch(Reports.fetchRequest())
+//            self.tableview.reloadData()
+//        } catch {
+//
+//        }
     }
     @objc func AddAction(){
         let addReportVC = self.storyboard?.instantiateViewController(withIdentifier: "AddReportViewController") as! AddReportViewController
         self.present(addReportVC, animated: true, completion: nil)
+    }
+    func fetchreport(){
+        SwiftLoader.show(title: "Please Wait..", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "reports", parameter: "", onSuccessCompletion: {
+            do {
+                print(ApiServices.shared.data)
+                self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(self.dict)
+                DispatchQueue.main.sync {
+                    self.tableview.reloadData()
+                    SwiftLoader.hide()
+                }
+            } catch {
+                print("catch")
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
+        }
     }
 }
 extension ReportViewController: UITableViewDelegate, UITableViewDataSource {

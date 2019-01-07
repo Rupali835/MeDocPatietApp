@@ -196,14 +196,14 @@ class RegisterViewController: UIViewController{
                     
                 } else {
                     print("0")
-                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.PatientIDTF.text!)"
+                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(String(self.selectedGender))&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.PatientIDTF.text!)"
                     register(parameter: with_patient_id)
                 }
-            }
+            }//AmiB1546842910
             else if HaveIDselected == 1{
                 print("1")
                 //without patient id
-                let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)"
+                let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(String(self.selectedGender))&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)"
                 register(parameter: without_patient_id)
             }
             
@@ -247,12 +247,12 @@ class RegisterViewController: UIViewController{
                         let name = data.value(forKey: "name") as! String
                         let contact_no = data.value(forKey: "contact_no") as! String
                         let email = data.value(forKey: "email") as! String
-                        let gender = data.value(forKey: "gender") as! Int
+                        let gender = data.value(forKey: "gender") as! String
                         
                         self.FullNameTF.text = name
                         self.EmailTF.text = email
                         self.NumberTF.text = contact_no
-                        self.GenderSegment.selectedSegmentIndex = gender
+                        self.GenderSegment.selectedSegmentIndex = Int(gender)!
                         
                         SwiftLoader.hide()
                         self.maximizeHeight(objects: [self.signupView], heightContantOutlet: [self.HeightofSignupview],constant: 400)
