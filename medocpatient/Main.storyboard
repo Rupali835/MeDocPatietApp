@@ -1433,41 +1433,63 @@
                                                         <rect key="frame" x="8" y="149.5" width="294" height="40"/>
                                                         <subviews>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Blood Group" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="En1-U9-qNK" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="0.0" width="130.5" height="40"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Weight" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xRU-Kc-scF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="135.5" y="0.0" width="78.5" height="40"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Height" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zp9-Iq-AaU" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="219" y="0.0" width="75" height="40"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
                                                         </subviews>
+                                                        <variation key="default">
+                                                            <mask key="subviews">
+                                                                <exclude reference="xRU-Kc-scF"/>
+                                                                <exclude reference="Zp9-Iq-AaU"/>
+                                                            </mask>
+                                                        </variation>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sCC-RC-g28">
                                                         <rect key="frame" x="8" y="194.5" width="294" height="40"/>
                                                         <subviews>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Blood Pressure" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="reG-PS-oSf" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="0.0" y="0.0" width="142" height="40"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Temperature" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ugB-cN-7Nq" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="152" y="0.0" width="142" height="40"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F3R-Bq-uog" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                                <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
+                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                            </textField>
                                                         </subviews>
+                                                        <variation key="default">
+                                                            <mask key="subviews">
+                                                                <exclude reference="reG-PS-oSf"/>
+                                                                <exclude reference="ugB-cN-7Nq"/>
+                                                            </mask>
+                                                        </variation>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPv-wX-sKY">
                                                         <rect key="frame" x="218" y="77" width="84" height="20.5"/>
@@ -1656,7 +1678,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzB-7H-ecJ">
                                                 <rect key="frame" x="5" y="1079" width="310" height="600"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1st Emergency Contact " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZW-r6-Uyu">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Primary Emergency Contact " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZW-r6-Uyu">
                                                         <rect key="frame" x="8" y="10" width="294" height="21.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1683,7 +1705,7 @@
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad"/>
                                                     </textField>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2nd Emergency Contact " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MHA-jK-vra">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secondary Emergency Contact " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MHA-jK-vra">
                                                         <rect key="frame" x="8" y="191.5" width="294" height="21.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1813,8 +1835,8 @@
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="i8p-wx-zHs">
                                                         <rect key="frame" x="201" y="5" width="101" height="29"/>
                                                         <segments>
-                                                            <segment title="Yes" width="50"/>
                                                             <segment title="No" width="50"/>
+                                                            <segment title="Yes" width="50"/>
                                                         </segments>
                                                     </segmentedControl>
                                                 </subviews>
@@ -2328,7 +2350,7 @@
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="rXH-gG-TBg" firstAttribute="trailing" secondItem="7zN-5V-ocQ" secondAttribute="trailing" id="0WH-fd-IGG"/>
                                                     <constraint firstItem="RSv-3Z-o7o" firstAttribute="trailing" secondItem="Gie-Jz-Rba" secondAttribute="trailing" id="1FH-m7-Vay"/>
@@ -3006,34 +3028,35 @@
                         <outlet property="cancel" destination="wic-BO-BSR" id="yTf-Xf-x5n"/>
                         <outlet property="cv" destination="bGj-xe-idk" id="rbn-0N-vcj"/>
                         <outlet property="diphtheriaSelectedDate" destination="SZK-jR-awo" id="4Iv-0L-cID"/>
+                        <outlet property="emailTF" destination="F3R-Bq-uog" id="KKT-cO-e3E"/>
                         <outlet property="fscalendar" destination="jtb-vr-Z0l" id="7Ox-l8-Wrv"/>
                         <outlet property="imagesPicView" destination="tS8-Z0-cvG" id="YHb-H6-66e"/>
                         <outlet property="mumpsSelectedDate" destination="fxM-xy-7RC" id="37d-Q5-bfH"/>
                         <outlet property="otherAllergyTF" destination="S04-dZ-EQg" id="0FD-WI-f5v"/>
                         <outlet property="polioSelectedDate" destination="eui-FB-yw8" id="teK-3d-0h4"/>
                         <outlet property="tetanusSelectedDate" destination="gxB-Fw-Pp2" id="IhZ-Ee-cdQ"/>
-                        <outletCollection property="FoodRadio" destination="AOh-UN-GjF" collectionClass="NSMutableArray" id="FI9-le-5fk"/>
-                        <outletCollection property="FoodRadio" destination="pdc-mY-YJD" collectionClass="NSMutableArray" id="XTT-Nj-Qy3"/>
-                        <outletCollection property="MedicinesRadio" destination="xi6-Pe-y4g" collectionClass="NSMutableArray" id="dHT-P8-2lK"/>
-                        <outletCollection property="MedicinesRadio" destination="q7a-72-bcM" collectionClass="NSMutableArray" id="NQ0-Z8-GQD"/>
-                        <outletCollection property="PlantsRadio" destination="sqT-N4-dxe" collectionClass="NSMutableArray" id="5aB-Tj-o9U"/>
-                        <outletCollection property="PlantsRadio" destination="Qw3-0d-1dQ" collectionClass="NSMutableArray" id="aq9-Qk-TgJ"/>
-                        <outletCollection property="InsectsRadio" destination="aK2-JO-40V" collectionClass="NSMutableArray" id="S3J-OR-FfM"/>
-                        <outletCollection property="InsectsRadio" destination="ag1-fo-CRa" collectionClass="NSMutableArray" id="xef-ll-ZXe"/>
-                        <outletCollection property="otherAllergyRadio" destination="16y-b9-AYe" collectionClass="NSMutableArray" id="V4y-v7-rM6"/>
-                        <outletCollection property="otherAllergyRadio" destination="NJ0-em-WGM" collectionClass="NSMutableArray" id="hWR-xn-PkM"/>
-                        <outletCollection property="BPRadio" destination="IPt-op-I1e" collectionClass="NSMutableArray" id="WBq-yO-NNs"/>
-                        <outletCollection property="BPRadio" destination="h7K-H0-ZRD" collectionClass="NSMutableArray" id="U2N-Vl-JwD"/>
-                        <outletCollection property="DiebetesRadio" destination="SJ7-V8-NyZ" collectionClass="NSMutableArray" id="wJg-f0-tzZ"/>
-                        <outletCollection property="DiebetesRadio" destination="Tqt-d1-rlb" collectionClass="NSMutableArray" id="WC7-b2-YcF"/>
-                        <outletCollection property="CancerRadio" destination="fRy-UE-PO7" collectionClass="NSMutableArray" id="uvH-OA-T6k"/>
-                        <outletCollection property="CancerRadio" destination="PG1-oL-uPY" collectionClass="NSMutableArray" id="56s-G7-Ipa"/>
-                        <outletCollection property="HeartDiseaseRadio" destination="LCg-Kj-Ch0" collectionClass="NSMutableArray" id="D3x-Ji-hYf"/>
-                        <outletCollection property="HeartDiseaseRadio" destination="f4c-7M-N38" collectionClass="NSMutableArray" id="8DH-Um-KLa"/>
-                        <outletCollection property="LeukemiaRadio" destination="xRq-82-LCc" collectionClass="NSMutableArray" id="tNC-QW-TqW"/>
-                        <outletCollection property="LeukemiaRadio" destination="ES4-rq-aj2" collectionClass="NSMutableArray" id="Rgk-9i-MoV"/>
-                        <outletCollection property="RestrictionRadio" destination="mmM-T4-GBo" collectionClass="NSMutableArray" id="jPR-ph-wcd"/>
-                        <outletCollection property="RestrictionRadio" destination="yj2-aa-jwK" collectionClass="NSMutableArray" id="thW-7J-y97"/>
+                        <outletCollection property="FoodRadio" destination="pdc-mY-YJD" collectionClass="NSMutableArray" id="d9f-ff-NSk"/>
+                        <outletCollection property="FoodRadio" destination="AOh-UN-GjF" collectionClass="NSMutableArray" id="gWN-vF-fOC"/>
+                        <outletCollection property="MedicinesRadio" destination="q7a-72-bcM" collectionClass="NSMutableArray" id="JkK-RR-sFJ"/>
+                        <outletCollection property="MedicinesRadio" destination="xi6-Pe-y4g" collectionClass="NSMutableArray" id="ppW-Pa-ogq"/>
+                        <outletCollection property="PlantsRadio" destination="Qw3-0d-1dQ" collectionClass="NSMutableArray" id="mQ7-Jr-pyn"/>
+                        <outletCollection property="PlantsRadio" destination="sqT-N4-dxe" collectionClass="NSMutableArray" id="Mfr-bc-axr"/>
+                        <outletCollection property="InsectsRadio" destination="ag1-fo-CRa" collectionClass="NSMutableArray" id="gGZ-a0-3Rx"/>
+                        <outletCollection property="InsectsRadio" destination="aK2-JO-40V" collectionClass="NSMutableArray" id="wSA-fp-ldM"/>
+                        <outletCollection property="otherAllergyRadio" destination="NJ0-em-WGM" collectionClass="NSMutableArray" id="RuB-tG-YQG"/>
+                        <outletCollection property="otherAllergyRadio" destination="16y-b9-AYe" collectionClass="NSMutableArray" id="HzX-OQ-yU4"/>
+                        <outletCollection property="BPRadio" destination="h7K-H0-ZRD" collectionClass="NSMutableArray" id="Sjb-on-1BM"/>
+                        <outletCollection property="BPRadio" destination="IPt-op-I1e" collectionClass="NSMutableArray" id="X07-F2-TnZ"/>
+                        <outletCollection property="DiebetesRadio" destination="Tqt-d1-rlb" collectionClass="NSMutableArray" id="Kb6-8X-oA9"/>
+                        <outletCollection property="DiebetesRadio" destination="SJ7-V8-NyZ" collectionClass="NSMutableArray" id="JTs-h8-EZJ"/>
+                        <outletCollection property="CancerRadio" destination="PG1-oL-uPY" collectionClass="NSMutableArray" id="tXD-dF-hHK"/>
+                        <outletCollection property="CancerRadio" destination="fRy-UE-PO7" collectionClass="NSMutableArray" id="qLY-3U-JxR"/>
+                        <outletCollection property="HeartDiseaseRadio" destination="f4c-7M-N38" collectionClass="NSMutableArray" id="5uE-6R-YhU"/>
+                        <outletCollection property="HeartDiseaseRadio" destination="LCg-Kj-Ch0" collectionClass="NSMutableArray" id="Uxw-e3-Tyd"/>
+                        <outletCollection property="LeukemiaRadio" destination="ES4-rq-aj2" collectionClass="NSMutableArray" id="t5i-zr-Fve"/>
+                        <outletCollection property="LeukemiaRadio" destination="xRq-82-LCc" collectionClass="NSMutableArray" id="Ui5-fq-wRx"/>
+                        <outletCollection property="RestrictionRadio" destination="yj2-aa-jwK" collectionClass="NSMutableArray" id="hfw-81-qyD"/>
+                        <outletCollection property="RestrictionRadio" destination="mmM-T4-GBo" collectionClass="NSMutableArray" id="hpJ-vC-mCG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x1L-en-VhG" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,6 +21,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var age: UILabel!
     @IBOutlet var GenderSegment: UISegmentedControl!
     @IBOutlet var BloodGroupTF: UITextField!
+    @IBOutlet var emailTF: UITextField!
     @IBOutlet var HeightTF: UITextField!
     @IBOutlet var WeightTF: UITextField!
     @IBOutlet var BloodPressureTF: UITextField!
@@ -114,21 +115,22 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var Declare: UIButton!
     @IBOutlet var Save: UIButton!
     var checked = Bool(true)
-    var selectedGender = Int()
-    var HaveAllergy = 1
-    var selectedfood = 1
-    var selectedmedicine = 1
-    var selectedplants = 1
-    var selectedinsects = 1
-    var selectedother = 1
-    var selectedbp = 1
-    var selecteddiebetes = 1
-    var selectedcancer = 1
-    var selectedheartdisease = 1
-    var selectedleukemia = 1
-    var selectedrestriction = 1
-    var declare = 0
     
+    var selectedGender = "0"
+    var HaveAllergy = "0"
+    var selectedfood = "0"
+    var selectedmedicine = "0"
+    var selectedplants = "0"
+    var selectedinsects = "0"
+    var selectedother = "0"
+    var selectedbp = "0"
+    var selecteddiebetes = "0"
+    var selectedcancer = "0"
+    var selectedheartdisease = "0"
+    var selectedleukemia = "0"
+    var selectedrestriction = "0"
+    var declare = 0
+    var base64image = ""
     let user = User()
     let guardian = Guardian()
     let emergencyContact = EmergencyContact()
@@ -147,6 +149,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var datestr2 = ""
     var datestr3 = ""
     var datestr4 = ""
+    var dict = NSDictionary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,6 +173,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
                     attachmentArray[0].loadOriginalImage(completion: { (image) in
                         self.imagesPicView.image = image
+                       // self.base64image = (self.imagesPicView.image?.toBase64())!
                     })
                     
                 }, cancel: nil)
@@ -182,11 +186,147 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         }
         
     }
-    override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.retrivedata()
-            self.yesORnoActionInsideAllergyView()
+    func fetchProfileDatail(){
+        SwiftLoader.show(title: "Please Wait..", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", onSuccessCompletion: {
+            do {
+                print(ApiServices.shared.data)
+                self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                let msg = self.dict.value(forKey: "msg") as! String
+                if msg == "success" {
+                    if let data = self.dict.value(forKey: "data") as? NSDictionary {
+                        print(data)
+                        DispatchQueue.main.async {
+                            SwiftLoader.show(title: "Loading..", animated: true)
+                            let pp = data.value(forKey: "profile_picture") as? String ?? ""
+                            if pp != ""{
+                               // self.imagesPicView.image = UIImage(data: imgdata!)
+                            }
+                            else {
+                                self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
+                            }
+                            self.NameTF.text = data.value(forKey: "name") as? String ?? ""
+                            self.DateOfBirthTF.text = data.value(forKey: "dob") as? String ?? ""
+                            if self.DateOfBirthTF.text == ""{
+                                self.age.text = "Age"
+                            } else {
+                                let df = DateFormatter()
+                                df.dateFormat = "yyyy-MM-dd"
+                                let date = df.date(from: self.DateOfBirthTF.text!)
+                                let calendar : NSCalendar = NSCalendar.current as NSCalendar
+                                let ageComponents = calendar.components(.year, from: date!, to: Date() as Date, options: [])
+                                let age = ageComponents.year!
+                                self.age.text = "Age: \(age)"
+                            }
+                            self.selectedGender = data.value(forKey: "gender") as? String ?? "0"
+                            self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
+                            self.emailTF.text = data.value(forKey: "email") as? String ?? ""
+
+                           // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
+                            self.HeightTF.text = data.value(forKey: "height") as? String ?? ""
+                            //self.BloodPressureTF.text = data.value(forKey: "name") as? String ?? ""
+                            //self.TempretureTF.text = data.value(forKey: "name") as? String ?? ""
+                            
+                            self.MobileNumberTF.text = data.value(forKey: "contact_no") as? String ?? ""
+                            self.Address1TF.text = data.value(forKey: "address1") as? String ?? ""
+                            self.Address2TF.text = data.value(forKey: "address2") as? String ?? ""
+                            self.SubCityTF.text = data.value(forKey: "sub_city") as? String ?? ""
+                            self.CityTF.text = data.value(forKey: "city") as? String ?? ""
+                            //guardian
+                            self.GuardianNameTF.text = data.value(forKey: "gaurdian_name") as? String ?? ""
+                            self.GuardianMobileNumberTF.text = data.value(forKey: "gaurdian_contact") as? String ?? ""
+                            self.GuardianAddress1TF.text = data.value(forKey: "gaurdian_address1") as? String ?? ""
+                            self.GuardianAddress2TF.text = data.value(forKey: "gaurdian_address2") as? String ?? ""
+                            self.GuardianSubCityTF.text = data.value(forKey: "gaurdian_subcity") as? String ?? ""
+                            self.GuardianCityTF.text = data.value(forKey: "gaurdian_city") as? String ?? ""
+                            //ec1
+                            self.FirstEC_NameTF.text = data.value(forKey: "emergency_contact_name1") as? String ?? ""
+                            self.FirstEC_RelationshipTF.text = data.value(forKey: "emergency_contact_relation1") as? String ?? ""
+                            self.FirstEC_NumberTF.text = data.value(forKey: "emergency_contact_number1") as? String ?? ""
+                            //ec2
+                            self.SecondEC_NameTF.text = data.value(forKey: "emergency_contact_name2") as? String ?? ""
+                            self.SecondEC_RelationshipTF.text = data.value(forKey: "emergency_contact_relation2") as? String ?? ""
+                            self.SecondEC_NumberTF.text = data.value(forKey: "emergency_contact_number2") as? String ?? ""
+                            //pp
+                            self.PP_NameTF.text = data.value(forKey: "personal_physician_name") as? String ?? ""
+                            self.PP_NumberTF.text = data.value(forKey: "personal_physician_contact") as? String ?? ""
+                            self.PP_PolicyTF.text = data.value(forKey: "p_policy") as? String ?? ""
+                            self.PP_PolicyNumberTF.text = data.value(forKey: "p_policy_number") as? String ?? ""
+                            //allergy
+                            self.HaveAllergy = data.value(forKey: "allergy") as? String ?? "0"
+                            
+                            self.selectedfood = data.value(forKey: "food_alergy") as? String ?? "0"
+                            self.FoodAllergyTF.text = data.value(forKey: "food_allergy_details") as? String ?? ""
+                            
+                            self.selectedmedicine = data.value(forKey: "medicine_alergy") as? String ?? "0"
+                            self.MedicinesAllergiesTF.text = data.value(forKey: "medicine_allergy_details") as? String ?? ""
+                            
+                            self.selectedplants = data.value(forKey: "plants_allergy") as? String ?? "0"
+                            self.PlantsTF.text = data.value(forKey: "plants_allergy_details") as? String ?? ""
+                            
+                            self.selectedinsects = data.value(forKey: "insects_allergy") as? String ?? "0"
+                            self.InsectsTF.text = data.value(forKey: "insects_allergy_details") as? String ?? ""
+                            
+                            self.selectedother = data.value(forKey: "other_allergy") as? String ?? "0"
+                            self.otherAllergyTF.text = data.value(forKey: "other_allergy_details") as? String ?? ""
+                            //medical
+                            self.selectedbp = data.value(forKey: "p_policy_number") as? String ?? "0"
+                            self.BPTF.text = data.value(forKey: "blood_pressure") as? String ?? ""
+                            
+                            self.selecteddiebetes = data.value(forKey: "diabetes") as? String ?? "0"
+                            self.DiebetesTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            
+                            self.selectedcancer = data.value(forKey: "cancer") as? String ?? "0"
+                            self.CancerTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            
+                            self.selectedheartdisease = data.value(forKey: "heart_desease") as? String ?? "0"
+                            self.HeartDiseaseTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            
+                            self.selectedleukemia = data.value(forKey: "lukemia") as? String ?? "0"
+                            self.LeukemiaTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            
+                            self.selectedrestriction = data.value(forKey: "physical_activity_restriction") as? String ?? "0"
+                            self.RestrictionTF.text = data.value(forKey: "physical_activity_restriction_details") as? String ?? ""
+                            
+                            self.ExplanationTF.text = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
+                            //last vaccination done
+                            let data1 = data.value(forKey: "last_tetanus_date") as? String ?? ""
+                            self.tetanusSelectedDate.text = data1
+                            
+                            let data2 = data.value(forKey: "last_polio_date") as? String ?? ""
+                            self.polioSelectedDate.text = data2
+                            
+                            let data3 = data.value(forKey: "last_diptheria_date") as? String ?? ""
+                            self.diphtheriaSelectedDate.text = data3
+                            
+                            let data4 = data.value(forKey: "last_mumps_date") as? String ?? ""
+                            self.mumpsSelectedDate.text = data4
+                           // self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
+                            DispatchQueue.main.async {
+                                // self.retrivedata()
+                                self.yesORnoActionInsideAllergyView()
+                                SwiftLoader.hide()
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.sync {
+                    UIScrollView().reloadInputViews()
+                    SwiftLoader.hide()
+                }
+            } catch {
+                print("catch")
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchProfileDatail()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
     }
     @objc func reload(){
@@ -200,7 +340,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         
         SwiftLoader.show(title: "Date Set..", animated: true)
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         let datestr = formatter.string(from: date)
         
         if selected == "1"{
@@ -247,7 +387,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
     @objc func setdate(datePicker: UIDatePicker){
         let df = DateFormatter()
-        df.dateFormat = "dd/MM/yyyy"
+        df.dateFormat = "yyyy-MM-dd"
         if DateOfBirthTF.isFirstResponder {
             DateOfBirthTF.text = df.string(from: datePicker.date)
             let calendar : NSCalendar = NSCalendar.current as NSCalendar
@@ -260,17 +400,94 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         
     }
     @objc func SaveAction(){
-        savedata()
+      //  savedata()
+        updateProfileDetails()
+    }
+    func updateProfileDetails(){
+        SwiftLoader.show(title: "Updating...", animated: true)
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", parameter: "", onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print(json)
+            } catch {
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [
+                "name": self.NameTF.text!,
+                "email": self.emailTF.text!,
+                "profile_picture": "",
+                "contact_no": self.MobileNumberTF.text!,
+                "alt_contact_no": "",
+                "gender": self.selectedGender,
+                "dob": self.DateOfBirthTF.text!,
+                "blood_group": self.BloodGroupTF.text!,
+                "height": self.HeightTF.text!,
+                "address1": self.Address1TF.text!,
+                "address2": self.Address2TF.text!,
+                "city": self.CityTF.text!,
+                "sub_city": self.SubCityTF.text!,
+                "pincode": "",
+                "gaurdian_name": self.GuardianNameTF.text!,
+                "gaurdian_contact": self.GuardianMobileNumberTF.text!,
+                "gaurdian_address1": self.GuardianAddress1TF.text!,
+                "gaurdian_address2": self.GuardianAddress2TF.text!,
+                "gaurdian_city": self.GuardianCityTF.text!,
+                "gaurdian_subcity": self.GuardianSubCityTF.text!,
+                "gaurdian_pincode": "",
+                "emergency_contact_name1": self.FirstEC_NameTF.text!,
+                "emergency_contact_relation1": self.FirstEC_RelationshipTF.text!,
+                "emergency_contact_number1": self.FirstEC_NumberTF.text!,
+                "emergency_contact_name2": self.SecondEC_NameTF.text!,
+                "emergency_contact_relation2": self.SecondEC_RelationshipTF.text!,
+                "emergency_contact_number2": self.SecondEC_NumberTF.text!,
+                "personal_physician_name": self.PP_NameTF.text!,
+                "personal_physician_contact": self.PP_NumberTF.text!,
+                "p_policy": self.PP_PolicyTF.text!,
+                "p_policy_number": self.PP_PolicyNumberTF.text!,
+                "allergy": self.HaveAllergy,
+                "food_alergy": self.selectedfood,
+                "food_allergy_details": self.FoodAllergyTF.text!,
+                "medicine_alergy": self.selectedmedicine,
+                "medicine_allergy_details": self.MedicinesAllergiesTF.text!,
+                "plants_allergy": self.selectedplants,
+                "plants_allergy_details": self.PlantsTF.text!,
+                "insects_allergy": self.selectedinsects,
+                "insects_allergy_details": self.InsectsTF.text!,
+                "other_allergy": self.selectedother,
+                "other_allergy_details": self.otherAllergyTF.text!,
+                "blood_pressure": self.selectedbp,
+                "diabetes": self.selecteddiebetes,
+                "diabetes_details": self.DiebetesTF.text!,
+                "cancer": self.selectedcancer,
+                "heart_desease": self.selectedheartdisease,
+                "lukemia": self.selectedleukemia,
+                "physical_activity_restriction": self.selectedrestriction,
+                "physical_activity_restriction_details": self.RestrictionTF.text!,
+                "recent_medical_condition": "0",
+                "recent_medical_condition_details": self.ExplanationTF.text!,
+                "last_tetanus_date": self.tetanusSelectedDate.text!,
+                "last_polio_date": self.polioSelectedDate.text!,
+                "last_diptheria_date": self.diphtheriaSelectedDate.text!,
+                "last_mumps_date": self.mumpsSelectedDate.text!
+            ]
+        }
     }
     @objc func ChangeGender(){
         if GenderSegment.selectedSegmentIndex == 0{
-            selectedGender = 0
+            selectedGender = "0"
         }
         else if GenderSegment.selectedSegmentIndex == 1{
-            selectedGender = 1
+            selectedGender = "1"
         }
         else if GenderSegment.selectedSegmentIndex == 2{
-            selectedGender = 2
+            selectedGender = "2"
         }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -278,6 +495,408 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
 }
 extension ProfilePageViewController {//setupinterface
+    
+    func minimizeHeight(objects: [UIView],heightContantOutlet: [NSLayoutConstraint]){
+        for obj in objects{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                obj.isHidden = true
+            }
+        }
+        for obj in heightContantOutlet{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                obj.constant = 0
+            }
+        }
+    }
+    func maximizeHeight(objects: [UIView],heightContantOutlet: [NSLayoutConstraint]){
+        for obj in objects{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                obj.isHidden = false
+            }
+        }
+        for obj in heightContantOutlet{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                obj.constant = 40
+            }
+        }
+    }
+    func Utilized(){
+        Utilities.shared.cornerRadius(objects: [allergyView,Save], number: 10.0)
+       // Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.borderRadius(objects: [Save], color: UIColor.white)
+        
+    }
+    @IBAction func ClicktoSelectDate(sender: UIButton){
+       // savedata()
+      //  let vc = self.storyboard?.instantiateViewController(withIdentifier: "CalendarViewController") as! CalendarViewController
+        UIView.animate(withDuration: 0.1) {
+            self.cv.isHidden = false
+            self.cv.alpha = 1.0
+        }
+       // self.present(vc, animated: true, completion: nil)
+//        datestr1 = self.tetanusSelectedDate.text!
+//        datestr2 = self.polioSelectedDate.text!
+//        datestr3 = self.diphtheriaSelectedDate.text!
+//        datestr4 = self.mumpsSelectedDate.text!
+        if sender.tag == 1{
+            selected = "1"
+        }
+        else if sender.tag == 2{
+            selected = "2"
+        }
+        else if sender.tag == 3{
+            selected = "3"
+        }
+        else if sender.tag == 4{
+            selected = "4"
+        }
+    }
+    func SetupInterface(){
+        Declare.isMultipleTouchEnabled = true
+
+        DispatchQueue.main.async {
+            self.GenderSegment.selectedSegmentIndex = Int(self.selectedGender)!
+            self.AllergySegment.selectedSegmentIndex = Int(self.HaveAllergy)!
+            self.HeightOFallergyView.constant = 0
+            self.bottomContraint.isActive = false
+            self.allergyView.isHidden = true
+        }
+        
+        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
+        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
+        GenderSegment.tintColor = UIColor.clear
+        GenderSegment.backgroundColor = UIColor.clear
+        
+        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
+        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
+        AllergySegment.tintColor = UIColor.clear
+        AllergySegment.backgroundColor = UIColor.clear
+        
+        AllergySegment.addTarget(self, action: #selector(AllergySegmentValue), for: .valueChanged)
+       // Declare.addTarget(self, action: #selector(DeclareAction), for: .touchUpInside)
+        minimize()
+    }
+    func minimize(){
+        minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfBPTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
+    }
+    @objc func AllergySegmentValue(){
+        if AllergySegment.selectedSegmentIndex == 0{//no
+            hideAllergy()
+        }
+        else if AllergySegment.selectedSegmentIndex == 1{//yes
+            showAllergy()
+        }
+    }
+    func showAllergy(){
+        HaveAllergy = "1"
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.allergyView.isHidden = false
+                self.HeightOFallergyView.constant = 227
+                self.allergyView.alpha = 1
+                self.bottomContraint.isActive = true
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    func hideAllergy(){
+        HaveAllergy = "0"
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.allergyView.isHidden = true
+                self.HeightOFallergyView.constant = 0
+                self.allergyView.alpha = 0
+                self.bottomContraint.isActive = false
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    /*@objc func DeclareAction(){
+        if Declare.currentImage == #imageLiteral(resourceName: "square") {
+            self.checked = false
+            self.declare = 1
+            print(self.declare)
+            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
+        }else{
+            self.checked = true
+            self.declare = 0
+            print(self.declare)
+            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
+        }
+    }*/
+    func yesORnoActionInsideAllergyView(){
+        self.AllergySegment.selectedSegmentIndex = Int(HaveAllergy)!
+        if HaveAllergy == "0"{
+            
+            hideAllergy()
+        }
+        else if HaveAllergy == "1"{
+            showAllergy()
+        }
+        if self.declare == 0{
+            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
+        } else {
+            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
+        }
+        
+        FoodRadio[Int(selectedfood)!].isSelected = true
+        if selectedfood == "1"{
+            FoodRadio[0].isSelected = false
+            maximizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
+        } else if selectedfood == "0"{
+            FoodRadio[1].isSelected = false
+            minimizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
+        }
+        
+        MedicinesRadio[Int(selectedmedicine)!].isSelected = true
+        if selectedmedicine == "1"{
+            MedicinesRadio[0].isSelected = false
+            maximizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
+        } else if selectedmedicine == "0"{
+            MedicinesRadio[1].isSelected = false
+            minimizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
+        }
+        
+        PlantsRadio[Int(selectedplants)!].isSelected = true
+        if selectedplants == "1"{
+            PlantsRadio[0].isSelected = false
+            maximizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
+        } else if selectedplants == "0"{
+            PlantsRadio[1].isSelected = false
+            minimizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
+        }
+        
+        InsectsRadio[Int(selectedinsects)!].isSelected = true
+        if selectedinsects == "1"{
+            InsectsRadio[0].isSelected = false
+            maximizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
+        } else if selectedinsects == "0"{
+            InsectsRadio[1].isSelected = false
+            minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
+        }
+        
+        otherAllergyRadio[Int(selectedother)!].isSelected = true
+        if selectedother == "1"{
+            otherAllergyRadio[0].isSelected = false
+            maximizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
+        } else if selectedother == "0"{
+            otherAllergyRadio[1].isSelected = false
+            minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
+        }
+        
+        BPRadio[Int(selectedbp)!].isSelected = true
+        if selectedbp == "1"{
+            BPRadio[0].isSelected = false
+            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+        } else if selectedbp == "0"{
+            BPRadio[1].isSelected = false
+            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+        }
+        
+        DiebetesRadio[Int(selecteddiebetes)!].isSelected = true
+        if selecteddiebetes == "1"{
+            DiebetesRadio[0].isSelected = false
+            maximizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
+        } else if selecteddiebetes == "0"{
+            DiebetesRadio[1].isSelected = false
+            minimizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
+        }
+        
+        CancerRadio[Int(selectedcancer)!].isSelected = true
+        if selectedcancer == "1"{
+            CancerRadio[0].isSelected = false
+            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+        } else if selectedcancer == "0"{
+            CancerRadio[1].isSelected = false
+            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+        }
+        
+        HeartDiseaseRadio[Int(selectedheartdisease)!].isSelected = true
+        if selectedheartdisease == "1"{
+            HeartDiseaseRadio[0].isSelected = false
+            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+        } else if selectedheartdisease == "0"{
+            HeartDiseaseRadio[1].isSelected = false
+            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+        }
+        
+        LeukemiaRadio[Int(selectedleukemia)!].isSelected = true
+        if selectedleukemia == "1"{
+            LeukemiaRadio[0].isSelected = false
+            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+        } else if selectedleukemia == "0"{
+            LeukemiaRadio[1].isSelected = false
+            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+        }
+        
+        RestrictionRadio[Int(selectedrestriction)!].isSelected = true
+        if selectedrestriction == "1"{
+            RestrictionRadio[0].isSelected = false
+            maximizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
+        } else if selectedrestriction == "0"{
+            RestrictionRadio[1].isSelected = false
+            minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
+        }
+    }
+   
+}
+extension ProfilePageViewController { //button action
+    @IBAction func FoodYesOrNo(sender: SKRadioButton){
+        self.FoodRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 11 {
+            self.selectedfood = String(1)
+            maximizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
+        }
+        else if sender.tag == 12 {
+            self.selectedfood = String(0)
+            minimizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
+        }
+    }
+    @IBAction func MedicineYesOrNo(sender: SKRadioButton){
+        self.MedicinesRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 13 {
+            self.selectedmedicine = String(1)
+            maximizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
+        }
+        else if sender.tag == 14 {
+            self.selectedmedicine = String(0)
+            minimizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
+        }
+    }
+    @IBAction func PlantsYesOrNo(sender: SKRadioButton){
+        self.PlantsRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 15 {
+            self.selectedplants = String(1)
+            maximizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
+        }
+        else if sender.tag == 16 {
+            self.selectedplants = String(0)
+            minimizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
+        }
+    }
+    @IBAction func InsectsYesOrNo(sender: SKRadioButton){
+        self.InsectsRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 17 {
+            self.selectedinsects = String(1)
+            maximizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
+        }
+        else if sender.tag == 18 {
+            self.selectedinsects = String(0)
+            minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
+        }
+    }
+    @IBAction func BPYesOrNo(sender: SKRadioButton){
+        self.BPRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 19 {
+            self.selectedbp = String(1)
+            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+        }
+        else if sender.tag == 20 {
+            self.selectedbp = String(0)
+            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+        }
+    }
+    @IBAction func DiebetesYesOrNo(sender: SKRadioButton){
+        self.DiebetesRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 21 {
+            self.selecteddiebetes = String(1)
+            maximizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
+        }
+        else if sender.tag == 22 {
+            self.selecteddiebetes = String(0)
+            minimizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
+        }
+    }
+    @IBAction func CancerYesOrNo(sender: SKRadioButton){
+        self.CancerRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 23 {
+            self.selectedcancer = String(1)
+            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+        }
+        else if sender.tag == 24 {
+            self.selectedcancer = String(0)
+            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+        }
+    }
+    @IBAction func HeartDiseaseYesOrNo(sender: SKRadioButton){
+        self.HeartDiseaseRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 25 {
+            self.selectedheartdisease = String(1)
+            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+        }
+        else if sender.tag == 26 {
+            self.selectedheartdisease = String(0)
+            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+        }
+    }
+    @IBAction func LeukemiaYesOrNo(sender: SKRadioButton){
+        self.LeukemiaRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 27 {
+            self.selectedleukemia = String(1)
+            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+        }
+        else if sender.tag == 28 {
+            self.selectedleukemia = String(0)
+            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+        }
+    }
+    @IBAction func otherAllergyYesOrNo(sender: SKRadioButton){
+        self.otherAllergyRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 29 {
+            self.selectedother = String(1)
+            maximizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
+        }
+        else if sender.tag == 30 {
+            self.selectedother = String(0)
+            minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
+        }
+    }
+    @IBAction func RestrictionYesOrNo(sender: SKRadioButton){
+        self.RestrictionRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 31 {
+            self.selectedrestriction = String(1)
+            maximizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
+        }
+        else if sender.tag == 32 {
+            self.selectedrestriction = String(0)
+            minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
+        }
+    }
+}
+extension ProfilePageViewController { //coredata save and retrive
     
     func savedata(){
         let managedobject = self.appdel.persistentContainer.viewContext
@@ -390,7 +1009,7 @@ extension ProfilePageViewController {//setupinterface
                 self.NameTF.text = data.value(forKey: user.name) as? String
                 self.DateOfBirthTF.text = data.value(forKey: user.dateofbirth) as? String
                 self.age.text = data.value(forKey: user.age) as? String
-                selectedGender = data.value(forKey: user.gender) as? Int ?? 0
+                //      selectedGender = data.value(forKey: user.gender) as? Int ?? 0
                 self.BloodGroupTF.text = data.value(forKey: user.bloodGroup) as? String
                 self.WeightTF.text = data.value(forKey: user.weight) as? String
                 self.HeightTF.text = data.value(forKey: user.height) as? String
@@ -422,39 +1041,39 @@ extension ProfilePageViewController {//setupinterface
                 self.PP_PolicyTF.text = data.value(forKey: emergencyContact.pppolicy) as? String
                 self.PP_PolicyNumberTF.text = data.value(forKey: emergencyContact.pppolicynumber) as? String
                 //allergy
-                HaveAllergy = data.value(forKey: medical.allergy) as! Int
+                HaveAllergy = data.value(forKey: medical.allergy) as! String
                 
-                selectedfood = data.value(forKey: medical.afood) as! Int
+                selectedfood = data.value(forKey: medical.afood) as! String
                 self.FoodAllergyTF.text = data.value(forKey: medical.aexplainFood) as? String
                 
-                selectedmedicine = data.value(forKey: medical.amedicine) as! Int
+                selectedmedicine = data.value(forKey: medical.amedicine) as! String
                 self.MedicinesAllergiesTF.text = data.value(forKey: medical.aexplainMedicine) as? String
                 
-                selectedplants = data.value(forKey: medical.aplants) as! Int
+                selectedplants = data.value(forKey: medical.aplants) as! String
                 self.PlantsTF.text = data.value(forKey: medical.aexplainPlants) as? String
                 
-                selectedinsects = data.value(forKey: medical.ainsects) as! Int
+                selectedinsects = data.value(forKey: medical.ainsects) as! String
                 self.InsectsTF.text = data.value(forKey: medical.aexplainInsects) as? String
                 
-                selectedother = data.value(forKey: medical.aother) as! Int
+                selectedother = data.value(forKey: medical.aother) as! String
                 self.otherAllergyTF.text = data.value(forKey: medical.aexplainOther) as? String
                 //medical
-                selectedbp = data.value(forKey: medical.mbp) as! Int
+                selectedbp = data.value(forKey: medical.mbp) as! String
                 self.BPTF.text = data.value(forKey: medical.mexplainBp) as? String
                 
-                selecteddiebetes = data.value(forKey: medical.mdiebetes) as! Int
+                selecteddiebetes = data.value(forKey: medical.mdiebetes) as! String
                 self.DiebetesTF.text = data.value(forKey: medical.mexplainDiebetes) as? String
                 
-                selectedcancer = data.value(forKey: medical.mcancer) as! Int
+                selectedcancer = data.value(forKey: medical.mcancer) as! String
                 self.CancerTF.text = data.value(forKey: medical.mexplainCancer) as? String
                 
-                selectedheartdisease = data.value(forKey: medical.mheartdisease) as! Int
+                selectedheartdisease = data.value(forKey: medical.mheartdisease) as! String
                 self.HeartDiseaseTF.text = data.value(forKey: medical.mexplainHeartDisease) as? String
                 
-                selectedleukemia = data.value(forKey: medical.mleukemia) as! Int
+                selectedleukemia = data.value(forKey: medical.mleukemia) as! String
                 self.LeukemiaTF.text = data.value(forKey: medical.mexplainLeukemia) as? String
                 
-                selectedrestriction = data.value(forKey: medical.mrestrict) as! Int
+                selectedrestriction = data.value(forKey: medical.mrestrict) as! String
                 self.RestrictionTF.text = data.value(forKey: medical.mexplainRestrict) as? String
                 
                 self.ExplanationTF.text = data.value(forKey: medical.mrecentMC) as? String
@@ -476,401 +1095,6 @@ extension ProfilePageViewController {//setupinterface
         } catch {
             SwiftLoader.hide()
             print("failed")
-        }
-    }
-    func minimizeHeight(objects: [UIView],heightContantOutlet: [NSLayoutConstraint]){
-        for obj in objects{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                obj.isHidden = true
-            }
-        }
-        for obj in heightContantOutlet{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                obj.constant = 0
-            }
-        }
-    }
-    func maximizeHeight(objects: [UIView],heightContantOutlet: [NSLayoutConstraint]){
-        for obj in objects{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                obj.isHidden = false
-            }
-        }
-        for obj in heightContantOutlet{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                obj.constant = 40
-            }
-        }
-    }
-    func Utilized(){
-        Utilities.shared.cornerRadius(objects: [allergyView,Save], number: 10.0)
-        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
-        Utilities.shared.borderRadius(objects: [Save], color: UIColor.white)
-        
-    }
-    @IBAction func ClicktoSelectDate(sender: UIButton){
-       // savedata()
-      //  let vc = self.storyboard?.instantiateViewController(withIdentifier: "CalendarViewController") as! CalendarViewController
-        UIView.animate(withDuration: 0.1) {
-            self.cv.isHidden = false
-            self.cv.alpha = 1.0
-        }
-       // self.present(vc, animated: true, completion: nil)
-//        datestr1 = self.tetanusSelectedDate.text!
-//        datestr2 = self.polioSelectedDate.text!
-//        datestr3 = self.diphtheriaSelectedDate.text!
-//        datestr4 = self.mumpsSelectedDate.text!
-        if sender.tag == 1{
-            selected = "1"
-        }
-        else if sender.tag == 2{
-            selected = "2"
-        }
-        else if sender.tag == 3{
-            selected = "3"
-        }
-        else if sender.tag == 4{
-            selected = "4"
-        }
-    }
-    func SetupInterface(){
-        Declare.isMultipleTouchEnabled = true
-
-        DispatchQueue.main.async {
-            self.GenderSegment.selectedSegmentIndex = self.selectedGender
-            self.AllergySegment.selectedSegmentIndex = self.HaveAllergy
-            self.HeightOFallergyView.constant = 0
-            self.bottomContraint.isActive = false
-            self.allergyView.isHidden = true
-        }
-        
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
-        GenderSegment.tintColor = UIColor.clear
-        GenderSegment.backgroundColor = UIColor.clear
-        
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
-        AllergySegment.tintColor = UIColor.clear
-        AllergySegment.backgroundColor = UIColor.clear
-        
-        AllergySegment.addTarget(self, action: #selector(AllergySegmentValue), for: .valueChanged)
-        Declare.addTarget(self, action: #selector(DeclareAction), for: .touchUpInside)
-        minimize()
-    }
-    func minimize(){
-        minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfBPTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
-    }
-    @objc func AllergySegmentValue(){
-        if AllergySegment.selectedSegmentIndex == 0{//yes
-            showAllergy()
-        }
-        else if AllergySegment.selectedSegmentIndex == 1{//no
-            hideAllergy()
-        }
-    }
-    func showAllergy(){
-        HaveAllergy = 0
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.allergyView.isHidden = false
-                self.HeightOFallergyView.constant = 227
-                self.allergyView.alpha = 1
-                self.bottomContraint.isActive = true
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    func hideAllergy(){
-        HaveAllergy = 1
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.allergyView.isHidden = true
-                self.HeightOFallergyView.constant = 0
-                self.allergyView.alpha = 0
-                self.bottomContraint.isActive = false
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    @objc func DeclareAction(){
-        if Declare.currentImage == #imageLiteral(resourceName: "square") {
-            self.checked = false
-            self.declare = 1
-            print(self.declare)
-            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
-        }else{
-            self.checked = true
-            self.declare = 0
-            print(self.declare)
-            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
-        }
-    }
-    func yesORnoActionInsideAllergyView(){
-        self.AllergySegment.selectedSegmentIndex = HaveAllergy
-        if HaveAllergy == 0{
-            showAllergy()
-        }
-        else if HaveAllergy == 1{
-            hideAllergy()
-        }
-        if self.declare == 0{
-            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
-        } else {
-            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
-        }
-        
-        FoodRadio[selectedfood].isSelected = true
-        if selectedfood == 0{
-            FoodRadio[1].isSelected = false
-            maximizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
-        } else if selectedfood == 1{
-            FoodRadio[0].isSelected = false
-            minimizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
-        }
-        
-        MedicinesRadio[selectedmedicine].isSelected = true
-        if selectedmedicine == 0{
-            MedicinesRadio[1].isSelected = false
-            maximizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
-        } else if selectedmedicine == 1{
-            MedicinesRadio[0].isSelected = false
-            minimizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
-        }
-        
-        PlantsRadio[selectedplants].isSelected = true
-        if selectedplants == 0{
-            PlantsRadio[1].isSelected = false
-            maximizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
-        } else if selectedplants == 1{
-            PlantsRadio[0].isSelected = false
-            minimizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
-        }
-        
-        InsectsRadio[selectedinsects].isSelected = true
-        if selectedinsects == 0{
-            InsectsRadio[1].isSelected = false
-            maximizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
-        } else if selectedinsects == 1{
-            InsectsRadio[0].isSelected = false
-            minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
-        }
-        
-        otherAllergyRadio[selectedother].isSelected = true
-        if selectedother == 0{
-            otherAllergyRadio[1].isSelected = false
-            maximizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
-        } else if selectedother == 1{
-            otherAllergyRadio[0].isSelected = false
-            minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
-        }
-        
-        BPRadio[selectedbp].isSelected = true
-        if selectedbp == 0{
-            BPRadio[1].isSelected = false
-            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        } else if selectedbp == 1{
-            BPRadio[0].isSelected = false
-            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
-        
-        DiebetesRadio[selecteddiebetes].isSelected = true
-        if selecteddiebetes == 0{
-            DiebetesRadio[1].isSelected = false
-            maximizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
-        } else if selecteddiebetes == 1{
-            DiebetesRadio[0].isSelected = false
-            minimizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
-        }
-        
-        CancerRadio[selectedcancer].isSelected = true
-        if selectedcancer == 0{
-            CancerRadio[1].isSelected = false
-            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
-        } else if selectedcancer == 1{
-            CancerRadio[0].isSelected = false
-            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
-        }
-        
-        HeartDiseaseRadio[selectedheartdisease].isSelected = true
-        if selectedheartdisease == 0{
-            HeartDiseaseRadio[1].isSelected = false
-            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
-        } else if selectedheartdisease == 1{
-            HeartDiseaseRadio[0].isSelected = false
-            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
-        }
-        
-        LeukemiaRadio[selectedleukemia].isSelected = true
-        if selectedleukemia == 0{
-            LeukemiaRadio[1].isSelected = false
-            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
-        } else if selectedleukemia == 1{
-            LeukemiaRadio[0].isSelected = false
-            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
-        }
-        
-        RestrictionRadio[selectedrestriction].isSelected = true
-        if selectedrestriction == 0{
-            RestrictionRadio[1].isSelected = false
-            maximizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
-        } else if selectedrestriction == 1{
-            RestrictionRadio[0].isSelected = false
-            minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
-        }
-    }
-    @IBAction func FoodYesOrNo(sender: SKRadioButton){
-        self.FoodRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 11 {
-            self.selectedfood = 0
-            maximizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
-        }
-        else if sender.tag == 12 {
-            self.selectedfood = 1
-            minimizeHeight(objects: [FoodAllergyTF], heightContantOutlet: [HeightOfFoodTF])
-        }
-    }
-    @IBAction func MedicineYesOrNo(sender: SKRadioButton){
-        self.MedicinesRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 13 {
-            self.selectedmedicine = 0
-            maximizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
-        }
-        else if sender.tag == 14 {
-            self.selectedmedicine = 1
-            minimizeHeight(objects: [MedicinesAllergiesTF], heightContantOutlet: [HeightOfMedicinesTF])
-        }
-    }
-    @IBAction func PlantsYesOrNo(sender: SKRadioButton){
-        self.PlantsRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 15 {
-            self.selectedplants = 0
-            maximizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
-        }
-        else if sender.tag == 16 {
-            self.selectedplants = 1
-            minimizeHeight(objects: [PlantsTF], heightContantOutlet: [HeightOfPlantsTF])
-        }
-    }
-    @IBAction func InsectsYesOrNo(sender: SKRadioButton){
-        self.InsectsRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 17 {
-            self.selectedinsects = 0
-            maximizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
-        }
-        else if sender.tag == 18 {
-            self.selectedinsects = 1
-            minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
-        }
-    }
-    @IBAction func BPYesOrNo(sender: SKRadioButton){
-        self.BPRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 19 {
-            self.selectedbp = 0
-            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
-        else if sender.tag == 20 {
-            self.selectedbp = 1
-            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
-    }
-    @IBAction func DiebetesYesOrNo(sender: SKRadioButton){
-        self.DiebetesRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 21 {
-            self.selecteddiebetes = 0
-            maximizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
-        }
-        else if sender.tag == 22 {
-            self.selecteddiebetes = 1
-            minimizeHeight(objects: [DiebetesTF], heightContantOutlet: [HeightOfDiebetesTF])
-        }
-    }
-    @IBAction func CancerYesOrNo(sender: SKRadioButton){
-        self.CancerRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 23 {
-            self.selectedcancer = 0
-            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
-        }
-        else if sender.tag == 24 {
-            self.selectedcancer = 1
-            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
-        }
-    }
-    @IBAction func HeartDiseaseYesOrNo(sender: SKRadioButton){
-        self.HeartDiseaseRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 25 {
-            self.selectedheartdisease = 0
-            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
-        }
-        else if sender.tag == 26 {
-            self.selectedheartdisease = 1
-            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
-        }
-    }
-    @IBAction func LeukemiaYesOrNo(sender: SKRadioButton){
-        self.LeukemiaRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 27 {
-            self.selectedleukemia = 0
-            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
-        }
-        else if sender.tag == 28 {
-            self.selectedleukemia = 1
-            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
-        }
-    }
-    @IBAction func otherAllergyYesOrNo(sender: SKRadioButton){
-        self.otherAllergyRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 29 {
-            self.selectedother = 0
-            maximizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
-        }
-        else if sender.tag == 30 {
-            self.selectedother = 1
-            minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
-        }
-    }
-    @IBAction func RestrictionYesOrNo(sender: SKRadioButton){
-        self.RestrictionRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 31 {
-            self.selectedrestriction = 0
-            maximizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
-        }
-        else if sender.tag == 32 {
-            self.selectedrestriction = 1
-            minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
         }
     }
 }

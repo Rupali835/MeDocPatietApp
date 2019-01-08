@@ -58,14 +58,15 @@ class Alert {
             
             alertcontroller.view.backgroundColor = UIColor.clear
         
-            let cancel = UIAlertAction(title: button2title, style: .cancel) { (action) in
+            let button2 = UIAlertAction(title: button2title, style: .cancel) { (action) in
                 Action2Completion()
             }
-            let logout = UIAlertAction(title: buttontitle, style: .destructive) { (action) in
+            let button1 = UIAlertAction(title: buttontitle, style: .default, image: #imageLiteral(resourceName: "like.png").withRenderingMode(.alwaysOriginal)) { (action) in
                 ActionCompletion()
             }
-            alertcontroller.addAction(logout)
-            alertcontroller.addAction(cancel)
+           // button1.setValue(#imageLiteral(resourceName: "like.png"), forKey: "image")
+            alertcontroller.addAction(button1)
+            alertcontroller.addAction(button2)
             alertWindow.makeKeyAndVisible()
             alertWindow.rootViewController?.present(alertcontroller, animated: true, completion: nil)
         }
@@ -112,30 +113,5 @@ class Alert {
         alertcontroller.addAction(Send)
         alertcontroller.addAction(cancel)
         vc.present(alertcontroller, animated: true, completion: nil)
-    }
-}
-extension Date
-{
-    
-    func dateAt(hours: Int, minutes: Int) -> Date
-    {
-        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
-        
-        //get the month/day/year componentsfor today's date.
-        
-        
-        var date_components = calendar.components(
-            [NSCalendar.Unit.year,
-             NSCalendar.Unit.month,
-             NSCalendar.Unit.day],
-            from: self)
-        
-        //Create an NSDate for the specified time today.
-        date_components.hour = hours
-        date_components.minute = minutes
-        date_components.second = 0
-        
-        let newDate = calendar.date(from: date_components)!
-        return newDate
     }
 }

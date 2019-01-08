@@ -313,3 +313,59 @@ extension UISearchBar {
         }
     }
 }
+extension Date
+{
+    
+    func dateAt(hours: Int, minutes: Int) -> Date
+    {
+        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+        
+        //get the month/day/year componentsfor today's date.
+        
+        
+        var date_components = calendar.components(
+            [NSCalendar.Unit.year,
+             NSCalendar.Unit.month,
+             NSCalendar.Unit.day],
+            from: self)
+        
+        //Create an NSDate for the specified time today.
+        date_components.hour = hours
+        date_components.minute = minutes
+        date_components.second = 0
+        
+        let newDate = calendar.date(from: date_components)!
+        return newDate
+    }
+}
+extension UIAlertAction {
+    convenience init(title: String?, style: UIAlertAction.Style, image: UIImage, handler: ((UIAlertAction) -> Void)? = nil) {
+        self.init(title: title, style: style, handler: handler)
+        self.actionImage = image
+    }
+    var actionImage: UIImage {
+        get {
+            return self.value(forKey: "image") as? UIImage ?? UIImage()
+        }
+        set(image) {
+            self.setValue(image, forKey: "image")
+        }
+    }
+}
+extension UIImage {
+    func toBase64() -> String? {
+        guard let imageData = self.pngData() else { return nil }
+        return imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+    }
+    
+}
+extension String {
+    func base64Encoded() -> String? {
+        return data(using: .utf8)?.base64EncodedString()
+    }
+    
+    func base64Decoded() -> String? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+}

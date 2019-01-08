@@ -96,12 +96,10 @@ class ApiServices {
         var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
         urlReq.httpMethod = "GET"
         let bt = bearertoken!
-        print(bt)
         urlReq.setValue("Bearer \(bt)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
-       // urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
                 print("error")

@@ -18,6 +18,9 @@ struct FAQDataModal {
     
 }
 struct report : Decodable {
-    var msg = String()
-    var data = String()
+    var msg : String
+    var data : reportdata
+}
+struct reportdata: Decodable {
+    
 }

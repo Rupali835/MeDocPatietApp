@@ -14,7 +14,7 @@ class ReportViewController: UIViewController {
     
     var items : [Reports] = []
     var dict = NSDictionary()
-    
+    var reports = [report]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
@@ -49,6 +49,9 @@ class ReportViewController: UIViewController {
                 print(ApiServices.shared.data)
                 self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(self.dict)
+//                let decode = try JSONDecoder().decode(report.self, from: ApiServices.shared.data)
+//                self.reports = [decode]
+//                print(self.reports)
                 DispatchQueue.main.sync {
                     self.tableview.reloadData()
                     SwiftLoader.hide()
