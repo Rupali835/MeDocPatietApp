@@ -81,8 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         print("terminate")
-        let singleitem = Medicine(context: self.persistentContainer.viewContext)
-        singleitem.took = false
+      //  let singleitem = Medicine(context: self.persistentContainer.viewContext)
+     //   singleitem.took = false
         self.saveContext()
     }
 

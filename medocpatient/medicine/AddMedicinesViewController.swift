@@ -50,20 +50,20 @@ class AddMedicinesViewController: UIViewController {
         }
         else {
             
-            SwiftLoader.show(title: "Set Medicine...", animated: true)
-            let appdel = UIApplication.shared.delegate as! AppDelegate
-            let conttxt = appdel.persistentContainer.viewContext
-            let singleitem = Medicine(context: conttxt)
-            singleitem.name = medicineTF.text!
-            singleitem.quantity = quantity.text!
-            singleitem.repeattimeslot = selectedhr
-            singleitem.timeslot = selectedtime.joined(separator: "-")
-            //pretitle  attachReport
-            
-            appdel.saveContext()
-            NotificationCenter.default.post(name: NSNotification.Name("reloadmedicine"), object: self)
-            SwiftLoader.hide()
-            self.navigationController?.popViewController(animated: true)
+//            SwiftLoader.show(title: "Set Medicine...", animated: true)
+//            let appdel = UIApplication.shared.delegate as! AppDelegate
+//            let conttxt = appdel.persistentContainer.viewContext
+//            let singleitem = Medicine(context: conttxt)
+//            singleitem.name = medicineTF.text!
+//            singleitem.quantity = quantity.text!
+//            singleitem.repeattimeslot = selectedhr
+//            singleitem.timeslot = selectedtime.joined(separator: "-")
+//            //pretitle  attachReport
+//            
+//            appdel.saveContext()
+//            NotificationCenter.default.post(name: NSNotification.Name("reloadmedicine"), object: self)
+//            SwiftLoader.hide()
+//            self.navigationController?.popViewController(animated: true)
             
         }
 

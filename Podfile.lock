@@ -1,32 +1,48 @@
 PODS:
+  - Alamofire (5.0.0.beta.1)
+  - Charts (3.2.1):
+    - Charts/Core (= 3.2.1)
+  - Charts/Core (3.2.1)
   - CryptoSwift (0.13.1)
   - DBAttachmentPickerController (1.1.4)
   - DropDown (2.3.12)
   - FSCalendar (2.8.0)
+  - SDWebImage (4.4.3):
+    - SDWebImage/Core (= 4.4.3)
+  - SDWebImage/Core (4.4.3)
   - SkyFloatingLabelTextField (3.6.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.0.0.beta.1)
+  - Charts
   - CryptoSwift
   - DBAttachmentPickerController (~> 1.1.0)
   - DropDown
   - FSCalendar
+  - SDWebImage (~> 4.0)
   - SkyFloatingLabelTextField (~> 3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Charts
     - CryptoSwift
     - DBAttachmentPickerController
     - DropDown
     - FSCalendar
+    - SDWebImage
     - SkyFloatingLabelTextField
 
 SPEC CHECKSUMS:
+  Alamofire: 2ef6d6c984c5d21c366e9b41a9ae7dfee2b67a44
+  Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   CryptoSwift: ff68c35a53e03177d31aaa2c1e8b3e010aeed6cb
   DBAttachmentPickerController: 9b3c5f84a9e4530da6d9e098c710f2152957c31e
   DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
   FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
 
-PODFILE CHECKSUM: 1746ce1dead4f157b1710b4971d19d55d97c408c
+PODFILE CHECKSUM: 8ce122d5d160dd26fa21393dab3c4e8cb7aba269
 
 COCOAPODS: 1.5.3

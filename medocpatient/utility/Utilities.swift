@@ -338,20 +338,6 @@ extension Date
         return newDate
     }
 }
-extension UIAlertAction {
-    convenience init(title: String?, style: UIAlertAction.Style, image: UIImage, handler: ((UIAlertAction) -> Void)? = nil) {
-        self.init(title: title, style: style, handler: handler)
-        self.actionImage = image
-    }
-    var actionImage: UIImage {
-        get {
-            return self.value(forKey: "image") as? UIImage ?? UIImage()
-        }
-        set(image) {
-            self.setValue(image, forKey: "image")
-        }
-    }
-}
 extension UIImage {
     func toBase64() -> String? {
         guard let imageData = self.pngData() else { return nil }
@@ -367,5 +353,25 @@ extension String {
     func base64Decoded() -> String? {
         guard let data = Data(base64Encoded: self) else { return nil }
         return String(data: data, encoding: .utf8)
+    }
+}
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() {
+                self.image = image
+            }
+            }.resume()
+    }
+    func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
     }
 }

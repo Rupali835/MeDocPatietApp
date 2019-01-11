@@ -12,9 +12,10 @@ class MedicineTableViewCell: UITableViewCell {
 
     @IBOutlet var name: UILabel!
     @IBOutlet var timeslot: UILabel!
-    @IBOutlet var repeattimeslot: UILabel!
-    @IBOutlet var quantity: UILabel!
-    
+    @IBOutlet var interval_time: UILabel!
+    @IBOutlet var interval_type: UILabel!
+    @IBOutlet var interval_period: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         

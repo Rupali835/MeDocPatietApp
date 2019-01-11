@@ -55,7 +55,7 @@ class Alert {
             
             alertcontroller.setValue(titleAttrString, forKey: "attributedTitle")
             alertcontroller.setValue(messageAttrString, forKey: "attributedMessage")
-            
+
             alertcontroller.view.backgroundColor = UIColor.clear
         
             let button2 = UIAlertAction(title: button2title, style: .cancel) { (action) in
@@ -113,5 +113,35 @@ class Alert {
         alertcontroller.addAction(Send)
         alertcontroller.addAction(cancel)
         vc.present(alertcontroller, animated: true, completion: nil)
+    }
+    func choose(vc: UIViewController,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
+        let alertcontroller = UIAlertController(title: "Choose", message: "", preferredStyle: .actionSheet)
+        
+        let button1 = UIAlertAction(title: "Image", style: .default) { (action) in
+            ActionCompletion()
+        }
+        let button2 = UIAlertAction(title: "PDF File", style: .default) { (action) in
+            Action2Completion()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertcontroller.addAction(button1)
+        alertcontroller.addAction(button2)
+        alertcontroller.addAction(cancel)
+        vc.present(alertcontroller, animated: true, completion: nil)
+    }
+}
+
+extension UIAlertAction {
+    convenience init(title: String?, style: UIAlertAction.Style, image: UIImage, handler: ((UIAlertAction) -> Void)? = nil) {
+        self.init(title: title, style: style, handler: handler)
+        self.actionImage = image
+    }
+    var actionImage: UIImage {
+        get {
+            return self.value(forKey: "image") as? UIImage ?? UIImage()
+        }
+        set(image) {
+            self.setValue(image, forKey: "image")
+        }
     }
 }

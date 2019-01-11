@@ -67,7 +67,22 @@
 		575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E521D65DE2008DB872 /* UIView+Toast.swift */; };
 		575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */; };
 		575B403121E3398300DBBDB4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B403021E3398300DBBDB4 /* Reachability.swift */; };
+		57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CB721E731D6002DC4D0 /* ChartViewController.swift */; };
+		57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */; };
+		57692CC621E74B69002DC4D0 /* PNPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBB21E74B67002DC4D0 /* PNPieChart.swift */; };
+		57692CC721E74B69002DC4D0 /* PNValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBC21E74B67002DC4D0 /* PNValue.swift */; };
+		57692CC821E74B69002DC4D0 /* PNLineChartDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */; };
+		57692CC921E74B69002DC4D0 /* PNColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBE21E74B68002DC4D0 /* PNColor.swift */; };
+		57692CCA21E74B69002DC4D0 /* PNLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBF21E74B68002DC4D0 /* PNLineChart.swift */; };
+		57692CCB21E74B69002DC4D0 /* PNBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC021E74B68002DC4D0 /* PNBar.swift */; };
+		57692CCC21E74B69002DC4D0 /* PNLineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC121E74B68002DC4D0 /* PNLineChartData.swift */; };
+		57692CCD21E74B69002DC4D0 /* PNPieChartDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */; };
+		57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC321E74B68002DC4D0 /* PNChartLabel.swift */; };
+		57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC421E74B69002DC4D0 /* PNBarChart.swift */; };
+		57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CD021E777F6002DC4D0 /* ImageManager.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
+		57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */; };
+		57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */; };
 		E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E344C21990F2680276BFEC /* Pods_medocpatient.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,7 +152,22 @@
 		575259E521D65DE2008DB872 /* UIView+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Toast.swift"; sourceTree = "<group>"; };
 		575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewController.swift; sourceTree = "<group>"; };
 		575B403021E3398300DBBDB4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		57692CB721E731D6002DC4D0 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNGenericChart.swift; sourceTree = "<group>"; };
+		57692CBB21E74B67002DC4D0 /* PNPieChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNPieChart.swift; sourceTree = "<group>"; };
+		57692CBC21E74B67002DC4D0 /* PNValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNValue.swift; sourceTree = "<group>"; };
+		57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChartDataItem.swift; sourceTree = "<group>"; };
+		57692CBE21E74B68002DC4D0 /* PNColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNColor.swift; sourceTree = "<group>"; };
+		57692CBF21E74B68002DC4D0 /* PNLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChart.swift; sourceTree = "<group>"; };
+		57692CC021E74B68002DC4D0 /* PNBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBar.swift; sourceTree = "<group>"; };
+		57692CC121E74B68002DC4D0 /* PNLineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChartData.swift; sourceTree = "<group>"; };
+		57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNPieChartDataItem.swift; sourceTree = "<group>"; };
+		57692CC321E74B68002DC4D0 /* PNChartLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNChartLabel.swift; sourceTree = "<group>"; };
+		57692CC421E74B69002DC4D0 /* PNBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBarChart.swift; sourceTree = "<group>"; };
+		57692CD021E777F6002DC4D0 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
+		57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
+		57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthListTableViewCell.swift; sourceTree = "<group>"; };
 		71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.debug.xcconfig"; sourceTree = "<group>"; };
 		72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.release.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +214,7 @@
 		57254B4E21D4BC5B00B38849 /* medocpatient */ = {
 			isa = PBXGroup;
 			children = (
+				57A9EA5221E5E22E008C9CB2 /* Health */,
 				575ADB9E21E0DDE600235111 /* Appointment */,
 				575259DD21D60FDC008DB872 /* medocpatient.entitlements */,
 				57254B8D21D4BE6600B38849 /* utility */,
@@ -286,6 +317,7 @@
 		57254B8D21D4BE6600B38849 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				57692CB921E74B43002DC4D0 /* PNCharts */,
 				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
 				575259E021D65DCC008DB872 /* EasyToast */,
 				57254B9421D4BE7F00B38849 /* Alert.swift */,
@@ -298,6 +330,7 @@
 				57254B9221D4BE7F00B38849 /* SwiftLoader.swift */,
 				57254B9521D4BE7F00B38849 /* Utilities.swift */,
 				575B403021E3398300DBBDB4 /* Reachability.swift */,
+				57692CD021E777F6002DC4D0 /* ImageManager.swift */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -397,6 +430,34 @@
 			path = Appointment;
 			sourceTree = "<group>";
 		};
+		57692CB921E74B43002DC4D0 /* PNCharts */ = {
+			isa = PBXGroup;
+			children = (
+				57692CC021E74B68002DC4D0 /* PNBar.swift */,
+				57692CC421E74B69002DC4D0 /* PNBarChart.swift */,
+				57692CC321E74B68002DC4D0 /* PNChartLabel.swift */,
+				57692CBE21E74B68002DC4D0 /* PNColor.swift */,
+				57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */,
+				57692CBF21E74B68002DC4D0 /* PNLineChart.swift */,
+				57692CC121E74B68002DC4D0 /* PNLineChartData.swift */,
+				57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */,
+				57692CBB21E74B67002DC4D0 /* PNPieChart.swift */,
+				57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */,
+				57692CBC21E74B67002DC4D0 /* PNValue.swift */,
+			);
+			path = PNCharts;
+			sourceTree = "<group>";
+		};
+		57A9EA5221E5E22E008C9CB2 /* Health */ = {
+			isa = PBXGroup;
+			children = (
+				57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */,
+				57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */,
+				57692CB721E731D6002DC4D0 /* ChartViewController.swift */,
+			);
+			path = Health;
+			sourceTree = "<group>";
+		};
 		74839B46AB7FE7B2DED5ABBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +503,9 @@
 						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Keychain = {
 								enabled = 0;
 							};
 							com.apple.Push = {
@@ -497,20 +561,26 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,18 +619,26 @@
 			files = (
 				57254BB021D4BEE400B38849 /* LoginPage.swift in Sources */,
 				57254BA421D4BE9900B38849 /* PatientHomePageCollectionViewCell.swift in Sources */,
+				57692CCA21E74B69002DC4D0 /* PNLineChart.swift in Sources */,
 				57254B9D21D4BE7F00B38849 /* Alert.swift in Sources */,
 				575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */,
 				57254BC521D4BF5100B38849 /* imageCell.swift in Sources */,
+				57692CC921E74B69002DC4D0 /* PNColor.swift in Sources */,
 				57254BB921D4BF1300B38849 /* MedicineViewController.swift in Sources */,
 				57254BA721D4BE9900B38849 /* PatientHomePageViewController.swift in Sources */,
+				57692CC721E74B69002DC4D0 /* PNValue.swift in Sources */,
+				57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */,
 				57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */,
 				575259E621D65DE3008DB872 /* QueueToast.swift in Sources */,
+				57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */,
+				57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */,
 				575259E821D65DE3008DB872 /* ToastContainerVC.swift in Sources */,
 				57254BA621D4BE9900B38849 /* QRViewController.swift in Sources */,
 				575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */,
 				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
+				57692CC621E74B69002DC4D0 /* PNPieChart.swift in Sources */,
 				575259D221D6061C008DB872 /* IQInvocation.swift in Sources */,
+				57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */,
 				575B403121E3398300DBBDB4 /* Reachability.swift in Sources */,
 				575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */,
 				575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */,
@@ -586,6 +664,8 @@
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				57254BB121D4BEE400B38849 /* PageViewController.swift in Sources */,
 				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
+				57692CCC21E74B69002DC4D0 /* PNLineChartData.swift in Sources */,
+				57692CCB21E74B69002DC4D0 /* PNBar.swift in Sources */,
 				57254B9C21D4BE7F00B38849 /* CoreDataModel.swift in Sources */,
 				57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */,
 				57254B9A21D4BE7F00B38849 /* GradientView.swift in Sources */,
@@ -593,9 +673,13 @@
 				57254BB421D4BEF400B38849 /* FAQTableViewCell.swift in Sources */,
 				57254BB521D4BEF400B38849 /* FAQViewController.swift in Sources */,
 				57254BC421D4BF5100B38849 /* ReportViewController.swift in Sources */,
+				57692CCD21E74B69002DC4D0 /* PNPieChartDataItem.swift in Sources */,
+				57692CC821E74B69002DC4D0 /* PNLineChartDataItem.swift in Sources */,
 				57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */,
 				57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */,
+				57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */,
 				57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */,
+				57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */,
 				57254BAE21D4BEE400B38849 /* GetStartedViewController.swift in Sources */,
 				575259D921D6061C008DB872 /* IQUIViewController+Additions.swift in Sources */,
 				57254B9E21D4BE7F00B38849 /* Utilities.swift in Sources */,
@@ -603,6 +687,7 @@
 				57254BBF21D4BF3700B38849 /* PromotionViewController.swift in Sources */,
 				57254B9921D4BE7F00B38849 /* ApiServices.swift in Sources */,
 				575259D321D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift in Sources */,
+				57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

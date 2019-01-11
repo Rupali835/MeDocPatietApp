@@ -12,7 +12,6 @@ import UIKit
 class ApiServices {
     var data = Data()
     let baseUrl = "http://otgmart.com/medoc/patient-api/public/api/"
-    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     
     static let shared: ApiServices = ApiServices()
     private init() {}
@@ -55,14 +54,14 @@ class ApiServices {
     }
     func FetchPostDataFromUrl(vc: UIViewController,
                             withOutBaseUrl: String,
+                            bearertoken: String,
                             parameter: String,
                             onSuccessCompletion: @escaping ()->(),
                             HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
     {
         var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
         urlReq.httpMethod = "Post"
-        let bt = bearertoken!
-        urlReq.setValue("Bearer \(bt)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -90,13 +89,13 @@ class ApiServices {
     func FetchGetDataFromUrl(vc: UIViewController,
                               withOutBaseUrl: String,
                               parameter: String,
+                              bearertoken: String,
                               onSuccessCompletion: @escaping ()->(),
                               HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
     {
         var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
         urlReq.httpMethod = "GET"
-        let bt = bearertoken!
-        urlReq.setValue("Bearer \(bt)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -154,5 +153,90 @@ class ApiServices {
                 onSuccessCompletion()
             }
             }.resume()
+    }
+    func FetchMultiformDataWithImageFromUrl(vc: UIViewController,
+                             withOutBaseUrl: String,
+                             parameter: [String:Any],
+                             bearertoken: String,
+                             image: UIImageView,
+                             filename: String,
+                             filePathKey: String,
+                             pdfurl: URL,
+                             onSuccessCompletion: @escaping ()->(),
+                             HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+    {
+        
+        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        urlReq.httpMethod = "Post"
+        
+        let boundary = generateBoundaryString()
+        urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+       // urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
+        var mimetype = ""
+        var data = Data()
+        
+        if pdfurl.absoluteString != "NF"{
+            data = try! Data(contentsOf: pdfurl)
+            mimetype = "application/pdf"
+        } else {
+            data = image.image!.jpegData(compressionQuality: 0.1)!
+            mimetype = "image/jpg"
+        }
+        
+        urlReq.httpBody = createBodyWithParameters(parameters: parameter, filePathKey: filePathKey, filename: filename, imageDataKey: data, boundary: boundary, mimetype: mimetype)
+        
+        URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
+            if error != nil{
+                print("error")
+                if (error?.localizedDescription) != nil{
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
+                    }
+                }
+            } else {
+                self.data = data!
+                onSuccessCompletion()
+            }
+        }.resume()
+    }
+    
+    
+    func createBodyWithParameters(parameters: [String: Any]?, filePathKey: String?,filename: String, imageDataKey: Data, boundary: String, mimetype: String) -> Data {
+        let body = NSMutableData();
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.append("--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: String.Encoding.utf8)!)
+                body.append("\(value)\r\n".data(using: String.Encoding.utf8)!)
+            }
+        }
+        
+        let filename = filename
+        let mimetype = mimetype
+        
+        body.append("--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n".data(using: String.Encoding.utf8)!)
+        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: String.Encoding.utf8)!)
+        body.append(imageDataKey)
+        body.append("\r\n".data(using: String.Encoding.utf8)!)
+        
+        
+        
+        body.append("--\(boundary)--\r\n".data(using: String.Encoding.utf8)!)
+        
+        return body as Data
+    }
+    
+    func generateBoundaryString() -> String
+    {
+        return "Boundary-\(NSUUID().uuidString)"
     }
 }

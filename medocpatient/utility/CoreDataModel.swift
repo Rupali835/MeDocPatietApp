@@ -15,7 +15,7 @@ struct User {
     var age = "age"
     var gender = "gender"
     var email = "email"
-    
+    var patientid = "patientid"
     var bloodGroup = "bloodGroup"
     var weight = "weight"
     var height = "height"

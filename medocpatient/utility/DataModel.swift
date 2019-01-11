@@ -24,3 +24,11 @@ struct report : Decodable {
 struct reportdata: Decodable {
     
 }
+struct PrescriptionsGeneral: Decodable{
+    var msg: String?
+    var data: [PrescriptionsGeneralData]?
+}
+struct PrescriptionsGeneralData : Decodable{
+    var prescription_id: String?
+    var patientProblem: String?
+}

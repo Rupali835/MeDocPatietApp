@@ -13,18 +13,21 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
 
     @IBOutlet var tableview: UITableView!
     let searchController = UISearchController(searchResultsController: nil)
-    
-    var items : [Medicine] = []
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
+
+ //   var items : [Medicine] = []
     var notificationGranted = false
-    
+    var medicineData = NSArray()
+    var timeslot = [String]()
+    var took = false
+
     var timerDic = NSMutableDictionary()
     override func viewDidLoad() {
         super.viewDidLoad()
      //   SearchAction()
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reloadmedicine"), object: nil)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add
-            , target: self, action: #selector(add))
+      //  navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         
        
         UNUserNotificationCenter.current().cleanRepeatingNotifications()
@@ -116,42 +119,181 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
         } 
     }
     override func viewDidAppear(_ animated: Bool) {
-        fetchdata()
+       // fetchdata()
+        fetchmedicine()
     }
-    func fetchdata(){
-        let appdel = UIApplication.shared.delegate as! AppDelegate
-        let context = appdel.persistentContainer.viewContext
-        
-        do{
-            items = try context.fetch(Medicine.fetchRequest())
-            self.tableview.reloadData()
-        } catch {
-            
+    func fetchmedicine(){
+        SwiftLoader.show(title: "Fetch Medicines..", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "medicines", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        if let data = json.value(forKey: "data") as? NSArray{
+                            self.medicineData = data
+                            DispatchQueue.main.async {
+                                self.tableview.reloadData()
+                                SwiftLoader.hide()
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.view.showToast("No Medicine Found", position: .bottom, popTime: 5, dismissOnTap: true)
+                                SwiftLoader.hide()
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.view.showToast("No Medicine Found", position: .bottom, popTime: 5, dismissOnTap: true)
+                            SwiftLoader.hide()
+
+                        }
+                    }
+                }
+            } catch {
+                print("catch")
+                SwiftLoader.hide()
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
         }
     }
-    
+//    func fetchdata(){
+//        let appdel = UIApplication.shared.delegate as! AppDelegate
+//        let context = appdel.persistentContainer.viewContext
+//        
+//        do{
+//            items = try context.fetch(Medicine.fetchRequest())
+//            self.tableview.reloadData()
+//        } catch {
+//            
+//        }
+//    }
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return self.medicineData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
-        if items.count > 0 {
-            medicinecell.name.text = "Medicine Name: \(items[indexPath.row].name!)"
-            medicinecell.quantity.text = "Quantity: \(items[indexPath.row].quantity!)"
-            medicinecell.timeslot.text = "Time Slot: \(items[indexPath.row].timeslot!)"
-            medicinecell.repeattimeslot.text = "Repeat Time Slot: \(items[indexPath.row].repeattimeslot!) hr"
-            print(items[indexPath.row].took)
+        let d = medicineData.object(at: indexPath.row) as! NSDictionary
+        
+        let name = d.value(forKey: "medicine_name") as! String
+       
+        let before_bf = d.value(forKey: "before_bf") as! String
+        let before_bf_time = d.value(forKey: "before_bf_time") as! String
+//        if before_bf == "1"{
+//            if !self.timeslot.contains("Before \(before_bf_time) minute Of Breakfast"){
+//                self.timeslot.append("Before \(before_bf_time) minute Of Breakfast")
+//            }
+//        }
+        
+        let after_bf = d.value(forKey: "after_bf") as! String
+        let after_bf_time = d.value(forKey: "after_bf_time") as! String
+//        if after_bf == "1"{
+//            if !self.timeslot.contains("After \(after_bf_time) minute Of Breakfast"){
+//                self.timeslot.append("After \(after_bf_time) minute Of Breakfast")
+//            }
+//        }
+        
+        let before_lunch = d.value(forKey: "before_lunch") as! String
+        let before_lunch_time = d.value(forKey: "before_lunch_time") as! String
+//        if before_lunch == "1"{
+//            if !self.timeslot.contains("Before \(before_lunch_time) minute Of Lunch"){
+//                self.timeslot.append("Before \(before_lunch_time) minute Of Lunch")
+//            }
+//        }
+        
+        let after_lunch = d.value(forKey: "after_lunch") as! String
+        let after_lunch_time = d.value(forKey: "after_lunch_time") as! String
+//        if after_lunch == "1"{
+//            if !self.timeslot.contains("After \(after_lunch_time) minute Of Lunch"){
+//                self.timeslot.append("After \(after_lunch_time) minute Of Lunch")
+//            }
+//        }
+        
+        let before_dinner = d.value(forKey: "before_dinner") as! String
+        let before_dinner_time = d.value(forKey: "before_dinner_time") as! String
+//        if before_dinner == "1"{
+//            if !self.timeslot.contains("Before \(before_dinner_time) minute Of Dinner"){
+//                self.timeslot.append("Before \(before_dinner_time) minute Of Dinner")
+//            }
+//        }
+        
+        let after_dinner = d.value(forKey: "after_dinner") as! String
+        let after_dinner_time = d.value(forKey: "after_dinner_time") as! String
+//        if after_dinner == "1"{
+//            if !self.timeslot.contains("After \(after_dinner_time) minute Of Dinner"){
+//                self.timeslot.append("After \(after_dinner_time) minute Of Dinner")
+//            }
+//        }
+        
+        let interval_period = d.value(forKey: "interval_period") as! String
+        let interval_time = d.value(forKey: "interval_time") as! String
+        let interval_type = d.value(forKey: "interval_type") as! String
+        
+        switch interval_type {
+        case "1":
+            medicinecell.interval_type.text = "Type: Daily"
+            medicinecell.interval_period.text = "Period: \(interval_period) days"
+            medicinecell.interval_time.text = "";
+        case "2":
+            medicinecell.interval_type.text = "Type: Weekly"
+            medicinecell.interval_period.text = "Period: \(interval_period) weeks"
+            medicinecell.interval_time.text = "Time: \(interval_time) times";
+        case "3":
+            medicinecell.interval_type.text = "Type: Time interval"
+            medicinecell.interval_period.text = "Period: \(interval_period) days"
+            medicinecell.interval_time.text = "Time: \(interval_time) times";
+        default:
+            medicinecell.interval_type.text = "Type: NF"
+            medicinecell.interval_period.text = ""
+            medicinecell.interval_time.text = ""
         }
+        //sne9738uXm
+        medicinecell.name.text = "Medicine Name: \(name)"
+        
+        var breakfast = Int()
+        var lunch = Int()
+        var dinner = Int()
+        
+        breakfast = Int(before_bf)! + Int(after_bf)!
+        lunch = Int(before_lunch)! + Int(after_lunch)!
+        dinner = Int(before_dinner)! + Int(after_dinner)!
+        
+        if breakfast == 2{
+            breakfast = 1
+        }
+        if lunch == 2{
+            lunch = 1
+        }
+        if dinner == 2{
+            dinner = 1
+        }
+
+        //medicinecell.timeslot.text = "\(before_bf)-\(after_bf)-\(before_lunch)-\(after_lunch)-\(before_dinner)-\(after_dinner)"
+        medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
+
+       // medicinecell.timeslot.text = "\(self.timeslot.joined(separator: "-"))"
         
         if notificationGranted {
-            repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
+           // repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
         } else {
             print("notification not granted")
         }
-        for _ in 0...items.count{
+        for _ in 0...medicineData.count {
+            DispatchQueue.main.async {
+                Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(name)", buttontitle: "Taken", button2title: "Remind Me Later", ActionCompletion: {
+                    self.took = true
+                }) {
+                    self.took = false
+                    self.timerDic = ["msg":"-\(name)","took":self.took]
+                    Timer.scheduledTimer(timeInterval: 60 * 1, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
+                }
+            }
+        }
+      /*  for _ in 0...items.count{
             for i in items {
                 if items.count > 0{
                     if i.took == false {
@@ -205,7 +347,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                     }
                 }
             }
-        }
+        }*/
        
         return medicinecell
     }
@@ -215,10 +357,10 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             if took == false {
                 if let msg = timerDic["msg"] as? String {
                     Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: msg, buttontitle: "Took", button2title: "Remind Me Later", ActionCompletion: {
-                        took = true
+                        self.took = true
                     }) {
-                        took = false
-                        Timer.scheduledTimer(timeInterval: 60 * 5, target: self, selector: #selector(self.remind), userInfo: ["msg":msg], repeats: true)
+                        self.took = false
+                        Timer.scheduledTimer(timeInterval: 60 * 1, target: self, selector: #selector(self.remind), userInfo: ["msg":msg], repeats: true)
                     }
                 }
             } else {

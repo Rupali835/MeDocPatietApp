@@ -10,7 +10,7 @@ import UIKit
 import FSCalendar
 import CoreData
 import DBAttachmentPickerController
-
+import Alamofire
 class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
     //user
     @IBOutlet var BasicView: UIView!
@@ -22,6 +22,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var GenderSegment: UISegmentedControl!
     @IBOutlet var BloodGroupTF: UITextField!
     @IBOutlet var emailTF: UITextField!
+    @IBOutlet var PatientTF: UITextField!
+
     @IBOutlet var HeightTF: UITextField!
     @IBOutlet var WeightTF: UITextField!
     @IBOutlet var BloodPressureTF: UITextField!
@@ -150,11 +152,13 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var datestr3 = ""
     var datestr4 = ""
     var dict = NSDictionary()
-    
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
+    var urlpath = ""
+    var imagename = ""
+    var pdfurl = URL(string: "NF")!
     override func viewDidLoad() {
         super.viewDidLoad()
         Utilized()
-        SetupInterface()
         Save.addTarget(self, action: #selector(SaveAction), for: .touchUpInside)
         GenderSegment.addTarget(self, action: #selector(ChangeGender), for: .valueChanged)
         
@@ -172,8 +176,10 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
             } else {
                 self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
                     attachmentArray[0].loadOriginalImage(completion: { (image) in
+                        SwiftLoader.show(animated: true)
+                        self.imagename = attachmentArray[0].fileName!
                         self.imagesPicView.image = image
-                       // self.base64image = (self.imagesPicView.image?.toBase64())!
+                        SwiftLoader.hide()
                     })
                     
                 }, cancel: nil)
@@ -184,15 +190,14 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 self.APC.present(on: self)
             }
         }
-        
     }
     func fetchProfileDatail(){
         SwiftLoader.show(title: "Please Wait..", animated: true)
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 print(ApiServices.shared.data)
                 self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                let msg = self.dict.value(forKey: "msg") as! String
+                let msg = self.dict.value(forKey: "msg") as? String ?? ""
                 if msg == "success" {
                     if let data = self.dict.value(forKey: "data") as? NSDictionary {
                         print(data)
@@ -200,7 +205,9 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             SwiftLoader.show(title: "Loading..", animated: true)
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
-                               // self.imagesPicView.image = UIImage(data: imgdata!)
+                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(pp)")!
+                                print(url)
+                                self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
                             }
                             else {
                                 self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
@@ -221,7 +228,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             self.selectedGender = data.value(forKey: "gender") as? String ?? "0"
                             self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
                             self.emailTF.text = data.value(forKey: "email") as? String ?? ""
-
+                            self.PatientTF.text = data.value(forKey: "patient_id") as? String ?? ""
                            // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
                             self.HeightTF.text = data.value(forKey: "height") as? String ?? ""
                             //self.BloodPressureTF.text = data.value(forKey: "name") as? String ?? ""
@@ -250,45 +257,117 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             //pp
                             self.PP_NameTF.text = data.value(forKey: "personal_physician_name") as? String ?? ""
                             self.PP_NumberTF.text = data.value(forKey: "personal_physician_contact") as? String ?? ""
-                            self.PP_PolicyTF.text = data.value(forKey: "p_policy") as? String ?? ""
-                            self.PP_PolicyNumberTF.text = data.value(forKey: "p_policy_number") as? String ?? ""
+                            let p_policy = data.value(forKey: "p_policy") as? String ?? ""
+                            if p_policy == "NF"{
+                                self.PP_PolicyTF.text = ""
+                            }
+                            else {
+                                self.PP_PolicyTF.text = p_policy
+                            }
+                            let p_policy_Number = data.value(forKey: "p_policy_number") as? String ?? ""
+                            if p_policy_Number == "0"{
+                                self.PP_PolicyNumberTF.text = ""
+                            }
+                            else {
+                                self.PP_PolicyNumberTF.text = p_policy_Number
+                            }
                             //allergy
                             self.HaveAllergy = data.value(forKey: "allergy") as? String ?? "0"
                             
                             self.selectedfood = data.value(forKey: "food_alergy") as? String ?? "0"
-                            self.FoodAllergyTF.text = data.value(forKey: "food_allergy_details") as? String ?? ""
+                            let food_allergy_details = data.value(forKey: "food_allergy_details") as? String ?? ""
+                            if food_allergy_details == "NF"{
+                                self.FoodAllergyTF.text = ""
+                            } else {
+                                self.FoodAllergyTF.text = food_allergy_details
+                            }
                             
                             self.selectedmedicine = data.value(forKey: "medicine_alergy") as? String ?? "0"
-                            self.MedicinesAllergiesTF.text = data.value(forKey: "medicine_allergy_details") as? String ?? ""
+                            let medicine_allergy_details = data.value(forKey: "medicine_allergy_details") as? String ?? ""
+                            if medicine_allergy_details == "NF"{
+                                self.MedicinesAllergiesTF.text = ""
+                            } else {
+                                self.MedicinesAllergiesTF.text = medicine_allergy_details
+                            }
                             
                             self.selectedplants = data.value(forKey: "plants_allergy") as? String ?? "0"
-                            self.PlantsTF.text = data.value(forKey: "plants_allergy_details") as? String ?? ""
+                            let plants_allergy_details = data.value(forKey: "plants_allergy_details") as? String ?? ""
+                            if plants_allergy_details == "NF"{
+                                self.PlantsTF.text = ""
+                            } else {
+                                self.PlantsTF.text = plants_allergy_details
+                            }
                             
                             self.selectedinsects = data.value(forKey: "insects_allergy") as? String ?? "0"
-                            self.InsectsTF.text = data.value(forKey: "insects_allergy_details") as? String ?? ""
+                            let insects_allergy_details = data.value(forKey: "insects_allergy_details") as? String ?? ""
+                            if insects_allergy_details == "NF"{
+                                self.InsectsTF.text = ""
+                            } else {
+                                self.InsectsTF.text = insects_allergy_details
+                            }
                             
                             self.selectedother = data.value(forKey: "other_allergy") as? String ?? "0"
-                            self.otherAllergyTF.text = data.value(forKey: "other_allergy_details") as? String ?? ""
+                            let other_allergy_details = data.value(forKey: "other_allergy_details") as? String ?? ""
+                            if other_allergy_details == "NF"{
+                                self.otherAllergyTF.text = ""
+                            } else {
+                                self.otherAllergyTF.text = other_allergy_details
+                            }
                             //medical
                             self.selectedbp = data.value(forKey: "p_policy_number") as? String ?? "0"
-                            self.BPTF.text = data.value(forKey: "blood_pressure") as? String ?? ""
+                            let blood_pressure = data.value(forKey: "blood_pressure") as? String ?? ""
+                            if blood_pressure == "NF"{
+                                self.BPTF.text = ""
+                            } else {
+                                self.BPTF.text = blood_pressure
+                            }
                             
                             self.selecteddiebetes = data.value(forKey: "diabetes") as? String ?? "0"
-                            self.DiebetesTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            let diabetes_details = data.value(forKey: "diabetes_details") as? String ?? ""
+                            if diabetes_details == "NF"{
+                                self.DiebetesTF.text = ""
+                            } else {
+                                self.DiebetesTF.text = diabetes_details
+                            }
                             
                             self.selectedcancer = data.value(forKey: "cancer") as? String ?? "0"
-                            self.CancerTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            let cancer = data.value(forKey: "diabetes_details") as? String ?? ""
+                            if cancer == "NF"{
+                                self.CancerTF.text = ""
+                            } else {
+                                self.CancerTF.text = cancer
+                            }
                             
                             self.selectedheartdisease = data.value(forKey: "heart_desease") as? String ?? "0"
-                            self.HeartDiseaseTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            let heart_desease = data.value(forKey: "diabetes_details") as? String ?? ""
+                            if heart_desease == "NF"{
+                                self.HeartDiseaseTF.text = ""
+                            } else {
+                                self.HeartDiseaseTF.text = heart_desease
+                            }
                             
                             self.selectedleukemia = data.value(forKey: "lukemia") as? String ?? "0"
-                            self.LeukemiaTF.text = data.value(forKey: "diabetes_details") as? String ?? ""
+                            let lukemia = data.value(forKey: "diabetes_details") as? String ?? ""
+                            if lukemia == "NF"{
+                                self.LeukemiaTF.text = ""
+                            } else {
+                                self.LeukemiaTF.text = lukemia
+                            }
                             
                             self.selectedrestriction = data.value(forKey: "physical_activity_restriction") as? String ?? "0"
-                            self.RestrictionTF.text = data.value(forKey: "physical_activity_restriction_details") as? String ?? ""
+                            let physical_activity_restriction_details = data.value(forKey: "physical_activity_restriction_details") as? String ?? ""
+                            if physical_activity_restriction_details == "NF"{
+                                self.RestrictionTF.text = ""
+                            } else {
+                                self.RestrictionTF.text = physical_activity_restriction_details
+                            }
                             
-                            self.ExplanationTF.text = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
+                            let recent_medical_condition_details = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
+                            if recent_medical_condition_details == "NF"{
+                                self.ExplanationTF.text = ""
+                            } else {
+                                self.ExplanationTF.text = recent_medical_condition_details
+                            }
                             //last vaccination done
                             let data1 = data.value(forKey: "last_tetanus_date") as? String ?? ""
                             self.tetanusSelectedDate.text = data1
@@ -305,6 +384,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             DispatchQueue.main.async {
                                 // self.retrivedata()
                                 self.yesORnoActionInsideAllergyView()
+                                self.SetupInterface()
+
                                 SwiftLoader.hide()
                             }
                         }
@@ -325,7 +406,11 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        fetchProfileDatail()
+        if Reachability.isConnectedToNetwork() == true {
+            fetchProfileDatail()
+        } else {
+            //retrivedata()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
     }
@@ -401,29 +486,20 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
     @objc func SaveAction(){
       //  savedata()
-        updateProfileDetails()
+       // updateProfileDetails()
+        sendData()
     }
-    func updateProfileDetails(){
+    func sendData()
+    {
         SwiftLoader.show(title: "Updating...", animated: true)
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", parameter: "", onSuccessCompletion: {
-            do {
-                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
-                print(json)
-            } catch {
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
-                print("catch")
-            }
-        }) { () -> (Dictionary<String, Any>) in
+
+        let param : [String: Any] =
+            
             [
                 "name": self.NameTF.text!,
                 "email": self.emailTF.text!,
-                "profile_picture": "",
                 "contact_no": self.MobileNumberTF.text!,
+                "profile_picture":self.imagename,
                 "alt_contact_no": "",
                 "gender": self.selectedGender,
                 "dob": self.DateOfBirthTF.text!,
@@ -476,9 +552,25 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 "last_polio_date": self.polioSelectedDate.text!,
                 "last_diptheria_date": self.diphtheriaSelectedDate.text!,
                 "last_mumps_date": self.mumpsSelectedDate.text!
-            ]
+        ]
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", parameter: param, bearertoken: bearertoken!, image: self.imagesPicView, filename: self.imagename, filePathKey: "profile_file", pdfurl: pdfurl, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }//Documents4CD73DA9-9674-4469-9A59-ABAE7E75D373.jpeg
+                print(json)
+            } catch {
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
         }
     }
+    
     @objc func ChangeGender(){
         if GenderSegment.selectedSegmentIndex == 0{
             selectedGender = "0"
@@ -1098,3 +1190,52 @@ extension ProfilePageViewController { //coredata save and retrive
         }
     }
 }
+
+/*  let url = ApiServices.shared.baseUrl + "patienteditprofile"
+ let imgData = imagesPicView.image?.jpegData(compressionQuality: 0.2)
+ 
+ Alamofire.UploadRequest(multipartFormData: { multipartFormData in
+ multipartFormData.append(imgData, withName: "profile_picture",fileName: self.imagename, mimeType: "image/jpg")
+ for (key, value) in param {
+ multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
+ } //Optional for extra parameters
+ },
+ to:url)
+ { (result) in
+ switch result {
+ case .success(let upload, _, _):
+ 
+ upload.uploadProgress(closure: { (progress) in
+ print("Upload Progress: \(progress.fractionCompleted)")
+ })
+ 
+ upload.responseJSON { response in
+ 
+ self.objHudHide()
+ print(response.result.value)
+ 
+ let jsonDict : NSDictionary = response.result.value as! NSDictionary
+ 
+ print(jsonDict)
+ if  jsonDict["msg"] as! String == "Success"
+ {
+ print("success")
+ }
+ else
+ {
+ 
+ let alertViewController = UIAlertController(title: NSLocalizedString("Alert!", comment: ""), message:"Something Went wrong please try again." , preferredStyle: .alert)
+ let okAction = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) { (action) -> Void in
+ 
+ }
+ alertViewController.addAction(okAction)
+ self.present(alertViewController, animated: true, completion: nil)
+ 
+ 
+ }
+ }
+ 
+ case .failure(let encodingError):
+ print(encodingError)
+ }
+ }*/

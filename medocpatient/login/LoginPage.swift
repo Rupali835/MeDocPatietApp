@@ -55,7 +55,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             SwiftLoader.hide()
         }
     }
-    func savedata(name: String,gender: Int,email: String,contact: String){
+    func savedata(name: String,gender: String,email: String,contact: String){
         let managedobject = self.appdel.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Profile", in: managedobject)
         
@@ -105,14 +105,24 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     UserDefaults.standard.set(pid, forKey: "Patient_id")
                     UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
                     
-                    self.savedata(name: name, gender: Int(gender)!, email: email, contact: contact_no)
-                    
                     UserDefaults.standard.synchronize()
-                    DispatchQueue.main.async {
-                        self.appdel.RootPatientHomeVC()
-                        SwiftLoader.hide()
-                        self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                    self.savedata(name: name, gender: gender, email: email, contact: contact_no)
+                    
+                    let bearertokenget = UserDefaults.standard.string(forKey: "bearertoken")
+
+                    if let bt = bearertokenget {
+                        if bt == bearertoken {
+                            DispatchQueue.main.async {
+                                self.appdel.RootPatientHomeVC()
+                                SwiftLoader.hide()
+                                self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                            }
+                        } else {
+                            print(bt)
+                            print("nil Bearer token")
+                        }
                     }
+                    
                 }
                 else if msg == "User not registered"{
                     DispatchQueue.main.async {
@@ -143,12 +153,15 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         else if (PasswordTextField.text?.isEmpty)! {
             self.view.showToast("Enter \(PasswordTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
         }
-        else if (self.PatientTextField.text?.contains(find: "@"))! {
+       /* else if (self.PatientTextField.text?.contains(find: "@"))! {
             if (self.PatientTextField.text?.isValidEmail())! && (self.PasswordTextField.text?.isValidPassword())! {
                 login()
             }
         }
         else if PatientTextField.text?.isEmpty == false && (self.PasswordTextField.text?.isValidPassword())! {
+            login()
+        }*/
+        else{
             login()
         }
     }

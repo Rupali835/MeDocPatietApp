@@ -9,16 +9,17 @@
 import UIKit
 import CoreData
 
-class PatientHomePageViewController: UIViewController {
-
+class PatientHomePageViewController: UIViewController{
+    
     @IBOutlet var tableview: UITableView!
     @IBOutlet var imagesPicView: UIImageView!
     @IBOutlet var Name: UILabel!
     @IBOutlet var DateOfBirth: UILabel!
     @IBOutlet var Gender: UILabel!
     
-    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "organization.png"),#imageLiteral(resourceName: "blood.png"),#imageLiteral(resourceName: "question.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Promotion","Appointment","FAQ"]
+    
+    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     override func viewDidLoad(){
@@ -47,6 +48,7 @@ class PatientHomePageViewController: UIViewController {
     @objc func LogoutAction(){
         DispatchQueue.main.async {
             UserDefaults.standard.set(false, forKey: "Logged")
+            UserDefaults.standard.set("nil", forKey: "bearertoken")
             UserDefaults.standard.synchronize()
             self.appdel.SwitchLogin()
         }
@@ -96,13 +98,13 @@ class PatientHomePageViewController: UIViewController {
                 } else {
                     self.DateOfBirth.text =  dob
                 }
-                let gender = data.value(forKey: user.gender) as? Int ?? 4
+                let gender = data.value(forKey: user.gender) as? String ?? "4"
                 switch gender {
-                    case 0:
+                    case "0":
                         self.Gender.text = "Male";
-                    case 1:
+                    case "1":
                         self.Gender.text = "Female";
-                    case 2:
+                    case "2":
                         self.Gender.text = "Other";
                     default:
                         self.Gender.text = "Gender";
@@ -171,7 +173,7 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             qrvc.navigationItem.title = titles[indexPath.row]
             self.navigationController?.pushViewController(qrvc, animated: true)
         }
-        else if indexPath.row == 5{
+        /*else if indexPath.row == 5{
             let Promotionvc = self.storyboard?.instantiateViewController(withIdentifier: "PromotionViewController") as! PromotionViewController
             Promotionvc.navigationItem.largeTitleDisplayMode = .never
             Promotionvc.navigationItem.title = titles[indexPath.row]
@@ -182,8 +184,14 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             Appointmentvc.navigationItem.largeTitleDisplayMode = .never
             Appointmentvc.navigationItem.title = titles[indexPath.row]
             self.navigationController?.pushViewController(Appointmentvc, animated: true)
+        }*/
+        else if indexPath.row == 5{
+            let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
+            Healthvc.navigationItem.largeTitleDisplayMode = .never
+            Healthvc.navigationItem.title = titles[indexPath.row]
+            self.navigationController?.pushViewController(Healthvc, animated: true)
         }
-        else if indexPath.row == 7{
+        else if indexPath.row == 6{
             let FAQvc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
             FAQvc.navigationItem.largeTitleDisplayMode = .never
             FAQvc.navigationItem.title = titles[indexPath.row]
