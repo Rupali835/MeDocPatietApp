@@ -175,9 +175,9 @@ class RegisterViewController: UIViewController{
         else if self.EmailTF.text?.isValidEmail() == false{
             self.view.showToast("Invalid Email", position: .bottom, popTime: 3, dismissOnTap: true)
         }
-        else if self.NumberTF.text?.isValidIndianContact == false{
-            self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
-        }
+//        else if self.NumberTF.text?.isValidIndianContact == false{
+//            self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
+//        }
         else if self.NumberTF.text?.count != 10{
             self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
         }
@@ -188,7 +188,7 @@ class RegisterViewController: UIViewController{
             self.view.showToast("Not Matched With Password", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         //check all validation
-        else if (self.EmailTF.text?.isValidEmail())! && (self.PasswordTF.text?.isValidPassword())! && (self.NumberTF.text?.isValidIndianContact)! {
+        else if (self.EmailTF.text?.isValidEmail())! && (self.PasswordTF.text?.isValidPassword())!{ //&& (self.NumberTF.text?.isValidIndianContact)! {
             
             if HaveIDselected == 0{
                 //with patient id
@@ -239,23 +239,24 @@ class RegisterViewController: UIViewController{
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
-                let msg = json.value(forKey: "msg") as! String
+                let msg = json.value(forKey: "msg") as? String
                 
                 if msg == "success"{
                     DispatchQueue.main.async {
-                        let data = json.value(forKey: "data") as! NSDictionary
-                        let name = data.value(forKey: "name") as! String
-                        let contact_no = data.value(forKey: "contact_no") as! String
-                        let email = data.value(forKey: "email") as! String
-                        let gender = data.value(forKey: "gender") as! String
-                        
-                        self.FullNameTF.text = name
-                        self.EmailTF.text = email
-                        self.NumberTF.text = contact_no
-                        self.GenderSegment.selectedSegmentIndex = Int(gender)!
-                        
-                        SwiftLoader.hide()
-                        self.maximizeHeight(objects: [self.signupView], heightContantOutlet: [self.HeightofSignupview],constant: 400)
+                        if let data = json.value(forKey: "data") as? NSDictionary {
+                            let name = data.value(forKey: "name") as? String ?? ""
+                            let contact_no = data.value(forKey: "contact_no") as? String ?? ""
+                            let email = data.value(forKey: "email") as? String ?? ""
+                            let gender = data.value(forKey: "gender") as? String ?? "0"
+                            
+                            self.FullNameTF.text = name
+                            self.EmailTF.text = email
+                            self.NumberTF.text = contact_no
+                            self.GenderSegment.selectedSegmentIndex = Int(gender)!
+                            
+                            SwiftLoader.hide()
+                            self.maximizeHeight(objects: [self.signupView], heightContantOutlet: [self.HeightofSignupview],constant: 400)
+                        }
                     }
                 }
                 else if msg == "Patient Id invalid"{

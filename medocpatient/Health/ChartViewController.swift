@@ -7,12 +7,24 @@
 //
 
 import UIKit
-
+import Charts
 class ChartViewController: UIViewController {
+    
+    @IBOutlet weak var lineviewChart: LineChartView!
+    weak var axisFormatDelegate: IAxisValueFormatter?
+
+    
+    
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+    let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLineChart()
+      //  setLineChart()
+        axisFormatDelegate = self
+
+        setChart(dataPoints: months, values: unitsSold)
+        
         // Do any additional setup after loading the view.
     }
     private func setLineChart() -> PNLineChart {
@@ -41,5 +53,26 @@ class ChartViewController: UIViewController {
         lineChart.showLabel = true
        // self.view.addSubview(lineChart)
         return lineChart
+    }
+    func setChart(dataPoints: [String], values: [Double]) {
+        
+        var dataEntries: [ChartDataEntry] = []
+        
+        for i in 0..<dataPoints.count {
+            let dataEntry = ChartDataEntry(x: Double(i), y: values[i], data: dataPoints as AnyObject)
+            dataEntries.append(dataEntry)
+        }
+        
+        let lineChartDataSet = LineChartDataSet(values: dataEntries, label: "Units Sold")
+        let lineChartData = LineChartData(dataSet: lineChartDataSet)
+        lineviewChart.data = lineChartData
+        let xAxisValue = lineviewChart.xAxis
+        xAxisValue.valueFormatter = axisFormatDelegate
+    }
+}
+extension ChartViewController: IAxisValueFormatter {
+    
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return months[Int(value)]
     }
 }

@@ -94,13 +94,13 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reportcell = tableView.dequeueReusableCell(withIdentifier: "ReportCell") as! ReportTableViewCell
         let d = reportdata.object(at: indexPath.row) as! NSDictionary
-        let image = d.value(forKey: "image_name") as? String
-        let tag = d.value(forKey: "tag") as! String
-        let created_at = d.value(forKey: "created_at") as! String
-        let prescription_id = d.value(forKey: "prescription_id") as! String
+        let image = d.value(forKey: "image_name") as? String ?? ""
+        let tag = d.value(forKey: "tag") as? String ?? ""
+        let created_at = d.value(forKey: "created_at") as? String ?? ""
+        let prescription_id = d.value(forKey: "prescription_id") as? String ?? ""
 
         reportcell.pre.text = "Selected Prescription: \(prescription_id)"
-        let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(image!)")!
+        let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(image)")!
         print(url)
         reportcell.images.sd_setImage(with: url, placeholderImage: nil, options: .continueInBackground, completed: nil)
         reportcell.remark.text = "About Report: \(tag)"

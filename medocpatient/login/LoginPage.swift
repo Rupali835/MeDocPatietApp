@@ -5,7 +5,7 @@
 //  Created by Prem Sahni on 08/12/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
 //
-
+//Dev01547443972
 import UIKit
 import SkyFloatingLabelTextField
 import CoreData
@@ -87,42 +87,42 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                 }
                 
                 if msg == "success"{
-                    let data = json.value(forKey: "data") as! NSDictionary
-                    let bearertoken = json.value(forKey: "token") as! String
-                    
-                    let contact_no = data.value(forKey: "contact_no") as! String
-                    let email = data.value(forKey: "email") as! String
-                    //let guid = data.value(forKey: "guid") as! String
-                    let name = data.value(forKey: "name") as! String
-                    let pid = data.value(forKey: "patient_id") as! String
-                    let gender = data.value(forKey: "gender") as! String
-                    UserDefaults.standard.set(true, forKey: "Logged")
-                    
-                    UserDefaults.standard.set(contact_no, forKey: "contact_no")
-                    UserDefaults.standard.set(email, forKey: "email")
-                    //UserDefaults.standard.set(guid, forKey: "guid")
-                    UserDefaults.standard.set(name, forKey: "name")
-                    UserDefaults.standard.set(pid, forKey: "Patient_id")
-                    UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
-                    
-                    UserDefaults.standard.synchronize()
-                    self.savedata(name: name, gender: gender, email: email, contact: contact_no)
-                    
-                    let bearertokenget = UserDefaults.standard.string(forKey: "bearertoken")
-
-                    if let bt = bearertokenget {
-                        if bt == bearertoken {
-                            DispatchQueue.main.async {
-                                self.appdel.RootPatientHomeVC()
-                                SwiftLoader.hide()
-                                self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                    if let data = json.value(forKey: "data") as? NSDictionary{
+                        let bearertoken = json.value(forKey: "token") as! String
+                        
+                        let contact_no = data.value(forKey: "contact_no") as! String
+                        let email = data.value(forKey: "email") as? String ?? ""
+                        //let guid = data.value(forKey: "guid") as! String
+                        let name = data.value(forKey: "name") as! String
+                        let pid = data.value(forKey: "patient_id") as! String
+                        let gender = data.value(forKey: "gender") as! String
+                        UserDefaults.standard.set(true, forKey: "Logged")
+                        
+                        UserDefaults.standard.set(contact_no, forKey: "contact_no")
+                        UserDefaults.standard.set(email, forKey: "email")
+                        //UserDefaults.standard.set(guid, forKey: "guid")
+                        UserDefaults.standard.set(name, forKey: "name")
+                        UserDefaults.standard.set(pid, forKey: "Patient_id")
+                        UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
+                        
+                        UserDefaults.standard.synchronize()
+                        self.savedata(name: name, gender: gender, email: email, contact: contact_no)
+                        
+                        let bearertokenget = UserDefaults.standard.string(forKey: "bearertoken")
+                        
+                        if let bt = bearertokenget {
+                            if bt == bearertoken {
+                                DispatchQueue.main.async {
+                                    self.appdel.RootPatientHomeVC()
+                                    SwiftLoader.hide()
+                                    self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                                }
+                            } else {
+                                print(bt)
+                                print("nil Bearer token")
                             }
-                        } else {
-                            print(bt)
-                            print("nil Bearer token")
                         }
                     }
-                    
                 }
                 else if msg == "User not registered"{
                     DispatchQueue.main.async {

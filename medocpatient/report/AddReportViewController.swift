@@ -70,16 +70,35 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         print("report_file:\(self.path)")
         let param = [
             "prescription_id": self.selectedPrescription,
-            "image_name":self.Filetitle.text!,
             "tag":self.textfield.text!,
         ]
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "reportstore", parameter: param, bearertoken: bearertoken!, image: self.imagesPicView, filename: self.Filetitle.text!, filePathKey: "report_file", pdfurl: pdfurl, onSuccessCompletion: {
+        SwiftLoader.show(title: "adding image", animated: true)
+
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["image_name":self.Filetitle.text!], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
                 }
-                print(json)
+                print("image\(json)")
+            } catch {
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("image catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
+        }
+        SwiftLoader.show(title: "adding data", animated: true)
+
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "reportstore", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("\(json)")
             } catch {
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
@@ -87,14 +106,14 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 print("catch")
             }
         }) { () -> (Dictionary<String, Any>) in
-            [:]
+            param
         }
     }
     @objc func doneAction(){
-        if (selectPrescription.titleLabel?.text)! == "Select Prescription Of Report"{
-            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
-        }
-        else if Filetitle.text == ""{
+//        if (selectPrescription.titleLabel?.text)! == "Select Prescription Of Report"{
+//            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
+//        }
+        if Filetitle.text == ""{
             view.showToast("not selected images", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else if (textfield.text?.isEmpty)! {
@@ -126,7 +145,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 self.prescriptionsgeneral = [decode]
                 DispatchQueue.global(qos: .userInteractive).async {
                     for item in self.prescriptionsgeneral {
-                        self.prescriptionsgeneraldata = item.data!
+                        self.prescriptionsgeneraldata = item.data ?? [PrescriptionsGeneralData]()
                     }
                     for item in self.prescriptionsgeneraldata{
                         self.idarray.append(item.prescription_id!)
@@ -164,7 +183,9 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     @objc func addPrescription(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
         vc.status = "1"
-        
+        if self.prescriptionsgeneraldata.count == 0{
+            self.view.showToast("No Prescription Found", position: .top, popTime: 5, dismissOnTap: true)
+        }
         dropdown.show()
         dropdown.selectionAction = { [unowned self] (index: Int, item: String) in
             self.selectPrescription.setTitle(item, for: .normal)
@@ -193,7 +214,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                         self.Filetitle.text = attachmentArray[0].fileName
                         attachmentArray[0].loadOriginalImage(completion: { (image) in
                             self.imagesPicView.image = image
-                            
+                            self.pdfurl = URL(string: "NF")!
                         })
                         
                     }, cancel: nil)

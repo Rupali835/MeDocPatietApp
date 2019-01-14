@@ -11,6 +11,7 @@ import FSCalendar
 import CoreData
 import DBAttachmentPickerController
 import Alamofire
+import SkyFloatingLabelTextField
 class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
     //user
     @IBOutlet var BasicView: UIView!
@@ -53,6 +54,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var SecondEC_RelationshipTF: UITextField!
     @IBOutlet var SecondEC_NumberTF: UITextField!
     //personal physician
+
     @IBOutlet var MIPView: UIView!
     @IBOutlet var PP_NameTF: UITextField! //PP: Personal Physician
     @IBOutlet var PP_NumberTF: UITextField!
@@ -117,7 +119,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var Declare: UIButton!
     @IBOutlet var Save: UIButton!
     var checked = Bool(true)
-    
+    var edit = Bool(false)
     var selectedGender = "0"
     var HaveAllergy = "0"
     var selectedfood = "0"
@@ -156,6 +158,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var urlpath = ""
     var imagename = ""
     var pdfurl = URL(string: "NF")!
+    var editbutton = UIBarButtonItem()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Utilized()
@@ -167,7 +171,39 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         cancel.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         fscalendar.backgroundColor = UIColor.groupTableViewBackground
         addProfileImage.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
+        editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
+        self.navigationItem.rightBarButtonItem = editbutton
+        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,PatientTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
+        
+        self.addProfileImage.isUserInteractionEnabled = false
+        self.GenderSegment.isUserInteractionEnabled = false
+        self.editAllTextfield(bool: false, objects: alltf as! [SkyFloatingLabelTextField])
        // Do any additional setup after loading the view.
+    }
+    @objc func EditableandNonEditable(){
+        if edit == false{
+            self.edit = true
+            self.editbutton.title = "Done"
+            let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
+            self.addProfileImage.isUserInteractionEnabled = true
+            self.GenderSegment.isUserInteractionEnabled = true
+            self.editAllTextfield(bool: true, objects: alltf as! [SkyFloatingLabelTextField])
+        } else {
+            self.edit = false
+            self.editbutton.title = "Edit"
+            let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,PatientTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
+            
+            self.addProfileImage.isUserInteractionEnabled = false
+            self.GenderSegment.isUserInteractionEnabled = false
+            self.editAllTextfield(bool: false, objects: alltf as! [SkyFloatingLabelTextField])
+        }
+    }
+    func editAllTextfield(bool: Bool,objects: [SkyFloatingLabelTextField]){
+        DispatchQueue.main.async {
+            for object in objects{
+                object.isUserInteractionEnabled = bool
+            }
+        }
     }
     @objc func addAttachmentAction(){
         PHPhotoLibrary.requestAuthorization { (status) in
@@ -314,7 +350,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                                 self.otherAllergyTF.text = other_allergy_details
                             }
                             //medical
-                            self.selectedbp = data.value(forKey: "p_policy_number") as? String ?? "0"
+                            self.selectedbp = data.value(forKey: "diabetes") as? String ?? "0"
                             let blood_pressure = data.value(forKey: "blood_pressure") as? String ?? ""
                             if blood_pressure == "NF"{
                                 self.BPTF.text = ""
@@ -383,7 +419,6 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                            // self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
                             DispatchQueue.main.async {
                                 // self.retrivedata()
-                                self.yesORnoActionInsideAllergyView()
                                 self.SetupInterface()
 
                                 SwiftLoader.hide()
@@ -392,7 +427,6 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                     }
                 }
                 DispatchQueue.main.sync {
-                    UIScrollView().reloadInputViews()
                     SwiftLoader.hide()
                 }
             } catch {
@@ -491,7 +525,6 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
     func sendData()
     {
-        SwiftLoader.show(title: "Updating...", animated: true)
 
         let param : [String: Any] =
             
@@ -499,7 +532,6 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 "name": self.NameTF.text!,
                 "email": self.emailTF.text!,
                 "contact_no": self.MobileNumberTF.text!,
-                "profile_picture":self.imagename,
                 "alt_contact_no": "",
                 "gender": self.selectedGender,
                 "dob": self.DateOfBirthTF.text!,
@@ -553,13 +585,36 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 "last_diptheria_date": self.diphtheriaSelectedDate.text!,
                 "last_mumps_date": self.mumpsSelectedDate.text!
         ]
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", parameter: param, bearertoken: bearertoken!, image: self.imagesPicView, filename: self.imagename, filePathKey: "profile_file", pdfurl: pdfurl, onSuccessCompletion: {
+       
+        SwiftLoader.show(title: "Updating data", animated: true)
+
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }//Documents4CD73DA9-9674-4469-9A59-ABAE7E75D373.jpeg
-                print(json)
+                if let msg = json.value(forKey: "msg") as? String {
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        
+                        if msg == "success"{
+                            self.uploadimage()
+                        }
+                    }
+                }
+                if let error = json.value(forKey: "error") as? NSDictionary{
+                    DispatchQueue.main.async {
+                        if let email = error.value(forKey: "email") as? [String]{
+                            self.view.showToast(email.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                        }
+                        else if let contact_no = error.value(forKey: "contact_no") as? [String]{
+                            self.view.showToast(contact_no.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                        }
+                        else if let name = error.value(forKey: "name") as? [String]{
+                            self.view.showToast(name.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                        }
+                    }
+                }
+                
+                print("json-\(json)")
             } catch {
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
@@ -567,10 +622,31 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 print("catch")
             }
         }) { () -> (Dictionary<String, Any>) in
+            param
+        }
+    }
+    func uploadimage(){
+        // ["profile_picture":self.imagename]
+        SwiftLoader.show(title: "Updating image", animated: true)
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print("image-\(json)")
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                
+            } catch {
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("image catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
             [:]
         }
     }
-    
+   
     @objc func ChangeGender(){
         if GenderSegment.selectedSegmentIndex == 0{
             selectedGender = "0"
@@ -654,19 +730,21 @@ extension ProfilePageViewController {//setupinterface
             self.allergyView.isHidden = true
         }
         
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
+        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .normal)
+        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .selected)
         GenderSegment.tintColor = UIColor.clear
-        GenderSegment.backgroundColor = UIColor.clear
-        
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)], for: .normal)
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)], for: .selected)
+        GenderSegment.backgroundColor = UIColor.groupTableViewBackground
+        //4CAF50
+        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .normal)
+        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .selected)
         AllergySegment.tintColor = UIColor.clear
-        AllergySegment.backgroundColor = UIColor.clear
+        AllergySegment.backgroundColor = UIColor.groupTableViewBackground
         
         AllergySegment.addTarget(self, action: #selector(AllergySegmentValue), for: .valueChanged)
        // Declare.addTarget(self, action: #selector(DeclareAction), for: .touchUpInside)
         minimize()
+        
+        yesORnoActionInsideAllergyView()
     }
     func minimize(){
         minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfBPTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
@@ -988,7 +1066,7 @@ extension ProfilePageViewController { //button action
         }
     }
 }
-extension ProfilePageViewController { //coredata save and retrive
+/*extension ProfilePageViewController { //coredata save and retrive
     
     func savedata(){
         let managedobject = self.appdel.persistentContainer.viewContext
@@ -1189,7 +1267,7 @@ extension ProfilePageViewController { //coredata save and retrive
             print("failed")
         }
     }
-}
+}*/
 
 /*  let url = ApiServices.shared.baseUrl + "patienteditprofile"
  let imgData = imagesPicView.image?.jpegData(compressionQuality: 0.2)
