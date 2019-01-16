@@ -8,13 +8,13 @@
 
 import UIKit
 import Charts
+
 class ChartViewController: UIViewController {
     
     @IBOutlet weak var lineviewChart: LineChartView!
     weak var axisFormatDelegate: IAxisValueFormatter?
-
-    
-    
+    @IBOutlet var tableview: UITableView!
+    var selectedtitle = ""
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
     let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
     
@@ -22,7 +22,7 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
       //  setLineChart()
         axisFormatDelegate = self
-
+        tableview.tableFooterView = UIView(frame: .zero)
         setChart(dataPoints: months, values: unitsSold)
         
         // Do any additional setup after loading the view.
@@ -75,4 +75,51 @@ extension ChartViewController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return months[Int(value)]
     }
+}
+extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let showdatacell = tableView.dequeueReusableCell(withIdentifier: "ShowDataCell") as! ShowDataTableViewCell
+        if selectedtitle == "Blood Pressure"{
+            showdatacell.firstdata.text = "Systolic: \(120)"
+            showdatacell.seconddata.text = "Diastolic: \(80)"
+            let fmt = DateFormatter()
+            fmt.dateFormat = "dd/MM/yyyy"
+            let date = fmt.string(from: Date())
+            showdatacell.date.text = "Date: \(date)"
+        }
+        else if selectedtitle == "Height"{
+            showdatacell.firstdata.text = "\(selectedtitle): \(150) Cm"
+            showdatacell.seconddata.text = ""
+            let fmt = DateFormatter()
+            fmt.dateFormat = "dd/MM/yyyy"
+            let date = fmt.string(from: Date())
+            showdatacell.date.text = "Date: \(date)"
+        }
+        else if selectedtitle == "Weight"{
+            showdatacell.firstdata.text = "\(selectedtitle): \(60.5) Kg"
+            showdatacell.seconddata.text = ""
+            let fmt = DateFormatter()
+            fmt.dateFormat = "dd/MM/yyyy"
+            let date = fmt.string(from: Date())
+            showdatacell.date.text = "Date: \(date)"
+        }
+        else if selectedtitle == "Temperature"{
+            showdatacell.firstdata.text = "\(selectedtitle): \(120)"
+            showdatacell.seconddata.text = ""
+            let fmt = DateFormatter()
+            fmt.dateFormat = "dd/MM/yyyy"
+            let date = fmt.string(from: Date())
+            showdatacell.date.text = "Date: \(date)"
+        }
+        else {
+            print("none")
+        }
+        
+        return showdatacell
+    }
+    
 }

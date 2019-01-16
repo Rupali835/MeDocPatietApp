@@ -93,16 +93,32 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reportcell = tableView.dequeueReusableCell(withIdentifier: "ReportCell") as! ReportTableViewCell
+        reportcell.accessoryType = .disclosureIndicator
         let d = reportdata.object(at: indexPath.row) as! NSDictionary
-        let image = d.value(forKey: "image_name") as? String ?? ""
         let tag = d.value(forKey: "tag") as? String ?? ""
         let created_at = d.value(forKey: "created_at") as? String ?? ""
         let prescription_id = d.value(forKey: "prescription_id") as? String ?? ""
-
+        if let image = d.value(forKey: "image_name") as? String{
+            print("image-\(image)")
+            if image.contains(find: "["){
+                reportcell.images.image = #imageLiteral(resourceName: "placeholder.jpg")
+                if image.contains(find: "[{") {
+                    let substr = image.slice(from: ":\"", to: "\",")
+                    let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)")!
+                    print("substrurl-\(url)")
+                    reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
+                }
+            }
+            else if image.contains(find: ".pdf"){
+                reportcell.images.image = #imageLiteral(resourceName: "placeholder--pdf.png")
+            }
+            else {
+                let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(image)")!
+                print(url)
+                reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
+            }
+        }
         reportcell.pre.text = "Selected Prescription: \(prescription_id)"
-        let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(image)")!
-        print(url)
-        reportcell.images.sd_setImage(with: url, placeholderImage: nil, options: .continueInBackground, completed: nil)
         reportcell.remark.text = "About Report: \(tag)"
         reportcell.date.text = "date: \(created_at)"
 
@@ -118,16 +134,25 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let d = reportdata.object(at: indexPath.row) as! NSDictionary
-        let image = d.value(forKey: "image_name") as? String
-        let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(image!)")
-        let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
-        let urlRequest = URLRequest(url: url!)
-        webView.navigationDelegate = self
-        webView.load(urlRequest)
-        
-        let pdfVC = UIViewController()
-        pdfVC.view.addSubview(webView)
-        self.navigationController?.pushViewController(pdfVC, animated: true)
+        if let image = d.value(forKey: "image_name") as? String{
+            var urlstr = ""
+            if image.contains(find: "[{") {
+                let substr = image.slice(from: ":\"", to: "\",")
+                urlstr = "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)"
+            }
+            else {
+                urlstr = "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(image)"
+            }
+            
+            let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
+            let urlRequest = URLRequest(url: URL(string: urlstr)!)
+            webView.navigationDelegate = self
+            webView.load(urlRequest)
+            
+            let pdfVC = UIViewController()
+            pdfVC.view.addSubview(webView)
+            self.navigationController?.pushViewController(pdfVC, animated: true)
+        }
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {

@@ -45,7 +45,7 @@ class QRViewController: UIViewController {
         print(text)
         
         let dec = decrypt(hexString: hex)
-        uniqueCode.text = "Patient ID : \(dec!)"
+        uniqueCode.text = ""//"Patient ID : \(dec!)"
         
         
         // Do any additional setup after loading the view.

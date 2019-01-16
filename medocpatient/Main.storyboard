@@ -543,7 +543,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="88y-rx-FDD" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="0.0" y="45" width="304" height="40"/>
@@ -561,13 +561,13 @@
                                                         <rect key="frame" x="0.0" y="166.5" width="304" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" secureTextEntry="YES"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="onX-R4-wMT" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="0.0" y="211.5" width="304" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" secureTextEntry="YES"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YCl-Zu-ld1">
                                                         <rect key="frame" x="77" y="261.5" width="227" height="29"/>
@@ -1201,31 +1201,87 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIc-NM-AAJ">
-                                                    <rect key="frame" x="8" y="5" width="304" height="97.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <rect key="frame" x="113" y="5" width="199" height="49"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQL-iX-NGT">
-                                                    <rect key="frame" x="8" y="107.5" width="289" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="113" y="59" width="184" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q0y-Gv-ggF">
+                                                    <rect key="frame" x="8" y="5" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="ApW-XW-29e"/>
+                                                        <constraint firstAttribute="height" constant="100" id="kQj-oA-M7d"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="0dI-Wr-AeE">
+                                                    <rect key="frame" x="113" y="82" width="184" height="41"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="30Y-Sk-S1w">
+                                                            <rect key="frame" x="0.0" y="0.0" width="184" height="18"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYn-lx-jJB">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="92" height="18"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rMM-Xb-dZV">
+                                                                    <rect key="frame" x="92" y="0.0" width="92" height="18"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="T3r-cQ-ma2">
+                                                            <rect key="frame" x="0.0" y="23" width="184" height="18"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vj8-0X-Q50">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="92" height="18"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWC-PL-d5v">
+                                                                    <rect key="frame" x="92" y="0.0" width="92" height="18"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="0dI-Wr-AeE" firstAttribute="top" secondItem="SQL-iX-NGT" secondAttribute="bottom" constant="5" id="4Ak-5p-T7f"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SQL-iX-NGT" secondAttribute="trailing" constant="8" id="50Z-b0-Zuy"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="SQL-iX-NGT" secondAttribute="bottom" id="5rh-g7-XmO"/>
+                                                <constraint firstItem="SQL-iX-NGT" firstAttribute="leading" secondItem="UIc-NM-AAJ" secondAttribute="leading" id="6LL-c5-f4B"/>
                                                 <constraint firstAttribute="trailing" secondItem="UIc-NM-AAJ" secondAttribute="trailing" constant="8" id="6oe-yu-qIP"/>
                                                 <constraint firstItem="UIc-NM-AAJ" firstAttribute="top" secondItem="maj-0j-2SJ" secondAttribute="top" constant="5" id="Ak2-m9-I94"/>
-                                                <constraint firstItem="UIc-NM-AAJ" firstAttribute="leading" secondItem="maj-0j-2SJ" secondAttribute="leading" constant="8" id="IjZ-4G-0jq"/>
                                                 <constraint firstItem="SQL-iX-NGT" firstAttribute="top" secondItem="UIc-NM-AAJ" secondAttribute="bottom" constant="5" id="PPT-vA-1v2"/>
-                                                <constraint firstItem="SQL-iX-NGT" firstAttribute="leading" secondItem="maj-0j-2SJ" secondAttribute="leading" constant="8" id="ZAi-je-ROO"/>
+                                                <constraint firstItem="UIc-NM-AAJ" firstAttribute="leading" secondItem="q0y-Gv-ggF" secondAttribute="trailing" constant="5" id="Rvl-Zz-xSe"/>
+                                                <constraint firstItem="0dI-Wr-AeE" firstAttribute="leading" secondItem="SQL-iX-NGT" secondAttribute="leading" id="WPD-N4-sDO"/>
+                                                <constraint firstItem="q0y-Gv-ggF" firstAttribute="top" secondItem="maj-0j-2SJ" secondAttribute="top" constant="5" id="XqV-Ua-M5Z"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0dI-Wr-AeE" secondAttribute="bottom" constant="5" id="lTM-Gq-gat"/>
+                                                <constraint firstItem="0dI-Wr-AeE" firstAttribute="trailing" secondItem="SQL-iX-NGT" secondAttribute="trailing" id="tdH-Ni-nqK"/>
+                                                <constraint firstItem="q0y-Gv-ggF" firstAttribute="leading" secondItem="maj-0j-2SJ" secondAttribute="leading" constant="8" id="vfD-uE-Uej"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="blood_pressure" destination="vj8-0X-Q50" id="WGJ-aN-CnW"/>
+                                            <outlet property="date" destination="SQL-iX-NGT" id="ObT-C6-ox2"/>
+                                            <outlet property="height" destination="HYn-lx-jJB" id="pHZ-ij-chO"/>
                                             <outlet property="patient_problem" destination="UIc-NM-AAJ" id="8vI-AD-SLT"/>
-                                            <outlet property="prescription_details" destination="SQL-iX-NGT" id="Rdb-HN-1U6"/>
+                                            <outlet property="signature_image" destination="q0y-Gv-ggF" id="ivK-v7-Avg"/>
+                                            <outlet property="temperature" destination="wWC-PL-d5v" id="PGR-ab-a97"/>
+                                            <outlet property="weight" destination="rMM-Xb-dZV" id="F1x-In-RPO"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1241,10 +1297,16 @@
                             <constraint firstItem="Dp4-Jf-1ov" firstAttribute="top" secondItem="53F-Ub-utL" secondAttribute="bottom" id="8Zd-yk-Qno"/>
                             <constraint firstItem="Dp4-Jf-1ov" firstAttribute="leading" secondItem="ajW-v2-zwE" secondAttribute="leading" id="9xP-6y-2u6"/>
                             <constraint firstItem="Dp4-Jf-1ov" firstAttribute="bottom" secondItem="ajW-v2-zwE" secondAttribute="bottom" id="BvR-eO-bve"/>
+                            <constraint firstItem="Dp4-Jf-1ov" firstAttribute="top" secondItem="ajW-v2-zwE" secondAttribute="top" id="UHl-bb-Za5"/>
                             <constraint firstItem="Dp4-Jf-1ov" firstAttribute="trailing" secondItem="ajW-v2-zwE" secondAttribute="trailing" id="fE7-sf-Xog"/>
                             <constraint firstItem="53F-Ub-utL" firstAttribute="top" secondItem="ajW-v2-zwE" secondAttribute="top" id="xiu-zz-oEA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ajW-v2-zwE"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="53F-Ub-utL"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="cancel" destination="53F-Ub-utL" id="kpP-Di-tTK"/>
@@ -1409,7 +1471,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Date Of Birth" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="axs-Ph-2Wu" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="60" width="202" height="40"/>
@@ -1438,7 +1500,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Weight" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xRU-Kc-scF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="135.5" y="0.0" width="78.5" height="40"/>
@@ -1483,7 +1545,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="294" height="46"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NeA-rP-kJZ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                                 <rect key="frame" x="0.0" y="56" width="294" height="46.5"/>
@@ -1557,25 +1619,25 @@
                                                         <rect key="frame" x="8" y="60" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Address 2" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="62I-2m-JB2" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="110" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="SubCity" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="izi-6B-fzE" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="160" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="City" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="phF-pt-Cjj" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="210" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1618,7 +1680,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Mobile No." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3r5-wI-JnC" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="60" width="294" height="40"/>
@@ -1630,25 +1692,25 @@
                                                         <rect key="frame" x="8" y="110" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Address 2" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OXo-8g-Me9" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="160" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="SubCity" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kag-Mh-JLs" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="210" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="City" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Twy-eP-Okz" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="260" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1701,13 +1763,13 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Relationship" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6vA-qq-qxE" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="90.5" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KMl-nu-fCZ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="140.5" width="294" height="40"/>
@@ -1728,13 +1790,13 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Relationship" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Hi-5L-T3o" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="271" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZiX-9z-P6j" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="321" width="294" height="40"/>
@@ -1755,7 +1817,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tgk-Iu-RWG" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="451.5" width="294" height="40"/>
@@ -1767,7 +1829,7 @@
                                                         <rect key="frame" x="8" y="501.5" width="294" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Policy Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RZZ-H8-IkP" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                         <rect key="frame" x="8" y="551.5" width="294" height="40"/>
@@ -2027,7 +2089,7 @@
                                                 </constraints>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Taw-ue-5ls">
                                                 <rect key="frame" x="8" y="1829.5" width="304" height="404"/>
@@ -2097,7 +2159,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergic From Medicine" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0zc-wY-IPP">
                                                         <rect key="frame" x="8" y="87" width="180" height="19.5"/>
@@ -2112,7 +2174,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZF8-e7-NbL">
                                                         <rect key="frame" x="196" y="79.5" width="100" height="34"/>
@@ -2177,7 +2239,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rXH-gG-TBg">
                                                         <rect key="frame" x="196" y="161.5" width="100" height="34"/>
@@ -2242,7 +2304,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Y4l-ye-9no">
                                                         <rect key="frame" x="196" y="243" width="100" height="34"/>
@@ -2307,7 +2369,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cA1-WB-qYj">
                                                         <rect key="frame" x="196" y="325" width="100" height="34"/>
@@ -2417,7 +2479,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qqG-Z6-PUV">
                                                         <rect key="frame" x="188" y="161" width="100" height="34"/>
@@ -2476,7 +2538,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-fn-mya">
                                                         <rect key="frame" x="0.0" y="168.5" width="180" height="19.5"/>
@@ -2597,7 +2659,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leukemia" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tna-ph-ACx">
                                                         <rect key="frame" x="0.0" y="332" width="180" height="19.5"/>
@@ -2612,7 +2674,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xbn-iA-faK">
                                                         <rect key="frame" x="188" y="79.5" width="100" height="34"/>
@@ -2671,7 +2733,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diebetes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZt-Pr-aac">
                                                         <rect key="frame" x="0.0" y="86.5" width="180" height="19.5"/>
@@ -2742,7 +2804,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ya3-t2-KQJ">
                                                         <rect key="frame" x="188" y="435" width="100" height="34"/>
@@ -3068,6 +3130,10 @@
                         <outletCollection property="LeukemiaRadio" destination="xRq-82-LCc" collectionClass="NSMutableArray" id="Ui5-fq-wRx"/>
                         <outletCollection property="RestrictionRadio" destination="yj2-aa-jwK" collectionClass="NSMutableArray" id="hfw-81-qyD"/>
                         <outletCollection property="RestrictionRadio" destination="mmM-T4-GBo" collectionClass="NSMutableArray" id="hpJ-vC-mCG"/>
+                        <outletCollection property="selectdateRadio" destination="gh9-gc-PLC" collectionClass="NSMutableArray" id="L11-hj-27W"/>
+                        <outletCollection property="selectdateRadio" destination="exV-2L-iQI" collectionClass="NSMutableArray" id="qgp-gA-NNj"/>
+                        <outletCollection property="selectdateRadio" destination="GCT-Yr-9QB" collectionClass="NSMutableArray" id="YpA-WR-maV"/>
+                        <outletCollection property="selectdateRadio" destination="Wks-X8-gjg" collectionClass="NSMutableArray" id="DjJ-22-gCA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x1L-en-VhG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3188,7 +3254,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="healthcell" id="bee-wD-wi1" customClass="HealthListTableViewCell" customModule="medocpatient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="healthcell" id="bee-wD-wi1" customClass="HealthListTableViewCell" customModule="medocpatient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bee-wD-wi1" id="tYL-cD-nfW">
@@ -3196,21 +3262,79 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDW-R7-m1F">
-                                                    <rect key="frame" x="15" y="11" width="290" height="22"/>
+                                                    <rect key="frame" x="15" y="11" width="225" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ep4-Di-ElG">
+                                                    <rect key="frame" x="260" y="11" width="60" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="lb1-bg-DF5"/>
+                                                    </constraints>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ep4-Di-ElG" firstAttribute="centerY" secondItem="XDW-R7-m1F" secondAttribute="centerY" id="0pG-Cp-lYS"/>
+                                                <constraint firstItem="ep4-Di-ElG" firstAttribute="leading" secondItem="XDW-R7-m1F" secondAttribute="trailing" constant="20" id="21S-im-v2i"/>
+                                                <constraint firstItem="XDW-R7-m1F" firstAttribute="top" secondItem="tYL-cD-nfW" secondAttribute="topMargin" id="JKr-Rg-Hgi"/>
+                                                <constraint firstItem="XDW-R7-m1F" firstAttribute="leading" secondItem="tYL-cD-nfW" secondAttribute="leadingMargin" id="Tdb-16-wbV"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="XDW-R7-m1F" secondAttribute="bottom" id="dSt-j9-Csa"/>
+                                                <constraint firstAttribute="trailing" secondItem="ep4-Di-ElG" secondAttribute="trailing" id="nxs-hD-XWK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="add" destination="ep4-Di-ElG" id="7IT-YI-049"/>
+                                            <outlet property="title" destination="XDW-R7-m1F" id="zUF-WJ-jiG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LatestData" rowHeight="80" id="m3j-37-mhW" customClass="LatestDataTableViewCell" customModule="medocpatient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m3j-37-mhW" id="O8d-lS-vZG">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EI3-ne-gDo">
+                                                    <rect key="frame" x="23" y="16" width="274" height="20.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JD0-ac-aOz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="122.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt6-Kw-rcD">
+                                                            <rect key="frame" x="132.5" y="0.0" width="141.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PxH-Ca-TlX">
+                                                    <rect key="frame" x="23" y="41.5" width="274" height="22.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="XDW-R7-m1F" firstAttribute="top" secondItem="tYL-cD-nfW" secondAttribute="topMargin" id="JKr-Rg-Hgi"/>
-                                                <constraint firstItem="XDW-R7-m1F" firstAttribute="leading" secondItem="tYL-cD-nfW" secondAttribute="leadingMargin" id="Tdb-16-wbV"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="XDW-R7-m1F" secondAttribute="bottom" id="dSt-j9-Csa"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="XDW-R7-m1F" secondAttribute="trailing" id="hvQ-Hc-MaT"/>
+                                                <constraint firstItem="EI3-ne-gDo" firstAttribute="top" secondItem="O8d-lS-vZG" secondAttribute="topMargin" constant="5" id="3xd-A7-9Y7"/>
+                                                <constraint firstItem="EI3-ne-gDo" firstAttribute="leading" secondItem="O8d-lS-vZG" secondAttribute="leadingMargin" constant="8" id="IQn-JY-k9w"/>
+                                                <constraint firstItem="PxH-Ca-TlX" firstAttribute="leading" secondItem="EI3-ne-gDo" secondAttribute="leading" id="XKL-GE-MNC"/>
+                                                <constraint firstItem="PxH-Ca-TlX" firstAttribute="top" secondItem="EI3-ne-gDo" secondAttribute="bottom" constant="5" id="aeS-a7-xRC"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="PxH-Ca-TlX" secondAttribute="bottom" constant="5" id="b02-j1-Pok"/>
+                                                <constraint firstItem="PxH-Ca-TlX" firstAttribute="trailing" secondItem="EI3-ne-gDo" secondAttribute="trailing" id="lCF-KR-op5"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="EI3-ne-gDo" secondAttribute="trailing" constant="8" id="mAw-Nm-quT"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                         <connections>
-                                            <outlet property="title" destination="XDW-R7-m1F" id="zUF-WJ-jiG"/>
+                                            <outlet property="date" destination="PxH-Ca-TlX" id="IKG-f0-CcE"/>
+                                            <outlet property="firstdata" destination="JD0-ac-aOz" id="BMK-NI-k4K"/>
+                                            <outlet property="seconddata" destination="mt6-Kw-rcD" id="u5U-in-8gM"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3249,23 +3373,66 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="idf-bK-2Dv" customClass="LineChartView" customModule="Charts">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="250" id="P0t-Nr-zZ1"/>
+                                        <constraint firstAttribute="height" constant="300" id="P0t-Nr-zZ1"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="121" id="xke-3l-mgg">
-                                        <rect key="frame" x="0.0" y="278" width="320" height="121"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShowDataCell" rowHeight="81" id="xke-3l-mgg" customClass="ShowDataTableViewCell" customModule="medocpatient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="328" width="320" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xke-3l-mgg" id="eVk-Km-FwY">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A7v-ed-r79">
+                                                    <rect key="frame" x="23" y="16" width="274" height="20.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T1R-zr-38O">
+                                                            <rect key="frame" x="0.0" y="0.0" width="122.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvx-AE-1pk">
+                                                            <rect key="frame" x="132.5" y="0.0" width="141.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mbm-f8-7B5">
+                                                    <rect key="frame" x="23" y="41.5" width="274" height="23.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Mbm-f8-7B5" secondAttribute="bottom" constant="5" id="0HL-2y-i7f"/>
+                                                <constraint firstItem="Mbm-f8-7B5" firstAttribute="top" secondItem="A7v-ed-r79" secondAttribute="bottom" constant="5" id="FD3-10-NUl"/>
+                                                <constraint firstItem="Mbm-f8-7B5" firstAttribute="trailing" secondItem="A7v-ed-r79" secondAttribute="trailing" id="JPA-GU-0vn"/>
+                                                <constraint firstItem="Mbm-f8-7B5" firstAttribute="leading" secondItem="A7v-ed-r79" secondAttribute="leading" id="bzN-V4-1P6"/>
+                                                <constraint firstItem="A7v-ed-r79" firstAttribute="top" secondItem="eVk-Km-FwY" secondAttribute="topMargin" constant="5" id="d1Q-iS-HZm"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="A7v-ed-r79" secondAttribute="trailing" constant="8" id="l3F-Qj-XI9"/>
+                                                <constraint firstItem="A7v-ed-r79" firstAttribute="leading" secondItem="eVk-Km-FwY" secondAttribute="leadingMargin" constant="8" id="m72-Te-ggw"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="date" destination="Mbm-f8-7B5" id="bnr-pI-nfh"/>
+                                            <outlet property="firstdata" destination="T1R-zr-38O" id="7kP-tF-bNV"/>
+                                            <outlet property="seconddata" destination="wvx-AE-1pk" id="sEX-HB-l7O"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="afu-f7-pfG" id="SdZ-ZJ-tJm"/>
+                                    <outlet property="delegate" destination="afu-f7-pfG" id="Mo8-mi-eED"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3279,26 +3446,12 @@
                     </view>
                     <connections>
                         <outlet property="lineviewChart" destination="idf-bK-2Dv" id="Lnz-Cj-erv"/>
+                        <outlet property="tableview" destination="YW6-7i-V3E" id="zka-hs-Sbf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5pt-M1-t8i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2465.625" y="3151.0563380281692"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="08w-hC-czk">
-            <objects>
-                <viewController id="TxI-7r-4Kz" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="RdA-4d-ci5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Fjt-wh-2jJ"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vQa-XW-B0L" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3111" y="3151"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="HMc-yC-Ry2">
@@ -3429,7 +3582,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="255.5"/>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                             </imageView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="112" borderStyle="bezel" placeholder="contact no." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tYK-Ib-JAJ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1111111111" borderStyle="bezel" placeholder="contact no." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tYK-Ib-JAJ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                 <rect key="frame" x="16" y="271.5" width="288" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="prf-lH-Vux"/>
@@ -3438,7 +3591,7 @@
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="snehal@123" borderStyle="bezel" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="waN-z7-02D" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="bezel" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="waN-z7-02D" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                                 <rect key="frame" x="16" y="331.5" width="288" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="LUx-iM-Dbq"/>

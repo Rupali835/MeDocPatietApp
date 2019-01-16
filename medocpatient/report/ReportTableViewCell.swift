@@ -18,6 +18,8 @@ class ReportTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        Utilities.shared.cornerRadius(objects: [images], number: 10)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

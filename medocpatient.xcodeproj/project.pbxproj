@@ -43,6 +43,8 @@
 		57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */; };
 		57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */; };
 		57254BCC21D4BF7900B38849 /* PrescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */; };
+		574E0BE721EF6EC6000127DC /* ShowDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E0BE621EF6EC6000127DC /* ShowDataTableViewCell.swift */; };
+		574E0BE921EF76C4000127DC /* LatestDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E0BE821EF76C4000127DC /* LatestDataTableViewCell.swift */; };
 		575259CC21D6061C008DB872 /* IQTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B621D6061C008DB872 /* IQTextView.swift */; };
 		575259CD21D6061C008DB872 /* IQPreviousNextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B821D6061C008DB872 /* IQPreviousNextView.swift */; };
 		575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259B921D6061C008DB872 /* IQTitleBarButtonItem.swift */; };
@@ -80,7 +82,6 @@
 		57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC321E74B68002DC4D0 /* PNChartLabel.swift */; };
 		57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC421E74B69002DC4D0 /* PNBarChart.swift */; };
 		57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CD021E777F6002DC4D0 /* ImageManager.swift */; };
-		576FF6E621ECB5160018DDA8 /* AddHealthdataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576FF6E521ECB5160018DDA8 /* AddHealthdataViewController.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
 		57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */; };
 		57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */; };
@@ -127,6 +128,8 @@
 		57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
 		57254BC921D4BF7900B38849 /* PrescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrescriptionViewController.swift; sourceTree = "<group>"; };
 		57254BCA21D4BF7900B38849 /* PrescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		574E0BE621EF6EC6000127DC /* ShowDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataTableViewCell.swift; sourceTree = "<group>"; };
+		574E0BE821EF76C4000127DC /* LatestDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDataTableViewCell.swift; sourceTree = "<group>"; };
 		575259B621D6061C008DB872 /* IQTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQTextView.swift; sourceTree = "<group>"; };
 		575259B821D6061C008DB872 /* IQPreviousNextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQPreviousNextView.swift; sourceTree = "<group>"; };
 		575259B921D6061C008DB872 /* IQTitleBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQTitleBarButtonItem.swift; sourceTree = "<group>"; };
@@ -166,7 +169,6 @@
 		57692CC321E74B68002DC4D0 /* PNChartLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNChartLabel.swift; sourceTree = "<group>"; };
 		57692CC421E74B69002DC4D0 /* PNBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBarChart.swift; sourceTree = "<group>"; };
 		57692CD021E777F6002DC4D0 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
-		576FF6E521ECB5160018DDA8 /* AddHealthdataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHealthdataViewController.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
 		57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthListTableViewCell.swift; sourceTree = "<group>"; };
@@ -455,8 +457,9 @@
 			children = (
 				57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */,
 				57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */,
+				574E0BE821EF76C4000127DC /* LatestDataTableViewCell.swift */,
 				57692CB721E731D6002DC4D0 /* ChartViewController.swift */,
-				576FF6E521ECB5160018DDA8 /* AddHealthdataViewController.swift */,
+				574E0BE621EF6EC6000127DC /* ShowDataTableViewCell.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -564,7 +567,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
@@ -572,12 +574,12 @@
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
@@ -585,6 +587,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZAlertView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -632,7 +635,6 @@
 				57692CC721E74B69002DC4D0 /* PNValue.swift in Sources */,
 				57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */,
 				57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */,
-				576FF6E621ECB5160018DDA8 /* AddHealthdataViewController.swift in Sources */,
 				575259E621D65DE3008DB872 /* QueueToast.swift in Sources */,
 				57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */,
 				57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */,
@@ -664,6 +666,7 @@
 				575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */,
 				575259D421D6061C008DB872 /* IQKeyboardManagerConstants.swift in Sources */,
 				57254BAF21D4BEE400B38849 /* RegisterViewController.swift in Sources */,
+				574E0BE921EF76C4000127DC /* LatestDataTableViewCell.swift in Sources */,
 				575259D021D6061C008DB872 /* IQToolbar.swift in Sources */,
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				57254BB121D4BEE400B38849 /* PageViewController.swift in Sources */,
@@ -681,6 +684,7 @@
 				57692CC821E74B69002DC4D0 /* PNLineChartDataItem.swift in Sources */,
 				57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */,
 				57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */,
+				574E0BE721EF6EC6000127DC /* ShowDataTableViewCell.swift in Sources */,
 				57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */,
 				57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */,
 				57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */,

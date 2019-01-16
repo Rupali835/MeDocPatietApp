@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 import WebKit
-
+import SDWebImage
 class PrescriptionViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
@@ -94,21 +94,41 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let Precell = tableView.dequeueReusableCell(withIdentifier: "PrescriptionCell") as! PrescriptionTableViewCell
+        Precell.accessoryType = .disclosureIndicator
         let d = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
         let patient_problem = d.value(forKey: "patient_problem") as! String
         let prescription_details = d.value(forKey: "prescription_details") as! String
+        let blood_pressure = d.value(forKey: "blood_pressure") as! String
+        let created_at = d.value(forKey: "created_at") as! String
+        let drawing_image = d.value(forKey: "drawing_image") as! String
+        let handwritten_image = d.value(forKey: "handwritten_image") as! String
+        let height = d.value(forKey: "height") as! String
+        let other_details = d.value(forKey: "other_details") as! String
+        let prescription_pdf = d.value(forKey: "prescription_pdf") as! String
+        let signature_image = d.value(forKey: "signature_image") as! String
+        let temperature = d.value(forKey: "temperature") as! String
+        let weight = d.value(forKey: "weight") as! String
 
+
+        let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(signature_image)")!
+      //  Precell.signature_image.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
+        Precell.signature_image.image = #imageLiteral(resourceName: "placeholder--pdf.png")
         Precell.patient_problem.text = "Problem: \(patient_problem)"
-        Precell.prescription_details.text = "Detail: \(prescription_details)"
+     //   Precell.prescription_details.text = "Detail: \(prescription_details)"
+        Precell.date.text = "D:\(created_at)"
+        Precell.height.text = "Height: \(height)"
+        Precell.weight.text = "Weight: \(weight)"
+        Precell.temperature.text = "Temp: \(temperature)"
+        Precell.blood_pressure.text = "BP: \(blood_pressure)"
+
        // Precell.title.text = data[indexPath.row]
         return Precell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if status == "1"{
-//            NotificationCenter.default.post(name: NSNotification.Name("change"), object: self, userInfo: ["title" : self.Prescriptiondata[indexPath.row]])
-//            self.dismiss(animated: true, completion: nil)
-//        }
-        let url = URL(string: "https://s2.q4cdn.com/235752014/files/doc_downloads/test.pdf")
+        let d = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
+        let signature_image = d.value(forKey: "signature_image") as! String
+
+        let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(signature_image)")
         let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
         let urlRequest = URLRequest(url: url!)
         webView.navigationDelegate = self

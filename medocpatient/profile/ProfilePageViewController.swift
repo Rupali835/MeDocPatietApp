@@ -10,7 +10,6 @@ import UIKit
 import FSCalendar
 import CoreData
 import DBAttachmentPickerController
-import Alamofire
 import SkyFloatingLabelTextField
 class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
     //user
@@ -114,6 +113,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var polioSelectedDate: UILabel!
     @IBOutlet var diphtheriaSelectedDate: UILabel!
     @IBOutlet var mumpsSelectedDate: UILabel!
+    @IBOutlet var selectdateRadio: [UIButton]!
     @IBOutlet var cv: UIView!
 
     @IBOutlet var Declare: UIButton!
@@ -133,7 +133,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var selectedheartdisease = "0"
     var selectedleukemia = "0"
     var selectedrestriction = "0"
-    var declare = 0
+    var declare = "0"
     var base64image = ""
     let user = User()
     let guardian = Guardian()
@@ -173,29 +173,24 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         addProfileImage.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
         editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
         self.navigationItem.rightBarButtonItem = editbutton
-        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,PatientTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
-        
-        self.addProfileImage.isUserInteractionEnabled = false
-        self.GenderSegment.isUserInteractionEnabled = false
-        self.editAllTextfield(bool: false, objects: alltf as! [SkyFloatingLabelTextField])
+        self.alltextfield(bool: false)
        // Do any additional setup after loading the view.
     }
     @objc func EditableandNonEditable(){
-        if edit == false{
-            self.edit = true
-            self.editbutton.title = "Done"
-            let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
-            self.addProfileImage.isUserInteractionEnabled = true
-            self.GenderSegment.isUserInteractionEnabled = true
-            self.editAllTextfield(bool: true, objects: alltf as! [SkyFloatingLabelTextField])
-        } else {
-            self.edit = false
-            self.editbutton.title = "Edit"
-            let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,PatientTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
-            
-            self.addProfileImage.isUserInteractionEnabled = false
-            self.GenderSegment.isUserInteractionEnabled = false
-            self.editAllTextfield(bool: false, objects: alltf as! [SkyFloatingLabelTextField])
+        if Reachability.isConnectedToNetwork() == true{
+            fetchProfileDatail()
+            if edit == false{
+                self.edit = true
+                self.editbutton.title = "Done"
+                self.alltextfield(bool: true)
+            } else {
+                self.edit = false
+                self.editbutton.title = "Edit"
+                self.alltextfield(bool: false)
+            }
+        }
+        else {
+            Alert.shared.basicalert(vc: self, title: "You Cannot Edit Detail Without Internet Connection", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
         }
     }
     func editAllTextfield(bool: Bool,objects: [SkyFloatingLabelTextField]){
@@ -204,6 +199,54 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 object.isUserInteractionEnabled = bool
             }
         }
+    }
+    func alltextfield(bool: Bool){
+        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF,FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,otherAllergyTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,RestrictionTF,ExplanationTF]
+        self.PatientTF.isUserInteractionEnabled = false
+        self.addProfileImage.isUserInteractionEnabled = bool
+        self.GenderSegment.isUserInteractionEnabled = bool
+        self.AllergySegment.isUserInteractionEnabled = bool
+        
+        self.FoodRadio[0].isUserInteractionEnabled = bool
+        self.FoodRadio[1].isUserInteractionEnabled = bool
+
+        self.MedicinesRadio[0].isUserInteractionEnabled = bool
+        self.MedicinesRadio[1].isUserInteractionEnabled = bool
+        
+        self.PlantsRadio[0].isUserInteractionEnabled = bool
+        self.PlantsRadio[1].isUserInteractionEnabled = bool
+        
+        self.InsectsRadio[0].isUserInteractionEnabled = bool
+        self.InsectsRadio[1].isUserInteractionEnabled = bool
+        
+        self.otherAllergyRadio[0].isUserInteractionEnabled = bool
+        self.otherAllergyRadio[1].isUserInteractionEnabled = bool
+        
+        self.BPRadio[0].isUserInteractionEnabled = bool
+        self.BPRadio[1].isUserInteractionEnabled = bool
+        
+        self.DiebetesRadio[0].isUserInteractionEnabled = bool
+        self.DiebetesRadio[1].isUserInteractionEnabled = bool
+        
+        self.CancerRadio[0].isUserInteractionEnabled = bool
+        self.CancerRadio[1].isUserInteractionEnabled = bool
+        
+        self.HeartDiseaseRadio[0].isUserInteractionEnabled = bool
+        self.HeartDiseaseRadio[1].isUserInteractionEnabled = bool
+        
+        self.LeukemiaRadio[0].isUserInteractionEnabled = bool
+        self.LeukemiaRadio[1].isUserInteractionEnabled = bool
+        
+        self.RestrictionRadio[0].isUserInteractionEnabled = bool
+        self.RestrictionRadio[1].isUserInteractionEnabled = bool
+        
+        self.selectdateRadio[0].isUserInteractionEnabled = bool
+        self.selectdateRadio[1].isUserInteractionEnabled = bool
+        self.selectdateRadio[2].isUserInteractionEnabled = bool
+        self.selectdateRadio[3].isUserInteractionEnabled = bool
+        
+        //self.Save.isUserInteractionEnabled = bool
+        self.editAllTextfield(bool: bool, objects: alltf as! [SkyFloatingLabelTextField])
     }
     @objc func addAttachmentAction(){
         PHPhotoLibrary.requestAuthorization { (status) in
@@ -241,7 +284,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             SwiftLoader.show(title: "Loading..", animated: true)
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
-                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_new/uploads/\(pp)")!
+                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
                                 print(url)
                                 self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
                             }
@@ -263,7 +306,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                             }
                             self.selectedGender = data.value(forKey: "gender") as? String ?? "0"
                             self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
-                            self.emailTF.text = data.value(forKey: "email") as? String ?? ""
+                            let email = data.value(forKey: "email") as? String ?? ""
+                            self.emailTF.text = email
                             self.PatientTF.text = data.value(forKey: "patient_id") as? String ?? ""
                            // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
                             self.HeightTF.text = data.value(forKey: "height") as? String ?? ""
@@ -443,7 +487,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         if Reachability.isConnectedToNetwork() == true {
             fetchProfileDatail()
         } else {
-            //retrivedata()
+            retrivedata()
+            SetupInterface()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
@@ -519,7 +564,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         
     }
     @objc func SaveAction(){
-      //  savedata()
+        savedata()
        // updateProfileDetails()
         sendData()
     }
@@ -531,6 +576,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
             [
                 "name": self.NameTF.text!,
                 "email": self.emailTF.text!,
+                "profile_picture":self.imagename,
                 "contact_no": self.MobileNumberTF.text!,
                 "alt_contact_no": "",
                 "gender": self.selectedGender,
@@ -689,8 +735,7 @@ extension ProfilePageViewController {//setupinterface
         }
     }
     func Utilized(){
-        Utilities.shared.cornerRadius(objects: [allergyView,Save], number: 10.0)
-       // Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [imagesPicView,Save], number: 10.0)
         Utilities.shared.borderRadius(objects: [Save], color: UIColor.white)
         
     }
@@ -803,7 +848,7 @@ extension ProfilePageViewController {//setupinterface
         else if HaveAllergy == "1"{
             showAllergy()
         }
-        if self.declare == 0{
+        if self.declare == "0"{
             Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
         } else {
             Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
@@ -1066,7 +1111,7 @@ extension ProfilePageViewController { //button action
         }
     }
 }
-/*extension ProfilePageViewController { //coredata save and retrive
+extension ProfilePageViewController { //coredata save and retrive
     
     func savedata(){
         let managedobject = self.appdel.persistentContainer.viewContext
@@ -1083,10 +1128,12 @@ extension ProfilePageViewController { //button action
             profile.setValue(self.DateOfBirthTF.text!, forKey: user.dateofbirth)
             profile.setValue(self.age.text!, forKey: user.age)
             profile.setValue(self.BloodGroupTF.text!, forKey: user.bloodGroup)
-            profile.setValue(self.WeightTF.text!, forKey: user.weight)
-            profile.setValue(self.HeightTF.text!, forKey: user.height)
-            profile.setValue(self.BloodPressureTF.text!, forKey: user.bloodPressure)
-            profile.setValue(self.TempretureTF.text!, forKey: user.temperature)
+            profile.setValue(self.emailTF.text!, forKey: user.email)
+            profile.setValue(self.PatientTF.text, forKey: user.patientid)
+          //  profile.setValue(self.WeightTF.text!, forKey: user.weight)
+          //  profile.setValue(self.HeightTF.text!, forKey: user.height)
+          //  profile.setValue(self.BloodPressureTF.text!, forKey: user.bloodPressure)
+          //  profile.setValue(self.TempretureTF.text!, forKey: user.temperature)
             profile.setValue(self.MobileNumberTF.text!, forKey: user.mobileNumber)
             profile.setValue(self.Address1TF.text!, forKey: user.address1)
             profile.setValue(self.Address2TF.text!, forKey: user.address2)
@@ -1259,7 +1306,7 @@ extension ProfilePageViewController { //button action
                 
                 let data4 = data.value(forKey: lastVaccinationDone.lselecteddate4) as? String
                 self.mumpsSelectedDate.text = data4
-                self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
+                self.declare = data.value(forKey: lastVaccinationDone.declare) as! String
                 SwiftLoader.hide()
             }
         } catch {
@@ -1267,7 +1314,7 @@ extension ProfilePageViewController { //button action
             print("failed")
         }
     }
-}*/
+}
 
 /*  let url = ApiServices.shared.baseUrl + "patienteditprofile"
  let imgData = imagesPicView.image?.jpegData(compressionQuality: 0.2)

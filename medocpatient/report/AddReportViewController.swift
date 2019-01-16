@@ -67,14 +67,14 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         print("prescription_id: \(self.selectedPrescription)")
         print("image_name:\(self.Filetitle.text!)")
         print("tag:\(self.textfield.text!)")
-        print("report_file:\(self.path)")
         let param = [
             "prescription_id": self.selectedPrescription,
+            "image_name": self.Filetitle.text!,
             "tag":self.textfield.text!,
         ]
         SwiftLoader.show(title: "adding image", animated: true)
 
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["image_name":self.Filetitle.text!], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 DispatchQueue.main.async {

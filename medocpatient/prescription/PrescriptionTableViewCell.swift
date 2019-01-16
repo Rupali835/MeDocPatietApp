@@ -12,19 +12,22 @@ class PrescriptionTableViewCell: UITableViewCell {
 
     @IBOutlet var patient_problem: UILabel!
     @IBOutlet var date : UILabel!
-    @IBOutlet var drawing_image : UIImage!
-    @IBOutlet var handwritten_image : UIImage!
+    @IBOutlet var drawing_image : UIImageView!
+    @IBOutlet var handwritten_image : UIImageView!
     @IBOutlet var blood_pressure : UILabel!
     @IBOutlet var height : UILabel!
     @IBOutlet var other_details : UILabel!
     @IBOutlet var prescription_details : UILabel!
-    @IBOutlet var signature_image : UIImage!
-    @IBOutlet var prescription_pdf : UIImage!
+    @IBOutlet var signature_image : UIImageView!
+    @IBOutlet var prescription_pdf : UIImageView!
     @IBOutlet var weight : UILabel!
+    @IBOutlet var temperature : UILabel!
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        Utilities.shared.cornerRadius(objects: [signature_image], number: 10)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

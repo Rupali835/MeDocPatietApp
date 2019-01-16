@@ -13,5 +13,5 @@ pod 'CryptoSwift'
 pod 'DropDown'
 pod 'SDWebImage', '~> 4.0'
 pod 'Charts'
-pod 'Alamofire', '~> 5.0.0.beta.1'
+pod 'ZAlertView'
     end

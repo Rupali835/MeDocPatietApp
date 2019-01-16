@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-//import ZAlertView
+import ZAlertView
 import UserNotifications
 
 class Utilities {
@@ -49,17 +49,18 @@ class Utilities {
         }
     }
 
-//    func alertview(title: String,msg: String,dismisstitle: String,actiontitle: String,actionCompletion: @escaping()->()){
-//        let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
-//        alert.addButton(actiontitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.orange, titleColor: UIColor.white) { (action) in
-//            actionCompletion()
-//            alert.dismissAlertView()
-//        }
-//        alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.groupTableViewBackground, titleColor: UIColor.black) { (dismiss) in
-//            alert.dismissAlertView()
-//        }
-//        alert.show()
-//    }
+
+    func alertview(title: String,msg: String,dismisstitle: String,actiontitle: String,actionCompletion: @escaping()->()){
+        let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
+        alert.addButton(actiontitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+            actionCompletion()
+            alert.dismissAlertView()
+        }
+        alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.groupTableViewBackground, titleColor: UIColor.black) { (dismiss) in
+            alert.dismissAlertView()
+        }
+        alert.show()
+    }
     func content(title: String,body: String){
         let content = UNMutableNotificationContent()
         content.title = title
@@ -373,5 +374,26 @@ extension UIImageView {
     func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
         guard let url = URL(string: link) else { return }
         downloaded(from: url, contentMode: mode)
+    }
+}
+extension StringProtocol {
+    var firstUppercased: String {
+        guard let first = first else { return "" }
+        return String(first).uppercased() + dropFirst()
+    }
+    var firstCapitalized: String {
+        guard let first = first else { return "" }
+        return String(first).capitalized + dropFirst()
+    }
+}
+extension String {
+    
+    func slice(from: String, to: String) -> String? {
+        
+        return (range(of: from)?.upperBound).flatMap { substringFrom in
+            (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
+                String(self[substringFrom..<substringTo])
+            }
+        }
     }
 }
