@@ -215,10 +215,14 @@ class RegisterViewController: UIViewController{
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
-                
+                if let msg = json.value(forKey: "msg") as? String{
+                    if msg == "Contact Number already exists" {
+                        self.view.showToast(msg, position: .bottom, popTime: 5, dismissOnTap: true)
+                    }
+                }
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
-                    NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.EmailTF.text!,"password":self.PasswordTF.text!])
+                   // NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.EmailTF.text!,"password":self.PasswordTF.text!])
                     let pageViewController = self.parent as! PageViewController
                     pageViewController.PreviousPageWithIndex(index: 1)
                 }

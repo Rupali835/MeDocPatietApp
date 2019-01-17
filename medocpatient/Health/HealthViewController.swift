@@ -8,22 +8,69 @@
 
 import UIKit
 import ZAlertView
-
 class HealthViewController: UIViewController {
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
     @IBOutlet var tableview: UITableView!
     let list = ["Blood Pressure","Weight","Height","Temperature"]
     
     var alertwithtext = ZAlertView()
+    var bp_dataarr = NSArray()
+    var w_dataarr = NSArray()
+    var h_dataarr = NSArray()
+    var t_dataarr = NSArray()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
+    override func viewDidAppear(_ animated: Bool) {
+      //  fetchhealthdata(attr: "bp")
+    }
+    func fetchhealthdata(attr: String){
+        SwiftLoader.show(title: "Loading", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/y", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success"{
+                        if let data = json.value(forKey: "data") as? NSArray{
+                            if attr == "bp"{
+                                self.bp_dataarr = data
+                                self.fetchhealthdata(attr: "w")
+                                print("bpdata-\(self.bp_dataarr)")
+                            }
+                            else if attr == "w"{
+                                self.w_dataarr = data
+                                self.fetchhealthdata(attr: "h")
+                                print("wdata-\(self.w_dataarr)")
+                            }
+                            else if attr == "h"{
+                                self.h_dataarr = data
+                                self.fetchhealthdata(attr: "t")
+                                print("hdata-\(self.h_dataarr)")
+                            }
+                            else if attr == "t"{
+                                self.t_dataarr = data
+                                DispatchQueue.main.async {
+                                    self.tableview.reloadData()
+                                    SwiftLoader.hide()
+                                }
+                                print("tdata-\(self.t_dataarr)")
+                            }
+                        }
+                    }
+                    
+                }
+            } catch {
+                print("catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            [:]
+        }
+    }
     
-
 }
 extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,11 +86,24 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
         if indexPath.section == 1{
             let cell2 = tableView.dequeueReusableCell(withIdentifier: "LatestData") as! LatestDataTableViewCell
             cell2.accessoryType = .disclosureIndicator
+            if self.bp_dataarr.count == 0{
+                
+            } else {
+                let d1 = self.bp_dataarr.object(at: indexPath.last!) as! NSDictionary
+                let created_at1 = d1.value(forKey: "created_at") as! String
+                let blood_pressure = d1.value(forKey: "blood_pressure") as! String
+                cell2.firstdata.text = "Blood Pressure: \(blood_pressure)"
+                cell2.seconddata.text = ""
+                cell2.date.text = "Date: \(created_at1)"
+            }
             return cell2
         }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1{
+            return 80
+        }
         return 50
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -53,24 +113,53 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
             self.navigationController?.pushViewController(chartvc, animated: true)
         }
     }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return ["Add Health Data","Show Latest & All Data"][section]
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
 }
 extension HealthViewController: HealthListTableViewCelldelegate {
     func indexpath(cell: HealthListTableViewCell) {
-        let selectedtitle = cell.title.text
-        if selectedtitle == "Blood Pressure"{
-            addbloodpressure()
+        if let indexPath = tableview.indexPath(for: cell){
+            let selectedtitle = cell.title.text
+            if selectedtitle == "Blood Pressure"{
+                addbloodpressure()
+            }
+            else if selectedtitle == "Height"{
+                addheight()
+            }
+            else if selectedtitle == "Weight"{
+                addWeight()
+            }
+            else if selectedtitle == "Temperature"{
+                addTemperature()
+            }
+            else {
+                print("none")
+            }
         }
-        else if selectedtitle == "Height"{
-            addheight()
-        }
-        else if selectedtitle == "Weight"{
-            addWeight()
-        }
-        else if selectedtitle == "Temperature"{
-            addTemperature()
-        }
-        else {
-            print("none")
+    }
+    func postApi(param : [String:String]){
+        SwiftLoader.show(title: "Adding Data", animated: true)
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "addhealthdata", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                DispatchQueue.main.async {
+                    self.alertwithtext.dismissAlertView()
+                    SwiftLoader.hide()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.alertwithtext.dismissAlertView()
+                    SwiftLoader.hide()
+                }
+                print("catch")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            param
         }
     }
     func addbloodpressure(){
@@ -80,6 +169,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
             let txt2 = self.alertwithtext.getTextFieldWithIdentifier("Diastolic")!
             print(txt1.text!)
             print(txt2.text!)
+            
             if (txt1.text?.isEmpty)! && (txt2.text?.isEmpty)! {
                 self.view.showToast("Write Systolic & Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
             }
@@ -90,7 +180,8 @@ extension HealthViewController: HealthListTableViewCelldelegate {
                 self.view.showToast("Write Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                
+                self.postApi(param: ["systolic" : txt1.text!,
+                                     "diastolic": txt2.text!])
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -108,7 +199,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
                 self.view.showToast("Write Height in Cm", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                
+                self.postApi(param: ["height" : txt1.text!])
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -125,7 +216,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
                 self.view.showToast("Write Weight in Kg", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                
+                self.postApi(param: ["weight" : txt1.text!])
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -142,7 +233,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
                 self.view.showToast("Write Temperature in ºC", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                
+                self.postApi(param: ["temperature" : txt1.text!])
             }
         }) { (cancel) in
             cancel.dismissAlertView()

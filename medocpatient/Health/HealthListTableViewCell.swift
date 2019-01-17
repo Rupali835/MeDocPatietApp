@@ -28,5 +28,5 @@ class HealthListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

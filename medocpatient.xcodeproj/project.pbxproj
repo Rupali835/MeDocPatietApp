@@ -82,6 +82,7 @@
 		57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC321E74B68002DC4D0 /* PNChartLabel.swift */; };
 		57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC421E74B69002DC4D0 /* PNBarChart.swift */; };
 		57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CD021E777F6002DC4D0 /* ImageManager.swift */; };
+		5773ED4421F06E79001497E4 /* Cardview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5773ED4321F06E79001497E4 /* Cardview.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
 		57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */; };
 		57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */; };
@@ -169,6 +170,7 @@
 		57692CC321E74B68002DC4D0 /* PNChartLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNChartLabel.swift; sourceTree = "<group>"; };
 		57692CC421E74B69002DC4D0 /* PNBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBarChart.swift; sourceTree = "<group>"; };
 		57692CD021E777F6002DC4D0 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		5773ED4321F06E79001497E4 /* Cardview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardview.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
 		57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthListTableViewCell.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				57254B9521D4BE7F00B38849 /* Utilities.swift */,
 				575B403021E3398300DBBDB4 /* Reachability.swift */,
 				57692CD021E777F6002DC4D0 /* ImageManager.swift */,
+				5773ED4321F06E79001497E4 /* Cardview.swift */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				57254BA521D4BE9900B38849 /* PatientTableViewCell.swift in Sources */,
 				575259DB21D6061C008DB872 /* IQUIView+Hierarchy.swift in Sources */,
 				57254B9F21D4BE7F00B38849 /* DataModel.swift in Sources */,
+				5773ED4421F06E79001497E4 /* Cardview.swift in Sources */,
 				575259DA21D6061C008DB872 /* IQUITextFieldView+Additions.swift in Sources */,
 				57254BA921D4BEC300B38849 /* ProfilePageViewController.swift in Sources */,
 				57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */,

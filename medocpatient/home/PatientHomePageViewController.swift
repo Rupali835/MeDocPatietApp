@@ -17,7 +17,7 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var DateOfBirth: UILabel!
     @IBOutlet var Gender: UILabel!
     
-    
+    @IBOutlet var headerview: UIView!
     let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png")]
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
@@ -119,16 +119,14 @@ extension PatientHomePageViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! PatientTableViewCell
         cell.collectionview.reloadData()
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.size.height - 100
+        return tableView.frame.size.height
     }
-    
 }
 extension PatientHomePageViewController: UICollectionViewDataSource, UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

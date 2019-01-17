@@ -18,9 +18,10 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
  //   var items : [Medicine] = []
     var notificationGranted = false
     var medicineData = NSArray()
+    var data = NSDictionary()
     var timeslot = [String]()
     var took = false
-
+    var headertitle = ""
     var timerDic = NSMutableDictionary()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,11 +131,16 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
                 print(json)
                 if let msg = json.value(forKey: "msg") as? String {
                     if msg == "success" {
-                        if let data = json.value(forKey: "data") as? NSArray{
-                            self.medicineData = data
-                            DispatchQueue.main.async {
-                                self.tableview.reloadData()
-                                SwiftLoader.hide()
+                        if let data = json.value(forKey: "data") as? NSDictionary{
+                            self.data = data
+                            let patientproblem = self.data.value(forKey: "patient-problem") as! String
+                            self.headertitle = "Problem: \(patientproblem)"
+                            if let medicines = data.value(forKey: "medicines") as? NSArray{
+                                self.medicineData = medicines
+                                DispatchQueue.main.async {
+                                    self.tableview.reloadData()
+                                    SwiftLoader.hide()
+                                }
                             }
                         } else {
                             DispatchQueue.main.async {
@@ -174,11 +180,21 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.medicineData.count
     }
-    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.data.count
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "\(headertitle)"
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
         let d = medicineData.object(at: indexPath.row) as! NSDictionary
-        
         let name = d.value(forKey: "medicine_name") as! String
        
         let before_bf = d.value(forKey: "before_bf") as! String
