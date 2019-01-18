@@ -17,6 +17,10 @@ class FAQViewController: UIViewController {
     var faq = [FAQDataModal]()
     var cellstate: [CellState]?
     
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
+    let imagearr = [#imageLiteral(resourceName: "blood.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "chart.png"),#imageLiteral(resourceName: "chat.png")]
+    let imagename = ["blood.png","cardiogram.png","chart.png","chat.png"]
+    var pdfurl = URL(string: "NF")!
     override func viewDidLoad() {
         super.viewDidLoad()
         data()
@@ -24,7 +28,29 @@ class FAQViewController: UIViewController {
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
-
+    func multipleimage(){
+//        for (i,img) in imagearr.enumerated() {
+//            print(imagename[i])
+            SwiftLoader.show(title: "adding image", animated: true)
+            ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: #imageLiteral(resourceName: "blood.png"), filename: "blood.png", filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                    }
+                    print("image\(json)")
+                } catch {
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                    }
+                    print("image catch")
+                }
+            }) { () -> (Dictionary<String, Any>) in
+                [:]
+            }
+      //  }
+        
+    }
 }
 extension FAQViewController: UITableViewDataSource , UITableViewDelegate , FAQTableViewCelldelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

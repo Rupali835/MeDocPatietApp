@@ -158,7 +158,7 @@ class ApiServices {
                              withOutBaseUrl: String,
                              parameter: [String:Any],
                              bearertoken: String,
-                             image: UIImageView,
+                             image: UIImage,
                              filename: String,
                              filePathKey: String,
                              pdfurl: URL,
@@ -180,7 +180,7 @@ class ApiServices {
             data = try! Data(contentsOf: pdfurl)
             mimetype = "application/pdf"
         } else {
-            data = image.image!.jpegData(compressionQuality: 0.1)!
+            data = image.jpegData(compressionQuality: 0.1)!
             mimetype = "image/jpg"
         }
         

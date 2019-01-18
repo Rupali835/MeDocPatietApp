@@ -178,7 +178,6 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
     @objc func EditableandNonEditable(){
         if Reachability.isConnectedToNetwork() == true{
-            fetchProfileDatail()
             if edit == false{
                 self.edit = true
                 self.editbutton.title = "Done"
@@ -674,7 +673,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     func uploadimage(){
         // ["profile_picture":self.imagename]
         SwiftLoader.show(title: "Updating image", animated: true)
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print("image-\(json)")

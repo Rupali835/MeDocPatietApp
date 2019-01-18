@@ -18,8 +18,8 @@ class ChartViewController: UIViewController {
     @IBOutlet var intervalSegment: UISegmentedControl!
     var dataarr = NSArray()
     var selectedtitle = ""
-    var months = ["Jan","Feb","Mar","Apr","May","Jun","July","August","September","October","November","December"]
-    let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0,20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+    var months = ["Jan","Feb","Mar","Apr","May","Jun"]
+    let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
     var attr = ""
     var timeinterval = "d"
     var headertitle = "All Recorded Data"
@@ -56,28 +56,28 @@ class ChartViewController: UIViewController {
     @objc func changeintervalSegment(sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0{
             timeinterval = "d"
-            fetchhealthdata()
-            months = ["Today"]
-            
-            lineviewChart.data?.notifyDataChanged()
-            lineviewChart.notifyDataSetChanged()
+//            fetchhealthdata()
+//            months = ["Today"]
+//
+//            lineviewChart.data?.notifyDataChanged()
+//            lineviewChart.notifyDataSetChanged()
         }
         else if sender.selectedSegmentIndex == 1{
             timeinterval = "w"
-            fetchhealthdata()
+           // fetchhealthdata()
         }
         else if sender.selectedSegmentIndex == 2{
             timeinterval = "m"
-            fetchhealthdata()
-            months = ["Jan","Feb","Mar","Apr","May","Jun"]
-            setChart(dataPoints: months, values: unitsSold)
-            
-            lineviewChart.data?.notifyDataChanged()
-            lineviewChart.notifyDataSetChanged()
+            //fetchhealthdata()
+//            months = ["Jan","Feb","Mar","Apr","May","Jun"]
+//            setChart(dataPoints: months, values: unitsSold)
+//
+//            lineviewChart.data?.notifyDataChanged()
+//            lineviewChart.notifyDataSetChanged()
         }
         else if sender.selectedSegmentIndex == 3{
             timeinterval = "y"
-            fetchhealthdata()
+           // fetchhealthdata()
         }
     }
     func fetchhealthdata(){

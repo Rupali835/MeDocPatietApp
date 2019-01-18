@@ -56,6 +56,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         dropdown.anchorView = selectPrescription
         dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
         DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 18)
+        Utilities.shared.cornerRadius(objects: [Done,selectPrescription,addAttachment], number: 10)
         // Do any additional setup after loading the view.
     }
     
@@ -74,7 +75,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         ]
         SwiftLoader.show(title: "adding image", animated: true)
 
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 DispatchQueue.main.async {
@@ -110,9 +111,9 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
     }
     @objc func doneAction(){
-//        if (selectPrescription.titleLabel?.text)! == "Select Prescription Of Report"{
-//            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
-//        }
+        if (selectPrescription.titleLabel?.text)! == "Select Prescription"{
+            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
+        }
         if Filetitle.text == ""{
             view.showToast("not selected images", position: .bottom, popTime: 3, dismissOnTap: true)
         }

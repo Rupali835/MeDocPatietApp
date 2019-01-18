@@ -118,8 +118,8 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
                 reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
             }
         }
-        reportcell.pre.text = "Selected Prescription: \(prescription_id)"
-        reportcell.remark.text = "About Report: \(tag)"
+        reportcell.pre.text = "Prescription: \(prescription_id)"
+        reportcell.remark.text = "Tag: \(tag)"
         reportcell.date.text = "date: \(created_at)"
 
 //        reportcell.pre.text = "Selected Prescription: \(items[indexPath.row].selectedPrescription!)"
@@ -143,15 +143,19 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
             else {
                 urlstr = "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(image)"
             }
-            
-            let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
-            let urlRequest = URLRequest(url: URL(string: urlstr)!)
-            webView.navigationDelegate = self
-            webView.load(urlRequest)
-            
-            let pdfVC = UIViewController()
-            pdfVC.view.addSubview(webView)
-            self.navigationController?.pushViewController(pdfVC, animated: true)
+            if urlstr.isValidURL == true{
+                let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
+                print("url:\(urlstr)")
+                let urlRequest = URLRequest(url: URL(string: urlstr)!)
+                webView.navigationDelegate = self
+                webView.load(urlRequest)
+                
+                let pdfVC = UIViewController()
+                pdfVC.view.addSubview(webView)
+                self.navigationController?.pushViewController(pdfVC, animated: true)
+            } else {
+                self.view.showToast("Invalid Url", position: .bottom, popTime: 5, dismissOnTap: true)
+            }
         }
     }
     

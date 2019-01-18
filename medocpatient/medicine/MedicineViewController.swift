@@ -8,7 +8,20 @@
 
 import UIKit
 import UserNotifications
-
+struct Med: Decodable {
+    var msg: String?
+    var data: [MedData]?
+}
+struct MedData: Decodable {
+    var prescription_details: MedPrescription?
+    var medicines: [MedicinesData]?
+}
+struct MedPrescription: Decodable {
+    var patient_problem: String?
+}
+struct MedicinesData: Decodable {
+    var medicine_name: String?
+}
 class MedicineViewController: UIViewController , UISearchControllerDelegate , UISearchBarDelegate{
 
     @IBOutlet var tableview: UITableView!
@@ -18,16 +31,27 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
  //   var items : [Medicine] = []
     var notificationGranted = false
     var medicineData = NSArray()
-    var data = NSDictionary()
+    var data = NSArray()
     var timeslot = [String]()
     var took = false
     var headertitle = ""
     var timerDic = NSMutableDictionary()
+    
+//    var med = [Med]()
+//    var medData = [MedData]()
+//    var medPrescription = [MedPrescription]()
+//    var medicinesData = [MedicinesData]()
+//
+    var isDataLoading:Bool=false
+    var pageNo:Int=0
+    var limit:Int=20
+    var offset:Int=0 //pageNo*limit
+    var didEndReached:Bool=false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      //   SearchAction()
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reloadmedicine"), object: nil)
-        
       //  navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         
        
@@ -125,16 +149,17 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
     }
     func fetchmedicine(){
         SwiftLoader.show(title: "Fetch Medicines..", animated: true)
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "medicines", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "medicines", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
             do {
+                
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
                 if let msg = json.value(forKey: "msg") as? String {
                     if msg == "success" {
-                        if let data = json.value(forKey: "data") as? NSDictionary{
+                        if let data = json.value(forKey: "data") as? NSArray{
                             self.data = data
-                            let patientproblem = self.data.value(forKey: "patient-problem") as! String
-                            self.headertitle = "Problem: \(patientproblem)"
+                           // let patientproblem = prescription_details.value(forKey: "patient-problem") as! String
+                           // self.headertitle = "Problem: \(patientproblem)"
                             if let medicines = data.value(forKey: "medicines") as? NSArray{
                                 self.medicineData = medicines
                                 DispatchQueue.main.async {
@@ -152,7 +177,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
                         DispatchQueue.main.async {
                             self.view.showToast("No Medicine Found", position: .bottom, popTime: 5, dismissOnTap: true)
                             SwiftLoader.hide()
-
+                            
                         }
                     }
                 }
@@ -164,6 +189,24 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
             [:]
         }
     }
+/*
+ let decode = try JSONDecoder().decode(Med.self, from: ApiServices.shared.data)
+ self.med = [decode]
+ DispatchQueue.global(qos: .userInteractive).async {
+ for item in self.med {
+ self.medData = item.data!
+ }
+ for item in self.medData {
+ self.medPrescription = [item.prescription_details] as! [MedPrescription]
+ }
+ }
+ 
+ DispatchQueue.main.async {
+ self.tableview.reloadData()
+ //  self.view.showToast("No Medicine Found", position: .bottom, popTime: 5, dismissOnTap: true)
+ SwiftLoader.hide()
+ }
+*/
 //    func fetchdata(){
 //        let appdel = UIApplication.shared.delegate as! AppDelegate
 //        let context = appdel.persistentContainer.viewContext
@@ -178,11 +221,13 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(self.medicineData.count)
         return self.medicineData.count
     }
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return self.data.count
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        let prescription_details = self.data.value(forKey: "prescription_details") as! NSArray
+//        return prescription_details.count
+//    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "\(headertitle)"
     }
@@ -194,7 +239,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
-        let d = medicineData.object(at: indexPath.row) as! NSDictionary
+      /*  let d = self.medicineData.object(at: indexPath.row) as! NSDictionary
         let name = d.value(forKey: "medicine_name") as! String
        
         let before_bf = d.value(forKey: "before_bf") as! String
@@ -267,8 +312,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             medicinecell.interval_period.text = ""
             medicinecell.interval_time.text = ""
         }
-        //sne9738uXm
-        medicinecell.name.text = "Medicine Name: \(name)"
+        //medicinecell.name.text = "Medicine Name: \(name)"
         
         var breakfast = Int()
         var lunch = Int()
@@ -293,12 +337,14 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
 
        // medicinecell.timeslot.text = "\(self.timeslot.joined(separator: "-"))"
         
-        if notificationGranted {
-           // repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
-        } else {
-            print("notification not granted")
-        }
-        for _ in 0...medicineData.count {
+        */
+        
+//        if notificationGranted {
+//           // repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)
+//        } else {
+//            print("notification not granted")
+//        }
+       /* for _ in 0...medicineData.count {
             DispatchQueue.main.async {
                 Alert.shared.ActionAlert(vc: self, title: "Time To Take Medicine", msg: "-\(name)", buttontitle: "Taken", button2title: "Remind Me Later", ActionCompletion: {
                     self.took = true
@@ -308,7 +354,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                     Timer.scheduledTimer(timeInterval: 60 * 1, target: self, selector: #selector(self.remind), userInfo: self.timerDic, repeats: true)
                 }
             }
-        }
+        }*/
       /*  for _ in 0...items.count{
             for i in items {
                 if items.count > 0{
@@ -376,7 +422,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                         self.took = true
                     }) {
                         self.took = false
-                        Timer.scheduledTimer(timeInterval: 60 * 1, target: self, selector: #selector(self.remind), userInfo: ["msg":msg], repeats: true)
+                        Timer.scheduledTimer(timeInterval: 60 * 10, target: self, selector: #selector(self.remind), userInfo: ["msg":msg], repeats: true)
                     }
                 }
             } else {
@@ -386,5 +432,27 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         }
     }
     
+}
+extension MedicineViewController: UIScrollViewDelegate {
+   
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isDataLoading = false
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    //Pagination
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if ((tableview.contentOffset.y + tableview.frame.size.height) >= tableview.contentSize.height)
+        {
+            if !isDataLoading{
+                isDataLoading = true
+                self.pageNo=self.pageNo+1
+                self.limit=self.limit+10
+                self.offset=self.limit * self.pageNo
+               // loadCallLogData(offset: self.offset, limit: self.limit)
+            }
+        }
+    }
 }
 

@@ -112,7 +112,11 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
 
         let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(signature_image)")!
       //  Precell.signature_image.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
-        Precell.signature_image.image = #imageLiteral(resourceName: "placeholder--pdf.png")
+        if prescription_pdf == "NF"{
+            Precell.signature_image.backgroundColor = UIColor.groupTableViewBackground
+        } else {
+            Precell.signature_image.image = #imageLiteral(resourceName: "placeholder--pdf.png")
+        }
         Precell.patient_problem.text = "Problem: \(patient_problem)"
      //   Precell.prescription_details.text = "Detail: \(prescription_details)"
         Precell.date.text = "D:\(created_at)"
@@ -126,18 +130,21 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let d = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
-        let signature_image = d.value(forKey: "signature_image") as! String
-
-        let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(signature_image)")
-        let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
-        let urlRequest = URLRequest(url: url!)
-        webView.navigationDelegate = self
-        webView.load(urlRequest)
-
-        let pdfVC = UIViewController()
-        pdfVC.view.addSubview(webView)
-        //pdfVC.title = pdfTitle
-        self.navigationController?.pushViewController(pdfVC, animated: true)
+        let prescription_pdf = d.value(forKey: "prescription_pdf") as! String
+        if prescription_pdf == "NF"{
+            self.view.showToast("No PDF Added", position: .bottom, popTime: 3, dismissOnTap: true)
+        } else {
+            let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(prescription_pdf)")
+            let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
+            let urlRequest = URLRequest(url: url!)
+            webView.navigationDelegate = self
+            webView.load(urlRequest)
+            
+            let pdfVC = UIViewController()
+            pdfVC.view.addSubview(webView)
+            //pdfVC.title = pdfTitle
+            self.navigationController?.pushViewController(pdfVC, animated: true)
+        }
        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
