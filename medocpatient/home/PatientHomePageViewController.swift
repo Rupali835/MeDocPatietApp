@@ -22,10 +22,13 @@ class PatientHomePageViewController: UIViewController{
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
+    var dict = NSDictionary()
+    
     override func viewDidLoad(){
         super.viewDidLoad()
       //  fetchDoctor()
-        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [imagesPicView], number: 10)
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
@@ -37,13 +40,20 @@ class PatientHomePageViewController: UIViewController{
         let title = UILabel()
         title.textColor = UIColor.white
         title.font = UIFont.boldSystemFont(ofSize: 23)
-        title.text = "Medoc Patient"
+        title.text = "MeDoc"
         let titlebar = UIBarButtonItem(customView: title)
         self.navigationItem.leftBarButtonItem = titlebar
         
+        //self.navigationItem.titleView = UIImageView(image: )
+        
         let LogoutBar = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "power.png"), target: self, action: #selector(LogoutAction))
-        self.navigationItem.rightBarButtonItem = LogoutBar
+        let info = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "icons8-info-50.png"), target: self, action: #selector(infodetails))
+        self.navigationItem.rightBarButtonItems = [LogoutBar,info]
  
+    }
+    @objc func infodetails(){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TimeInfoViewController") as! TimeInfoViewController
+        self.present(vc, animated: true, completion: nil)
     }
     @objc func LogoutAction(){
         DispatchQueue.main.async {
@@ -53,25 +63,83 @@ class PatientHomePageViewController: UIViewController{
             self.appdel.SwitchLogin()
         }
     }
-    func fetchDoctor(){
-        ApiServices.shared.FetchGetRequestDataFromURL(vc: self, withOutBaseUrl: "doctors", parameter: [                                                                                                 "user_key" : "6cb6362cf70555f1c3f1e230bb1a9d98","query":"Toothache"], onSuccessCompletion: { 
+//    func fetchDoctor(){
+//        ApiServices.shared.FetchGetRequestDataFromURL(vc: self, withOutBaseUrl: "doctors", parameter: [                                                                                                 "user_key" : "6cb6362cf70555f1c3f1e230bb1a9d98","query":"Toothache"], onSuccessCompletion: {
+//            do {
+//               let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+//                print("json: \(json)")
+//                DispatchQueue.main.async {
+//                    self.tableview.reloadData()
+//                }
+//            } catch {
+//                print("catch")
+//            }
+//        }) { () -> (Dictionary<String, Any>) in
+//            [:]
+//        }
+//    }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchProfileDatail()
+    }
+    func fetchProfileDatail(){
+        SwiftLoader.show(title: "Please Wait..", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
-               let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                print("json: \(json)")
-                DispatchQueue.main.async {
-                    self.tableview.reloadData()
+                print(ApiServices.shared.data)
+                self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                let msg = self.dict.value(forKey: "msg") as? String ?? ""
+                if msg == "success" {
+                    if let data = self.dict.value(forKey: "data") as? NSDictionary {
+                        print(data)
+                        DispatchQueue.main.async {
+                            SwiftLoader.show(title: "Loading..", animated: true)
+                            let pp = data.value(forKey: "profile_picture") as? String ?? ""
+                            if pp != ""{
+                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
+                                print(url)
+                                self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
+                            }
+                            else {
+                                self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
+                            }
+                            let name = data.value(forKey: "name") as? String ?? ""
+                            self.Name.text = "Name: \(name)"
+                            let dob = data.value(forKey: "dob") as? String ?? ""
+                            if self.DateOfBirth.text == ""{
+                                self.DateOfBirth.text = "Date of Birth"
+                            } else {
+                                self.DateOfBirth.text = "Date of Birth: \(dob)"
+                            }
+                            let gender = data.value(forKey: "gender") as? String ?? "4"
+                            switch gender {
+                            case "1":
+                                self.Gender.text = "Gender: Male";
+                            case "2":
+                                self.Gender.text = "Gender: Female";
+                            case "3":
+                                self.Gender.text = "Gender: Other";
+                            default:
+                                self.Gender.text = "Gender";
+                            }
+                            DispatchQueue.main.async {
+                                SwiftLoader.hide()
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.sync {
+                    SwiftLoader.hide()
                 }
             } catch {
                 print("catch")
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        retrivedata()
-    }
-    
     func retrivedata(){
         let managedobject = self.appdel.persistentContainer.viewContext
         let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
@@ -100,11 +168,11 @@ class PatientHomePageViewController: UIViewController{
                 }
                 let gender = data.value(forKey: user.gender) as? String ?? "4"
                 switch gender {
-                    case "0":
-                        self.Gender.text = "Male";
                     case "1":
-                        self.Gender.text = "Female";
+                        self.Gender.text = "Male";
                     case "2":
+                        self.Gender.text = "Female";
+                    case "3":
                         self.Gender.text = "Other";
                     default:
                         self.Gender.text = "Gender";

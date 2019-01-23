@@ -38,9 +38,18 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     var prescriptionsgeneral = [PrescriptionsGeneral]()
     var prescriptionsgeneraldata = [PrescriptionsGeneralData]()
     
-    var selectedPrescription = ""
+    var selectedPrescription = "0"
     var pdfurl = URL(string: "NF")!
-    var path = ""
+    var imagename = ""
+    var fourDigitNumber: String {
+        var result = ""
+        repeat {
+            // Create a string with a random number 0...9999
+            result = String(format:"%04d", arc4random_uniform(10000) )
+        } while result.count < 4
+        return result
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addAttachment.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
@@ -56,7 +65,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         dropdown.anchorView = selectPrescription
         dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
         DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 18)
-        Utilities.shared.cornerRadius(objects: [Done,selectPrescription,addAttachment], number: 10)
+        Utilities.shared.cornerRadius(objects: [Done,selectPrescription,addAttachment,imagesPicView], number: 10)
         // Do any additional setup after loading the view.
     }
     
@@ -65,23 +74,64 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         fetchPrescription()
     }
     func addReport(){
-        print("prescription_id: \(self.selectedPrescription)")
-        print("image_name:\(self.Filetitle.text!)")
-        print("tag:\(self.textfield.text!)")
-        let param = [
-            "prescription_id": self.selectedPrescription,
-            "image_name": self.Filetitle.text!,
-            "tag":self.textfield.text!,
-        ]
-        SwiftLoader.show(title: "adding image", animated: true)
-
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.Filetitle.text!, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        
+        SwiftLoader.show(title: "adding data", animated: true)
+        self.uploadimage()
+        ApiServices.shared.FetchformPostDataFromUrl(vc: self, withOutBaseUrl: "reportstore", bearertoken: bearertoken!, parameter: "prescription_id=\(self.selectedPrescription)&image_name=[{ \"dataName\": \"\(imagename)\",\"dataTag\": \"\(self.textfield.text!)\" }]", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String{
+                    if msg == "success" {
+                        
+                    }
+                }
+                DispatchQueue.main.async {
+                   // SwiftLoader.hide()
+                }
+                print("data:\(json)")
+            } catch {
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
                 }
-                print("image\(json)")
+                print("catch")
+            }
+        }, HttpBodyCompletion: { () -> (Dictionary<String, Any>) in
+            [:]
+        })
+    }
+    func uploadimage(){
+        //SwiftLoader.show(title: "adding image", animated: true)
+//
+//        if let text = self.Filetitle.text {
+//            if text == "capturedimage"{
+//                let name = fourDigitNumber
+//                imagename = "img\(name).jpg"
+//            }
+//            else if !text.contains(find: "jpg") {
+//                let removedot = text.replacingOccurrences(of: ".", with: "")
+//                imagename = removedot.appending(".jpg")
+//            }
+//            else {
+//                imagename = text
+//            }
+//        }
+        print("prescription_id: \(self.selectedPrescription)")
+        print("dataName:\(imagename)")
+        print("dataTag:\(self.textfield.text!)")
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String{
+                    if msg == "success" {
+                        self.dismiss(animated: true, completion: {
+                            self.view.showToast("Report Added Successfully", position: .bottom, popTime: 1, dismissOnTap: true)
+                        })
+                    }
+                }
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                }
+                print("image:\(json)")
             } catch {
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
@@ -91,34 +141,16 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }) { () -> (Dictionary<String, Any>) in
             [:]
         }
-        SwiftLoader.show(title: "adding data", animated: true)
-
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "reportstore", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
-            do {
-                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
-                print("\(json)")
-            } catch {
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
-                print("catch")
-            }
-        }) { () -> (Dictionary<String, Any>) in
-            param
-        }
     }
     @objc func doneAction(){
-        if (selectPrescription.titleLabel?.text)! == "Select Prescription"{
-            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
-        }
+//        if (selectPrescription.titleLabel?.text)! == "Select Prescription"{
+//            view.showToast("not selected Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
+//        }
         if Filetitle.text == ""{
-            view.showToast("not selected images", position: .bottom, popTime: 3, dismissOnTap: true)
+            view.showToast("Not Selected Image", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else if (textfield.text?.isEmpty)! {
-            view.showToast("Write Remark", position: .bottom, popTime: 3, dismissOnTap: true)
+            view.showToast("Write Tag", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else {
             addReport()
@@ -140,6 +172,9 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
     }
     func fetchPrescription(){
+        SwiftLoader.show(animated: true)
+        self.idarray.removeAll()
+        self.problemArray.removeAll()
         ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "prescriptionsgeneral", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let decode = try JSONDecoder().decode(PrescriptionsGeneral.self, from: ApiServices.shared.data)
@@ -157,6 +192,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 
                 DispatchQueue.main.async {
                     self.dropdown.reloadAllComponents()
+                    SwiftLoader.hide()
                 }
 //                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
 //                print(json)
@@ -182,8 +218,11 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
     }
     @objc func addPrescription(){
+        self.textfield.endEditing(true)
+
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
         vc.status = "1"
+        
         if self.prescriptionsgeneraldata.count == 0{
             self.view.showToast("No Prescription Found", position: .top, popTime: 5, dismissOnTap: true)
         }
@@ -204,6 +243,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
     }
     @objc func addAttachmentAction(){
+        self.textfield.endEditing(true)
         Alert.shared.choose(vc: self, ActionCompletion: {
             print("image")
             PHPhotoLibrary.requestAuthorization { (status) in
@@ -212,16 +252,20 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 } else {
                     self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
                         // let attachment = self.attachmentArray[0] as! DBAttachment
-                        self.Filetitle.text = attachmentArray[0].fileName
+                       // self.Filetitle.text = attachmentArray[0].fileName
                         attachmentArray[0].loadOriginalImage(completion: { (image) in
+                            let timestamp = Date().toMillis()
+                            image?.accessibilityIdentifier = String(describing: timestamp)
+                            self.imagename = "\(String(describing: timestamp!)).jpg"
+                            self.Filetitle.text = self.imagename
                             self.imagesPicView.image = image
                             self.pdfurl = URL(string: "NF")!
                         })
                         
                     }, cancel: nil)
-                    self.APC.mediaType = [.other,.image]
+                    self.APC.mediaType = [.image]
                     self.APC.allowsMultipleSelection = false
-                    self.APC.allowsSelectionFromOtherApps = true
+                    self.APC.allowsSelectionFromOtherApps = false
                     self.APC.present(on: self)
                     
                 }
@@ -230,7 +274,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }) {
             print("pdf")
             
-            let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypePDF),String(kUTTypePNG),String(kUTTypeJPEG)], in: .import)
+            let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypePDF)], in: .import)
             documentPicker.delegate = self
             documentPicker.allowsMultipleSelection = false
             documentPicker.modalPresentationStyle = .formSheet
@@ -242,11 +286,49 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         self.dismiss(animated: true, completion: nil)
     }
 }
+//extension AddReportViewController: UIPickerViewDelegate,UIPickerViewDataSource{
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 1
+//    }
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return self.prescriptionsgeneraldata.count
+//    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return self.prescriptionsgeneraldata[row].patientProblem!
+//    }
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if self.prescriptionsgeneraldata.count == 0{
+//
+//        } else {
+//            self.BloodGroupTF.text = self.prescriptionsgeneraldata[row].patientProblem!
+//        }
+//    }
+//    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+//        return 45
+//    }
+//    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+//        var label: UILabel
+//        if let view = view as? UILabel{
+//            label = view
+//        } else {
+//            label = UILabel()
+//        }
+//        label.textColor = UIColor.black
+//        label.textAlignment = .center
+//        label.font = UIFont.boldSystemFont(ofSize: 20)
+//        label.text = self.prescriptionsgeneraldata[row].patientProblem!
+//
+//        return label
+//    }
+//}
+
 extension AddReportViewController: UIDocumentPickerDelegate,UINavigationControllerDelegate{
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         let myURL = url as URL
         pdfurl = myURL
+        self.imagename = myURL.lastPathComponent
         self.Filetitle.text = myURL.lastPathComponent
+        self.imagesPicView.image = #imageLiteral(resourceName: "placeholder--pdf.png")
         print("import result : \(myURL)")
     }
 }

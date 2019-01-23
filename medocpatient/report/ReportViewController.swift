@@ -99,27 +99,68 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
         let created_at = d.value(forKey: "created_at") as? String ?? ""
         let prescription_id = d.value(forKey: "prescription_id") as? String ?? ""
         if let image = d.value(forKey: "image_name") as? String{
-            print("image-\(image)")
+          /*  if image.contains(find: "[]"){
+                reportcell.images.image = #imageLiteral(resourceName: "placeholder.jpg")
+            } else {
+            do {
+                if let jsonArray = try JSONSerialization.jsonObject(with: image.data(using: .utf8)!, options : .allowFragments) as? NSArray
+                {
+                    if let dict = jsonArray.object(at: 0) as? NSDictionary{
+                        if let imagename = dict.value(forKey: "dataName") as? String{
+                            print("imagename:\(imagename)")
+                            let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(imagename)")!
+                            reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
+                        }
+                        if let tag = dict.value(forKey: "dataTag") as? String{
+                            print("tag:\(tag)")
+                            reportcell.remark.text = "Tag: \"\(tag)\""
+                        }
+                    }
+                } else {
+                    print("bad json")
+                }
+            } catch let error as NSError {
+                print(error)
+            }
+            }*/
             if image.contains(find: "["){
                 reportcell.images.image = #imageLiteral(resourceName: "placeholder.jpg")
-                if image.contains(find: "[{") {
+                
+                if image.contains(find: "[{ ") {
+                    let substr = image.slice(from: ": \"", to: "\",")
+                    let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)")!
+                    print("substrurl-\(url)")
+                    reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
+                }
+                else if image.contains(find: "[{\"") {
                     let substr = image.slice(from: ":\"", to: "\",")
                     let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)")!
                     print("substrurl-\(url)")
                     reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
                 }
-            }
-            else if image.contains(find: ".pdf"){
-                reportcell.images.image = #imageLiteral(resourceName: "placeholder--pdf.png")
+                
             }
             else {
                 let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(image)")!
                 print(url)
                 reportcell.images.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder.jpg"), options: .continueInBackground, completed: nil)
             }
+            if image.contains(find: ".pdf"){
+                reportcell.images.image = #imageLiteral(resourceName: "placeholder--pdf.png")
+            }
+            if image.contains(find: "dataTag") {
+                let substr = image.slice(from: "dataTag\":", to: "}]")
+                reportcell.remark.text = "Tag: \(substr!)"
+            } else {
+                reportcell.remark.text = "Tag: \"\(tag)\""
+            }
+            
         }
-        reportcell.pre.text = "Prescription: \(prescription_id)"
-        reportcell.remark.text = "Tag: \(tag)"
+        if prescription_id == "0"{
+            reportcell.pre.text = "Prescription: None"
+        } else {
+            reportcell.pre.text = "Prescription: \(prescription_id)"
+        }
         reportcell.date.text = "date: \(created_at)"
 
 //        reportcell.pre.text = "Selected Prescription: \(items[indexPath.row].selectedPrescription!)"
@@ -136,7 +177,11 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
         let d = reportdata.object(at: indexPath.row) as! NSDictionary
         if let image = d.value(forKey: "image_name") as? String{
             var urlstr = ""
-            if image.contains(find: "[{") {
+            if image.contains(find: "[{ ") {
+                let substr = image.slice(from: ": \"", to: "\",")
+                urlstr = "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)"
+            }
+            else if image.contains(find: "[{\"") {
                 let substr = image.slice(from: ":\"", to: "\",")
                 urlstr = "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(substr!)"
             }

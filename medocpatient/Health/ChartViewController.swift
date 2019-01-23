@@ -22,12 +22,18 @@ class ChartViewController: UIViewController {
     let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
     var attr = ""
     var timeinterval = "d"
+    var fromdate = "0"
+    var todate = "0"
+    
     var headertitle = "All Recorded Data"
+    
+    let startWeek = Date().startOfWeek
+    let endWeek = Date().endOfWeek
     
     override func viewDidLoad() {
         super.viewDidLoad()
       //  setLineChart()
-        setChart(dataPoints: months, values: unitsSold)
+      //  setChart(dataPoints: months, values: unitsSold)
 
         axisFormatDelegate = self
         tableview.tableFooterView = UIView(frame: .zero)
@@ -56,7 +62,9 @@ class ChartViewController: UIViewController {
     @objc func changeintervalSegment(sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0{
             timeinterval = "d"
-//            fetchhealthdata()
+            fromdate = "0"
+            todate = "0"
+            fetchhealthdata()
 //            months = ["Today"]
 //
 //            lineviewChart.data?.notifyDataChanged()
@@ -64,11 +72,17 @@ class ChartViewController: UIViewController {
         }
         else if sender.selectedSegmentIndex == 1{
             timeinterval = "w"
-           // fetchhealthdata()
+            let df = DateFormatter()
+            df.dateFormat = "YYYY-MM-DD"
+            fromdate = df.string(from: startWeek!)
+            todate = df.string(from: endWeek!)
+            fetchhealthdata()
         }
         else if sender.selectedSegmentIndex == 2{
             timeinterval = "m"
-            //fetchhealthdata()
+            fromdate = "0"
+            todate = "0"
+            fetchhealthdata()
 //            months = ["Jan","Feb","Mar","Apr","May","Jun"]
 //            setChart(dataPoints: months, values: unitsSold)
 //
@@ -77,24 +91,31 @@ class ChartViewController: UIViewController {
         }
         else if sender.selectedSegmentIndex == 3{
             timeinterval = "y"
-           // fetchhealthdata()
+            fromdate = "0"
+            todate = "0"
+            fetchhealthdata()
         }
     }
     func fetchhealthdata(){
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/\(timeinterval)", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        SwiftLoader.show(title: "Loading", animated: true)
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/\(timeinterval)/\(fromdate)/\(todate)", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
                     if msg == "success"{
                         if let data = json.value(forKey: "data") as? NSArray{
                             self.dataarr = data
-                            if data.count == 0{
+                            if data.count > 0 {
+                                self.headertitle = "All Recorded Data"
+                            }
+                            else{
                                 self.headertitle = "No Recorded Data"
                             }
                         }
                     }
                     DispatchQueue.main.async {
                         self.tableview.reloadData()
+                        SwiftLoader.hide()
                     }
                 }
                 print(json)

@@ -117,13 +117,13 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         } else {
             Precell.signature_image.image = #imageLiteral(resourceName: "placeholder--pdf.png")
         }
-        Precell.patient_problem.text = "Problem: \(patient_problem)"
+        Precell.patient_problem.text = "Name: \(patient_problem)"
      //   Precell.prescription_details.text = "Detail: \(prescription_details)"
-        Precell.date.text = "D:\(created_at)"
-        Precell.height.text = "Height: \(height)"
-        Precell.weight.text = "Weight: \(weight)"
-        Precell.temperature.text = "Temp: \(temperature)"
-        Precell.blood_pressure.text = "BP: \(blood_pressure)"
+        Precell.date.text = "Date:\(created_at)"
+//        Precell.height.text = "Height: \(height)"
+//        Precell.weight.text = "Weight: \(weight)"
+//        Precell.temperature.text = "Temp: \(temperature)"
+//        Precell.blood_pressure.text = "BP: \(blood_pressure)"
 
        // Precell.title.text = data[indexPath.row]
         return Precell

@@ -82,9 +82,28 @@ class RegisterViewController: UIViewController{
         
         PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
         ConfirmPasswordTF.addTarget(self, action: #selector(updateConfirmPassword), for: .editingChanged)
+        EmailTF.addTarget(self, action: #selector(updateEmail), for: .editingChanged)
 
         Signup.addTarget(self, action: #selector(SignupAction), for: .touchUpInside)
         // Do any additional setup after loading the view.
+    }
+    @objc func updateEmail(){
+        if EmailTF.isFirstResponder {
+            if let text = EmailTF.text {
+                if let floatingLabelTextField = EmailTF as? SkyFloatingLabelTextField {
+                    if text.isEmpty {
+                        floatingLabelTextField.errorMessage = "Fill Your Email"
+                    }
+                    else if text.count > 0 && text.contains(find: "@"){
+                        if text.isValidEmail() {
+                            floatingLabelTextField.errorMessage = ""
+                        } else {
+                            floatingLabelTextField.errorMessage = "Invalid email"
+                        }
+                    }
+                }
+            }
+        }
     }
     @objc func updateConfirmPassword(){
         
@@ -148,11 +167,11 @@ class RegisterViewController: UIViewController{
     }
     @objc func CloseAction(){
         let pageViewController = self.parent as! PageViewController
-        pageViewController.PreviousPageWithIndex(index: 1)
+        pageViewController.PreviousPageWithIndex(index: 0)
     }
     @objc func SigninAction(){
         let pageViewController = self.parent as! PageViewController
-        pageViewController.PreviousPageWithIndex(index: 1)
+        pageViewController.PreviousPageWithIndex(index: 0)
     }
     @objc func SignupAction(){
         //check empty textfield
@@ -189,7 +208,7 @@ class RegisterViewController: UIViewController{
         }
         //check all validation
         else if (self.EmailTF.text?.isValidEmail())! && (self.PasswordTF.text?.isValidPassword())!{ //&& (self.NumberTF.text?.isValidIndianContact)! {
-            
+            self.selectedGender += 1
             if HaveIDselected == 0{
                 //with patient id
                 if (self.PatientIDTF.text?.isEmpty)! {
@@ -199,7 +218,7 @@ class RegisterViewController: UIViewController{
                     let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.PatientIDTF.text!)"
                     register(parameter: with_patient_id)
                 }
-            }//AmiB1546842910
+            }
             else if HaveIDselected == 1{
                 print("1")
                 //without patient id
@@ -208,7 +227,7 @@ class RegisterViewController: UIViewController{
             }
             
         }
-    }
+    }//7218845446 & Amit@123
     func register(parameter: String){
         SwiftLoader.show(animated: true)
         ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregister", parameter:  parameter, onSuccessCompletion: {
@@ -224,7 +243,7 @@ class RegisterViewController: UIViewController{
                     SwiftLoader.hide()
                    // NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.EmailTF.text!,"password":self.PasswordTF.text!])
                     let pageViewController = self.parent as! PageViewController
-                    pageViewController.PreviousPageWithIndex(index: 1)
+                    pageViewController.PreviousPageWithIndex(index: 0)
                 }
             } catch {
                 print("catch")
@@ -239,7 +258,7 @@ class RegisterViewController: UIViewController{
     func fetchDetailByPatientID(){
         SwiftLoader.show(animated: true)
         PatientIDTF.endEditing(true)
-        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregisterusingid", parameter: "patient_id=\(PatientIDTF.text!)", onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -251,7 +270,7 @@ class RegisterViewController: UIViewController{
                             let name = data.value(forKey: "name") as? String ?? ""
                             let contact_no = data.value(forKey: "contact_no") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
-                            let gender = data.value(forKey: "gender") as? String ?? "0"
+                            let gender = data.value(forKey: "gender") as? String ?? "1"
                             
                             self.FullNameTF.text = name
                             self.EmailTF.text = email
@@ -263,10 +282,12 @@ class RegisterViewController: UIViewController{
                         }
                     }
                 }
-                else if msg == "Patient Id invalid"{
+                else if msg == "fail"{
                     DispatchQueue.main.async {
-                        self.view.showToast("Sorry, Didn't Match With Our Data", position: .bottom, popTime: 3, dismissOnTap: true)
                         SwiftLoader.hide()
+                        if let reason = json.value(forKey: "reason") as? String{
+                            self.view.showToast("Reason: \(reason)", position: .bottom, popTime: 3, dismissOnTap: true)
+                        }
                     }
                 }
             } catch {
@@ -344,22 +365,6 @@ extension RegisterViewController: UITextFieldDelegate {
                     }
                     else if text.count >= 0{
                         floatingLabelTextField.errorMessage = ""
-                    }
-                }
-            }
-        }
-        else if EmailTF.isFirstResponder {
-            if let text = EmailTF.text {
-                if let floatingLabelTextField = EmailTF as? SkyFloatingLabelTextField {
-                    if text.isEmpty {
-                        floatingLabelTextField.errorMessage = "Fill Your Email"
-                    }
-                    else if text.count > 0 && text.contains(find: "@"){
-                        if text.isValidEmail() {
-                            floatingLabelTextField.errorMessage = ""
-                        } else {
-                            floatingLabelTextField.errorMessage = "Invalid email"
-                        }
                     }
                 }
             }

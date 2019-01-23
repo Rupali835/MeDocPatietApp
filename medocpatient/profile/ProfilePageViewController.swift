@@ -11,6 +11,8 @@ import FSCalendar
 import CoreData
 import DBAttachmentPickerController
 import SkyFloatingLabelTextField
+import DropDown
+
 class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
     //user
     @IBOutlet var BasicView: UIView!
@@ -120,7 +122,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var Save: UIButton!
     var checked = Bool(true)
     var edit = Bool(false)
-    var selectedGender = "0"
+    var selectedGender = "1"
     var HaveAllergy = "0"
     var selectedfood = "0"
     var selectedmedicine = "0"
@@ -148,6 +150,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     
     @IBOutlet var cancel: UIButton!
     @IBOutlet var fscalendar: FSCalendar!
+    
     var selected = ""
     var datestr1 = ""
     var datestr2 = ""
@@ -159,7 +162,11 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var imagename = ""
     var pdfurl = URL(string: "NF")!
     var editbutton = UIBarButtonItem()
-    
+    let pickerview = UIPickerView()
+    let bloodtypes = ["A+","A-","B-","B+","AB+","AB-","O+","O-"]
+   
+}
+extension ProfilePageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Utilized()
@@ -168,13 +175,114 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         
         fscalendar.delegate = self
         fscalendar.dataSource = self
+        
+        MobileNumberTF.delegate = self
+        GuardianMobileNumberTF.delegate = self
+        PP_NumberTF.delegate = self
+        FirstEC_NumberTF.delegate = self
+        SecondEC_NumberTF.delegate = self
+
         cancel.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         fscalendar.backgroundColor = UIColor.groupTableViewBackground
         addProfileImage.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
         editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
         self.navigationItem.rightBarButtonItem = editbutton
         self.alltextfield(bool: false)
-       // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if Reachability.isConnectedToNetwork() == true {
+            fetchProfileDatail()
+        } else {
+           // retrivedata()
+            SetupInterface()
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+       customizePickerViewandDateView()
+    }
+}
+extension ProfilePageViewController {//validation
+    func toast(msg: String){
+        self.view.showToast(msg, position: .bottom, popTime: 3, dismissOnTap: true)
+    }
+    @objc func SaveAction(){
+        if (NameTF.text?.isEmpty)!{
+            toast(msg: "Empty Name")
+        }
+        else if emailTF.text?.isValidEmail() == false{
+            toast(msg: "Invaild Email")
+        }
+        else if MobileNumberTF.text?.isValidIndianContact == false{
+            toast(msg: "Invaild Mobile Number")
+        }
+        else {
+          //  savedata()
+            sendData()
+        }
+        // updateProfileDetails()
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let limitLength = 10
+
+        if MobileNumberTF.isFirstResponder {
+            if let text = MobileNumberTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= limitLength
+            }
+        }
+        else if GuardianMobileNumberTF.isFirstResponder {
+            if let text = GuardianMobileNumberTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= limitLength
+            }
+        }
+        else if PP_NumberTF.isFirstResponder {
+            if let text = PP_NumberTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= limitLength
+            }
+        }
+        else if FirstEC_NumberTF.isFirstResponder {
+            if let text = FirstEC_NumberTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= limitLength
+            }
+        }
+        else if SecondEC_NumberTF.isFirstResponder {
+            if let text = SecondEC_NumberTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= limitLength
+            }
+        }
+        return true
+    }
+}
+extension ProfilePageViewController {
+    
+    func customizePickerViewandDateView(){
+        self.pickerview.reloadAllComponents()
+        self.pickerview.reloadInputViews()
+        self.pickerview.dataSource = self
+        self.pickerview.delegate = self
+        self.pickerview.backgroundColor = UIColor.lightText
+        
+        BloodGroupTF.delegate = self
+        BloodGroupTF.inputView = pickerview
+        pickerview.backgroundColor = UIColor.white
+        
+        DateOfBirthTF.delegate = self
+        DateOfBirthTF.inputView = dateview
+        dateview.datePickerMode = .date
+        dateview.maximumDate = Date()
+        dateview.backgroundColor = UIColor.white
+        dateview.setValue(UIColor.black, forKeyPath: "textColor")
+        dateview.setDate(Date(), animated: true)
+        dateview.addTarget(self, action: #selector(setdate), for: .valueChanged)
     }
     @objc func EditableandNonEditable(){
         if Reachability.isConnectedToNetwork() == true{
@@ -208,7 +316,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
         
         self.FoodRadio[0].isUserInteractionEnabled = bool
         self.FoodRadio[1].isUserInteractionEnabled = bool
-
+        
         self.MedicinesRadio[0].isUserInteractionEnabled = bool
         self.MedicinesRadio[1].isUserInteractionEnabled = bool
         
@@ -255,7 +363,12 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
                     attachmentArray[0].loadOriginalImage(completion: { (image) in
                         SwiftLoader.show(animated: true)
-                        self.imagename = attachmentArray[0].fileName!
+                        let timestamp = Date().toMillis()
+                        image?.accessibilityIdentifier = String(describing: timestamp)
+                        self.imagename = "\(String(describing: timestamp!)).jpg"
+                        //self.imagename = attachmentArray[0].fileName!
+                        print(self.imagename)
+                        
                         self.imagesPicView.image = image
                         SwiftLoader.hide()
                     })
@@ -269,6 +382,77 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
             }
         }
     }
+    
+    @objc func reload(){
+        UIView.animate(withDuration: 0.1) {
+            self.cv.isHidden = true
+            self.cv.alpha = 0.0
+        }
+        // retrivedata()
+    }
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        
+        SwiftLoader.show(title: "Date Set..", animated: true)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let datestr = formatter.string(from: date)
+        
+        if selected == "1"{
+            self.datestr1 = datestr
+            self.selectdateRadio[0].setTitle(self.datestr1, for: .normal)
+            //  profile.setValue(self.datestr1, forKey: lastVaccinationDone.lselecteddate1)
+        }
+        else if selected == "2"{
+            self.datestr2 = datestr
+            self.selectdateRadio[1].setTitle(self.datestr2, for: .normal)
+            //  profile.setValue(self.datestr2, forKey: lastVaccinationDone.lselecteddate2)
+        }
+        else if selected == "3"{
+            self.datestr3 = datestr
+            self.selectdateRadio[2].setTitle(self.datestr3, for: .normal)
+            // profile.setValue(self.datestr3, forKey: lastVaccinationDone.lselecteddate3)
+        }
+        else if selected == "4"{
+            self.datestr4 = datestr
+            self.selectdateRadio[3].setTitle(self.datestr4, for: .normal)
+            //  profile.setValue(self.datestr4, forKey: lastVaccinationDone.lselecteddate4)
+        }
+        
+        SwiftLoader.hide()
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
+        //  self.dismiss(animated: true, completion: nil)
+    }
+    func maximumDate(for calendar: FSCalendar) -> Date {
+        return Date()
+    }
+    @objc func cancelAction(){
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
+        //self.dismiss(animated: true, completion: nil)
+    }
+    @objc func setdate(datePicker: UIDatePicker){
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        if DateOfBirthTF.isFirstResponder {
+            DateOfBirthTF.text = df.string(from: datePicker.date)
+            let calendar : NSCalendar = NSCalendar.current as NSCalendar
+            let ageComponents = calendar.components(.year, from: dateview.date, to: Date() as Date, options: [])
+            let age = ageComponents.year!
+            self.age.text = "Age: \(age)"
+        }
+    }
+    
+    @objc func ChangeGender(){
+        if GenderSegment.selectedSegmentIndex == 0{
+            selectedGender = "1"
+        }
+        else if GenderSegment.selectedSegmentIndex == 1{
+            selectedGender = "2"
+        }
+        else if GenderSegment.selectedSegmentIndex == 2{
+            selectedGender = "3"
+        }
+    }
+
     func fetchProfileDatail(){
         SwiftLoader.show(title: "Please Wait..", animated: true)
         ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
@@ -303,12 +487,12 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                                 let age = ageComponents.year!
                                 self.age.text = "Age: \(age)"
                             }
-                            self.selectedGender = data.value(forKey: "gender") as? String ?? "0"
+                            self.selectedGender = data.value(forKey: "gender") as? String ?? "1"
                             self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
                             self.emailTF.text = email
                             self.PatientTF.text = data.value(forKey: "patient_id") as? String ?? ""
-                           // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
+                            // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
                             self.HeightTF.text = data.value(forKey: "height") as? String ?? ""
                             //self.BloodPressureTF.text = data.value(forKey: "name") as? String ?? ""
                             //self.TempretureTF.text = data.value(forKey: "name") as? String ?? ""
@@ -448,22 +632,23 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                                 self.ExplanationTF.text = recent_medical_condition_details
                             }
                             //last vaccination done
-                            let data1 = data.value(forKey: "last_tetanus_date") as? String ?? ""
-                            self.tetanusSelectedDate.text = data1
+                            let placeholder = "Click to select date"
+                            let data1 = data.value(forKey: "last_tetanus_date") as? String ?? placeholder
+                            self.selectdateRadio[0].setTitle(data1, for: .normal)
                             
-                            let data2 = data.value(forKey: "last_polio_date") as? String ?? ""
-                            self.polioSelectedDate.text = data2
-                            
-                            let data3 = data.value(forKey: "last_diptheria_date") as? String ?? ""
-                            self.diphtheriaSelectedDate.text = data3
-                            
-                            let data4 = data.value(forKey: "last_mumps_date") as? String ?? ""
-                            self.mumpsSelectedDate.text = data4
-                           // self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
+                            let data2 = data.value(forKey: "last_polio_date") as? String ?? placeholder
+                            self.selectdateRadio[1].setTitle(data2, for: .normal)
+
+                            let data3 = data.value(forKey: "last_diptheria_date") as? String ?? placeholder
+                            self.selectdateRadio[2].setTitle(data3, for: .normal)
+
+                            let data4 = data.value(forKey: "last_mumps_date") as? String ?? placeholder
+                            self.selectdateRadio[3].setTitle(data4, for: .normal)
+                            // self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
                             DispatchQueue.main.async {
                                 // self.retrivedata()
                                 self.SetupInterface()
-
+                                
                                 SwiftLoader.hide()
                             }
                         }
@@ -482,96 +667,13 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
             [:]
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        if Reachability.isConnectedToNetwork() == true {
-            fetchProfileDatail()
-        } else {
-            retrivedata()
-            SetupInterface()
-        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
-    }
-    @objc func reload(){
-        UIView.animate(withDuration: 0.1) {
-            self.cv.isHidden = true
-            self.cv.alpha = 0.0
-        }
-       // retrivedata()
-    }
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        SwiftLoader.show(title: "Date Set..", animated: true)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let datestr = formatter.string(from: date)
-        
-        if selected == "1"{
-            self.datestr1 = datestr
-            self.tetanusSelectedDate.text = self.datestr1
-            //  profile.setValue(self.datestr1, forKey: lastVaccinationDone.lselecteddate1)
-        }
-        else if selected == "2"{
-            self.datestr2 = datestr
-            self.polioSelectedDate.text = self.datestr2
-            //  profile.setValue(self.datestr2, forKey: lastVaccinationDone.lselecteddate2)
-        }
-        else if selected == "3"{
-            self.datestr3 = datestr
-            self.diphtheriaSelectedDate.text = self.datestr3
-            // profile.setValue(self.datestr3, forKey: lastVaccinationDone.lselecteddate3)
-        }
-        else if selected == "4"{
-            self.datestr4 = datestr
-            self.mumpsSelectedDate.text = self.datestr4
-            //  profile.setValue(self.datestr4, forKey: lastVaccinationDone.lselecteddate4)
-        }
-        
-        SwiftLoader.hide()
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-        //  self.dismiss(animated: true, completion: nil)
-    }
-    func maximumDate(for calendar: FSCalendar) -> Date {
-        return Date()
-    }
-    @objc func cancelAction(){
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-        //self.dismiss(animated: true, completion: nil)
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        DateOfBirthTF.delegate = self
-        DateOfBirthTF.inputView = dateview
-        dateview.datePickerMode = .date
-        dateview.maximumDate = Date()
-        dateview.backgroundColor = UIColor.white
-        dateview.setValue(UIColor.black, forKeyPath: "textColor")
-        dateview.setDate(Date(), animated: true)
-        dateview.addTarget(self, action: #selector(setdate), for: .valueChanged)
-    }
-    @objc func setdate(datePicker: UIDatePicker){
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd"
-        if DateOfBirthTF.isFirstResponder {
-            DateOfBirthTF.text = df.string(from: datePicker.date)
-            let calendar : NSCalendar = NSCalendar.current as NSCalendar
-            let ageComponents = calendar.components(.year, from: dateview.date, to: Date() as Date, options: [])
-            let age = ageComponents.year!
-            self.age.text = "Age: \(age)"
-        }
-    }
-    override func viewWillLayoutSubviews() {
-        
-    }
-    @objc func SaveAction(){
-        savedata()
-       // updateProfileDetails()
-        sendData()
-    }
     func sendData()
     {
-
-        let param : [String: Any] =
-            
+        if imagename.contains(find: ".HEIC") {
+            imagename = imagename.replacingOccurrences(of: "HEIC", with: "jpg")
+        }
+        var param : [String: Any]
+        param =
             [
                 "name": self.NameTF.text!,
                 "email": self.emailTF.text!,
@@ -625,14 +727,22 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
                 "physical_activity_restriction_details": self.RestrictionTF.text!,
                 "recent_medical_condition": "0",
                 "recent_medical_condition_details": self.ExplanationTF.text!,
-                "last_tetanus_date": self.tetanusSelectedDate.text!,
-                "last_polio_date": self.polioSelectedDate.text!,
-                "last_diptheria_date": self.diphtheriaSelectedDate.text!,
-                "last_mumps_date": self.mumpsSelectedDate.text!
+                "last_tetanus_date": self.selectdateRadio[0].titleLabel?.text!,
+                "last_polio_date": self.selectdateRadio[1].titleLabel?.text!,
+                "last_diptheria_date": self.selectdateRadio[2].titleLabel?.text!,
+                "last_mumps_date": self.selectdateRadio[3].titleLabel?.text!
         ]
-       
+       /* if self.NameTF.text != ""{
+            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
+        }
+        if self.MobileNumberTF.text != ""{
+            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
+        }
+        if self.emailTF.text != ""{
+            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
+        }*/
         SwiftLoader.show(title: "Updating data", animated: true)
-
+        
         ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
@@ -672,8 +782,11 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     }
     func uploadimage(){
         // ["profile_picture":self.imagename]
+        if imagename.contains(find: ".HEIC") {
+            imagename = imagename.replacingOccurrences(of: "HEIC", with: "jpg")
+        }
         SwiftLoader.show(title: "Updating image", animated: true)
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print("image-\(json)")
@@ -691,22 +804,45 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
             [:]
         }
     }
-   
-    @objc func ChangeGender(){
-        if GenderSegment.selectedSegmentIndex == 0{
-            selectedGender = "0"
-        }
-        else if GenderSegment.selectedSegmentIndex == 1{
-            selectedGender = "1"
-        }
-        else if GenderSegment.selectedSegmentIndex == 2{
-            selectedGender = "2"
+    
+}
+extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.bloodtypes.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.bloodtypes[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if self.bloodtypes.count == 0{
+            
+        } else {
+            self.BloodGroupTF.text = self.bloodtypes[row]
         }
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 45
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        if let view = view as? UILabel{
+            label = view
+        } else {
+            label = UILabel()
+        }
+        label.textColor = UIColor.black
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = self.bloodtypes[row]
         
+        return label
     }
 }
+
+
 extension ProfilePageViewController {//setupinterface
     
     func minimizeHeight(objects: [UIView],heightContantOutlet: [NSLayoutConstraint]){
@@ -767,7 +903,7 @@ extension ProfilePageViewController {//setupinterface
         Declare.isMultipleTouchEnabled = true
 
         DispatchQueue.main.async {
-            self.GenderSegment.selectedSegmentIndex = Int(self.selectedGender)!
+            self.GenderSegment.selectedSegmentIndex = Int(self.selectedGender)! - 1
             self.AllergySegment.selectedSegmentIndex = Int(self.HaveAllergy)!
             self.HeightOFallergyView.constant = 0
             self.bottomContraint.isActive = false
@@ -791,7 +927,7 @@ extension ProfilePageViewController {//setupinterface
         yesORnoActionInsideAllergyView()
     }
     func minimize(){
-        minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfBPTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
+        minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
     }
     @objc func AllergySegmentValue(){
         if AllergySegment.selectedSegmentIndex == 0{//no
@@ -897,15 +1033,15 @@ extension ProfilePageViewController {//setupinterface
             otherAllergyRadio[1].isSelected = false
             minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
         }
-        
-        BPRadio[Int(selectedbp)!].isSelected = true
-        if selectedbp == "1"{
-            BPRadio[0].isSelected = false
-            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        } else if selectedbp == "0"{
-            BPRadio[1].isSelected = false
-            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
+//
+//        BPRadio[Int(selectedbp)!].isSelected = true
+//        if selectedbp == "1"{
+//            BPRadio[0].isSelected = false
+//            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+//        } else if selectedbp == "0"{
+//            BPRadio[1].isSelected = false
+//            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+//        }
         
         DiebetesRadio[Int(selecteddiebetes)!].isSelected = true
         if selecteddiebetes == "1"{
@@ -919,28 +1055,28 @@ extension ProfilePageViewController {//setupinterface
         CancerRadio[Int(selectedcancer)!].isSelected = true
         if selectedcancer == "1"{
             CancerRadio[0].isSelected = false
-            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+          //  maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
         } else if selectedcancer == "0"{
             CancerRadio[1].isSelected = false
-            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+          //  minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
         }
         
         HeartDiseaseRadio[Int(selectedheartdisease)!].isSelected = true
         if selectedheartdisease == "1"{
             HeartDiseaseRadio[0].isSelected = false
-            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+           // maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
         } else if selectedheartdisease == "0"{
             HeartDiseaseRadio[1].isSelected = false
-            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+           // minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
         }
         
         LeukemiaRadio[Int(selectedleukemia)!].isSelected = true
         if selectedleukemia == "1"{
             LeukemiaRadio[0].isSelected = false
-            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+         //   maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
         } else if selectedleukemia == "0"{
             LeukemiaRadio[1].isSelected = false
-            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+           // minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
         }
         
         RestrictionRadio[Int(selectedrestriction)!].isSelected = true
@@ -1011,20 +1147,20 @@ extension ProfilePageViewController { //button action
             minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
         }
     }
-    @IBAction func BPYesOrNo(sender: SKRadioButton){
-        self.BPRadio.forEach { (button) in
-            button.isSelected = false
-        }
-        sender.isSelected = true
-        if sender.tag == 19 {
-            self.selectedbp = String(1)
-            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
-        else if sender.tag == 20 {
-            self.selectedbp = String(0)
-            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-        }
-    }
+//    @IBAction func BPYesOrNo(sender: SKRadioButton){
+//        self.BPRadio.forEach { (button) in
+//            button.isSelected = false
+//        }
+//        sender.isSelected = true
+//        if sender.tag == 19 {
+//            self.selectedbp = String(1)
+//            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+//        }
+//        else if sender.tag == 20 {
+//            self.selectedbp = String(0)
+//            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
+//        }
+//    }
     @IBAction func DiebetesYesOrNo(sender: SKRadioButton){
         self.DiebetesRadio.forEach { (button) in
             button.isSelected = false
@@ -1046,11 +1182,11 @@ extension ProfilePageViewController { //button action
         sender.isSelected = true
         if sender.tag == 23 {
             self.selectedcancer = String(1)
-            maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+           // maximizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
         }
         else if sender.tag == 24 {
             self.selectedcancer = String(0)
-            minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
+          //  minimizeHeight(objects: [CancerTF], heightContantOutlet: [HeightOfCancerTF])
         }
     }
     @IBAction func HeartDiseaseYesOrNo(sender: SKRadioButton){
@@ -1060,11 +1196,11 @@ extension ProfilePageViewController { //button action
         sender.isSelected = true
         if sender.tag == 25 {
             self.selectedheartdisease = String(1)
-            maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+         //   maximizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
         }
         else if sender.tag == 26 {
             self.selectedheartdisease = String(0)
-            minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
+          //  minimizeHeight(objects: [HeartDiseaseTF], heightContantOutlet: [HeightOfHeartDiseaseTF])
         }
     }
     @IBAction func LeukemiaYesOrNo(sender: SKRadioButton){
@@ -1074,11 +1210,11 @@ extension ProfilePageViewController { //button action
         sender.isSelected = true
         if sender.tag == 27 {
             self.selectedleukemia = String(1)
-            maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+         //   maximizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
         }
         else if sender.tag == 28 {
             self.selectedleukemia = String(0)
-            minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
+          //  minimizeHeight(objects: [LeukemiaTF], heightContantOutlet: [HeightOfLeukemiaTF])
         }
     }
     @IBAction func otherAllergyYesOrNo(sender: SKRadioButton){
@@ -1176,7 +1312,7 @@ extension ProfilePageViewController { //coredata save and retrive
             profile.setValue(self.selectedother, forKey: medical.aother)
             profile.setValue(self.otherAllergyTF.text!, forKey: medical.aexplainOther)
             
-            profile.setValue(self.selectedbp, forKey: medical.mbp)
+          //  profile.setValue(self.selectedbp, forKey: medical.mbp)
             profile.setValue(self.BPTF.text!, forKey: medical.mexplainBp)
             
             profile.setValue(self.selecteddiebetes, forKey: medical.mdiebetes)
@@ -1225,7 +1361,7 @@ extension ProfilePageViewController { //coredata save and retrive
                 self.NameTF.text = data.value(forKey: user.name) as? String
                 self.DateOfBirthTF.text = data.value(forKey: user.dateofbirth) as? String
                 self.age.text = data.value(forKey: user.age) as? String
-                //      selectedGender = data.value(forKey: user.gender) as? Int ?? 0
+                self.selectedGender = data.value(forKey: user.gender) as? String ?? "0"
                 self.BloodGroupTF.text = data.value(forKey: user.bloodGroup) as? String
                 self.WeightTF.text = data.value(forKey: user.weight) as? String
                 self.HeightTF.text = data.value(forKey: user.height) as? String
@@ -1274,7 +1410,7 @@ extension ProfilePageViewController { //coredata save and retrive
                 selectedother = data.value(forKey: medical.aother) as! String
                 self.otherAllergyTF.text = data.value(forKey: medical.aexplainOther) as? String
                 //medical
-                selectedbp = data.value(forKey: medical.mbp) as! String
+              //  selectedbp = data.value(forKey: medical.mbp) as! String
                 self.BPTF.text = data.value(forKey: medical.mexplainBp) as? String
                 
                 selecteddiebetes = data.value(forKey: medical.mdiebetes) as! String

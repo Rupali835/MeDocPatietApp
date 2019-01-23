@@ -16,14 +16,7 @@ class QRViewController: UIViewController {
     var qrcodeImage: CIImage!
     @IBOutlet var uniqueCode: UILabel!
     @IBOutlet var Send: UIButton!
-    var fiveDigitNumber: String {
-        var result = ""
-        repeat {
-            // Create a string with a random number 0...9999
-            result = String(format:"%04d", arc4random_uniform(100000) )
-        } while result.count < 5
-        return result
-    }
+    
     var hex = ""
     override func viewDidLoad() {
         super.viewDidLoad()

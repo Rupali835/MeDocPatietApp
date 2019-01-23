@@ -29,8 +29,8 @@ class ApiServices {
         urlReq.httpMethod = "Post"
         urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
-        let token = AppDelegate().devicetoken
-        urlReq.setValue(token, forHTTPHeaderField: "token")
+        let token = AppDelegate().fcm_token
+        urlReq.setValue(token, forHTTPHeaderField: "fcm_token")
         urlReq.httpBody = body
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
@@ -66,6 +66,42 @@ class ApiServices {
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
         urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
+        URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
+            if error != nil{
+                print("error")
+                if (error?.localizedDescription) != nil{
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                    }else{
+                        print("Internet Connection not Available!")
+                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
+                    }
+                }
+            } else {
+                self.data = data!
+                onSuccessCompletion()
+            }
+            }.resume()
+    }
+    func FetchformPostDataFromUrl(vc: UIViewController,
+                              withOutBaseUrl: String,
+                              bearertoken: String,
+                              parameter: String,
+                              onSuccessCompletion: @escaping ()->(),
+                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+    {
+        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        urlReq.httpMethod = "Post"
+        urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
+        urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
+        let myParams = parameter
+        let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
+        let body = postData
+        urlReq.httpBody = body
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
                 print("error")
@@ -156,9 +192,9 @@ class ApiServices {
     }
     func FetchMultiformDataWithImageFromUrl(vc: UIViewController,
                              withOutBaseUrl: String,
-                             parameter: [String:Any],
+                             parameter: [String:Any]?,
                              bearertoken: String,
-                             image: UIImage,
+                             image: UIImage?,
                              filename: String,
                              filePathKey: String,
                              pdfurl: URL,
@@ -180,8 +216,10 @@ class ApiServices {
             data = try! Data(contentsOf: pdfurl)
             mimetype = "application/pdf"
         } else {
-            data = image.jpegData(compressionQuality: 0.1)!
-            mimetype = "image/jpg"
+            if image != nil{
+                data = image!.jpegData(compressionQuality: 0.1)!
+                mimetype = "image/jpg"
+            }
         }
         
         urlReq.httpBody = createBodyWithParameters(parameters: parameter, filePathKey: filePathKey, filename: filename, imageDataKey: data, boundary: boundary, mimetype: mimetype)
@@ -231,7 +269,6 @@ class ApiServices {
         
         
         body.append("--\(boundary)--\r\n".data(using: String.Encoding.utf8)!)
-        
         return body as Data
     }
     

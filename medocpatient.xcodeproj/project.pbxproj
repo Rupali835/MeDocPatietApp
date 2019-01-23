@@ -69,6 +69,8 @@
 		575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575259E521D65DE2008DB872 /* UIView+Toast.swift */; };
 		575ADBA021E0DE0600235111 /* AppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */; };
 		575B403121E3398300DBBDB4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B403021E3398300DBBDB4 /* Reachability.swift */; };
+		575D2E5621F5A78100501D20 /* TimeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D2E5521F5A78100501D20 /* TimeInfoViewController.swift */; };
+		575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 575D2E5721F5D34700501D20 /* GoogleService-Info.plist */; };
 		57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CB721E731D6002DC4D0 /* ChartViewController.swift */; };
 		57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */; };
 		57692CC621E74B69002DC4D0 /* PNPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBB21E74B67002DC4D0 /* PNPieChart.swift */; };
@@ -157,6 +159,8 @@
 		575259E521D65DE2008DB872 /* UIView+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Toast.swift"; sourceTree = "<group>"; };
 		575ADB9F21E0DE0600235111 /* AppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewController.swift; sourceTree = "<group>"; };
 		575B403021E3398300DBBDB4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		575D2E5521F5A78100501D20 /* TimeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInfoViewController.swift; sourceTree = "<group>"; };
+		575D2E5721F5D34700501D20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57692CB721E731D6002DC4D0 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNGenericChart.swift; sourceTree = "<group>"; };
 		57692CBB21E74B67002DC4D0 /* PNPieChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNPieChart.swift; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				57254B6921D4BD6B00B38849 /* Main.storyboard */,
 				57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */,
 				57254B5E21D4BC5C00B38849 /* Info.plist */,
+				575D2E5721F5D34700501D20 /* GoogleService-Info.plist */,
 				57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */,
 			);
 			path = medocpatient;
@@ -316,6 +321,7 @@
 				57254BA321D4BE9900B38849 /* PatientHomePageViewController.swift */,
 				57254BA021D4BE9800B38849 /* PatientHomePageCollectionViewCell.swift */,
 				57254BA121D4BE9800B38849 /* PatientTableViewCell.swift */,
+				575D2E5521F5A78100501D20 /* TimeInfoViewController.swift */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -512,13 +518,13 @@
 						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Keychain = {
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.iCloud = {
 								enabled = 0;
@@ -555,6 +561,7 @@
 				57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */,
 				57254B6E21D4BD6C00B38849 /* Main.storyboard in Resources */,
 				57254B6F21D4BD6C00B38849 /* PatientExplaning.jpg in Resources */,
+				575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,9 +582,12 @@
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -588,9 +598,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -658,6 +671,7 @@
 				57254B9F21D4BE7F00B38849 /* DataModel.swift in Sources */,
 				5773ED4421F06E79001497E4 /* Cardview.swift in Sources */,
 				575259DA21D6061C008DB872 /* IQUITextFieldView+Additions.swift in Sources */,
+				575D2E5621F5A78100501D20 /* TimeInfoViewController.swift in Sources */,
 				57254BA921D4BEC300B38849 /* ProfilePageViewController.swift in Sources */,
 				57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */,
 				575259DC21D6061C008DB872 /* IQNSArray+Sort.swift in Sources */,
@@ -828,18 +842,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SHJ664BYA4;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 879PB75HQ7;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patientg";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patient";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDevelopment;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -852,18 +867,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SHJ664BYA4;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 879PB75HQ7;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patientg";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patient";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDevelopment;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

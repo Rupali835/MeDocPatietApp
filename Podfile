@@ -14,4 +14,6 @@ pod 'DropDown'
 pod 'SDWebImage', '~> 4.0'
 pod 'Charts'
 pod 'ZAlertView'
+pod 'Firebase/Messaging'
+pod 'Firebase/Core'
     end

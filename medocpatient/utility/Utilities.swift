@@ -125,9 +125,15 @@ extension String {
     //Validate Email
     func isValidEmail() -> Bool {
         // here, `try!` will always succeed because the pattern is valid
-        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9a-z._%+-]{2,}@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}$", options: .caseInsensitive)
+        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9a-z._%+-]{2,}@[A-Za-z0-9.-]+\\.[A-Za-z]{3}$", options: .caseInsensitive)
         return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
     }
+    func isValidBloodGroup() -> Bool {
+        // here, `try!` will always succeed because the pattern is valid
+        let regex = try! NSRegularExpression(pattern: "(A|B|AB|O)[+-]", options: .caseInsensitive)
+        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
+    }
+    
     func isValidPhone(phone: String) -> Bool {
         let phoneRegex = "^[0-9]{6,14}$";
         let valid = NSPredicate(format: "SELF MATCHES %@", phoneRegex).evaluate(with: phone)
@@ -406,5 +412,23 @@ extension String {
         } else {
             return false
         }
+    }
+}
+extension Date {
+    var startOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 1, to: sunday)
+    }
+    
+    var endOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 7, to: sunday)
+    }
+}
+extension Date {
+    func toMillis() -> Int64! {
+        return Int64(self.timeIntervalSince1970 * 1000)
     }
 }

@@ -17,6 +17,9 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     @IBOutlet var PasswordTextField: UITextField!
     @IBOutlet var Register: UIButton!
     @IBOutlet var Gview: UIView!
+    @IBOutlet var loginview: UIView!
+    @IBOutlet var logo : UIImageView!
+    @IBOutlet var cutview: UIView!
 
     var pageVC = PageViewController()
     let appdel = UIApplication.shared.delegate as! AppDelegate
@@ -26,7 +29,9 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         super.viewDidLoad()
      //   Utilities.shared.bottomBorderSetup(fields: [PatientTextField,PasswordTextField],color: UIColor(hexString: "FFFFFF"))
         Utilities.shared.borderRadius(objects: [LoginNow], color: UIColor(hexString: "4CAF50"))
-        Utilities.shared.cornerRadius(objects: [LoginNow,Register], number: 5.0)
+        Utilities.shared.cornerRadius(objects: [LoginNow,Register,loginview,logo], number: 10.0)
+        Utilities.shared.cornerRadius(objects: [cutview], number: cutview.frame.width / 2)
+
         Register.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
         PatientTextField.delegate = self
         PasswordTextField.delegate = self
@@ -40,8 +45,31 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         PasswordTextField.rightViewMode = .always
         NotificationCenter.default.addObserver(self, selector: #selector(update(notification: )), name: NSNotification.Name("loginupdate"), object: nil)
         PasswordTextField.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
+        PatientTextField.addTarget(self, action: #selector(updatePatient), for: .editingChanged)
+
         LoginNow.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    @objc func updatePatient(){
+        if PatientTextField.isFirstResponder {
+            if let text = PatientTextField.text {
+                if let floatingLabelTextField = PatientTextField as? SkyFloatingLabelTextField {
+                    if text.isEmpty {
+                        floatingLabelTextField.errorMessage = "Fill Contact No. or Email"
+                    }
+                    else if text.count > 3 && text.contains(find: "@"){
+                        if text.isValidEmail() {
+                            floatingLabelTextField.errorMessage = ""
+                        } else {
+                            floatingLabelTextField.errorMessage = "Invalid email"
+                        }
+                    }
+                    else if text.count < 3{
+                        floatingLabelTextField.errorMessage = ""
+                    }
+                }
+            }
+        }
     }
     @objc func update(notification: NSNotification){
         DispatchQueue.main.async {
@@ -136,6 +164,11 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         self.view.showToast("Maybe You Entered Wrong Password", position: .bottom, popTime: 3, dismissOnTap: true)
                     }
                 }
+                else if msg == "fail"{
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                    }
+                }
             } catch {
                 print("catch")
                 DispatchQueue.main.async {
@@ -195,36 +228,13 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             }
         }
     }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if PatientTextField.isFirstResponder {
-            if let text = PatientTextField.text {
-                if let floatingLabelTextField = PatientTextField as? SkyFloatingLabelTextField {
-                    if text.isEmpty {
-                        floatingLabelTextField.errorMessage = "Fill Patient Id , Contact No. or Email"
-                    }
-                    else if text.count > 3 && text.contains(find: "@"){
-                        if text.isValidEmail() {
-                            floatingLabelTextField.errorMessage = ""
-                        } else {
-                            floatingLabelTextField.errorMessage = "Invalid email"
-                        }
-                    }
-                    else if text.count < 3{
-                        floatingLabelTextField.errorMessage = ""
-                    }
-                }
-            }
-        }
-        
-        return true
-    }
     override func viewWillLayoutSubviews() {
         Utilities.shared.setGradientBackground(view: self.view, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
         Utilities.shared.setGradientBackground(view: Gview, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
     }
     @objc func registerAction(){
         let pageViewController = self.parent as! PageViewController
-        pageViewController.nextPageWithIndex(index: 2)
+        pageViewController.nextPageWithIndex(index: 1)
     }
 }
 

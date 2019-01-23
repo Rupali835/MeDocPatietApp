@@ -4,38 +4,57 @@
 //
 //  Created by Prem Sahni on 08/12/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
-//
+//com.ksoftpl.Medoc-Patient
 
 import UIKit
 import CoreData
 import UserNotifications
+import Firebase
+import FirebaseMessaging
+import FirebaseInstanceID
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var devicetoken = "6292dndhbb26382b2jnsv9bb2b27bk1922jn"
-    
+    var instanceToken: String?
+    var deviceTokenString: String?
+    var notificationBadgeCount = Int(0)
+    var fcm_token : String?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted, error) in
-            if let error = error {
-                print("granted, but Error in notification permission:\(error.localizedDescription)")
-            }
-        }
-        UNUserNotificationCenter.current().delegate = self
-        application.registerForRemoteNotifications()
-        UNUserNotificationCenter.current().cleanRepeatingNotifications()
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted, error) in
+//            if let error = error {
+//                print("granted, but Error in notification permission:\(error.localizedDescription)")
+//            }
+//        }
+//
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
-        
-        setCategories()
-        
+
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
         if Logged == true{
             RootPatientHomeVC()
         } else {
             SwitchLogin()
         }
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        notificationBadgeCount = 0
+        application.registerForRemoteNotifications()
+        self.registerForPushNotifications()
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         // Override point for customization after application launch.
         return true
     }
@@ -46,14 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func RootPatientHomeVC(){
         let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootManagerVC")
         window?.rootViewController = Rootvc
-    }
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        devicetoken = token
-        print(deviceToken)
-    }
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("i am not available in simulator \(error)")
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -132,102 +143,97 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-extension AppDelegate:  UNUserNotificationCenterDelegate{
-    
-    func setCategories(){
-        let clearRepeatAction = UNNotificationAction(
-            identifier: "clear.repeat.action",
-            title: "Stop Repeat",
-            options: [])
-        let remindaction = UNNotificationAction(
-            identifier: "remindLater",
-            title: "Remind me later",
-            options: [])
-        let Category = UNNotificationCategory(
-            identifier: "medicine.reminder.category",
-            actions: [clearRepeatAction,remindaction],
-            intentIdentifiers: [],
-            options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([Category])
-    }
-    
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert,.sound])
-        
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        if UIApplication.shared.applicationState == .background{
-            print("bg")
+extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         }
-        UNUserNotificationCenter.current().cleanRepeatingNotifications()
-        print("Did recieve response: \(response.actionIdentifier)")
-        if response.actionIdentifier == "clear.repeat.action"{
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [response.notification.request.identifier])
+    }
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            print("Permission granted: \(granted)")
+            
+            guard granted else { return }
+            self.getNotificationSettings()
+        }
+    }
+
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        self.fcm_token = fcmToken
+    }
+    
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        if let refreshedToken = InstanceID.instanceID().token() {
+            print("InstanceID token: \(refreshedToken)")
+        }
+    }
+    
+    
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register: \(error)")
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        let userInfo = notification.request.content.userInfo
+        
+        print(userInfo)
+        completionHandler([.alert, .badge, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        
+        //  let navigationController = self.window?.rootViewController as! UINavigationController
+        let LoggedByManager = UserDefaults.standard.bool(forKey: "LoggedByManager")
+        let LoggedByEmployee = UserDefaults.standard.bool(forKey: "LoggedByEmployee")
+        
+        if LoggedByManager == true {
+            NotificationCenter.default.post(name: NSNotification.Name("presentPendingVC"), object: self)
+        }
+        else if LoggedByEmployee == true{
             
         }
-        if response.actionIdentifier == "remindLater" {
-            UNUserNotificationCenter.current().getDeliveredNotifications { (receivedNotifications) in
-                for notification in receivedNotifications {
-                    let content = notification.request.content
-                    let newDate = Date(timeInterval: 60, since: Date())
-                    self.scheduleNotification(at: newDate, title: content.title, body: content.body, withCompletionHandler: {
-                        completionHandler()
-                    })
-                }
-            }
+        else {
+            
         }
-        completionHandler()
-    }
-    func scheduleNotification(at date: Date,title: String,body: String,withCompletionHandler: @escaping() -> ()) {
-        let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents(in: .current, from: date)
-        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
+        let userInfo = response.notification.request.content.userInfo
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.sound = UNNotificationSound.default
-        content.categoryIdentifier = "medicine.reminder.category"
-        
-        let request = UNNotificationRequest(identifier: date.description, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
-        }
+        print(userInfo)
     }
     
+    func application(received remoteMessage: MessagingRemoteMessage)
+    {
+        print(remoteMessage.appData)
+        
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        
+        // Print full message.
+        print("message recived")
+        notificationBadgeCount = notificationBadgeCount + 1
+        UIApplication.shared.applicationIconBadgeNumber = notificationBadgeCount
+        print(userInfo)
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
+    func instance() ->  AppDelegate{
+        
+        return AppDelegate()
+        
+    }
 }
-extension UNUserNotificationCenter{
-    func cleanRepeatingNotifications(){
-        //cleans notification with a userinfo key endDate
-        //which have expired.
-        var cleanStatus = "Cleaning...."
-        getPendingNotificationRequests {
-            (requests) in
-            for request in requests{
-                if let endDate = request.content.userInfo["endDate"]{
-                    if Date() >= (endDate as! Date){
-                        cleanStatus += "Cleaned request"
-                        let center = UNUserNotificationCenter.current()
-                        center.removePendingNotificationRequests(withIdentifiers: [request.identifier])
-                    } else {
-                        cleanStatus += "No Cleaning"
-                    }
-                    print(cleanStatus)
-                }
-            }
-        }
-    }
-    
-    
-}
-
-

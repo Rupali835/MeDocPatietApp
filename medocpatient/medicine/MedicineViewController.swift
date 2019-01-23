@@ -31,6 +31,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
  //   var items : [Medicine] = []
     var notificationGranted = false
     var medicineData = NSArray()
+    var prescription = NSArray()
     var data = NSArray()
     var timeslot = [String]()
     var took = false
@@ -55,7 +56,7 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
       //  navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         
        
-        UNUserNotificationCenter.current().cleanRepeatingNotifications()
+       // UNUserNotificationCenter.current().cleanRepeatingNotifications()
         
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
@@ -153,15 +154,17 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
             do {
                 
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                print(json)
                 if let msg = json.value(forKey: "msg") as? String {
                     if msg == "success" {
                         if let data = json.value(forKey: "data") as? NSArray{
                             self.data = data
-                           // let patientproblem = prescription_details.value(forKey: "patient-problem") as! String
+                            self.prescription = data.value(forKey: "prescription_details") as! NSArray
+                            print("prescription-\(self.prescription)")
                            // self.headertitle = "Problem: \(patientproblem)"
                             if let medicines = data.value(forKey: "medicines") as? NSArray{
                                 self.medicineData = medicines
+                                print("medicines-\(self.medicineData)")
+
                                 DispatchQueue.main.async {
                                     self.tableview.reloadData()
                                     SwiftLoader.hide()
@@ -221,15 +224,17 @@ class MedicineViewController: UIViewController , UISearchControllerDelegate , UI
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.medicineData.count)
-        return self.medicineData.count
+        let md = self.medicineData.object(at: section) as! NSArray
+        print("md: \(md.count)")
+        return md.count
     }
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        let prescription_details = self.data.value(forKey: "prescription_details") as! NSArray
-//        return prescription_details.count
-//    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.prescription.count
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "\(headertitle)"
+        let d = self.prescription.object(at: section) as! NSDictionary
+        let patient_problem = d.value(forKey: "patient_problem") as! String
+        return "Name : \(patient_problem)"
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
@@ -237,9 +242,16 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
-      /*  let d = self.medicineData.object(at: indexPath.row) as! NSDictionary
+        let md = self.medicineData.object(at: indexPath.section) as! NSArray
+        if md.count == 0{
+            
+        } else {
+            
+        let d = md.object(at: indexPath.row) as! NSDictionary
+
         let name = d.value(forKey: "medicine_name") as! String
        
         let before_bf = d.value(forKey: "before_bf") as! String
@@ -312,7 +324,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             medicinecell.interval_period.text = ""
             medicinecell.interval_time.text = ""
         }
-        //medicinecell.name.text = "Medicine Name: \(name)"
+        medicinecell.name.text = "Medicine Name: \(name)"
         
         var breakfast = Int()
         var lunch = Int()
@@ -336,8 +348,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
 
        // medicinecell.timeslot.text = "\(self.timeslot.joined(separator: "-"))"
-        
-        */
+       }
         
 //        if notificationGranted {
 //           // repeatNotification(title: "Time To Take Medicine", body: "-\(items[indexPath.row].name!)", minute: Int(items[indexPath.row].repeattimeslot!)!)

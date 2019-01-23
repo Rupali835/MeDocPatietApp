@@ -186,8 +186,8 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         }) { (cancel) in
             cancel.dismissAlertView()
         }
-        alertwithtext.addTextField("Systolic", placeHolder: "Write Systolic",keyboardType: .numberPad)
-        alertwithtext.addTextField("Diastolic", placeHolder: "Write Diastolic",keyboardType: .numberPad)
+        alertwithtext.addTextField("Systolic", placeHolder: "Systolic",keyboardType: .numberPad)
+        alertwithtext.addTextField("Diastolic", placeHolder: "Diastolic",keyboardType: .numberPad)
         alertwithtext.show()
     }
     func addheight(){
@@ -204,7 +204,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         }) { (cancel) in
             cancel.dismissAlertView()
         }
-        alertwithtext.addTextField("Height", placeHolder: "Write Height",keyboardType: .numberPad)
+        alertwithtext.addTextField("Height", placeHolder: "Height",keyboardType: .numberPad)
         alertwithtext.show()
     }
     func addWeight(){
@@ -221,7 +221,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         }) { (cancel) in
             cancel.dismissAlertView()
         }
-        alertwithtext.addTextField("Weight", placeHolder: "Write Weight",keyboardType: .numberPad)
+        alertwithtext.addTextField("Weight", placeHolder: "Weight",keyboardType: .numberPad)
         alertwithtext.show()
     }
     func addTemperature(){
@@ -238,7 +238,7 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         }) { (cancel) in
             cancel.dismissAlertView()
         }
-        alertwithtext.addTextField("Temperature", placeHolder: "Write Temperature",keyboardType: .numberPad)
+        alertwithtext.addTextField("Temperature", placeHolder: "Temperature",keyboardType: .numberPad)
         alertwithtext.show()
     }
 }
