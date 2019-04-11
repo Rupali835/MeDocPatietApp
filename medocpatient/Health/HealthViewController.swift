@@ -8,6 +8,7 @@
 
 import UIKit
 import ZAlertView
+
 class HealthViewController: UIViewController {
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
@@ -26,11 +27,13 @@ class HealthViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
-      //  fetchhealthdata(attr: "bp")
+        fetchhealthdata(attr: "bp")
+        fetchhealthdata(attr: "w")
+        fetchhealthdata(attr: "h")
+        fetchhealthdata(attr: "t")
     }
     func fetchhealthdata(attr: String){
-        SwiftLoader.show(title: "Loading", animated: true)
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/y", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/m/0/0", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
@@ -53,11 +56,10 @@ class HealthViewController: UIViewController {
                             }
                             else if attr == "t"{
                                 self.t_dataarr = data
-                                DispatchQueue.main.async {
-                                    self.tableview.reloadData()
-                                    SwiftLoader.hide()
-                                }
                                 print("tdata-\(self.t_dataarr)")
+                            }
+                            DispatchQueue.main.async {
+                                self.tableview.reloadData()
                             }
                         }
                     }
@@ -86,15 +88,61 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
         if indexPath.section == 1{
             let cell2 = tableView.dequeueReusableCell(withIdentifier: "LatestData") as! LatestDataTableViewCell
             cell2.accessoryType = .disclosureIndicator
-            if self.bp_dataarr.count == 0{
-                
-            } else {
-                let d1 = self.bp_dataarr.object(at: indexPath.last!) as! NSDictionary
-                let created_at1 = d1.value(forKey: "created_at") as! String
-                let blood_pressure = d1.value(forKey: "blood_pressure") as! String
-                cell2.firstdata.text = "Blood Pressure: \(blood_pressure)"
-                cell2.seconddata.text = ""
-                cell2.date.text = "Date: \(created_at1)"
+            if indexPath.row == 0{
+                if self.bp_dataarr.count > 0{
+                    let d1 = self.bp_dataarr.object(at: self.bp_dataarr.count - 1) as! NSDictionary
+                    let created_at1 = d1.value(forKey: "created_at") as! String
+                    let blood_pressure = d1.value(forKey: "blood_pressure") as! String
+                    cell2.firstdata.text = "Blood Pressure: \(blood_pressure)"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "Date: \(created_at1)"
+                } else {
+                    cell2.firstdata.text = "Blood Pressure"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "No Data Found"
+                }
+            }
+            if indexPath.row == 1{
+                if self.w_dataarr.count > 0{
+                    let d1 = self.w_dataarr.object(at: self.w_dataarr.count - 1) as! NSDictionary
+                    let created_at1 = d1.value(forKey: "created_at") as! String
+                    let weight = d1.value(forKey: "weight") as! String
+                    cell2.firstdata.text = "Weight: \(weight) Kg"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "Date: \(created_at1)"
+                } else {
+                    cell2.firstdata.text = "Weight"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "No Data Found"
+                }
+            }
+            if indexPath.row == 2{
+                if self.h_dataarr.count > 0{
+                    let d1 = self.h_dataarr.object(at: self.h_dataarr.count - 1) as! NSDictionary
+                    let created_at1 = d1.value(forKey: "created_at") as! String
+                    let height = d1.value(forKey: "height") as! String
+                    cell2.firstdata.text = "Height: \(height) Cm"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "Date: \(created_at1)"
+                } else {
+                    cell2.firstdata.text = "Height"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "No Data Found"
+                }
+            }
+            if indexPath.row == 3{
+                if self.t_dataarr.count > 0{
+                    let d1 = self.t_dataarr.object(at: self.t_dataarr.count - 1) as! NSDictionary
+                    let created_at1 = d1.value(forKey: "created_at") as! String
+                    let temperature = d1.value(forKey: "temperature") as! String
+                    cell2.firstdata.text = "Temperature: \(temperature) "
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "Date: \(created_at1)"
+                } else {
+                    cell2.firstdata.text = "Temperature"
+                    cell2.seconddata.text = ""
+                    cell2.date.text = "No Data Found"
+                }
             }
             return cell2
         }
@@ -120,7 +168,12 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
         return 50
     }
 }
-extension HealthViewController: HealthListTableViewCelldelegate {
+extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let limitLength = 3
+        let newLength = textField.text!.count + string.count - range.length
+        return newLength <= limitLength
+    }
     func indexpath(cell: HealthListTableViewCell) {
         if let indexPath = tableview.indexPath(for: cell){
             let selectedtitle = cell.title.text
@@ -142,19 +195,16 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         }
     }
     func postApi(param : [String:String]){
-        SwiftLoader.show(title: "Adding Data", animated: true)
         ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "addhealthdata", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
                 DispatchQueue.main.async {
                     self.alertwithtext.dismissAlertView()
-                    SwiftLoader.hide()
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.alertwithtext.dismissAlertView()
-                    SwiftLoader.hide()
                 }
                 print("catch")
             }
@@ -169,7 +219,9 @@ extension HealthViewController: HealthListTableViewCelldelegate {
             let txt2 = self.alertwithtext.getTextFieldWithIdentifier("Diastolic")!
             print(txt1.text!)
             print(txt2.text!)
-            
+            txt1.delegate = self
+            txt2.delegate = self
+
             if (txt1.text?.isEmpty)! && (txt2.text?.isEmpty)! {
                 self.view.showToast("Write Systolic & Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
             }
@@ -179,9 +231,18 @@ extension HealthViewController: HealthListTableViewCelldelegate {
             else if (txt2.text?.isEmpty)!{
                 self.view.showToast("Write Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
             }
+            else if (txt1.text?.characters.count)! > 3 || (txt1.text?.characters.count)! < 2 {
+                self.view.showToast("Invalid Systolic", position: .bottom, popTime: 3, dismissOnTap: false)
+            }
+            else if (txt2.text?.characters.count)! > 3 || (txt2.text?.characters.count)! < 2 {
+                self.view.showToast("Invalid Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
+            }
             else {
+                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Blood Pressure")
                 self.postApi(param: ["systolic" : txt1.text!,
                                      "diastolic": txt2.text!])
+                self.fetchhealthdata(attr: "bp")
+                Utilities.shared.RemoveLoaderView()
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -194,12 +255,20 @@ extension HealthViewController: HealthListTableViewCelldelegate {
         alertwithtext = ZAlertView(title: "Write Height in Cm", message: "", isOkButtonLeft: false, okButtonText: "Add", cancelButtonText: "Cancel", okButtonHandler: { (send) in
             
             let txt1 = self.alertwithtext.getTextFieldWithIdentifier("Height")!
+            txt1.delegate = self
+
             print(txt1.text!)
             if (txt1.text?.isEmpty)!{
                 self.view.showToast("Write Height in Cm", position: .bottom, popTime: 3, dismissOnTap: false)
             }
+            else if (txt1.text?.characters.count)! > 3 || (txt1.text?.characters.count)! < 2{
+                self.view.showToast("Invalid Height", position: .bottom, popTime: 3, dismissOnTap: false)
+            }
             else {
+                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Height")
                 self.postApi(param: ["height" : txt1.text!])
+                self.fetchhealthdata(attr: "h")
+                Utilities.shared.RemoveLoaderView()
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -212,11 +281,19 @@ extension HealthViewController: HealthListTableViewCelldelegate {
             
             let txt1 = self.alertwithtext.getTextFieldWithIdentifier("Weight")!
             print(txt1.text!)
+            txt1.delegate = self
+
             if (txt1.text?.isEmpty)!{
                 self.view.showToast("Write Weight in Kg", position: .bottom, popTime: 3, dismissOnTap: false)
             }
+            else if (txt1.text?.characters.count)! > 3{
+                self.view.showToast("Invalid Weight", position: .bottom, popTime: 3, dismissOnTap: false)
+            }
             else {
+                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Weight")
                 self.postApi(param: ["weight" : txt1.text!])
+                self.fetchhealthdata(attr: "w")
+                Utilities.shared.RemoveLoaderView()
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -229,11 +306,19 @@ extension HealthViewController: HealthListTableViewCelldelegate {
             
             let txt1 = self.alertwithtext.getTextFieldWithIdentifier("Temperature")!
             print(txt1.text!)
+            txt1.delegate = self
+
             if (txt1.text?.isEmpty)!{
                 self.view.showToast("Write Temperature in ºC", position: .bottom, popTime: 3, dismissOnTap: false)
             }
+            else if (txt1.text?.characters.count)! > 3{
+                self.view.showToast("Invalid Temperature", position: .bottom, popTime: 3, dismissOnTap: false)
+            }
             else {
+                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Temperature")
                 self.postApi(param: ["temperature" : txt1.text!])
+                self.fetchhealthdata(attr: "t")
+                Utilities.shared.RemoveLoaderView()
             }
         }) { (cancel) in
             cancel.dismissAlertView()

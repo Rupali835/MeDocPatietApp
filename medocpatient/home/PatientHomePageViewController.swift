@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SDWebImage
 
 class PatientHomePageViewController: UIViewController{
     
@@ -16,10 +17,15 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var Name: UILabel!
     @IBOutlet var DateOfBirth: UILabel!
     @IBOutlet var Gender: UILabel!
+    @IBOutlet var cornerview: UIView!
     
+    @IBOutlet var infoBtn: UIButton!
+    @IBOutlet var logoutBtn: UIButton!
+
     @IBOutlet var headerview: UIView!
-    let icons = [#imageLiteral(resourceName: "man.png"),#imageLiteral(resourceName: "chart"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qr-code.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ"]
+    
+    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
@@ -27,14 +33,32 @@ class PatientHomePageViewController: UIViewController{
     
     override func viewDidLoad(){
         super.viewDidLoad()
-      //  fetchDoctor()
-        Utilities.shared.cornerRadius(objects: [imagesPicView], number: 10)
+        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [cornerview], number: cornerview.frame.width / 2)
+        infoBtn.addTarget(self, action: #selector(infodetails), for: .touchUpInside)
+        logoutBtn.addTarget(self, action: #selector(LogoutAction), for: .touchUpInside)
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
     override func viewWillLayoutSubviews() {
         navItem()
-        self.navigationController?.navigationBar.applyNavigationGradient(colors: [UIColor(hexString: "673AB7"),UIColor(hexString: "512DA8")])
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //fetchProfileDatail()
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        Name.text = UserDefaults.standard.string(forKey: "name")
+        let img = UserDefaults.standard.string(forKey: "profile_image")
+        imagesPicView.sd_setImage(with: URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(img!)"), placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the navigation bar on other view controllers
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     func navItem(){
         let title = UILabel()
@@ -43,8 +67,6 @@ class PatientHomePageViewController: UIViewController{
         title.text = "MeDoc"
         let titlebar = UIBarButtonItem(customView: title)
         self.navigationItem.leftBarButtonItem = titlebar
-        
-        //self.navigationItem.titleView = UIImageView(image: )
         
         let LogoutBar = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "power.png"), target: self, action: #selector(LogoutAction))
         let info = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "icons8-info-50.png"), target: self, action: #selector(infodetails))
@@ -56,130 +78,44 @@ class PatientHomePageViewController: UIViewController{
         self.present(vc, animated: true, completion: nil)
     }
     @objc func LogoutAction(){
-        DispatchQueue.main.async {
-            UserDefaults.standard.set(false, forKey: "Logged")
-            UserDefaults.standard.set("nil", forKey: "bearertoken")
-            UserDefaults.standard.synchronize()
-            self.appdel.SwitchLogin()
-        }
-    }
-//    func fetchDoctor(){
-//        ApiServices.shared.FetchGetRequestDataFromURL(vc: self, withOutBaseUrl: "doctors", parameter: [                                                                                                 "user_key" : "6cb6362cf70555f1c3f1e230bb1a9d98","query":"Toothache"], onSuccessCompletion: {
-//            do {
-//               let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-//                print("json: \(json)")
-//                DispatchQueue.main.async {
-//                    self.tableview.reloadData()
-//                }
-//            } catch {
-//                print("catch")
-//            }
-//        }) { () -> (Dictionary<String, Any>) in
-//            [:]
-//        }
-//    }
-    override func viewWillAppear(_ animated: Bool) {
-        fetchProfileDatail()
+        Utilities.shared.alertview(title: "Alert", msg: "Are You Sure, Do You Want to Logout?", dismisstitle: "No", mutlipleButtonAdd: { (alert) in
+            alert.addButton("Yes", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+                DispatchQueue.main.async {
+                    UserDefaults.standard.set(false, forKey: "Logged")
+                    UserDefaults.standard.set("nil", forKey: "bearertoken")
+                    UserDefaults.standard.synchronize()
+                    self.appdel.SwitchLogin()
+                }
+                alert.dismissAlertView()
+            }
+        }, dismissAction: { })
     }
     func fetchProfileDatail(){
-        SwiftLoader.show(title: "Please Wait..", animated: true)
         ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
-                print(ApiServices.shared.data)
                 self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 let msg = self.dict.value(forKey: "msg") as? String ?? ""
                 if msg == "success" {
                     if let data = self.dict.value(forKey: "data") as? NSDictionary {
-                        print(data)
                         DispatchQueue.main.async {
-                            SwiftLoader.show(title: "Loading..", animated: true)
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
                                 let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
-                                print(url)
                                 self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
                             }
                             else {
                                 self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
                             }
                             let name = data.value(forKey: "name") as? String ?? ""
-                            self.Name.text = "Name: \(name)"
-                            let dob = data.value(forKey: "dob") as? String ?? ""
-                            if self.DateOfBirth.text == ""{
-                                self.DateOfBirth.text = "Date of Birth"
-                            } else {
-                                self.DateOfBirth.text = "Date of Birth: \(dob)"
-                            }
-                            let gender = data.value(forKey: "gender") as? String ?? "4"
-                            switch gender {
-                            case "1":
-                                self.Gender.text = "Gender: Male";
-                            case "2":
-                                self.Gender.text = "Gender: Female";
-                            case "3":
-                                self.Gender.text = "Gender: Other";
-                            default:
-                                self.Gender.text = "Gender";
-                            }
-                            DispatchQueue.main.async {
-                                SwiftLoader.hide()
-                            }
+                            self.Name.text = "\(name)"
                         }
                     }
                 }
-                DispatchQueue.main.sync {
-                    SwiftLoader.hide()
-                }
             } catch {
                 print("catch")
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
-        }
-    }
-    func retrivedata(){
-        let managedobject = self.appdel.persistentContainer.viewContext
-        let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
-        do {
-            let result = try managedobject.fetch(fetchReq)
-            for data in result as! [NSManagedObject]{
-                //user
-                let imgdata = data.value(forKey: user.image) as? Data
-                if imgdata != nil{
-                    self.imagesPicView.image = UIImage(data: imgdata!)
-                }
-                else {
-                    self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
-                }
-                let name = data.value(forKey: user.name) as? String
-                if name == ""{
-                    self.Name.text = "Patient Name"
-                } else {
-                    self.Name.text = name
-                }
-                let dob = data.value(forKey: user.dateofbirth) as? String
-                if dob == ""{
-                    self.DateOfBirth.text = "Date of Birth"
-                } else {
-                    self.DateOfBirth.text =  dob
-                }
-                let gender = data.value(forKey: user.gender) as? String ?? "4"
-                switch gender {
-                    case "1":
-                        self.Gender.text = "Male";
-                    case "2":
-                        self.Gender.text = "Female";
-                    case "3":
-                        self.Gender.text = "Other";
-                    default:
-                        self.Gender.text = "Gender";
-                }
-            }
-        } catch {
-            print("failed")
         }
     }
 }
@@ -224,7 +160,6 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
             Prescriptionvc.navigationItem.largeTitleDisplayMode = .never
             Prescriptionvc.navigationItem.title = titles[indexPath.row]
-            Prescriptionvc.status = "0"
             self.navigationController?.pushViewController(Prescriptionvc, animated: true)
         }
         else if indexPath.row == 3{
@@ -239,18 +174,6 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             qrvc.navigationItem.title = titles[indexPath.row]
             self.navigationController?.pushViewController(qrvc, animated: true)
         }
-        /*else if indexPath.row == 5{
-            let Promotionvc = self.storyboard?.instantiateViewController(withIdentifier: "PromotionViewController") as! PromotionViewController
-            Promotionvc.navigationItem.largeTitleDisplayMode = .never
-            Promotionvc.navigationItem.title = titles[indexPath.row]
-            self.navigationController?.pushViewController(Promotionvc, animated: true)
-        }
-        else if indexPath.row == 6{
-            let Appointmentvc = self.storyboard?.instantiateViewController(withIdentifier: "AppointmentViewController") as! AppointmentViewController
-            Appointmentvc.navigationItem.largeTitleDisplayMode = .never
-            Appointmentvc.navigationItem.title = titles[indexPath.row]
-            self.navigationController?.pushViewController(Appointmentvc, animated: true)
-        }*/
         else if indexPath.row == 5{
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
             Healthvc.navigationItem.largeTitleDisplayMode = .never
@@ -263,9 +186,21 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             FAQvc.navigationItem.title = titles[indexPath.row]
             self.navigationController?.pushViewController(FAQvc, animated: true)
         }
+        else if indexPath.row == 7{
+            let Aboutvc = self.storyboard?.instantiateViewController(withIdentifier: "AboutUsViewController") as! AboutUsViewController
+            Aboutvc.navigationItem.largeTitleDisplayMode = .never
+            Aboutvc.navigationItem.title = titles[indexPath.row]
+            self.navigationController?.pushViewController(Aboutvc, animated: true)
+        }
+        else if indexPath.row == 8{
+            let contactvc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsViewController") as! ContactUsViewController
+            contactvc.navigationItem.largeTitleDisplayMode = .never
+            contactvc.navigationItem.title = titles[indexPath.row]
+            self.navigationController?.pushViewController(contactvc, animated: true)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.size.width / 3) - (10 + 5), height: 100)
+        return CGSize(width: (collectionView.frame.size.width / 3) - (10 + 5), height: (collectionView.frame.size.width / 3) - (10 + 5))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10

@@ -14,6 +14,7 @@ import UserNotifications
 class Utilities {
     static let shared: Utilities = Utilities()
     private init() {}
+    var message = UILabel()
     
     func shadow(object: [UIView]){
         for blueView in object{
@@ -48,15 +49,70 @@ class Utilities {
             object.clipsToBounds = true
         }
     }
-
-
-    func alertview(title: String,msg: String,dismisstitle: String,actiontitle: String,actionCompletion: @escaping()->()){
-        let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
-        alert.addButton(actiontitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.orange, titleColor: UIColor.white) { (action) in
-            actionCompletion()
-            alert.dismissAlertView()
+    func go_to_zoomimageview(vc: UIViewController,image: UIImage?){
+        let zvc = UIViewController()
+        zvc.navigationItem.title = "Image Viewer"
+        let imageview = ImageScrollView(frame: CGRect(x: 0, y: 64, width: zvc.view.frame.width, height: zvc.view.frame.height - 64))
+        imageview.backgroundColor = UIColor.white
+        if image != nil{
+            imageview.display(image: image!)
+            zvc.view.addSubview(imageview)
+            vc.navigationController?.pushViewController(zvc, animated: false)
         }
-        alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.groupTableViewBackground, titleColor: UIColor.black) { (dismiss) in
+    }
+    func centermsg(msg: String,view: UIView){
+        message.text = msg
+        message.translatesAutoresizingMaskIntoConstraints = false
+        message.lineBreakMode = .byWordWrapping
+        message.numberOfLines = 0
+        message.textAlignment = .center
+        message.font = UIFont.boldSystemFont(ofSize: 18)
+        view.addSubview(message)
+        
+        message.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        message.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        message.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    var blurEffectView = UIVisualEffectView()
+    
+    func ShowLoaderView(view: UIView,Message: String){
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.frame
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        let activityIndicator = UIActivityIndicatorView(style: .gray)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        blurEffectView.contentView.addSubview(activityIndicator)
+        activityIndicator.center = blurEffectView.contentView.center
+        activityIndicator.startAnimating()
+        
+        message.text = Message
+        message.translatesAutoresizingMaskIntoConstraints = false
+        message.lineBreakMode = .byWordWrapping
+        message.numberOfLines = 0
+        message.textAlignment = .center
+        message.font = UIFont.boldSystemFont(ofSize: 18)
+        blurEffectView.contentView.addSubview(message)
+        
+        message.leftAnchor.constraint(equalTo: blurEffectView.contentView.leftAnchor, constant: 30).isActive = true
+        message.rightAnchor.constraint(equalTo: blurEffectView.contentView.rightAnchor, constant: -30).isActive = true
+        message.topAnchor.constraint(equalTo: activityIndicator.topAnchor, constant: 50).isActive = true
+    }
+    func RemoveLoaderView(){
+        DispatchQueue.main.async {
+            self.blurEffectView.removeFromSuperview()
+        }
+    }
+    func alertview(title: String,msg: String,dismisstitle: String,mutlipleButtonAdd: @escaping(ZAlertView)->(),dismissAction: @escaping()->()){
+        ZAlertView.alertTitleFont = UIFont.boldSystemFont(ofSize: 25)
+        ZAlertView.messageFont = UIFont.boldSystemFont(ofSize: 18)
+        ZAlertView.buttonHeight = 50
+        
+        let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
+        mutlipleButtonAdd(alert)
+        alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.clear, titleColor: UIColor.black) { (dismiss) in
+            dismissAction()
             alert.dismissAlertView()
         }
         alert.show()
@@ -125,7 +181,7 @@ extension String {
     //Validate Email
     func isValidEmail() -> Bool {
         // here, `try!` will always succeed because the pattern is valid
-        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9a-z._%+-]{2,}@[A-Za-z0-9.-]+\\.[A-Za-z]{3}$", options: .caseInsensitive)
+        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9a-z._%+-]{2,}@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}$", options: .caseInsensitive)
         return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
     }
     func isValidBloodGroup() -> Bool {

@@ -18,8 +18,15 @@ class ChartViewController: UIViewController {
     @IBOutlet var intervalSegment: UISegmentedControl!
     var dataarr = NSArray()
     var selectedtitle = ""
-    var months = ["Jan","Feb","Mar","Apr","May","Jun"]
-    let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+    
+    var charttype = [String]()
+    var chartvalue = [Double]()
+    
+    let dayPoint = ["12A","3","6","9","12P","3","6","9"]
+    let weekPoint = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+    let monthPoint = ["1","7","14","21","28"]
+    let yearPoint = ["J","F","M","A","M","J","J","A","S","O","N","D"]
+
     var attr = ""
     var timeinterval = "d"
     var fromdate = "0"
@@ -32,8 +39,7 @@ class ChartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  setLineChart()
-      //  setChart(dataPoints: months, values: unitsSold)
+        lineviewChart.noDataText = "No Data"
 
         axisFormatDelegate = self
         tableview.tableFooterView = UIView(frame: .zero)
@@ -64,11 +70,8 @@ class ChartViewController: UIViewController {
             timeinterval = "d"
             fromdate = "0"
             todate = "0"
+            charttype = dayPoint
             fetchhealthdata()
-//            months = ["Today"]
-//
-//            lineviewChart.data?.notifyDataChanged()
-//            lineviewChart.notifyDataSetChanged()
         }
         else if sender.selectedSegmentIndex == 1{
             timeinterval = "w"
@@ -76,23 +79,21 @@ class ChartViewController: UIViewController {
             df.dateFormat = "YYYY-MM-DD"
             fromdate = df.string(from: startWeek!)
             todate = df.string(from: endWeek!)
+            charttype = weekPoint
             fetchhealthdata()
         }
         else if sender.selectedSegmentIndex == 2{
             timeinterval = "m"
             fromdate = "0"
             todate = "0"
+            charttype = monthPoint
             fetchhealthdata()
-//            months = ["Jan","Feb","Mar","Apr","May","Jun"]
-//            setChart(dataPoints: months, values: unitsSold)
-//
-//            lineviewChart.data?.notifyDataChanged()
-//            lineviewChart.notifyDataSetChanged()
         }
         else if sender.selectedSegmentIndex == 3{
             timeinterval = "y"
             fromdate = "0"
             todate = "0"
+            charttype = yearPoint
             fetchhealthdata()
         }
     }
@@ -107,6 +108,34 @@ class ChartViewController: UIViewController {
                             self.dataarr = data
                             if data.count > 0 {
                                 self.headertitle = "All Recorded Data"
+                                self.charttype = self.dayPoint
+                                self.chartvalue.removeAll()
+                                
+                                for (index,_) in self.dataarr.enumerated() {
+                                    let d = self.dataarr.object(at: index) as! NSDictionary
+                                    let created_at = d.value(forKey: "created_at") as! String
+
+                                    if self.selectedtitle == "Blood Pressure"{
+                                        
+                                    }
+                                    else if self.selectedtitle == "Height"{
+                                        let height = d.value(forKey: "height") as! String
+                                        self.chartvalue.append(Double(height)!)
+                                    }
+                                    else if self.selectedtitle == "Weight"{
+                                        let weight = d.value(forKey: "weight") as! String
+                                        self.chartvalue.append(Double(weight)!)
+                                    }
+                                    else if self.selectedtitle == "Temperature"{
+                                        let temperature = d.value(forKey: "temperature") as! String
+                                        self.chartvalue.append(Double(temperature)!)
+                                    }
+                                }
+                                
+                                self.charttype = self.dayPoint
+                                self.setChart(dataPoints: self.charttype, values: self.chartvalue)
+                                self.lineviewChart.data?.notifyDataChanged()
+                                self.lineviewChart.notifyDataSetChanged()
                             }
                             else{
                                 self.headertitle = "No Recorded Data"
@@ -130,7 +159,7 @@ class ChartViewController: UIViewController {
         
         var dataEntries: [ChartDataEntry] = []
         
-        for i in 0..<dataPoints.count {
+        for (i,_) in dataPoints.enumerated() {
             let dataEntry = ChartDataEntry(x: Double(i), y: values[i], data: dataPoints as AnyObject)
             dataEntries.append(dataEntry)
         }
@@ -152,7 +181,7 @@ class ChartViewController: UIViewController {
 extension ChartViewController: IAxisValueFormatter {
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return months[Int(value)]
+        return charttype[Int(value)]
     }
 }
 extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
@@ -201,33 +230,3 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         return headertitle
     }
 }
-/*
- 
- private func setLineChart() -> PNLineChart {
- let lineChart = PNLineChart(frame: CGRect(x: 0, y: 135, width: 320, height: 320))
- lineChart.yLabelFormat = "%1.1f"
- lineChart.showLabel = true
- lineChart.backgroundColor = UIColor.clear
- lineChart.xLabels = ["Sep 1", "Sep 2", "Sep 3", "Sep 4", "Sep 5", "Sep 6", "Sep 7"]
- lineChart.showCoordinateAxis = true
- lineChart.center = self.view.center
- 
- let dataArr = [60.1, 160.1, 126.4, 232.2, 186.2, 127.2, 176.2]
- let data = PNLineChartData()
- data.color = PNGreen
- data.itemCount = dataArr.count
- data.inflexPointStyle = .Cycle
- data.getData = ({
- (index: Int) -> PNLineChartDataItem in
- let yValue = CGFloat(dataArr[index])
- let item = PNLineChartDataItem(y: yValue)
- return item
- })
- 
- lineChart.chartData = [data]
- lineChart.strokeChart()
- lineChart.showLabel = true
- // self.view.addSubview(lineChart)
- return lineChart
- }
- */

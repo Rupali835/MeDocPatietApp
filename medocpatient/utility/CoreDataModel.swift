@@ -10,6 +10,7 @@ import Foundation
 
 struct User {
     var image = "image"
+    var profile_image = "profile_image"
     var name = "name"
     var dateofbirth = "dateofbirth"
     var age = "age"

@@ -27,7 +27,7 @@ class PrescriptionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        Utilities.shared.cornerRadius(objects: [signature_image], number: 10)
+        Utilities.shared.cornerRadius(objects: [prescription_pdf], number: 10)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

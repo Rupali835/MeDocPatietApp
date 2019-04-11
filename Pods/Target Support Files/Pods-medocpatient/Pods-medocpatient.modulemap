@@ -1,0 +1,6 @@
+framework module Pods_medocpatient {
+  umbrella header "Pods-medocpatient-umbrella.h"
+
+  export *
+  module * { export * }
+}

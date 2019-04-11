@@ -15,7 +15,12 @@ class PatientHomePageCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        Utilities.shared.shadow(object: [self])
+       // Utilities.shared.shadow(object: [self])
+        self.layer.cornerRadius = 5.0
+        self.layer.shadowColor = UIColor.darkGray.cgColor
+        self.layer.shadowRadius = 2.0
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
         // Initialization code
     }
 

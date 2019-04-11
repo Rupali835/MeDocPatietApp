@@ -12,6 +12,7 @@ import CoreData
 import DBAttachmentPickerController
 import SkyFloatingLabelTextField
 import DropDown
+import ZAlertView
 
 class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
     //user
@@ -21,15 +22,10 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var NameTF: UITextField!
     @IBOutlet var DateOfBirthTF: UITextField!
     @IBOutlet var age: UILabel!
-    @IBOutlet var GenderSegment: UISegmentedControl!
     @IBOutlet var BloodGroupTF: UITextField!
     @IBOutlet var emailTF: UITextField!
     @IBOutlet var PatientTF: UITextField!
-
-    @IBOutlet var HeightTF: UITextField!
-    @IBOutlet var WeightTF: UITextField!
-    @IBOutlet var BloodPressureTF: UITextField!
-    @IBOutlet var TempretureTF: UITextField!
+    @IBOutlet var GenderRadio: [SKRadioButton]!
     
     @IBOutlet var MobileAddressView: UIView!
     @IBOutlet var MobileNumberTF: UITextField!
@@ -37,6 +33,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var Address2TF: UITextField!
     @IBOutlet var SubCityTF: UITextField!
     @IBOutlet var CityTF: UITextField!
+    @IBOutlet var pincodeTF: UITextField!
     //guardian
     @IBOutlet var GuardianView: UIView!
     @IBOutlet var GuardianNameTF: UITextField!
@@ -45,6 +42,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var GuardianAddress2TF: UITextField!
     @IBOutlet var GuardianSubCityTF: UITextField!
     @IBOutlet var GuardianCityTF: UITextField!
+    @IBOutlet var GuardianPincodeTF: UITextField!
     //emergency contact
     @IBOutlet var ECView: UIView!
     @IBOutlet var FirstEC_NameTF: UITextField! //EC: Emergency Contact
@@ -62,20 +60,20 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var PP_PolicyTF: UITextField!
     @IBOutlet var PP_PolicyNumberTF: UITextField!
     //allergy
-    @IBOutlet var AllergySegment: UISegmentedControl!
+    @IBOutlet var AllergyRadio : [SKRadioButton]!
     //Textfield inside medical information
     @IBOutlet var FoodAllergyTF: UITextField!
     @IBOutlet var MedicinesAllergiesTF: UITextField!
     @IBOutlet var PlantsTF: UITextField!
     @IBOutlet var InsectsTF: UITextField!
     //medical condition
-    @IBOutlet var BPTF: UITextField!
     @IBOutlet var DiebetesTF: UITextField!
     @IBOutlet var CancerTF: UITextField!
     @IBOutlet var HeartDiseaseTF: UITextField!
     @IBOutlet var LeukemiaTF: UITextField!
     @IBOutlet var otherAllergyTF: UITextField!
     @IBOutlet var RestrictionTF: UITextField!
+    @IBOutlet var RecentMedicalConditionTF: UITextField!//recent medical condition
     //
     //YES AND NO
     @IBOutlet var FoodRadio: [SKRadioButton]!
@@ -83,13 +81,13 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var PlantsRadio: [SKRadioButton]!
     @IBOutlet var InsectsRadio: [SKRadioButton]!
     
-    @IBOutlet var BPRadio: [SKRadioButton]!
     @IBOutlet var DiebetesRadio: [SKRadioButton]!
     @IBOutlet var CancerRadio: [SKRadioButton]!
     @IBOutlet var HeartDiseaseRadio: [SKRadioButton]!
     @IBOutlet var LeukemiaRadio: [SKRadioButton]!
     @IBOutlet var otherAllergyRadio: [SKRadioButton]!
     @IBOutlet var RestrictionRadio: [SKRadioButton]!
+    @IBOutlet var RecentMedicalConditionRadio: [SKRadioButton]!
     //
     //Heights of textfield
     @IBOutlet var HeightOfFoodTF: NSLayoutConstraint!
@@ -97,30 +95,24 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var HeightOfPlantsTF: NSLayoutConstraint!
     @IBOutlet var HeightOfInsectsTF: NSLayoutConstraint!
     
-    @IBOutlet var HeightOfBPTF: NSLayoutConstraint!
     @IBOutlet var HeightOfDiebetesTF: NSLayoutConstraint!
     @IBOutlet var HeightOfCancerTF: NSLayoutConstraint!
     @IBOutlet var HeightOfHeartDiseaseTF: NSLayoutConstraint!
     @IBOutlet var HeightOfLeukemiaTF: NSLayoutConstraint!
     @IBOutlet var HeightOfotherAllergyTF: NSLayoutConstraint!
     @IBOutlet var HeightOfRestrictionTF: NSLayoutConstraint!
+    @IBOutlet var HeightOfRecentMedicalConditionTF: NSLayoutConstraint!
     @IBOutlet var bottomContraint: NSLayoutConstraint!
     //
     @IBOutlet var allergyView: UIView!
     @IBOutlet var HeightOFallergyView: NSLayoutConstraint!
-    @IBOutlet var ExplanationTF: UITextField!//recent medical condition
     
     @IBOutlet var LastDoneView: UIView!
-    @IBOutlet var tetanusSelectedDate: UILabel!
-    @IBOutlet var polioSelectedDate: UILabel!
-    @IBOutlet var diphtheriaSelectedDate: UILabel!
-    @IBOutlet var mumpsSelectedDate: UILabel!
     @IBOutlet var selectdateRadio: [UIButton]!
     @IBOutlet var cv: UIView!
 
-    @IBOutlet var Declare: UIButton!
     @IBOutlet var Save: UIButton!
-    var checked = Bool(true)
+    
     var edit = Bool(false)
     var selectedGender = "1"
     var HaveAllergy = "0"
@@ -135,7 +127,8 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     var selectedheartdisease = "0"
     var selectedleukemia = "0"
     var selectedrestriction = "0"
-    var declare = "0"
+    var selectedcondition = "0"
+    
     var base64image = ""
     let user = User()
     let guardian = Guardian()
@@ -150,6 +143,7 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     
     @IBOutlet var cancel: UIButton!
     @IBOutlet var fscalendar: FSCalendar!
+    var back = true
     
     var selected = ""
     var datestr1 = ""
@@ -171,7 +165,6 @@ extension ProfilePageViewController {
         super.viewDidLoad()
         Utilized()
         Save.addTarget(self, action: #selector(SaveAction), for: .touchUpInside)
-        GenderSegment.addTarget(self, action: #selector(ChangeGender), for: .valueChanged)
         
         fscalendar.delegate = self
         fscalendar.dataSource = self
@@ -181,6 +174,9 @@ extension ProfilePageViewController {
         PP_NumberTF.delegate = self
         FirstEC_NumberTF.delegate = self
         SecondEC_NumberTF.delegate = self
+        
+        pincodeTF.delegate = self
+        GuardianPincodeTF.delegate = self
 
         cancel.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         fscalendar.backgroundColor = UIColor.groupTableViewBackground
@@ -188,15 +184,40 @@ extension ProfilePageViewController {
         editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
         self.navigationItem.rightBarButtonItem = editbutton
         self.alltextfield(bool: false)
+        self.navigationItem.hidesBackButton = true
+        let back = UIBarButtonItem(image: #imageLiteral(resourceName: "left-arrow.png"), style: .plain, target: self, action: #selector(handleBack))
+        back.imageInsets = UIEdgeInsets(top: 3, left: -20, bottom: -7, right: -10)
+        self.navigationItem.leftBarButtonItem = back
         // Do any additional setup after loading the view.
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if Reachability.isConnectedToNetwork() == true {
-            fetchProfileDatail()
+    @objc func handleBack(){
+        if back == true {
+            self.navigationController?.popViewController(animated: true)
         } else {
-           // retrivedata()
-            SetupInterface()
+            Utilities.shared.alertview(title: "Alert", msg: "Do you want to go back,Your data will be lost", dismisstitle: "Back", mutlipleButtonAdd: { (alert) in
+                alert.addButton("Update", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+                    if self.validateProfile() == false{
+                        
+                    }
+                    else {
+                        self.sendData()
+                    }
+                    alert.dismissAlertView()
+                }
+            }, dismissAction: {
+                self.navigationController?.popViewController(animated: true)
+            })
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        NetworkManager.isReachable { _ in
+            self.fetchProfileDatail()
+        }
+        NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+            self.fetchProfileDatail()
+        }
+        NetworkManager.isUnreachable { _ in
+            self.SetupInterface()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
@@ -211,23 +232,69 @@ extension ProfilePageViewController {//validation
         self.view.showToast(msg, position: .bottom, popTime: 3, dismissOnTap: true)
     }
     @objc func SaveAction(){
-        if (NameTF.text?.isEmpty)!{
-            toast(msg: "Empty Name")
-        }
-        else if emailTF.text?.isValidEmail() == false{
-            toast(msg: "Invaild Email")
-        }
-        else if MobileNumberTF.text?.isValidIndianContact == false{
-            toast(msg: "Invaild Mobile Number")
+        if validateProfile() == false{
+            
         }
         else {
-          //  savedata()
             sendData()
         }
-        // updateProfileDetails()
+    }
+    func validateProfile()->Bool{
+        if self.MobileNumberTF.text != "" && self.MobileNumberTF.text?.count != 10 {
+            self.toast(msg: "Enter Valid Mobile Number")
+            return false
+        }
+        else if self.emailTF.text != "" && self.emailTF.text?.isValidEmail() == false {
+            self.toast(msg: "Enter Valid Email Address")
+            return false
+        }
+        else if self.GuardianMobileNumberTF.text != "" && self.GuardianMobileNumberTF.text?.count != 10 {
+            self.toast(msg: "Enter Valid Guardian Mobile Number")
+            return false
+        }
+        else if self.GuardianMobileNumberTF.text != "" && self.GuardianMobileNumberTF.text?.first == "0" {
+            self.toast(msg: "Guardian Mobile Number Should Not Start With 0")
+            return false
+        }
+        else if self.PP_NumberTF.text != "" && self.PP_NumberTF.text?.count != 10 {
+            self.toast(msg: "Enter Valid Personal Physician Mobile Number")
+            return false
+        }
+        else if self.PP_NumberTF.text != "" && self.PP_NumberTF.text?.first == "0" {
+            self.toast(msg: "Personal Physician Mobile Number Should Not Start With 0")
+            return false
+        }
+        else if self.FirstEC_NumberTF.text != "" && self.FirstEC_NumberTF.text?.count != 10 {
+            self.toast(msg: "Enter Valid Primary Emergency Mobile Number")
+            return false
+        }
+        else if self.FirstEC_NumberTF.text != "" && self.FirstEC_NumberTF.text?.first == "0" {
+            self.toast(msg: "Primary Emergency Mobile Number Should Not Start With 0")
+            return false
+        }
+        else if self.SecondEC_NumberTF.text != "" && self.SecondEC_NumberTF.text?.count != 10 {
+            self.toast(msg: "Enter Valid Secondary Emergency Mobile Number")
+            return false
+        }
+        else if self.SecondEC_NumberTF.text != "" && self.SecondEC_NumberTF.text?.first == "0" {
+            self.toast(msg: "Secondary Emergency Mobile Number Should Not Start With 0")
+            return false
+        }
+        else if self.pincodeTF.text != "" && (self.pincodeTF.text?.count)! > 6 {
+            self.toast(msg: "Enter Valid Pincode")
+            return false
+        }
+        else if self.GuardianPincodeTF.text != "" && (self.GuardianPincodeTF.text?.count)! > 6 {
+            self.toast(msg: "Enter Valid Guardian Pincode")
+            return false
+        }
+        else {
+            return true
+        }
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let limitLength = 10
+        let pincodelimit = 6
 
         if MobileNumberTF.isFirstResponder {
             if let text = MobileNumberTF.text{
@@ -259,6 +326,24 @@ extension ProfilePageViewController {//validation
                 return newLength <= limitLength
             }
         }
+        else if pincodeTF.isFirstResponder {
+            if let text = pincodeTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= pincodelimit
+            }
+        }
+        else if GuardianPincodeTF.isFirstResponder {
+            if let text = GuardianPincodeTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= pincodelimit
+            }
+        }
+        else if GuardianPincodeTF.isFirstResponder {
+            if let text = GuardianPincodeTF.text{
+                let newLength = text.count + string.count - range.length
+                return newLength <= pincodelimit
+            }
+        }
         return true
     }
 }
@@ -285,18 +370,22 @@ extension ProfilePageViewController {
         dateview.addTarget(self, action: #selector(setdate), for: .valueChanged)
     }
     @objc func EditableandNonEditable(){
-        if Reachability.isConnectedToNetwork() == true{
-            if edit == false{
+        NetworkManager.isReachable { _ in
+            self.alltextfield(bool: true)
+
+            if self.edit == false{
                 self.edit = true
-                self.editbutton.title = "Done"
+                self.editbutton.title = ""
                 self.alltextfield(bool: true)
+                self.Save.alpha = 1.0
+                self.back = false
             } else {
                 self.edit = false
                 self.editbutton.title = "Edit"
-                self.alltextfield(bool: false)
+               // self.alltextfield(bool: false)
             }
         }
-        else {
+        NetworkManager.isUnreachable { _ in
             Alert.shared.basicalert(vc: self, title: "You Cannot Edit Detail Without Internet Connection", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
         }
     }
@@ -308,11 +397,18 @@ extension ProfilePageViewController {
         }
     }
     func alltextfield(bool: Bool){
-        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,MobileNumberTF,Address1TF,Address2TF,SubCityTF,CityTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF,FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,otherAllergyTF,BPTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,RestrictionTF,ExplanationTF]
+        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,Address1TF,Address2TF,SubCityTF,CityTF,pincodeTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,GuardianPincodeTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF,FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,otherAllergyTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,RestrictionTF,RecentMedicalConditionTF]
         self.PatientTF.isUserInteractionEnabled = false
+        self.MobileNumberTF.isUserInteractionEnabled = false
+
         self.addProfileImage.isUserInteractionEnabled = bool
-        self.GenderSegment.isUserInteractionEnabled = bool
-        self.AllergySegment.isUserInteractionEnabled = bool
+        
+        self.GenderRadio[0].isUserInteractionEnabled = bool
+        self.GenderRadio[1].isUserInteractionEnabled = bool
+        self.GenderRadio[2].isUserInteractionEnabled = bool
+        
+        self.AllergyRadio[0].isUserInteractionEnabled = bool
+        self.AllergyRadio[1].isUserInteractionEnabled = bool
         
         self.FoodRadio[0].isUserInteractionEnabled = bool
         self.FoodRadio[1].isUserInteractionEnabled = bool
@@ -329,9 +425,6 @@ extension ProfilePageViewController {
         self.otherAllergyRadio[0].isUserInteractionEnabled = bool
         self.otherAllergyRadio[1].isUserInteractionEnabled = bool
         
-        self.BPRadio[0].isUserInteractionEnabled = bool
-        self.BPRadio[1].isUserInteractionEnabled = bool
-        
         self.DiebetesRadio[0].isUserInteractionEnabled = bool
         self.DiebetesRadio[1].isUserInteractionEnabled = bool
         
@@ -347,12 +440,16 @@ extension ProfilePageViewController {
         self.RestrictionRadio[0].isUserInteractionEnabled = bool
         self.RestrictionRadio[1].isUserInteractionEnabled = bool
         
+        self.RecentMedicalConditionRadio[0].isUserInteractionEnabled = bool
+        self.RecentMedicalConditionRadio[1].isUserInteractionEnabled = bool
+        
         self.selectdateRadio[0].isUserInteractionEnabled = bool
         self.selectdateRadio[1].isUserInteractionEnabled = bool
         self.selectdateRadio[2].isUserInteractionEnabled = bool
         self.selectdateRadio[3].isUserInteractionEnabled = bool
         
-        //self.Save.isUserInteractionEnabled = bool
+        self.Save.isUserInteractionEnabled = bool
+        self.Save.alpha = 0.5
         self.editAllTextfield(bool: bool, objects: alltf as! [SkyFloatingLabelTextField])
     }
     @objc func addAttachmentAction(){
@@ -362,15 +459,12 @@ extension ProfilePageViewController {
             } else {
                 self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
                     attachmentArray[0].loadOriginalImage(completion: { (image) in
-                        SwiftLoader.show(animated: true)
                         let timestamp = Date().toMillis()
                         image?.accessibilityIdentifier = String(describing: timestamp)
                         self.imagename = "\(String(describing: timestamp!)).jpg"
-                        //self.imagename = attachmentArray[0].fileName!
                         print(self.imagename)
                         
                         self.imagesPicView.image = image
-                        SwiftLoader.hide()
                     })
                     
                 }, cancel: nil)
@@ -388,11 +482,9 @@ extension ProfilePageViewController {
             self.cv.isHidden = true
             self.cv.alpha = 0.0
         }
-        // retrivedata()
     }
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
-        SwiftLoader.show(title: "Date Set..", animated: true)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let datestr = formatter.string(from: date)
@@ -400,34 +492,26 @@ extension ProfilePageViewController {
         if selected == "1"{
             self.datestr1 = datestr
             self.selectdateRadio[0].setTitle(self.datestr1, for: .normal)
-            //  profile.setValue(self.datestr1, forKey: lastVaccinationDone.lselecteddate1)
         }
         else if selected == "2"{
             self.datestr2 = datestr
             self.selectdateRadio[1].setTitle(self.datestr2, for: .normal)
-            //  profile.setValue(self.datestr2, forKey: lastVaccinationDone.lselecteddate2)
         }
         else if selected == "3"{
             self.datestr3 = datestr
             self.selectdateRadio[2].setTitle(self.datestr3, for: .normal)
-            // profile.setValue(self.datestr3, forKey: lastVaccinationDone.lselecteddate3)
         }
         else if selected == "4"{
             self.datestr4 = datestr
             self.selectdateRadio[3].setTitle(self.datestr4, for: .normal)
-            //  profile.setValue(self.datestr4, forKey: lastVaccinationDone.lselecteddate4)
         }
-        
-        SwiftLoader.hide()
         NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-        //  self.dismiss(animated: true, completion: nil)
     }
     func maximumDate(for calendar: FSCalendar) -> Date {
         return Date()
     }
     @objc func cancelAction(){
         NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-        //self.dismiss(animated: true, completion: nil)
     }
     @objc func setdate(datePicker: UIDatePicker){
         let df = DateFormatter()
@@ -435,26 +519,15 @@ extension ProfilePageViewController {
         if DateOfBirthTF.isFirstResponder {
             DateOfBirthTF.text = df.string(from: datePicker.date)
             let calendar : NSCalendar = NSCalendar.current as NSCalendar
-            let ageComponents = calendar.components(.year, from: dateview.date, to: Date() as Date, options: [])
-            let age = ageComponents.year!
-            self.age.text = "Age: \(age)"
-        }
-    }
-    
-    @objc func ChangeGender(){
-        if GenderSegment.selectedSegmentIndex == 0{
-            selectedGender = "1"
-        }
-        else if GenderSegment.selectedSegmentIndex == 1{
-            selectedGender = "2"
-        }
-        else if GenderSegment.selectedSegmentIndex == 2{
-            selectedGender = "3"
+            let ageComponents = calendar.components(.month, from: dateview.date, to: Date() as Date, options: []).month
+            let years = ageComponents! / 12
+            let months = ageComponents! % 12
+            self.age.text = "Age: \(years) Y / \(months) M"
         }
     }
 
     func fetchProfileDatail(){
-        SwiftLoader.show(title: "Please Wait..", animated: true)
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
         ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 print(ApiServices.shared.data)
@@ -464,7 +537,6 @@ extension ProfilePageViewController {
                     if let data = self.dict.value(forKey: "data") as? NSDictionary {
                         print(data)
                         DispatchQueue.main.async {
-                            SwiftLoader.show(title: "Loading..", animated: true)
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
                                 let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
@@ -474,8 +546,12 @@ extension ProfilePageViewController {
                             else {
                                 self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
                             }
-                            self.NameTF.text = data.value(forKey: "name") as? String ?? ""
+                            let name = data.value(forKey: "name") as? String ?? ""
+                            self.NameTF.text = name
                             self.DateOfBirthTF.text = data.value(forKey: "dob") as? String ?? ""
+                            UserDefaults.standard.set(pp, forKey: "profile_image")
+                            UserDefaults.standard.set(name, forKey: "name")
+                            UserDefaults.standard.synchronize()
                             if self.DateOfBirthTF.text == ""{
                                 self.age.text = "Age"
                             } else {
@@ -483,25 +559,23 @@ extension ProfilePageViewController {
                                 df.dateFormat = "yyyy-MM-dd"
                                 let date = df.date(from: self.DateOfBirthTF.text!)
                                 let calendar : NSCalendar = NSCalendar.current as NSCalendar
-                                let ageComponents = calendar.components(.year, from: date!, to: Date() as Date, options: [])
-                                let age = ageComponents.year!
-                                self.age.text = "Age: \(age)"
+                                let ageComponents = calendar.components(.month, from: date!, to: Date() as Date, options: []).month
+                                let years = ageComponents! / 12
+                                let months = ageComponents! % 12
+                                self.age.text = "Age: \(years) Y / \(months) M"
                             }
                             self.selectedGender = data.value(forKey: "gender") as? String ?? "1"
                             self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
                             self.emailTF.text = email
                             self.PatientTF.text = data.value(forKey: "patient_id") as? String ?? ""
-                            // self.WeightTF.text = data.value(forKey: "name") as? String ?? ""
-                            self.HeightTF.text = data.value(forKey: "height") as? String ?? ""
-                            //self.BloodPressureTF.text = data.value(forKey: "name") as? String ?? ""
-                            //self.TempretureTF.text = data.value(forKey: "name") as? String ?? ""
                             
                             self.MobileNumberTF.text = data.value(forKey: "contact_no") as? String ?? ""
                             self.Address1TF.text = data.value(forKey: "address1") as? String ?? ""
                             self.Address2TF.text = data.value(forKey: "address2") as? String ?? ""
                             self.SubCityTF.text = data.value(forKey: "sub_city") as? String ?? ""
                             self.CityTF.text = data.value(forKey: "city") as? String ?? ""
+                            self.pincodeTF.text = data.value(forKey: "pincode") as? String ?? ""
                             //guardian
                             self.GuardianNameTF.text = data.value(forKey: "gaurdian_name") as? String ?? ""
                             self.GuardianMobileNumberTF.text = data.value(forKey: "gaurdian_contact") as? String ?? ""
@@ -509,6 +583,7 @@ extension ProfilePageViewController {
                             self.GuardianAddress2TF.text = data.value(forKey: "gaurdian_address2") as? String ?? ""
                             self.GuardianSubCityTF.text = data.value(forKey: "gaurdian_subcity") as? String ?? ""
                             self.GuardianCityTF.text = data.value(forKey: "gaurdian_city") as? String ?? ""
+                            self.GuardianPincodeTF.text = data.value(forKey: "gaurdian_pincode") as? String ?? ""
                             //ec1
                             self.FirstEC_NameTF.text = data.value(forKey: "emergency_contact_name1") as? String ?? ""
                             self.FirstEC_RelationshipTF.text = data.value(forKey: "emergency_contact_relation1") as? String ?? ""
@@ -578,12 +653,6 @@ extension ProfilePageViewController {
                             }
                             //medical
                             self.selectedbp = data.value(forKey: "diabetes") as? String ?? "0"
-                            let blood_pressure = data.value(forKey: "blood_pressure") as? String ?? ""
-                            if blood_pressure == "NF"{
-                                self.BPTF.text = ""
-                            } else {
-                                self.BPTF.text = blood_pressure
-                            }
                             
                             self.selecteddiebetes = data.value(forKey: "diabetes") as? String ?? "0"
                             let diabetes_details = data.value(forKey: "diabetes_details") as? String ?? ""
@@ -624,12 +693,13 @@ extension ProfilePageViewController {
                             } else {
                                 self.RestrictionTF.text = physical_activity_restriction_details
                             }
-                            
+                            self.selectedcondition = data.value(forKey: "recent_medical_condition") as? String ?? "0"
+
                             let recent_medical_condition_details = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
                             if recent_medical_condition_details == "NF"{
-                                self.ExplanationTF.text = ""
+                                self.RecentMedicalConditionTF.text = ""
                             } else {
-                                self.ExplanationTF.text = recent_medical_condition_details
+                                self.RecentMedicalConditionTF.text = recent_medical_condition_details
                             }
                             //last vaccination done
                             let placeholder = "Click to select date"
@@ -644,34 +714,24 @@ extension ProfilePageViewController {
 
                             let data4 = data.value(forKey: "last_mumps_date") as? String ?? placeholder
                             self.selectdateRadio[3].setTitle(data4, for: .normal)
-                            // self.declare = data.value(forKey: lastVaccinationDone.declare) as! Int
                             DispatchQueue.main.async {
                                 // self.retrivedata()
                                 self.SetupInterface()
-                                
-                                SwiftLoader.hide()
                             }
                         }
                     }
                 }
-                DispatchQueue.main.sync {
-                    SwiftLoader.hide()
-                }
             } catch {
                 print("catch")
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
         }
+        Utilities.shared.RemoveLoaderView()
     }
     func sendData()
     {
-        if imagename.contains(find: ".HEIC") {
-            imagename = imagename.replacingOccurrences(of: "HEIC", with: "jpg")
-        }
+        self.back = true
         var param : [String: Any]
         param =
             [
@@ -683,19 +743,19 @@ extension ProfilePageViewController {
                 "gender": self.selectedGender,
                 "dob": self.DateOfBirthTF.text!,
                 "blood_group": self.BloodGroupTF.text!,
-                "height": self.HeightTF.text!,
+                "height": "",
                 "address1": self.Address1TF.text!,
                 "address2": self.Address2TF.text!,
                 "city": self.CityTF.text!,
                 "sub_city": self.SubCityTF.text!,
-                "pincode": "",
+                "pincode": self.pincodeTF.text!,
                 "gaurdian_name": self.GuardianNameTF.text!,
                 "gaurdian_contact": self.GuardianMobileNumberTF.text!,
                 "gaurdian_address1": self.GuardianAddress1TF.text!,
                 "gaurdian_address2": self.GuardianAddress2TF.text!,
                 "gaurdian_city": self.GuardianCityTF.text!,
                 "gaurdian_subcity": self.GuardianSubCityTF.text!,
-                "gaurdian_pincode": "",
+                "gaurdian_pincode": self.GuardianPincodeTF.text!,
                 "emergency_contact_name1": self.FirstEC_NameTF.text!,
                 "emergency_contact_relation1": self.FirstEC_RelationshipTF.text!,
                 "emergency_contact_number1": self.FirstEC_NumberTF.text!,
@@ -725,33 +785,39 @@ extension ProfilePageViewController {
                 "lukemia": self.selectedleukemia,
                 "physical_activity_restriction": self.selectedrestriction,
                 "physical_activity_restriction_details": self.RestrictionTF.text!,
-                "recent_medical_condition": "0",
-                "recent_medical_condition_details": self.ExplanationTF.text!,
-                "last_tetanus_date": self.selectdateRadio[0].titleLabel?.text!,
-                "last_polio_date": self.selectdateRadio[1].titleLabel?.text!,
-                "last_diptheria_date": self.selectdateRadio[2].titleLabel?.text!,
-                "last_mumps_date": self.selectdateRadio[3].titleLabel?.text!
+                "recent_medical_condition": self.selectedcondition,
+                "recent_medical_condition_details": self.RecentMedicalConditionTF.text!
         ]
-       /* if self.NameTF.text != ""{
-            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
+        let pl = "Click to select date"
+        if self.selectdateRadio[0].titleLabel?.text != pl{
+            param["last_tetanus_date"] = self.selectdateRadio[0].titleLabel?.text!
         }
-        if self.MobileNumberTF.text != ""{
-            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
+        if self.selectdateRadio[1].titleLabel?.text! != pl{
+            param["last_polio_date"] = self.selectdateRadio[1].titleLabel?.text!
         }
-        if self.emailTF.text != ""{
-            param["emergency_contact_number1"] = self.FirstEC_NumberTF.text!
-        }*/
-        SwiftLoader.show(title: "Updating data", animated: true)
+        if self.selectdateRadio[2].titleLabel?.text != pl{
+            param["last_diptheria_date"] = self.selectdateRadio[2].titleLabel?.text!
+        }
+        if self.selectdateRadio[3].titleLabel?.text != pl{
+            param["last_mumps_date"] = self.selectdateRadio[3].titleLabel?.text!
+        }
+        print("param: \(param)")
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Updating data")
         
         ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
                     DispatchQueue.main.async {
-                        SwiftLoader.hide()
-                        
                         if msg == "success"{
+                            if self.imagename != "" {
+                                UserDefaults.standard.set(self.imagename, forKey: "profile_image")
+                            }
+                            UserDefaults.standard.set(self.NameTF.text!, forKey: "name")
+                            UserDefaults.standard.synchronize()
                             self.uploadimage()
+                            self.view.showToast("Update Profile Details Successfully", position: .bottom, popTime: 3.0, dismissOnTap: true)
+                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 }
@@ -771,33 +837,20 @@ extension ProfilePageViewController {
                 
                 print("json-\(json)")
             } catch {
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
                 print("catch")
             }
         }) { () -> (Dictionary<String, Any>) in
             param
         }
+        Utilities.shared.RemoveLoaderView()
     }
     func uploadimage(){
-        // ["profile_picture":self.imagename]
-        if imagename.contains(find: ".HEIC") {
-            imagename = imagename.replacingOccurrences(of: "HEIC", with: "jpg")
-        }
-        SwiftLoader.show(title: "Updating image", animated: true)
         ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                print("image-\(json)")
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
                 
+                print("image-\(json)")
             } catch {
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                }
                 print("image catch")
             }
         }) { () -> (Dictionary<String, Any>) in
@@ -806,42 +859,6 @@ extension ProfilePageViewController {
     }
     
 }
-extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource{
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.bloodtypes.count
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.bloodtypes[row]
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if self.bloodtypes.count == 0{
-            
-        } else {
-            self.BloodGroupTF.text = self.bloodtypes[row]
-        }
-    }
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 45
-    }
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label: UILabel
-        if let view = view as? UILabel{
-            label = view
-        } else {
-            label = UILabel()
-        }
-        label.textColor = UIColor.black
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.text = self.bloodtypes[row]
-        
-        return label
-    }
-}
-
 
 extension ProfilePageViewController {//setupinterface
     
@@ -870,22 +887,16 @@ extension ProfilePageViewController {//setupinterface
         }
     }
     func Utilized(){
-        Utilities.shared.cornerRadius(objects: [imagesPicView,Save], number: 10.0)
+        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [Save], number: 10.0)
         Utilities.shared.borderRadius(objects: [Save], color: UIColor.white)
         
     }
     @IBAction func ClicktoSelectDate(sender: UIButton){
-       // savedata()
-      //  let vc = self.storyboard?.instantiateViewController(withIdentifier: "CalendarViewController") as! CalendarViewController
         UIView.animate(withDuration: 0.1) {
             self.cv.isHidden = false
             self.cv.alpha = 1.0
         }
-       // self.present(vc, animated: true, completion: nil)
-//        datestr1 = self.tetanusSelectedDate.text!
-//        datestr2 = self.polioSelectedDate.text!
-//        datestr3 = self.diphtheriaSelectedDate.text!
-//        datestr4 = self.mumpsSelectedDate.text!
         if sender.tag == 1{
             selected = "1"
         }
@@ -900,28 +911,22 @@ extension ProfilePageViewController {//setupinterface
         }
     }
     func SetupInterface(){
-        Declare.isMultipleTouchEnabled = true
 
         DispatchQueue.main.async {
-            self.GenderSegment.selectedSegmentIndex = Int(self.selectedGender)! - 1
-            self.AllergySegment.selectedSegmentIndex = Int(self.HaveAllergy)!
+            self.GenderRadio[Int(self.selectedGender)! - 1].isSelected = true
+            
+            if self.HaveAllergy == "0"{
+                self.AllergyRadio[1].isSelected = true
+                self.hideAllergy()
+            } else if self.HaveAllergy == "1" {
+                self.showAllergy()
+                self.AllergyRadio[0].isSelected = true
+            }
             self.HeightOFallergyView.constant = 0
             self.bottomContraint.isActive = false
             self.allergyView.isHidden = true
         }
-        
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .normal)
-        GenderSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .selected)
-        GenderSegment.tintColor = UIColor.clear
-        GenderSegment.backgroundColor = UIColor.groupTableViewBackground
         //4CAF50
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .normal)
-        AllergySegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hexString: "4CAF50"), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], for: .selected)
-        AllergySegment.tintColor = UIColor.clear
-        AllergySegment.backgroundColor = UIColor.groupTableViewBackground
-        
-        AllergySegment.addTarget(self, action: #selector(AllergySegmentValue), for: .valueChanged)
-       // Declare.addTarget(self, action: #selector(DeclareAction), for: .touchUpInside)
         minimize()
         
         yesORnoActionInsideAllergyView()
@@ -929,12 +934,16 @@ extension ProfilePageViewController {//setupinterface
     func minimize(){
         minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
     }
-    @objc func AllergySegmentValue(){
-        if AllergySegment.selectedSegmentIndex == 0{//no
-            hideAllergy()
+    @IBAction func AllergyRadioAction(sender: SKRadioButton){
+        self.AllergyRadio.forEach { (button) in
+            button.isSelected = false
         }
-        else if AllergySegment.selectedSegmentIndex == 1{//yes
+        sender.isSelected = true
+        if sender.tag == 3{//yes
             showAllergy()
+        }
+        else if sender.tag == 4{//no
+            hideAllergy()
         }
     }
     func showAllergy(){
@@ -961,32 +970,12 @@ extension ProfilePageViewController {//setupinterface
             })
         }
     }
-    /*@objc func DeclareAction(){
-        if Declare.currentImage == #imageLiteral(resourceName: "square") {
-            self.checked = false
-            self.declare = 1
-            print(self.declare)
-            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
-        }else{
-            self.checked = true
-            self.declare = 0
-            print(self.declare)
-            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
-        }
-    }*/
     func yesORnoActionInsideAllergyView(){
-        self.AllergySegment.selectedSegmentIndex = Int(HaveAllergy)!
         if HaveAllergy == "0"{
-            
             hideAllergy()
         }
         else if HaveAllergy == "1"{
             showAllergy()
-        }
-        if self.declare == "0"{
-            Declare.setImage(#imageLiteral(resourceName: "square"), for: .normal)
-        } else {
-            Declare.setImage(#imageLiteral(resourceName: "check-square"), for: .normal)
         }
         
         FoodRadio[Int(selectedfood)!].isSelected = true
@@ -1033,16 +1022,6 @@ extension ProfilePageViewController {//setupinterface
             otherAllergyRadio[1].isSelected = false
             minimizeHeight(objects: [otherAllergyTF], heightContantOutlet: [HeightOfotherAllergyTF])
         }
-//
-//        BPRadio[Int(selectedbp)!].isSelected = true
-//        if selectedbp == "1"{
-//            BPRadio[0].isSelected = false
-//            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-//        } else if selectedbp == "0"{
-//            BPRadio[1].isSelected = false
-//            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-//        }
-        
         DiebetesRadio[Int(selecteddiebetes)!].isSelected = true
         if selecteddiebetes == "1"{
             DiebetesRadio[0].isSelected = false
@@ -1087,10 +1066,33 @@ extension ProfilePageViewController {//setupinterface
             RestrictionRadio[1].isSelected = false
             minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
         }
+        
+        if self.selectedcondition == "0"{
+            RecentMedicalConditionRadio[1].isSelected = true
+            minimizeHeight(objects: [RecentMedicalConditionTF], heightContantOutlet: [HeightOfRecentMedicalConditionTF])
+        } else if self.selectedcondition == "1" {
+            RecentMedicalConditionRadio[0].isSelected = true
+            maximizeHeight(objects: [RecentMedicalConditionTF], heightContantOutlet: [HeightOfRecentMedicalConditionTF])
+        }
     }
    
 }
 extension ProfilePageViewController { //button action
+    @IBAction func GenderRadioAction(sender: SKRadioButton){
+        self.GenderRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 5{
+            selectedGender = "1"
+        }
+        else if sender.tag == 6{
+            selectedGender = "2"
+        }
+        else if sender.tag == 7{
+            selectedGender = "3"
+        }
+    }
     @IBAction func FoodYesOrNo(sender: SKRadioButton){
         self.FoodRadio.forEach { (button) in
             button.isSelected = false
@@ -1147,20 +1149,6 @@ extension ProfilePageViewController { //button action
             minimizeHeight(objects: [InsectsTF], heightContantOutlet: [HeightOfInsectsTF])
         }
     }
-//    @IBAction func BPYesOrNo(sender: SKRadioButton){
-//        self.BPRadio.forEach { (button) in
-//            button.isSelected = false
-//        }
-//        sender.isSelected = true
-//        if sender.tag == 19 {
-//            self.selectedbp = String(1)
-//            maximizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-//        }
-//        else if sender.tag == 20 {
-//            self.selectedbp = String(0)
-//            minimizeHeight(objects: [BPTF], heightContantOutlet: [HeightOfBPTF])
-//        }
-//    }
     @IBAction func DiebetesYesOrNo(sender: SKRadioButton){
         self.DiebetesRadio.forEach { (button) in
             button.isSelected = false
@@ -1245,7 +1233,58 @@ extension ProfilePageViewController { //button action
             minimizeHeight(objects: [RestrictionTF], heightContantOutlet: [HeightOfRestrictionTF])
         }
     }
+    @IBAction func RecentMedicalConditionAction(sender: SKRadioButton){
+        self.RecentMedicalConditionRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        sender.isSelected = true
+        if sender.tag == 8 {
+            self.selectedcondition = String(1)
+            maximizeHeight(objects: [RecentMedicalConditionTF], heightContantOutlet: [HeightOfRecentMedicalConditionTF])
+        }
+        else if sender.tag == 9 {
+            self.selectedcondition = String(0)
+            minimizeHeight(objects: [RecentMedicalConditionTF], heightContantOutlet: [HeightOfRecentMedicalConditionTF])
+        }
+    }
 }
+extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.bloodtypes.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.bloodtypes[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if self.bloodtypes.count == 0{
+            
+        } else {
+            self.BloodGroupTF.text = self.bloodtypes[row]
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 45
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        if let view = view as? UILabel{
+            label = view
+        } else {
+            label = UILabel()
+        }
+        label.textColor = UIColor.black
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = self.bloodtypes[row]
+        
+        return label
+    }
+}
+
+/*
 extension ProfilePageViewController { //coredata save and retrive
     
     func savedata(){
@@ -1329,7 +1368,7 @@ extension ProfilePageViewController { //coredata save and retrive
             
             profile.setValue(self.selectedrestriction, forKey: medical.mrestrict)
             profile.setValue(self.RestrictionTF.text!, forKey: medical.mexplainRestrict)
-            profile.setValue(self.ExplanationTF.text!, forKey: medical.mrecentMC)
+            profile.setValue(self.RecentMedicalConditionTF.text!, forKey: medical.mrecentMC)
             //last vaccination done
             profile.setValue(self.tetanusSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate1)
             profile.setValue(self.polioSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate2)
@@ -1428,7 +1467,7 @@ extension ProfilePageViewController { //coredata save and retrive
                 selectedrestriction = data.value(forKey: medical.mrestrict) as! String
                 self.RestrictionTF.text = data.value(forKey: medical.mexplainRestrict) as? String
                 
-                self.ExplanationTF.text = data.value(forKey: medical.mrecentMC) as? String
+                self.RecentMedicalConditionTF.text = data.value(forKey: medical.mrecentMC) as? String
                 //last vaccination done
                 let data1 = data.value(forKey: lastVaccinationDone.lselecteddate1) as? String
                 self.tetanusSelectedDate.text = data1
@@ -1449,53 +1488,4 @@ extension ProfilePageViewController { //coredata save and retrive
             print("failed")
         }
     }
-}
-
-/*  let url = ApiServices.shared.baseUrl + "patienteditprofile"
- let imgData = imagesPicView.image?.jpegData(compressionQuality: 0.2)
- 
- Alamofire.UploadRequest(multipartFormData: { multipartFormData in
- multipartFormData.append(imgData, withName: "profile_picture",fileName: self.imagename, mimeType: "image/jpg")
- for (key, value) in param {
- multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
- } //Optional for extra parameters
- },
- to:url)
- { (result) in
- switch result {
- case .success(let upload, _, _):
- 
- upload.uploadProgress(closure: { (progress) in
- print("Upload Progress: \(progress.fractionCompleted)")
- })
- 
- upload.responseJSON { response in
- 
- self.objHudHide()
- print(response.result.value)
- 
- let jsonDict : NSDictionary = response.result.value as! NSDictionary
- 
- print(jsonDict)
- if  jsonDict["msg"] as! String == "Success"
- {
- print("success")
- }
- else
- {
- 
- let alertViewController = UIAlertController(title: NSLocalizedString("Alert!", comment: ""), message:"Something Went wrong please try again." , preferredStyle: .alert)
- let okAction = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) { (action) -> Void in
- 
- }
- alertViewController.addAction(okAction)
- self.present(alertViewController, animated: true, completion: nil)
- 
- 
- }
- }
- 
- case .failure(let encodingError):
- print(encodingError)
- }
- }*/
+}*/

@@ -27,11 +27,9 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     //   Utilities.shared.bottomBorderSetup(fields: [PatientTextField,PasswordTextField],color: UIColor(hexString: "FFFFFF"))
-        Utilities.shared.borderRadius(objects: [LoginNow], color: UIColor(hexString: "4CAF50"))
-        Utilities.shared.cornerRadius(objects: [LoginNow,Register,loginview,logo], number: 10.0)
-        Utilities.shared.cornerRadius(objects: [cutview], number: cutview.frame.width / 2)
-
+        Utilities.shared.borderRadius(objects: [LoginNow], color: UIColor(hexString: "673AB7"))
+        Utilities.shared.cornerRadius(objects: [LoginNow,Register,loginview,logo], number: 5.0)
+        
         Register.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
         PatientTextField.delegate = self
         PasswordTextField.delegate = self
@@ -73,17 +71,15 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     }
     @objc func update(notification: NSNotification){
         DispatchQueue.main.async {
-            SwiftLoader.show(animated: true)
             if let email = notification.userInfo?["email"] as? String{
                 self.PatientTextField.text = email
             }
             if let password = notification.userInfo?["password"] as? String{
                 self.PasswordTextField.text = password
             }
-            SwiftLoader.hide()
         }
     }
-    func savedata(name: String,gender: String,email: String,contact: String){
+    func savedata(name: String,gender: String,email: String,contact: String,profile_image: String){
         let managedobject = self.appdel.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Profile", in: managedobject)
         
@@ -94,6 +90,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             profile.setValue(gender, forKey: user.gender)
             profile.setValue(email, forKey: user.email)
             profile.setValue(contact, forKey: user.mobileNumber)
+            profile.setValue(profile_image, forKey: user.profile_image)
             try managedobject.save()
         } catch {
             print("catch")
@@ -101,7 +98,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     }
     func login(){
         print("0")
-        SwiftLoader.show(title: "Please Wait..", animated: true)
+        Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
         ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
@@ -120,7 +117,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         
                         let contact_no = data.value(forKey: "contact_no") as! String
                         let email = data.value(forKey: "email") as? String ?? ""
-                        //let guid = data.value(forKey: "guid") as! String
+                        let profile_image = data.value(forKey: "profile_image") as! String
                         let name = data.value(forKey: "name") as! String
                         let pid = data.value(forKey: "patient_id") as! String
                         let gender = data.value(forKey: "gender") as! String
@@ -128,22 +125,21 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         
                         UserDefaults.standard.set(contact_no, forKey: "contact_no")
                         UserDefaults.standard.set(email, forKey: "email")
-                        //UserDefaults.standard.set(guid, forKey: "guid")
+                        UserDefaults.standard.set(profile_image, forKey: "profile_image")
                         UserDefaults.standard.set(name, forKey: "name")
                         UserDefaults.standard.set(pid, forKey: "Patient_id")
                         UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
                         
                         UserDefaults.standard.synchronize()
-                        self.savedata(name: name, gender: gender, email: email, contact: contact_no)
+                        self.savedata(name: name, gender: gender, email: email, contact: contact_no, profile_image: profile_image)
                         
                         let bearertokenget = UserDefaults.standard.string(forKey: "bearertoken")
                         
                         if let bt = bearertokenget {
                             if bt == bearertoken {
                                 DispatchQueue.main.async {
-                                    self.appdel.RootPatientHomeVC()
-                                    SwiftLoader.hide()
                                     self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                                    self.appdel.RootPatientHomeVC()
                                 }
                             } else {
                                 print(bt)
@@ -166,6 +162,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                 }
                 else if msg == "fail"{
                     DispatchQueue.main.async {
+                        let reason = json.value(forKey: "reason") as! String
+                        self.view.showToast(reason, position: .bottom, popTime: 3, dismissOnTap: true)
                         SwiftLoader.hide()
                     }
                 }
@@ -173,11 +171,13 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                 print("catch")
                 DispatchQueue.main.async {
                     SwiftLoader.hide()
+                    self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
         }
+        Utilities.shared.RemoveLoaderView()
     }
     @objc func loginAction(){
         if (PatientTextField.text?.isEmpty)! {
@@ -186,14 +186,6 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         else if (PasswordTextField.text?.isEmpty)! {
             self.view.showToast("Enter \(PasswordTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
         }
-       /* else if (self.PatientTextField.text?.contains(find: "@"))! {
-            if (self.PatientTextField.text?.isValidEmail())! && (self.PasswordTextField.text?.isValidPassword())! {
-                login()
-            }
-        }
-        else if PatientTextField.text?.isEmpty == false && (self.PasswordTextField.text?.isValidPassword())! {
-            login()
-        }*/
         else{
             login()
         }
@@ -229,12 +221,14 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         }
     }
     override func viewWillLayoutSubviews() {
-        Utilities.shared.setGradientBackground(view: self.view, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
-        Utilities.shared.setGradientBackground(view: Gview, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
+//        Utilities.shared.setGradientBackground(view: self.view, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
+//        Utilities.shared.setGradientBackground(view: Gview, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
     }
     @objc func registerAction(){
-        let pageViewController = self.parent as! PageViewController
-        pageViewController.nextPageWithIndex(index: 1)
+//        let pageViewController = self.parent as! PageViewController
+//        pageViewController.nextPageWithIndex(index: 1)
+        let signupvc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+        self.present(signupvc, animated: true, completion: nil)
     }
 }
 

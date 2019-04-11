@@ -36,15 +36,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!
@@ -70,15 +62,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!
@@ -106,15 +90,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!
@@ -139,15 +115,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!
@@ -174,15 +142,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!
@@ -228,15 +188,7 @@ class ApiServices {
             if error != nil{
                 print("error")
                 if (error?.localizedDescription) != nil{
-                    if Reachability.isConnectedToNetwork(){
-                        print("Internet Connection Available!")
-                    }else{
-                        print("Internet Connection not Available!")
-                        Alert.shared.basicalert(vc: vc, title: "Internet Connection Appears Offline", msg: "Go to Setting and Turn on Mobile Data or Wifi Connection")
-                        DispatchQueue.main.async {
-                            SwiftLoader.hide()
-                        }
-                    }
+                    
                 }
             } else {
                 self.data = data!

@@ -10,9 +10,10 @@ import UIKit
 
 class TimeInfoViewController: UIViewController {
 
+    @IBOutlet var popview: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Utilities.shared.cornerRadius(objects: [popview], number: 10.0)
         // Do any additional setup after loading the view.
     }
     @IBAction func ok(){

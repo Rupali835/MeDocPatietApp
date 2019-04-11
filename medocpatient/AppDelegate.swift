@@ -23,12 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var fcm_token : String?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted, error) in
-//            if let error = error {
-//                print("granted, but Error in notification permission:\(error.localizedDescription)")
-//            }
-//        }
-//
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
@@ -59,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     func SwitchLogin(){
-        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginPage") as! LoginPage
         window?.rootViewController = loginViewController
     }
     func RootPatientHomeVC(){
@@ -216,9 +210,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
     func application(received remoteMessage: MessagingRemoteMessage)
     {
         print(remoteMessage.appData)
-        
     }
-    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
@@ -232,8 +224,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
     }
     
     func instance() ->  AppDelegate{
-        
         return AppDelegate()
-        
     }
+    
 }

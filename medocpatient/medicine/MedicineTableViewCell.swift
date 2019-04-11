@@ -15,10 +15,10 @@ class MedicineTableViewCell: UITableViewCell {
     @IBOutlet var interval_time: UILabel!
     @IBOutlet var interval_type: UILabel!
     @IBOutlet var interval_period: UILabel!
-
+    @IBOutlet var beforeaftertime: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         // Initialization code
     }
 
@@ -28,4 +28,20 @@ class MedicineTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+class headercell: UITableViewCell {
+    
+    @IBOutlet var titles: UILabel!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // Initialization code
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
 }
