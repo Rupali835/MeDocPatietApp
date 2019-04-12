@@ -178,6 +178,9 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
             Healthvc.navigationItem.largeTitleDisplayMode = .never
             Healthvc.navigationItem.title = titles[indexPath.row]
+//            Utilities.shared.alertview(title: "Sorry", msg: "Health Module is Not Completed Now", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
+//
+//            }, dismissAction: { })
             self.navigationController?.pushViewController(Healthvc, animated: true)
         }
         else if indexPath.row == 6{

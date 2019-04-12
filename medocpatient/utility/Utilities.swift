@@ -73,6 +73,9 @@ class Utilities {
         message.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         message.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
+    func removecentermsg(){
+        message.removeFromSuperview()
+    }
     var blurEffectView = UIVisualEffectView()
     
     func ShowLoaderView(view: UIView,Message: String){

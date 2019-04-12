@@ -45,7 +45,8 @@ class MedicineViewController: UIViewController {
             self.fetchmedicine()
         }
         NetworkManager.isUnreachable { _ in
-            self.nodatalbl.text = ""
+            self.nodatalbl.text = "No Internet Connection"
+            self.nodatalbl.isHidden = false
         }
     }
     func setupReminder(){
@@ -55,7 +56,7 @@ class MedicineViewController: UIViewController {
         self.eventStore.requestAccess(to: EKEntityType.reminder) { (granted, error) in
             if granted {
                 // 2
-                let predicate = self.eventStore.predicateForReminders(in: [self.eventStore.defaultCalendarForNewReminders()!])
+                let predicate = self.eventStore.predicateForReminders(in: nil)
                 self.eventStore.fetchReminders(matching: predicate, completion: { (reminders) in
                     self.reminders = reminders
                 })
@@ -64,7 +65,7 @@ class MedicineViewController: UIViewController {
             }
         }
     }
-    func addreminderSetup(title: String,notes: String?,startdate: DateComponents,duedate: DateComponents,alarmdates: [EKAlarm]?,recurrenceRule: [EKRecurrenceRule]?){
+    func addreminderSetup(title: String,notes: String?,startdate: DateComponents?,duedate: DateComponents?,completiondate: Date?,alarmdates: [EKAlarm]?,recurrenceRule: [EKRecurrenceRule]?){
         let reminder = EKReminder(eventStore: self.eventStore)
         
         reminder.title = "Time to Take \(title) Medicines"
@@ -72,7 +73,7 @@ class MedicineViewController: UIViewController {
         reminder.notes = "Cheif Complain: \(notes ?? "Not Mentioned")"
         reminder.startDateComponents = startdate
         reminder.dueDateComponents = duedate
-       
+        reminder.completionDate = nil
         reminder.alarms = alarmdates
         reminder.recurrenceRules = recurrenceRule
         
@@ -104,6 +105,7 @@ class MedicineViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
+                    self.nodatalbl.isHidden = true
                 }
             } catch {
                 print("catch")
@@ -111,7 +113,7 @@ class MedicineViewController: UIViewController {
                 Utilities.shared.RemoveLoaderView()
             }
         }) { () -> (Dictionary<String, Any>) in
-            [:]
+            ["all":"1"]
         }
     }
     func createNewReminder(){
@@ -197,7 +199,7 @@ class MedicineViewController: UIViewController {
                 var alreadyadded = false
                 
                 for remind in self.reminders {
-                    if remind.notes == "Cheif Complain: \(patient_problem)"{
+                    if remind.notes == "Cheif Complain: \(patient_problem)" || remind.notes == "Cheif Complain: Not Mentioned" {
                         do {
                             try self.eventStore.remove(remind, commit: true)
                             alreadyadded = false
@@ -225,6 +227,7 @@ class MedicineViewController: UIViewController {
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
+                                              completiondate: dueDate,
                                               alarmdates: alarmdates,
                                               recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
                         break
@@ -287,6 +290,7 @@ class MedicineViewController: UIViewController {
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
+                                              completiondate: dueDate,
                                               alarmdates: alarmdates,
                                               recurrenceRule:
                             [EKRecurrenceRule(recurrenceWith: .weekly,
@@ -305,10 +309,11 @@ class MedicineViewController: UIViewController {
                         
                         let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
                         
-                        self.addreminderSetup(title: medicinename + "\(interval_time) Times in a day",
+                        self.addreminderSetup(title: medicinename + " \(interval_time) Times in a day",
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
+                                              completiondate: dueDate,
                                               alarmdates: alarmdates,
                                               recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
                         break

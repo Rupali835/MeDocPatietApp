@@ -13,21 +13,21 @@ import CryptoSwift
 class QRViewController: UIViewController {
 
     @IBOutlet var qrimage: UIImageView!
+    @IBOutlet var tableview: UITableView!
     var qrcodeImage: CIImage!
-    @IBOutlet var uniqueCode: UILabel!
-    @IBOutlet var Send: UIButton!
-    
+    let cryptLib = CryptLib()
+
     var hex = ""
     let key = "GFyb1eIRzR6zqWJjY97L+A==:QjJ/cH+l6nEoXn+dqf2Djnec/y+/s/Lua6xq1dLrjMk="
     
+    let helptypename = ["Police Service\n (पुलिस सेवा)","Fire Service\n (अग्नि सेवा)","Ambulance\n  (एम्बुलेंस)","Traffic Police\n (यातायात पुलिस)","Disaster Management\n (आपदा प्रबंधन)","Railway Inquiry\n (रेलवे पूछताछ)","Anti-Curruption\n (भ्रष्टाचार विरोधी)","Rail Accident\n (रेल दुर्घटना)","Road Accident\n (सड़क दुर्घटना)","Women Helpline\n (महिला सहायता लाइन)","Children Victimization Helpline\n (बाल शोषण सहायता)","Farmer Call Center\n (किसान कॉल केंद्र)","Citizen Call Center\n (नागरिक कॉल केंद्र)","Blood Bank\n (रक्त बैंक)"]
+    let helptypenumber = ["100","101","102","103","108","139","1031","1072","1073","1091","1098","1551","155300","9480044444"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let patientid = UserDefaults.standard.string(forKey: "Patient_id")
-        
+        tableview.tableFooterView = UIView(frame: .zero)
         let text = "\(patientid!)"
-        
-      //  encrypt(text: text)
-        let cryptLib = CryptLib()
         
         let cipherText = cryptLib.encryptPlainTextRandomIV(withPlainText: text, key: key)
         print("cipherText \(cipherText! as String)")
@@ -42,32 +42,12 @@ class QRViewController: UIViewController {
         qrcodeImage = filter!.outputImage
         displayQRCodeImage()
         print(text)
-      //  hex = "jk3JGfxX9y0+SuAGUIl4YQ==:KysnoS5SDt7gsdQ3RVrwT5j7QMkuQO26SZnHNUl8XL8=:omkqcFqQmu7rP7gsH1GF2w=="
         
         let decryptedString = cryptLib.decryptCipherTextRandomIV(withCipherText: cipherText, key: key)
         print("decryptedString \(decryptedString! as String)")
-        
-//        let dec = decrypt(hexString: hex)
-//        uniqueCode.text = ""//"Patient ID : \(dec!)"
-//        print(dec!)
-        
         // Do any additional setup after loading the view.
     }
-//    func encrypt(text: String) -> String?  {
-//        if let aes = try? AES(key: key, iv: "drowssapdrowssap"),
-//            let encrypted = try? aes.encrypt(Array(text.utf8)) {
-//            hex = encrypted.toHexString()
-//            return encrypted.toHexString()
-//        }
-//        return nil
-//    }
-//    func decrypt(hexString: String) -> String? {
-//        if let aes = try? AES(key: key, iv: "drowssapdrowssap"),
-//            let decrypted = try? aes.decrypt(Array<UInt8>(hex: hexString)) {
-//            return String(data: Data(bytes: decrypted), encoding: .utf8)
-//        }
-//        return nil
-//    }
+
     func displayQRCodeImage() {
         let scaleX = qrimage.frame.size.width / qrcodeImage.extent.size.width
         let scaleY = qrimage.frame.size.height / qrcodeImage.extent.size.height
@@ -84,5 +64,25 @@ class QRViewController: UIViewController {
         }
         return randomNumbers
     }
+    
+}
+extension QRViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.helptypename.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "helplineNumberCell") as! helplineNumberCell
+        cell.typename.text = self.helptypename[indexPath.row]
+        cell.typenumber.text = self.helptypenumber[indexPath.row]
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+class helplineNumberCell: UITableViewCell {
+    
+    @IBOutlet var typename: UILabel!
+    @IBOutlet var typenumber: UILabel!
     
 }

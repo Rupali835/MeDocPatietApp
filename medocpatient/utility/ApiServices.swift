@@ -57,6 +57,10 @@ class ApiServices {
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
+//        let myParams = parameter
+//        let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
+//        let body = postData
+//        urlReq.httpBody = body
         urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{

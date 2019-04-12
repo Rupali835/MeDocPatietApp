@@ -27,10 +27,10 @@ class HealthViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
-        fetchhealthdata(attr: "bp")
-        fetchhealthdata(attr: "w")
-        fetchhealthdata(attr: "h")
-        fetchhealthdata(attr: "t")
+        self.fetchhealthdata(attr: "bp")
+        self.fetchhealthdata(attr: "w")
+        self.fetchhealthdata(attr: "h")
+        self.fetchhealthdata(attr: "t")
     }
     func fetchhealthdata(attr: String){
         ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/m/0/0", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
@@ -41,29 +41,25 @@ class HealthViewController: UIViewController {
                         if let data = json.value(forKey: "data") as? NSArray{
                             if attr == "bp"{
                                 self.bp_dataarr = data
-                                self.fetchhealthdata(attr: "w")
                                 print("bpdata-\(self.bp_dataarr)")
                             }
                             else if attr == "w"{
                                 self.w_dataarr = data
-                                self.fetchhealthdata(attr: "h")
                                 print("wdata-\(self.w_dataarr)")
                             }
                             else if attr == "h"{
                                 self.h_dataarr = data
-                                self.fetchhealthdata(attr: "t")
                                 print("hdata-\(self.h_dataarr)")
                             }
                             else if attr == "t"{
                                 self.t_dataarr = data
                                 print("tdata-\(self.t_dataarr)")
                             }
-                            DispatchQueue.main.async {
-                                self.tableview.reloadData()
-                            }
                         }
                     }
-                    
+                    DispatchQueue.main.async {
+                        self.tableview.reloadData()
+                    }
                 }
             } catch {
                 print("catch")
@@ -135,7 +131,7 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                     let d1 = self.t_dataarr.object(at: self.t_dataarr.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
                     let temperature = d1.value(forKey: "temperature") as! String
-                    cell2.firstdata.text = "Temperature: \(temperature) "
+                    cell2.firstdata.text = "Temperature: \(temperature) ºC"
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -200,12 +196,12 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
                 DispatchQueue.main.async {
-                    self.alertwithtext.dismissAlertView()
+                    self.fetchhealthdata(attr: "bp")
+                    self.fetchhealthdata(attr: "w")
+                    self.fetchhealthdata(attr: "h")
+                    self.fetchhealthdata(attr: "t")
                 }
             } catch {
-                DispatchQueue.main.async {
-                    self.alertwithtext.dismissAlertView()
-                }
                 print("catch")
             }
         }) { () -> (Dictionary<String, Any>) in
@@ -238,11 +234,11 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
                 self.view.showToast("Invalid Diastolic", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Blood Pressure")
-                self.postApi(param: ["systolic" : txt1.text!,
-                                     "diastolic": txt2.text!])
-                self.fetchhealthdata(attr: "bp")
-                Utilities.shared.RemoveLoaderView()
+                self.alertwithtext.dismissAlertView()
+                DispatchQueue.main.async {
+                    self.postApi(param: ["systolic" : txt1.text!,
+                                         "diastolic": txt2.text!])
+                }
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -265,10 +261,10 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
                 self.view.showToast("Invalid Height", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Height")
-                self.postApi(param: ["height" : txt1.text!])
-                self.fetchhealthdata(attr: "h")
-                Utilities.shared.RemoveLoaderView()
+                self.alertwithtext.dismissAlertView()
+                DispatchQueue.main.async {
+                    self.postApi(param: ["height" : txt1.text!])
+                }
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -290,10 +286,10 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
                 self.view.showToast("Invalid Weight", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Weight")
-                self.postApi(param: ["weight" : txt1.text!])
-                self.fetchhealthdata(attr: "w")
-                Utilities.shared.RemoveLoaderView()
+                self.alertwithtext.dismissAlertView()
+                DispatchQueue.main.async {
+                    self.postApi(param: ["weight" : txt1.text!])
+                }
             }
         }) { (cancel) in
             cancel.dismissAlertView()
@@ -315,10 +311,10 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
                 self.view.showToast("Invalid Temperature", position: .bottom, popTime: 3, dismissOnTap: false)
             }
             else {
-                Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Temperature")
-                self.postApi(param: ["temperature" : txt1.text!])
-                self.fetchhealthdata(attr: "t")
-                Utilities.shared.RemoveLoaderView()
+                self.alertwithtext.dismissAlertView()
+                DispatchQueue.main.async {
+                    self.postApi(param: ["temperature" : txt1.text!])
+                }
             }
         }) { (cancel) in
             cancel.dismissAlertView()

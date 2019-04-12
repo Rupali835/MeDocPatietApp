@@ -91,14 +91,15 @@ class ReportViewController: UIViewController {
                 }
                 DispatchQueue.main.sync {
                     self.tableview.reloadData()
+                    Utilities.shared.RemoveLoaderView()
                 }
             } catch {
                 print("catch")
+                Utilities.shared.RemoveLoaderView()
             }
         }) { () -> (Dictionary<String, Any>) in
             [:]
         }
-        Utilities.shared.RemoveLoaderView()
     }
     func filterdata(r_data: NSArray){
         for (index,_) in r_data.enumerated() {

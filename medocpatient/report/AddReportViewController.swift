@@ -68,7 +68,9 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String{
                     if msg == "success" {
-                        
+                        DispatchQueue.main.async {
+                            Utilities.shared.RemoveLoaderView()
+                        }
                     }
                 }
                 print("data:\(json)")
@@ -78,7 +80,6 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }, HttpBodyCompletion: { () -> (Dictionary<String, Any>) in
             [:]
         })
-        Utilities.shared.RemoveLoaderView()
     }
     func uploadimage(){
         print("prescription_id: \(self.selectedPrescription)")
