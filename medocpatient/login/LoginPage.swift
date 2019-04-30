@@ -99,7 +99,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     func login(){
         print("0")
         Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
-        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -120,7 +120,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         let profile_image = data.value(forKey: "profile_image") as! String
                         let name = data.value(forKey: "name") as! String
                         let pid = data.value(forKey: "patient_id") as! String
-                        let gender = data.value(forKey: "gender") as! String
+                        let gender = data.value(forKey: "gender") as? Int ?? 1
+                        let id = data.value(forKey: "id") as! Int
                         UserDefaults.standard.set(true, forKey: "Logged")
                         
                         UserDefaults.standard.set(contact_no, forKey: "contact_no")
@@ -128,10 +129,11 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         UserDefaults.standard.set(profile_image, forKey: "profile_image")
                         UserDefaults.standard.set(name, forKey: "name")
                         UserDefaults.standard.set(pid, forKey: "Patient_id")
+                        UserDefaults.standard.set(id, forKey: "id")
                         UserDefaults.standard.set(bearertoken, forKey: "bearertoken")
                         
                         UserDefaults.standard.synchronize()
-                        self.savedata(name: name, gender: gender, email: email, contact: contact_no, profile_image: profile_image)
+                        self.savedata(name: name, gender: "\(gender)", email: email, contact: contact_no, profile_image: profile_image)
                         
                         let bearertokenget = UserDefaults.standard.string(forKey: "bearertoken")
                         
@@ -174,9 +176,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
         Utilities.shared.RemoveLoaderView()
     }
     @objc func loginAction(){

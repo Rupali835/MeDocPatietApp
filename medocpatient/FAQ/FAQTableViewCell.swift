@@ -20,8 +20,10 @@ class FAQTableViewCell: UITableViewCell {
     }
     @IBOutlet var morebutton: UIButton!
     weak var delegate: FAQTableViewCelldelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.morebutton.setTitle("More".localized(), for: .normal)
         // Initialization code
     }
     @IBAction func more(_ sender: Any){

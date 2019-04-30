@@ -63,7 +63,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     func addReport(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Report")
         self.uploadimage()
-        ApiServices.shared.FetchformPostDataFromUrl(vc: self, withOutBaseUrl: "reportstore", bearertoken: bearertoken!, parameter: "prescription_id=\(self.selectedPrescription)&image_name=[{ \"dataName\": \"\(imagename)\",\"dataTag\": \"\(self.textfield.text!)\" }]", onSuccessCompletion: {
+        ApiServices.shared.FetchformPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "reportstore", bearertoken: bearertoken!, parameter: "prescription_id=\(self.selectedPrescription)&image_name=[{ \"dataName\": \"\(imagename)\",\"dataTag\": \"\(self.textfield.text!)\" }]", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String{
@@ -77,15 +77,13 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
             } catch {
                 print("catch")
             }
-        }, HttpBodyCompletion: { () -> (Dictionary<String, Any>) in
-            [:]
         })
     }
     func uploadimage(){
         print("prescription_id: \(self.selectedPrescription)")
         print("dataName:\(imagename)")
         print("dataTag:\(self.textfield.text!)")
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String{
@@ -100,13 +98,11 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
             } catch {
                 print("image catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
     }
     @objc func doneAction(){
         if imagesPicView.image == nil{
-            view.showToast("Not Selected Image", position: .bottom, popTime: 3, dismissOnTap: true)
+            view.showToast("Select One Image", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else if (textfield.text?.isEmpty)! {
             view.showToast("Write Report Name", position: .bottom, popTime: 3, dismissOnTap: true)

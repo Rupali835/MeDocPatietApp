@@ -18,38 +18,14 @@ class FAQViewController: UIViewController {
     var cellstate: [CellState]?
     
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
-    let imagearr = [#imageLiteral(resourceName: "blood.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "chart.png"),#imageLiteral(resourceName: "chat.png")]
-    let imagename = ["blood.png","cardiogram.png","chart.png","chat.png"]
-    var pdfurl = URL(string: "NF")!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         data()
+        cellstate = [CellState].init(repeating: .collapsed, count: faq.count)
         self.tableview.reloadData()
         self.tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
-    }
-    func multipleimage(){
-//        for (i,img) in imagearr.enumerated() {
-//            print(imagename[i])
-            SwiftLoader.show(title: "adding image", animated: true)
-            ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: ["":""], bearertoken: bearertoken!, image: #imageLiteral(resourceName: "blood.png"), filename: "blood.png", filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
-                    }
-                    print("image\(json)")
-                } catch {
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
-                    }
-                    print("image catch")
-                }
-            }) { () -> (Dictionary<String, Any>) in
-                [:]
-            }
-      //  }
-        
     }
 }
 extension FAQViewController: UITableViewDataSource , UITableViewDelegate , FAQTableViewCelldelegate{
@@ -59,8 +35,8 @@ extension FAQViewController: UITableViewDataSource , UITableViewDelegate , FAQTa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let faqcell = tableView.dequeueReusableCell(withIdentifier: "FAQCell") as! FAQTableViewCell
-        faqcell.question.text = faq[indexPath.row].Question
-        faqcell.answer.text = faq[indexPath.row].Answer
+        faqcell.question.text = faq[indexPath.row].Question.localized()
+        faqcell.answer.text = faq[indexPath.row].Answer.localized()
         faqcell.delegate = self
         
         if let cellstates = cellstate{
@@ -77,9 +53,9 @@ extension FAQViewController: UITableViewDataSource , UITableViewDelegate , FAQTa
             cell.answer.numberOfLines = (cell.answer.numberOfLines == 0) ? 3 : 0
             self.cellstate?[indexpath.row] = (cell.answer.numberOfLines == 0) ? .expanded : .collapsed
             if (cell.answer.numberOfLines == 0){
-                cell.morebutton.setTitle("Less", for: .normal)
+                cell.morebutton.setTitle("Less".localized(), for: .normal)
             } else {
-                cell.morebutton.setTitle("More", for: .normal)
+                cell.morebutton.setTitle("More".localized(), for: .normal)
             }
             tableview.endUpdates()
         }

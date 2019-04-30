@@ -12,6 +12,7 @@ import SDWebImage
 
 class PatientHomePageViewController: UIViewController{
     
+    @IBOutlet var hometitle: UILabel!
     @IBOutlet var tableview: UITableView!
     @IBOutlet var imagesPicView: UIImageView!
     @IBOutlet var Name: UILabel!
@@ -23,7 +24,7 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var logoutBtn: UIButton!
 
     @IBOutlet var headerview: UIView!
-    
+
     let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png")]
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
@@ -38,6 +39,7 @@ class PatientHomePageViewController: UIViewController{
         infoBtn.addTarget(self, action: #selector(infodetails), for: .touchUpInside)
         logoutBtn.addTarget(self, action: #selector(LogoutAction), for: .touchUpInside)
         self.tableview.tableFooterView = UIView(frame: .zero)
+        self.hometitle.text = "Welcome To Medoc !".localized()
         // Do any additional setup after loading the view.
     }
     override func viewWillLayoutSubviews() {
@@ -52,7 +54,7 @@ class PatientHomePageViewController: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         Name.text = UserDefaults.standard.string(forKey: "name")
         let img = UserDefaults.standard.string(forKey: "profile_image")
-        imagesPicView.sd_setImage(with: URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(img!)"), placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
+        imagesPicView.sd_setImage(with: URL(string: "\(ApiServices.shared.imageorpdfUrl)\(img!)"), placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -78,8 +80,8 @@ class PatientHomePageViewController: UIViewController{
         self.present(vc, animated: true, completion: nil)
     }
     @objc func LogoutAction(){
-        Utilities.shared.alertview(title: "Alert", msg: "Are You Sure, Do You Want to Logout?", dismisstitle: "No", mutlipleButtonAdd: { (alert) in
-            alert.addButton("Yes", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+        Utilities.shared.alertview(title: "Alert".localized(), msg: "Are You Sure, Do You Want to Logout?".localized(), dismisstitle: "No".localized(), mutlipleButtonAdd: { (alert) in
+            alert.addButton("Yes".localized(), font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
                 DispatchQueue.main.async {
                     UserDefaults.standard.set(false, forKey: "Logged")
                     UserDefaults.standard.set("nil", forKey: "bearertoken")
@@ -90,8 +92,12 @@ class PatientHomePageViewController: UIViewController{
             }
         }, dismissAction: { })
     }
+    @IBAction func go_to_PHQ_VC(sender: UIButton){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PHQ_9ViewController") as! PHQ_9ViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     func fetchProfileDatail(){
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patientprofile", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 let msg = self.dict.value(forKey: "msg") as? String ?? ""
@@ -100,7 +106,7 @@ class PatientHomePageViewController: UIViewController{
                         DispatchQueue.main.async {
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
-                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
+                                let url = URL(string: "\(ApiServices.shared.imageorpdfUrl)\(pp)")!
                                 self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
                             }
                             else {
@@ -114,9 +120,32 @@ class PatientHomePageViewController: UIViewController{
             } catch {
                 print("catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
+        })
+    }
+    @IBAction func changelanguage(){
+        let alertvc = UIAlertController(title: "Choose Language", message: nil, preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let english = UIAlertAction(title: "English", style: .default) { (action) in
+            Bundle.setLanguage(lang: "en")
+            self.updatelanguage()
         }
+        let hindi = UIAlertAction(title: "Hindi", style: .default) { (action) in
+            Bundle.setLanguage(lang: "hi")
+            self.updatelanguage()
+        }
+        let marathi = UIAlertAction(title: "Marathi", style: .default) { (action) in
+            Bundle.setLanguage(lang: "mr")
+            self.updatelanguage()
+        }
+        alertvc.addAction(english)
+        alertvc.addAction(hindi)
+        alertvc.addAction(marathi)
+        alertvc.addAction(cancel)
+        self.present(alertvc, animated: true, completion: nil)
+    }
+    func updatelanguage(){
+        self.hometitle.text = "Welcome To Medoc !".localized()
+        self.tableview.reloadData()
     }
 }
 extension PatientHomePageViewController: UITableViewDataSource, UITableViewDelegate {
@@ -140,44 +169,45 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PatientHomePageCollectionViewCell
         cell.icon.image = icons[indexPath.row]
-        cell.title.text = titles[indexPath.row]
+        cell.title.text = titles[indexPath.row].localized()
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let title = titles[indexPath.row].localized()
         if indexPath.row == 0 {
             let Profilevc = self.storyboard?.instantiateViewController(withIdentifier: "ProfilePageViewController") as! ProfilePageViewController
             Profilevc.navigationItem.largeTitleDisplayMode = .never
-            Profilevc.navigationItem.title = titles[indexPath.row]
+            Profilevc.navigationItem.title = title
             self.navigationController?.pushViewController(Profilevc, animated: true)
         }
         else if indexPath.row == 1{
             let Reportvc = self.storyboard?.instantiateViewController(withIdentifier: "ReportViewController") as! ReportViewController
             Reportvc.navigationItem.largeTitleDisplayMode = .never
-            Reportvc.navigationItem.title = titles[indexPath.row]
+            Reportvc.navigationItem.title = title
             self.navigationController?.pushViewController(Reportvc, animated: true)
         }
         else if indexPath.row == 2{
             let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
             Prescriptionvc.navigationItem.largeTitleDisplayMode = .never
-            Prescriptionvc.navigationItem.title = titles[indexPath.row]
+            Prescriptionvc.navigationItem.title = title
             self.navigationController?.pushViewController(Prescriptionvc, animated: true)
         }
         else if indexPath.row == 3{
             let Medicinevc = self.storyboard?.instantiateViewController(withIdentifier: "MedicineViewController") as! MedicineViewController
             Medicinevc.navigationItem.largeTitleDisplayMode = .never
-            Medicinevc.navigationItem.title = titles[indexPath.row]
+            Medicinevc.navigationItem.title = title
             self.navigationController?.pushViewController(Medicinevc, animated: true)
         }
         else if indexPath.row == 4{
             let qrvc = self.storyboard?.instantiateViewController(withIdentifier: "QRViewController") as! QRViewController
             qrvc.navigationItem.largeTitleDisplayMode = .never
-            qrvc.navigationItem.title = titles[indexPath.row]
+            qrvc.navigationItem.title = title
             self.navigationController?.pushViewController(qrvc, animated: true)
         }
         else if indexPath.row == 5{
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
             Healthvc.navigationItem.largeTitleDisplayMode = .never
-            Healthvc.navigationItem.title = titles[indexPath.row]
+            Healthvc.navigationItem.title = title
 //            Utilities.shared.alertview(title: "Sorry", msg: "Health Module is Not Completed Now", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
 //
 //            }, dismissAction: { })
@@ -186,19 +216,19 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
         else if indexPath.row == 6{
             let FAQvc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
             FAQvc.navigationItem.largeTitleDisplayMode = .never
-            FAQvc.navigationItem.title = titles[indexPath.row]
+            FAQvc.navigationItem.title = title
             self.navigationController?.pushViewController(FAQvc, animated: true)
         }
         else if indexPath.row == 7{
             let Aboutvc = self.storyboard?.instantiateViewController(withIdentifier: "AboutUsViewController") as! AboutUsViewController
             Aboutvc.navigationItem.largeTitleDisplayMode = .never
-            Aboutvc.navigationItem.title = titles[indexPath.row]
+            Aboutvc.navigationItem.title = title
             self.navigationController?.pushViewController(Aboutvc, animated: true)
         }
         else if indexPath.row == 8{
             let contactvc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsViewController") as! ContactUsViewController
             contactvc.navigationItem.largeTitleDisplayMode = .never
-            contactvc.navigationItem.title = titles[indexPath.row]
+            contactvc.navigationItem.title = title
             self.navigationController?.pushViewController(contactvc, animated: true)
         }
     }

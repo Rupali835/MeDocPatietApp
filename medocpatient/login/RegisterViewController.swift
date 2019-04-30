@@ -38,6 +38,7 @@ class RegisterViewController: UIViewController{
     
     var HavePatientID = false
     var selectedGender = 0
+    var patientidget = ""
     
     @IBOutlet var HeightofPatientIDview: NSLayoutConstraint!
     @IBOutlet var HeightofSignupview: NSLayoutConstraint!
@@ -208,14 +209,14 @@ class RegisterViewController: UIViewController{
             self.view.showToast("Select Gender", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         //check all validation
-        else if (self.EmailTF.text?.isValidEmail())! && (self.PasswordTF.text?.isValidPassword())!{ //&& (self.NumberTF.text?.isValidIndianContact)! {
+        else {
             if HavePatientID == true{
                 //with patient id
                 if (self.PatientIDTF.text?.isEmpty)! {
                     
                 } else {
                     print("0")
-                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.PatientIDTF.text!)"
+                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.patientidget)"
                     register(parameter: with_patient_id)
                 }
             }
@@ -230,7 +231,7 @@ class RegisterViewController: UIViewController{
     }//7218845446 & Amit@123
     func register(parameter: String){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
-        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregister", parameter:  parameter, onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregister", parameter:  parameter, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -239,7 +240,8 @@ class RegisterViewController: UIViewController{
                         DispatchQueue.main.async {
                             self.view.showToast("Signup Successfully", position: .bottom, popTime: 5, dismissOnTap: true)
 
-                             NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.EmailTF.text!,"password":self.PasswordTF.text!])
+                             NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.NumberTF.text!,"password":self.PasswordTF.text!])
+                            self.dismiss(animated: true, completion: nil)
 //                            let pageViewController = self.parent as! PageViewController
 //                            pageViewController.PreviousPageWithIndex(index: 0)
                         }
@@ -259,15 +261,13 @@ class RegisterViewController: UIViewController{
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
         Utilities.shared.RemoveLoaderView()
     }
     func fetchDetailByPatientID(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
         PatientIDTF.endEditing(true)
-        ApiServices.shared.Login_and_Register(vc: self, withOutBaseUrl: "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
+        ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -279,12 +279,14 @@ class RegisterViewController: UIViewController{
                             let name = data.value(forKey: "name") as? String ?? ""
                             let contact_no = data.value(forKey: "contact_no") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
-                            let gender = data.value(forKey: "gender") as? String ?? "1"
-                            
+                            let gender = "\(data.value(forKey: "gender") as! Int)"
+                            let patient_id = "\(data.value(forKey: "patient_id") as! String)"
+
                             self.FullNameTF.text = name
                             self.EmailTF.text = email
                             self.NumberTF.text = contact_no
                             self.selectedGender = Int(gender)!
+                            self.patientidget = patient_id
                             
                             if gender == "1"{
                                 self.GenderRadio[0].isSelected = true
@@ -317,9 +319,7 @@ class RegisterViewController: UIViewController{
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
         Utilities.shared.RemoveLoaderView()
     }
     @IBAction func PatientIDYesOrNo(sender: SKRadioButton){

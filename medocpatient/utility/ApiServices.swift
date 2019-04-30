@@ -4,25 +4,26 @@
 //
 //  Created by Prem Sahni on 24/10/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
-//
+//  13.234.38.193
 
 import Foundation
 import UIKit
 
 class ApiServices {
+    
     var data = Data()
-    let baseUrl = "http://otgmart.com/medoc/patient-api/public/api/"
-    let imageurl = "http://otgmart.com/medoc/medoc_doctor_api/index.php/API/"
+    let baseUrl = "http://medoc.co.in/medoc_patient_api/public/api/"
+    let medocDoctorUrl = "http://medoc.co.in/medoc_doctor_api/index.php/API/"
+    let imageorpdfUrl = "http://medoc.co.in/medoc_doctor_api/uploads/"
     static let shared: ApiServices = ApiServices()
     private init() {}
     
     func Login_and_Register(vc: UIViewController,
-                              withOutBaseUrl: String,
+                              Url: String,
                               parameter: String,
-                              onSuccessCompletion: @escaping ()->(),
-                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+                              onSuccessCompletion: @escaping ()->())
     {
-        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        var urlReq = URLRequest(url: URL(string: Url)!)
         let myParams = parameter
         let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
         let body = postData
@@ -42,25 +43,20 @@ class ApiServices {
                 self.data = data!
                 onSuccessCompletion()
             }
-            }.resume()
+        }.resume()
     }
     func FetchPostDataFromUrl(vc: UIViewController,
-                            withOutBaseUrl: String,
+                            Url: String,
                             bearertoken: String,
-                            parameter: String,
                             onSuccessCompletion: @escaping ()->(),
                             HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
     {
-        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        var urlReq = URLRequest(url: URL(string: Url)!)
         urlReq.httpMethod = "Post"
         urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
         
-//        let myParams = parameter
-//        let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
-//        let body = postData
-//        urlReq.httpBody = body
         urlReq.httpBody = try? JSONSerialization.data(withJSONObject: HttpBodyCompletion(), options: [])
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
@@ -72,16 +68,15 @@ class ApiServices {
                 self.data = data!
                 onSuccessCompletion()
             }
-            }.resume()
+        }.resume()
     }
     func FetchformPostDataFromUrl(vc: UIViewController,
-                              withOutBaseUrl: String,
+                              Url: String,
                               bearertoken: String,
                               parameter: String,
-                              onSuccessCompletion: @escaping ()->(),
-                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+                              onSuccessCompletion: @escaping ()->())
     {
-        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        var urlReq = URLRequest(url: URL(string: Url)!)
         urlReq.httpMethod = "Post"
         urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -100,16 +95,14 @@ class ApiServices {
                 self.data = data!
                 onSuccessCompletion()
             }
-            }.resume()
+        }.resume()
     }
     func FetchGetDataFromUrl(vc: UIViewController,
-                              withOutBaseUrl: String,
-                              parameter: String,
+                              Url: String,
                               bearertoken: String,
-                              onSuccessCompletion: @escaping ()->(),
-                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+                              onSuccessCompletion: @escaping ()->())
     {
-        var urlReq = URLRequest(url: URL(string: "\(baseUrl)\(withOutBaseUrl)")!)
+        var urlReq = URLRequest(url: URL(string: Url)!)
         urlReq.httpMethod = "GET"
         urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -128,12 +121,11 @@ class ApiServices {
         }.resume()
     }
     func FetchGetRequestDataFromURL(vc: UIViewController,
-                              withOutBaseUrl: String,
+                              Url: String,
                               parameter: [String:String],
-                              onSuccessCompletion: @escaping ()->(),
-                              HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+                              onSuccessCompletion: @escaping ()->())
     {
-        var urlcom = URLComponents(string: "\(baseUrl)\(withOutBaseUrl)")!
+        var urlcom = URLComponents(string: Url)!
         urlcom.queryItems = parameter.map({ (key, value) in
             URLQueryItem(name: key, value: value)
         })
@@ -152,21 +144,20 @@ class ApiServices {
                 self.data = data!
                 onSuccessCompletion()
             }
-            }.resume()
+        }.resume()
     }
     func FetchMultiformDataWithImageFromUrl(vc: UIViewController,
-                             withOutBaseUrl: String,
+                             Url: String,
                              parameter: [String:Any]?,
                              bearertoken: String,
                              image: UIImage?,
                              filename: String,
                              filePathKey: String,
                              pdfurl: URL,
-                             onSuccessCompletion: @escaping ()->(),
-                             HttpBodyCompletion: @escaping ()->(Dictionary<String,Any>))
+                             onSuccessCompletion: @escaping ()->())
     {
         
-        var urlReq = URLRequest(url: URL(string: "\(imageurl)\(withOutBaseUrl)")!)
+        var urlReq = URLRequest(url: URL(string: Url)!)
         urlReq.httpMethod = "Post"
         
         let boundary = generateBoundaryString()

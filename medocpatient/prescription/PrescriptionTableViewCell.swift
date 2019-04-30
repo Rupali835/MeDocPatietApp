@@ -22,7 +22,6 @@ class PrescriptionTableViewCell: UITableViewCell {
     @IBOutlet var prescription_pdf : UIImageView!
     @IBOutlet var weight : UILabel!
     @IBOutlet var temperature : UILabel!
-
     
     override func awakeFromNib() {
         super.awakeFromNib()

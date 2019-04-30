@@ -95,7 +95,7 @@ class ChartViewController: UIViewController {
     }
     func fetchhealthdata(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "")
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/\(timeinterval)/\(fromdate)/\(todate)", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/\(timeinterval)/\(fromdate)/\(todate)", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
@@ -126,9 +126,9 @@ class ChartViewController: UIViewController {
                                     let d = self.dataarr.object(at: index) as! NSDictionary
                                     let created_at = d.value(forKey: "created_at") as! String
                                     let blood_pressure = d.value(forKey: "blood_pressure") as? String
-                                    let height = d.value(forKey: "height") as? String
-                                    let weight = d.value(forKey: "weight") as? String
-                                    let temperature = d.value(forKey: "temperature") as? String
+                                    let height = d.value(forKey: "height") as? Int
+                                    let weight = d.value(forKey: "weight") as? Int
+                                    let temperature = d.value(forKey: "temperature") as? Int
                                     
                                     let dateformatter = DateFormatter()
                                     dateformatter.dateFormat = ""
@@ -141,13 +141,13 @@ class ChartViewController: UIViewController {
                                         appendvalue2.append(Double(diastolic!)!)
                                     }
                                     else if self.selectedtitle == "Height"{
-                                        appendvalue.append(Double(height!)!)
+                                        appendvalue.append(Double(height!))
                                     }
                                     else if self.selectedtitle == "Weight"{
-                                        appendvalue.append(Double(weight!)!)
+                                        appendvalue.append(Double(weight!))
                                     }
                                     else if self.selectedtitle == "Temperature"{
-                                        appendvalue.append(Double(temperature!)!)
+                                        appendvalue.append(Double(temperature!))
                                     }
                                 }
                                 
@@ -182,9 +182,7 @@ class ChartViewController: UIViewController {
             } catch {
                 print("catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
     }
     func setChart(dataPoints: [String], values: [Double], values2: [Double]?) {
         
@@ -253,20 +251,20 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
             showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Height"{
-            let height = d.value(forKey: "height") as! String
-            showdatacell.firstdata.text = "\(selectedtitle): \(height) Cm"
+            let height = d.value(forKey: "height") as? Int
+            showdatacell.firstdata.text = "\(selectedtitle): \(height!) Cm"
             showdatacell.seconddata.text = ""
             showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Weight"{
-            let weight = d.value(forKey: "weight") as! String
-            showdatacell.firstdata.text = "\(selectedtitle): \(weight) Kg"
+            let weight = d.value(forKey: "weight") as? Int
+            showdatacell.firstdata.text = "\(selectedtitle): \(weight!) Kg"
             showdatacell.seconddata.text = ""
             showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Temperature"{
-            let temperature = d.value(forKey: "temperature") as! String
-            showdatacell.firstdata.text = "\(selectedtitle): \(temperature) ºC"
+            let temperature = d.value(forKey: "temperature") as? Int
+            showdatacell.firstdata.text = "\(selectedtitle): \(temperature!) ºC"
             showdatacell.seconddata.text = ""
             showdatacell.date.text = "Date: \(created_at)"
         }

@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */; };
+		1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */; };
+		1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */; };
 		1CAA8D70225608DE0001E4CD /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAA8D6F225608DE0001E4CD /* ImageScrollView.swift */; };
 		1CAA8D72225618330001E4CD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAA8D71225618330001E4CD /* Reachability.swift */; };
+		1CC43B9F2265A73000534E6B /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC43B9E2265A73000534E6B /* SelectionViewController.swift */; };
+		1CC43BA12265A7D000534E6B /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */; };
+		1CFF60112271C28A00112FF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF60132271C28A00112FF3 /* Main.storyboard */; };
+		1CFF60192271D69D00112FF3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF601B2271D69D00112FF3 /* Localizable.strings */; };
 		57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6721D4BD6B00B38849 /* Assets.xcassets */; };
 		57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B6821D4BD6B00B38849 /* AppDelegate.swift */; };
-		57254B6E21D4BD6C00B38849 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6921D4BD6B00B38849 /* Main.storyboard */; };
 		57254B6F21D4BD6C00B38849 /* PatientExplaning.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */; };
 		57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */; };
 		57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */; };
@@ -68,17 +74,6 @@
 		575D2E5621F5A78100501D20 /* TimeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D2E5521F5A78100501D20 /* TimeInfoViewController.swift */; };
 		575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 575D2E5721F5D34700501D20 /* GoogleService-Info.plist */; };
 		57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CB721E731D6002DC4D0 /* ChartViewController.swift */; };
-		57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */; };
-		57692CC621E74B69002DC4D0 /* PNPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBB21E74B67002DC4D0 /* PNPieChart.swift */; };
-		57692CC721E74B69002DC4D0 /* PNValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBC21E74B67002DC4D0 /* PNValue.swift */; };
-		57692CC821E74B69002DC4D0 /* PNLineChartDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */; };
-		57692CC921E74B69002DC4D0 /* PNColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBE21E74B68002DC4D0 /* PNColor.swift */; };
-		57692CCA21E74B69002DC4D0 /* PNLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CBF21E74B68002DC4D0 /* PNLineChart.swift */; };
-		57692CCB21E74B69002DC4D0 /* PNBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC021E74B68002DC4D0 /* PNBar.swift */; };
-		57692CCC21E74B69002DC4D0 /* PNLineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC121E74B68002DC4D0 /* PNLineChartData.swift */; };
-		57692CCD21E74B69002DC4D0 /* PNPieChartDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */; };
-		57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC321E74B68002DC4D0 /* PNChartLabel.swift */; };
-		57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CC421E74B69002DC4D0 /* PNBarChart.swift */; };
 		57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57692CD021E777F6002DC4D0 /* ImageManager.swift */; };
 		57717F6921F9AF30000EA206 /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57717F6821F9AF30000EA206 /* AboutUsViewController.swift */; };
 		57717F6B21F9CED6000EA206 /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57717F6A21F9CED6000EA206 /* ContactUsViewController.swift */; };
@@ -91,14 +86,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
+		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
+		1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPHQViewController.swift; sourceTree = "<group>"; };
 		1CAA8D6F225608DE0001E4CD /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		1CAA8D71225618330001E4CD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		1CC43B9E2265A73000534E6B /* SelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
+		1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		1CFF60122271C28A00112FF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1CFF60152271C29500112FF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		1CFF60162271C2AE00112FF3 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
+		1CFF601A2271D69D00112FF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1CFF601C2271D6B700112FF3 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1CFF601F2271E45B00112FF3 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Main.strings; sourceTree = "<group>"; };
+		1CFF60202271E45B00112FF3 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		21E344C21990F2680276BFEC /* Pods_medocpatient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_medocpatient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57254B4C21D4BC5B00B38849 /* medocpatient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medocpatient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57254B5E21D4BC5C00B38849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57254B6721D4BD6B00B38849 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57254B6821D4BD6B00B38849 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		57254B6921D4BD6B00B38849 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PatientExplaning.jpg; sourceTree = "<group>"; };
 		57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKRadioButton.swift; sourceTree = "<group>"; };
@@ -157,17 +163,6 @@
 		575D2E5521F5A78100501D20 /* TimeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInfoViewController.swift; sourceTree = "<group>"; };
 		575D2E5721F5D34700501D20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57692CB721E731D6002DC4D0 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
-		57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNGenericChart.swift; sourceTree = "<group>"; };
-		57692CBB21E74B67002DC4D0 /* PNPieChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNPieChart.swift; sourceTree = "<group>"; };
-		57692CBC21E74B67002DC4D0 /* PNValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNValue.swift; sourceTree = "<group>"; };
-		57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChartDataItem.swift; sourceTree = "<group>"; };
-		57692CBE21E74B68002DC4D0 /* PNColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNColor.swift; sourceTree = "<group>"; };
-		57692CBF21E74B68002DC4D0 /* PNLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChart.swift; sourceTree = "<group>"; };
-		57692CC021E74B68002DC4D0 /* PNBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBar.swift; sourceTree = "<group>"; };
-		57692CC121E74B68002DC4D0 /* PNLineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNLineChartData.swift; sourceTree = "<group>"; };
-		57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNPieChartDataItem.swift; sourceTree = "<group>"; };
-		57692CC321E74B68002DC4D0 /* PNChartLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNChartLabel.swift; sourceTree = "<group>"; };
-		57692CC421E74B69002DC4D0 /* PNBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNBarChart.swift; sourceTree = "<group>"; };
 		57692CD021E777F6002DC4D0 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		57717F6821F9AF30000EA206 /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		57717F6A21F9CED6000EA206 /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +189,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C93C40D2268868C00AF6989 /* PHQ-9 */ = {
+			isa = PBXGroup;
+			children = (
+				1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */,
+				1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */,
+				1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */,
+			);
+			path = "PHQ-9";
+			sourceTree = "<group>";
+		};
+		1CC43BA22265A99600534E6B /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				57254BA221D4BE9800B38849 /* QRViewController.swift */,
+				57717F6821F9AF30000EA206 /* AboutUsViewController.swift */,
+				57717F6A21F9CED6000EA206 /* ContactUsViewController.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		507BA617EE740E3FFFD38585 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,7 +243,7 @@
 				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
 				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
 				57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */,
-				57254B6921D4BD6B00B38849 /* Main.storyboard */,
+				1CFF60132271C28A00112FF3 /* Main.storyboard */,
 				57254B6A21D4BD6C00B38849 /* PatientExplaning.jpg */,
 				57254B5E21D4BC5C00B38849 /* Info.plist */,
 				575D2E5721F5D34700501D20 /* GoogleService-Info.plist */,
@@ -241,7 +256,10 @@
 				57254B8821D4BE5800B38849 /* medicine */,
 				57254B8521D4BE4F00B38849 /* report */,
 				57254BC821D4BF6400B38849 /* prescription */,
+				1CC43BA22265A99600534E6B /* Other */,
 				57A9EA5221E5E22E008C9CB2 /* Health */,
+				1C93C40D2268868C00AF6989 /* PHQ-9 */,
+				1CFF601B2271D69D00112FF3 /* Localizable.strings */,
 			);
 			path = medocpatient;
 			sourceTree = "<group>";
@@ -270,6 +288,7 @@
 			children = (
 				57254BB221D4BEF400B38849 /* FAQTableViewCell.swift */,
 				57254BB321D4BEF400B38849 /* FAQViewController.swift */,
+				57254B8F21D4BE7E00B38849 /* FAQData.swift */,
 			);
 			path = FAQ;
 			sourceTree = "<group>";
@@ -289,9 +308,8 @@
 			isa = PBXGroup;
 			children = (
 				57254BA821D4BEC300B38849 /* ProfilePageViewController.swift */,
-				57254BA221D4BE9800B38849 /* QRViewController.swift */,
-				57717F6821F9AF30000EA206 /* AboutUsViewController.swift */,
-				57717F6A21F9CED6000EA206 /* ContactUsViewController.swift */,
+				1CC43B9E2265A73000534E6B /* SelectionViewController.swift */,
+				1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -310,14 +328,10 @@
 		57254B8D21D4BE6600B38849 /* utility */ = {
 			isa = PBXGroup;
 			children = (
-				57692CB921E74B43002DC4D0 /* PNCharts */,
-				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
-				575259E021D65DCC008DB872 /* EasyToast */,
-				57254B9421D4BE7F00B38849 /* Alert.swift */,
 				57254B9021D4BE7F00B38849 /* ApiServices.swift */,
+				57254B9421D4BE7F00B38849 /* Alert.swift */,
 				57254B9321D4BE7F00B38849 /* CoreDataModel.swift */,
 				57254B9621D4BE7F00B38849 /* DataModel.swift */,
-				57254B8F21D4BE7E00B38849 /* FAQData.swift */,
 				57254B9121D4BE7F00B38849 /* GradientView.swift */,
 				1CAA8D71225618330001E4CD /* Reachability.swift */,
 				57254B8E21D4BE7E00B38849 /* SKRadioButton.swift */,
@@ -325,10 +339,12 @@
 				57254B9521D4BE7F00B38849 /* Utilities.swift */,
 				57692CD021E777F6002DC4D0 /* ImageManager.swift */,
 				5773ED4321F06E79001497E4 /* Cardview.swift */,
+				1CAA8D6F225608DE0001E4CD /* ImageScrollView.swift */,
 				57717F6D21F9EC55000EA206 /* CryptLib.h */,
 				57717F6E21F9EC55000EA206 /* CryptLib.m */,
 				57717F6C21F9EC53000EA206 /* medocpatient-Bridging-Header.h */,
-				1CAA8D6F225608DE0001E4CD /* ImageScrollView.swift */,
+				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
+				575259E021D65DCC008DB872 /* EasyToast */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -420,24 +436,6 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
-		57692CB921E74B43002DC4D0 /* PNCharts */ = {
-			isa = PBXGroup;
-			children = (
-				57692CC021E74B68002DC4D0 /* PNBar.swift */,
-				57692CC421E74B69002DC4D0 /* PNBarChart.swift */,
-				57692CC321E74B68002DC4D0 /* PNChartLabel.swift */,
-				57692CBE21E74B68002DC4D0 /* PNColor.swift */,
-				57692CBA21E74B67002DC4D0 /* PNGenericChart.swift */,
-				57692CBF21E74B68002DC4D0 /* PNLineChart.swift */,
-				57692CC121E74B68002DC4D0 /* PNLineChartData.swift */,
-				57692CBD21E74B67002DC4D0 /* PNLineChartDataItem.swift */,
-				57692CBB21E74B67002DC4D0 /* PNPieChart.swift */,
-				57692CC221E74B68002DC4D0 /* PNPieChartDataItem.swift */,
-				57692CBC21E74B67002DC4D0 /* PNValue.swift */,
-			);
-			path = PNCharts;
-			sourceTree = "<group>";
-		};
 		57A9EA5221E5E22E008C9CB2 /* Health */ = {
 			isa = PBXGroup;
 			children = (
@@ -517,6 +515,8 @@
 			knownRegions = (
 				en,
 				Base,
+				hi,
+				mr,
 			);
 			mainGroup = 57254B4321D4BC5B00B38849;
 			productRefGroup = 57254B4D21D4BC5B00B38849 /* Products */;
@@ -536,7 +536,8 @@
 				575259D521D6061C008DB872 /* IQKeyboardManager.bundle in Resources */,
 				57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */,
 				57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */,
-				57254B6E21D4BD6C00B38849 /* Main.storyboard in Resources */,
+				1CFF60192271D69D00112FF3 /* Localizable.strings in Resources */,
+				1CFF60112271C28A00112FF3 /* Main.storyboard in Resources */,
 				57254B6F21D4BD6C00B38849 /* PatientExplaning.jpg in Resources */,
 				575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */,
 			);
@@ -618,27 +619,23 @@
 			files = (
 				57254BB021D4BEE400B38849 /* LoginPage.swift in Sources */,
 				57254BA421D4BE9900B38849 /* PatientHomePageCollectionViewCell.swift in Sources */,
-				57692CCA21E74B69002DC4D0 /* PNLineChart.swift in Sources */,
 				57254B9D21D4BE7F00B38849 /* Alert.swift in Sources */,
 				57717F6921F9AF30000EA206 /* AboutUsViewController.swift in Sources */,
-				57692CC921E74B69002DC4D0 /* PNColor.swift in Sources */,
 				57254BB921D4BF1300B38849 /* MedicineViewController.swift in Sources */,
 				57254BA721D4BE9900B38849 /* PatientHomePageViewController.swift in Sources */,
-				57692CC721E74B69002DC4D0 /* PNValue.swift in Sources */,
 				57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */,
 				57717F6F21F9EC55000EA206 /* CryptLib.m in Sources */,
 				57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */,
 				575259E621D65DE3008DB872 /* QueueToast.swift in Sources */,
 				57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */,
 				57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */,
+				1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */,
 				1CAA8D70225608DE0001E4CD /* ImageScrollView.swift in Sources */,
 				575259E821D65DE3008DB872 /* ToastContainerVC.swift in Sources */,
 				57254BA621D4BE9900B38849 /* QRViewController.swift in Sources */,
 				575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */,
 				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
-				57692CC621E74B69002DC4D0 /* PNPieChart.swift in Sources */,
 				575259D221D6061C008DB872 /* IQInvocation.swift in Sources */,
-				57692CCF21E74B69002DC4D0 /* PNBarChart.swift in Sources */,
 				575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */,
 				575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */,
 				57254BCC21D4BF7900B38849 /* PrescriptionTableViewCell.swift in Sources */,
@@ -651,11 +648,13 @@
 				57254BA921D4BEC300B38849 /* ProfilePageViewController.swift in Sources */,
 				57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */,
 				575259DC21D6061C008DB872 /* IQNSArray+Sort.swift in Sources */,
+				1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */,
 				575259EA21D65DE3008DB872 /* UIView+Toast.swift in Sources */,
 				57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */,
 				575259E721D65DE3008DB872 /* EasyToastConfiguration.swift in Sources */,
 				575259D121D6061C008DB872 /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				575259CD21D6061C008DB872 /* IQPreviousNextView.swift in Sources */,
+				1CC43BA12265A7D000534E6B /* SelectionTableViewCell.swift in Sources */,
 				57254BC621D4BF5100B38849 /* AddReportViewController.swift in Sources */,
 				575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */,
 				575259D421D6061C008DB872 /* IQKeyboardManagerConstants.swift in Sources */,
@@ -666,40 +665,61 @@
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				57254BB121D4BEE400B38849 /* PageViewController.swift in Sources */,
 				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
-				57692CCC21E74B69002DC4D0 /* PNLineChartData.swift in Sources */,
-				57692CCB21E74B69002DC4D0 /* PNBar.swift in Sources */,
 				57254B9C21D4BE7F00B38849 /* CoreDataModel.swift in Sources */,
 				57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */,
 				57254B9A21D4BE7F00B38849 /* GradientView.swift in Sources */,
 				57254BB421D4BEF400B38849 /* FAQTableViewCell.swift in Sources */,
 				57254BB521D4BEF400B38849 /* FAQViewController.swift in Sources */,
 				57254BC421D4BF5100B38849 /* ReportViewController.swift in Sources */,
-				57692CCD21E74B69002DC4D0 /* PNPieChartDataItem.swift in Sources */,
-				57692CC821E74B69002DC4D0 /* PNLineChartDataItem.swift in Sources */,
 				57254BCB21D4BF7900B38849 /* PrescriptionViewController.swift in Sources */,
 				57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */,
 				574E0BE721EF6EC6000127DC /* ShowDataTableViewCell.swift in Sources */,
 				57717F6B21F9CED6000EA206 /* ContactUsViewController.swift in Sources */,
 				57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */,
 				57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */,
-				57692CC521E74B69002DC4D0 /* PNGenericChart.swift in Sources */,
 				57254BAE21D4BEE400B38849 /* GetStartedViewController.swift in Sources */,
 				575259D921D6061C008DB872 /* IQUIViewController+Additions.swift in Sources */,
 				57254B9E21D4BE7F00B38849 /* Utilities.swift in Sources */,
+				1CC43B9F2265A73000534E6B /* SelectionViewController.swift in Sources */,
+				1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */,
 				575259D721D6061C008DB872 /* IQKeyboardManager.swift in Sources */,
 				57254B9921D4BE7F00B38849 /* ApiServices.swift in Sources */,
 				575259D321D6061C008DB872 /* IQKeyboardManagerConstantsInternal.swift in Sources */,
-				57692CCE21E74B69002DC4D0 /* PNChartLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1CFF60132271C28A00112FF3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1CFF60122271C28A00112FF3 /* Base */,
+				1CFF60152271C29500112FF3 /* en */,
+				1CFF60162271C2AE00112FF3 /* hi */,
+				1CFF601F2271E45B00112FF3 /* mr */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1CFF601B2271D69D00112FF3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1CFF601A2271D69D00112FF3 /* en */,
+				1CFF601C2271D6B700112FF3 /* hi */,
+				1CFF60202271E45B00112FF3 /* mr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		57254B5F21D4BC5C00B38849 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -761,6 +781,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

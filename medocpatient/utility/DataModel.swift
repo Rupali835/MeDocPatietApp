@@ -29,6 +29,9 @@ struct PrescriptionsGeneral: Decodable{
     var data: [PrescriptionsGeneralData]?
 }
 struct PrescriptionsGeneralData : Decodable{
-    var prescription_id: String?
-    var patientProblem: String?
+    var prescription_id: Int?
+    var doctor_id: Int?
+    var doctor_name : String?
+    var patientProblem : String?
+    var prescriptionCreatedAt : String?
 }

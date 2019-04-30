@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import FSCalendar
-import CoreData
 import DBAttachmentPickerController
 import SkyFloatingLabelTextField
-import DropDown
-import ZAlertView
 
-class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalendarDataSource , FSCalendarDelegate, DBAssetPickerControllerDelegate {
+class ProfilePageViewController: UIViewController, UITextFieldDelegate, DBAssetPickerControllerDelegate {
+    
+    @IBOutlet var segment_typeview: UISegmentedControl!
+    @IBOutlet var details_scrollview: UIScrollView!
+    @IBOutlet var medical_scrollview: UIScrollView!
     //user
     @IBOutlet var BasicView: UIView!
     @IBOutlet var imagesPicView: UIImageView!
@@ -107,9 +107,26 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     @IBOutlet var allergyView: UIView!
     @IBOutlet var HeightOFallergyView: NSLayoutConstraint!
     
+    @IBOutlet var btn_add_foodallergy: UIButton!
+    @IBOutlet var lbl_data_foodallergy: UILabel!
+    
+    @IBOutlet var btn_add_drugallergy: UIButton!
+    @IBOutlet var lbl_data_drugallergy: UILabel!
+    
+    @IBOutlet var btn_add_Envirormentallergy: UIButton!
+    @IBOutlet var lbl_data_Envirormentallergy: UILabel!
+    
+    @IBOutlet var btn_add_familyhistory: UIButton!
+    @IBOutlet var lbl_data_familyhistory: UILabel!
+    
+    @IBOutlet var btn_add_knowncondition: UIButton!
+    @IBOutlet var lbl_data_knowncondition: UILabel!
+    
+    @IBOutlet var btn_add_geneticdisorder: UIButton!
+    @IBOutlet var lbl_data_geneticdisorder: UILabel!
+    
     @IBOutlet var LastDoneView: UIView!
-    @IBOutlet var selectdateRadio: [UIButton]!
-    @IBOutlet var cv: UIView!
+    @IBOutlet var btn_selectdates: [UIButton]!
 
     @IBOutlet var Save: UIButton!
     
@@ -135,21 +152,13 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     let emergencyContact = EmergencyContact()
     let medical = Medical()
     let lastVaccinationDone = LastVaccinationDone()
-    let dateview = UIDatePicker()
+    var dateview = UIDatePicker()
     let appdel = UIApplication.shared.delegate as! AppDelegate
     
     var attachmentArray : NSMutableArray = []
     var APC = DBAttachmentPickerController()
     
-    @IBOutlet var cancel: UIButton!
-    @IBOutlet var fscalendar: FSCalendar!
     var back = true
-    
-    var selected = ""
-    var datestr1 = ""
-    var datestr2 = ""
-    var datestr3 = ""
-    var datestr4 = ""
     var dict = NSDictionary()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var urlpath = ""
@@ -159,15 +168,25 @@ class ProfilePageViewController: UIViewController, UITextFieldDelegate , FSCalen
     let pickerview = UIPickerView()
     let bloodtypes = ["A+","A-","B-","B+","AB+","AB-","O+","O-"]
    
+    var arr_foodallergy = [String]()
+    var arr_drugallergy = [String]()
+    var arr_environmentalallergy = [String]()
+    var arr_familyhistory = [String]()
+    var arr_knowncondition = [String]()
+    var arr_geneticdisorders = [String]()
+
 }
 extension ProfilePageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utilized()
-        Save.addTarget(self, action: #selector(SaveAction), for: .touchUpInside)
+        self.medical_scrollview.alpha = 0
+        self.details_scrollview.alpha = 1
         
-        fscalendar.delegate = self
-        fscalendar.dataSource = self
+        segment_typeview.addTarget(self, action: #selector(Action_segment_typeview), for: .valueChanged)
+        
+        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+
+        Save.addTarget(self, action: #selector(SaveAction), for: .touchUpInside)
         
         MobileNumberTF.delegate = self
         GuardianMobileNumberTF.delegate = self
@@ -178,8 +197,6 @@ extension ProfilePageViewController {
         pincodeTF.delegate = self
         GuardianPincodeTF.delegate = self
 
-        cancel.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
-        fscalendar.backgroundColor = UIColor.groupTableViewBackground
         addProfileImage.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
         editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
         self.navigationItem.rightBarButtonItem = editbutton
@@ -188,7 +205,28 @@ extension ProfilePageViewController {
         let back = UIBarButtonItem(image: #imageLiteral(resourceName: "left-arrow.png"), style: .plain, target: self, action: #selector(handleBack))
         back.imageInsets = UIEdgeInsets(top: 3, left: -20, bottom: -7, right: -10)
         self.navigationItem.leftBarButtonItem = back
+        
+        customizePickerViewandDateView()
+        
+        NetworkManager.isReachable { _ in
+            self.fetchProfileDatail()
+        }
+        NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+            self.fetchProfileDatail()
+        }
+        NetworkManager.isUnreachable { _ in
+            self.SetupInterface()
+        }
         // Do any additional setup after loading the view.
+    }
+    @objc func Action_segment_typeview(){
+        if self.segment_typeview.selectedSegmentIndex == 0{
+            self.medical_scrollview.alpha = 0
+            self.details_scrollview.alpha = 1
+        } else {
+            self.medical_scrollview.alpha = 1
+            self.details_scrollview.alpha = 0
+        }
     }
     @objc func handleBack(){
         if back == true {
@@ -209,23 +247,21 @@ extension ProfilePageViewController {
             })
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        NetworkManager.isReachable { _ in
-            self.fetchProfileDatail()
-        }
-        NetworkManager.sharedInstance.reachability.whenReachable = { _ in
-            self.fetchProfileDatail()
-        }
-        NetworkManager.isUnreachable { _ in
-            self.SetupInterface()
-        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-       customizePickerViewandDateView()
-    }
+//    @objc func setdateandage(){
+//        datePicker(done_complation: {
+//            let date = self.dateview.date
+//
+//            let df = DateFormatter()
+//            df.dateFormat = "yyyy-MM-dd"
+//
+//            self.DateOfBirthTF.text = df.string(from: date)
+//            let calendar : NSCalendar = NSCalendar.current as NSCalendar
+//            let ageComponents = calendar.components(.month, from: date, to: Date() as Date, options: []).month
+//            let years = ageComponents! / 12
+//            let months = ageComponents! % 12
+//            self.age.text = "Age: \(years) Y / \(months) M"
+//        })
+//    }
 }
 extension ProfilePageViewController {//validation
     func toast(msg: String){
@@ -358,10 +394,14 @@ extension ProfilePageViewController {
         
         BloodGroupTF.delegate = self
         BloodGroupTF.inputView = pickerview
-        pickerview.backgroundColor = UIColor.white
         
+//        DateOfBirthTF.addTarget(self, action: #selector(setdateandage), for: .editingDidBegin)
+//        DateOfBirthTF.inputView = UIView(frame: .zero)
+//        DateOfBirthTF.inputAccessoryView = UIView(frame: .zero)
+
         DateOfBirthTF.delegate = self
         DateOfBirthTF.inputView = dateview
+        
         dateview.datePickerMode = .date
         dateview.maximumDate = Date()
         dateview.backgroundColor = UIColor.white
@@ -397,7 +437,9 @@ extension ProfilePageViewController {
         }
     }
     func alltextfield(bool: Bool){
-        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,Address1TF,Address2TF,SubCityTF,CityTF,pincodeTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,GuardianPincodeTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF,FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,otherAllergyTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,RestrictionTF,RecentMedicalConditionTF]
+        let alltf = [NameTF,DateOfBirthTF,BloodGroupTF,emailTF,Address1TF,Address2TF,SubCityTF,CityTF,pincodeTF,GuardianNameTF,GuardianMobileNumberTF,GuardianAddress1TF,GuardianAddress2TF,GuardianSubCityTF,GuardianCityTF,GuardianPincodeTF,FirstEC_NameTF,FirstEC_RelationshipTF,FirstEC_NumberTF,SecondEC_NameTF,SecondEC_RelationshipTF,SecondEC_NumberTF,PP_NameTF,PP_NumberTF,PP_PolicyTF,PP_PolicyNumberTF]
+        
+        //,FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,otherAllergyTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,RestrictionTF,RecentMedicalConditionTF
         self.PatientTF.isUserInteractionEnabled = false
         self.MobileNumberTF.isUserInteractionEnabled = false
 
@@ -407,7 +449,7 @@ extension ProfilePageViewController {
         self.GenderRadio[1].isUserInteractionEnabled = bool
         self.GenderRadio[2].isUserInteractionEnabled = bool
         
-        self.AllergyRadio[0].isUserInteractionEnabled = bool
+       /* self.AllergyRadio[0].isUserInteractionEnabled = bool
         self.AllergyRadio[1].isUserInteractionEnabled = bool
         
         self.FoodRadio[0].isUserInteractionEnabled = bool
@@ -441,12 +483,19 @@ extension ProfilePageViewController {
         self.RestrictionRadio[1].isUserInteractionEnabled = bool
         
         self.RecentMedicalConditionRadio[0].isUserInteractionEnabled = bool
-        self.RecentMedicalConditionRadio[1].isUserInteractionEnabled = bool
+        self.RecentMedicalConditionRadio[1].isUserInteractionEnabled = bool*/
         
-        self.selectdateRadio[0].isUserInteractionEnabled = bool
-        self.selectdateRadio[1].isUserInteractionEnabled = bool
-        self.selectdateRadio[2].isUserInteractionEnabled = bool
-        self.selectdateRadio[3].isUserInteractionEnabled = bool
+        self.btn_add_foodallergy.isUserInteractionEnabled = bool
+        self.btn_add_drugallergy.isUserInteractionEnabled = bool
+        self.btn_add_Envirormentallergy.isUserInteractionEnabled = bool
+        self.btn_add_familyhistory.isUserInteractionEnabled = bool
+        self.btn_add_knowncondition.isUserInteractionEnabled = bool
+        self.btn_add_geneticdisorder.isUserInteractionEnabled = bool
+        
+        self.btn_selectdates[0].isUserInteractionEnabled = bool
+        self.btn_selectdates[1].isUserInteractionEnabled = bool
+        self.btn_selectdates[2].isUserInteractionEnabled = bool
+        self.btn_selectdates[3].isUserInteractionEnabled = bool
         
         self.Save.isUserInteractionEnabled = bool
         self.Save.alpha = 0.5
@@ -476,43 +525,6 @@ extension ProfilePageViewController {
             }
         }
     }
-    
-    @objc func reload(){
-        UIView.animate(withDuration: 0.1) {
-            self.cv.isHidden = true
-            self.cv.alpha = 0.0
-        }
-    }
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let datestr = formatter.string(from: date)
-        
-        if selected == "1"{
-            self.datestr1 = datestr
-            self.selectdateRadio[0].setTitle(self.datestr1, for: .normal)
-        }
-        else if selected == "2"{
-            self.datestr2 = datestr
-            self.selectdateRadio[1].setTitle(self.datestr2, for: .normal)
-        }
-        else if selected == "3"{
-            self.datestr3 = datestr
-            self.selectdateRadio[2].setTitle(self.datestr3, for: .normal)
-        }
-        else if selected == "4"{
-            self.datestr4 = datestr
-            self.selectdateRadio[3].setTitle(self.datestr4, for: .normal)
-        }
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-    }
-    func maximumDate(for calendar: FSCalendar) -> Date {
-        return Date()
-    }
-    @objc func cancelAction(){
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: self)
-    }
     @objc func setdate(datePicker: UIDatePicker){
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
@@ -528,7 +540,7 @@ extension ProfilePageViewController {
 
     func fetchProfileDatail(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "patientprofile", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patientprofile", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 print(ApiServices.shared.data)
                 self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
@@ -539,7 +551,7 @@ extension ProfilePageViewController {
                         DispatchQueue.main.async {
                             let pp = data.value(forKey: "profile_picture") as? String ?? ""
                             if pp != ""{
-                                let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/uploads/\(pp)")!
+                                let url = URL(string: "\(ApiServices.shared.imageorpdfUrl)\(pp)")!
                                 print(url)
                                 self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
                             }
@@ -614,42 +626,58 @@ extension ProfilePageViewController {
                             
                             self.selectedfood = data.value(forKey: "food_alergy") as? String ?? "0"
                             let food_allergy_details = data.value(forKey: "food_allergy_details") as? String ?? ""
-                            if food_allergy_details == "NF"{
-                                self.FoodAllergyTF.text = ""
+                            if food_allergy_details == "NF" || food_allergy_details == "" || food_allergy_details == "[]"{
+                              //  self.FoodAllergyTF.text = ""
                             } else {
-                                self.FoodAllergyTF.text = food_allergy_details
+                                self.arr_foodallergy = food_allergy_details.convertIntoStringArray()!
+                                if self.arr_foodallergy.count > 0 {
+                                    self.lbl_data_foodallergy.text = self.arr_foodallergy.joined(separator: " , ")
+                                }
+                               // self.FoodAllergyTF.text = food_allergy_details
                             }
                             
                             self.selectedmedicine = data.value(forKey: "medicine_alergy") as? String ?? "0"
                             let medicine_allergy_details = data.value(forKey: "medicine_allergy_details") as? String ?? ""
-                            if medicine_allergy_details == "NF"{
-                                self.MedicinesAllergiesTF.text = ""
+                            if medicine_allergy_details == "NF" || medicine_allergy_details == "" || medicine_allergy_details == "[]"{
+                             //   self.MedicinesAllergiesTF.text = ""
                             } else {
-                                self.MedicinesAllergiesTF.text = medicine_allergy_details
+                                self.arr_drugallergy = medicine_allergy_details.convertIntoStringArray()!
+                                if self.arr_drugallergy.count > 0 {
+                                    self.lbl_data_drugallergy.text = self.arr_drugallergy.joined(separator: " , ")
+                                }
+                             //   self.MedicinesAllergiesTF.text = medicine_allergy_details
                             }
                             
                             self.selectedplants = data.value(forKey: "plants_allergy") as? String ?? "0"
                             let plants_allergy_details = data.value(forKey: "plants_allergy_details") as? String ?? ""
-                            if plants_allergy_details == "NF"{
-                                self.PlantsTF.text = ""
+                            if plants_allergy_details == "NF" || plants_allergy_details == "" || plants_allergy_details == "[]"{
+                             //   self.PlantsTF.text = ""
                             } else {
-                                self.PlantsTF.text = plants_allergy_details
+                                self.arr_environmentalallergy = plants_allergy_details.convertIntoStringArray()!
+                                if self.arr_environmentalallergy.count > 0 {
+                                    self.lbl_data_Envirormentallergy.text = self.arr_environmentalallergy.joined(separator: " , ")
+                                }
+                               // self.PlantsTF.text = plants_allergy_details
                             }
                             
                             self.selectedinsects = data.value(forKey: "insects_allergy") as? String ?? "0"
                             let insects_allergy_details = data.value(forKey: "insects_allergy_details") as? String ?? ""
                             if insects_allergy_details == "NF"{
-                                self.InsectsTF.text = ""
+                               // self.InsectsTF.text = ""
                             } else {
-                                self.InsectsTF.text = insects_allergy_details
+                               // self.InsectsTF.text = insects_allergy_details
                             }
                             
                             self.selectedother = data.value(forKey: "other_allergy") as? String ?? "0"
                             let other_allergy_details = data.value(forKey: "other_allergy_details") as? String ?? ""
-                            if other_allergy_details == "NF"{
-                                self.otherAllergyTF.text = ""
+                            if other_allergy_details == "NF" || other_allergy_details == "" || other_allergy_details == "[]"{
+                             //   self.otherAllergyTF.text = ""
                             } else {
-                                self.otherAllergyTF.text = other_allergy_details
+                                self.arr_familyhistory = other_allergy_details.convertIntoStringArray()!
+                                if self.arr_familyhistory.count > 0 {
+                                    self.lbl_data_familyhistory.text = self.arr_familyhistory.joined(separator: " , ")
+                                }
+                              //  self.otherAllergyTF.text = other_allergy_details
                             }
                             //medical
                             self.selectedbp = data.value(forKey: "diabetes") as? String ?? "0"
@@ -657,63 +685,71 @@ extension ProfilePageViewController {
                             self.selecteddiebetes = data.value(forKey: "diabetes") as? String ?? "0"
                             let diabetes_details = data.value(forKey: "diabetes_details") as? String ?? ""
                             if diabetes_details == "NF"{
-                                self.DiebetesTF.text = ""
+                               // self.DiebetesTF.text = ""
                             } else {
-                                self.DiebetesTF.text = diabetes_details
+                               // self.DiebetesTF.text = diabetes_details
                             }
                             
                             self.selectedcancer = data.value(forKey: "cancer") as? String ?? "0"
                             let cancer = data.value(forKey: "diabetes_details") as? String ?? ""
                             if cancer == "NF"{
-                                self.CancerTF.text = ""
+                               // self.CancerTF.text = ""
                             } else {
-                                self.CancerTF.text = cancer
+                               // self.CancerTF.text = cancer
                             }
                             
                             self.selectedheartdisease = data.value(forKey: "heart_desease") as? String ?? "0"
                             let heart_desease = data.value(forKey: "diabetes_details") as? String ?? ""
                             if heart_desease == "NF"{
-                                self.HeartDiseaseTF.text = ""
+                              //  self.HeartDiseaseTF.text = ""
                             } else {
-                                self.HeartDiseaseTF.text = heart_desease
+                              //  self.HeartDiseaseTF.text = heart_desease
                             }
                             
                             self.selectedleukemia = data.value(forKey: "lukemia") as? String ?? "0"
                             let lukemia = data.value(forKey: "diabetes_details") as? String ?? ""
                             if lukemia == "NF"{
-                                self.LeukemiaTF.text = ""
+                               // self.LeukemiaTF.text = ""
                             } else {
-                                self.LeukemiaTF.text = lukemia
+                              //  self.LeukemiaTF.text = lukemia
                             }
                             
                             self.selectedrestriction = data.value(forKey: "physical_activity_restriction") as? String ?? "0"
                             let physical_activity_restriction_details = data.value(forKey: "physical_activity_restriction_details") as? String ?? ""
-                            if physical_activity_restriction_details == "NF"{
-                                self.RestrictionTF.text = ""
+                            if physical_activity_restriction_details == "NF" || physical_activity_restriction_details == "" || physical_activity_restriction_details == "[]"{
+                               // self.RestrictionTF.text = ""
                             } else {
-                                self.RestrictionTF.text = physical_activity_restriction_details
+                                self.arr_geneticdisorders = physical_activity_restriction_details.convertIntoStringArray()!
+                                if self.arr_geneticdisorders.count > 0 {
+                                    self.lbl_data_geneticdisorder.text = self.arr_geneticdisorders.joined(separator: " , ")
+                                }
+                               // self.RestrictionTF.text = physical_activity_restriction_details
                             }
                             self.selectedcondition = data.value(forKey: "recent_medical_condition") as? String ?? "0"
 
                             let recent_medical_condition_details = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
-                            if recent_medical_condition_details == "NF"{
-                                self.RecentMedicalConditionTF.text = ""
+                            if recent_medical_condition_details == "NF" || recent_medical_condition_details == "" || recent_medical_condition_details == "[]"{
+                               // self.RecentMedicalConditionTF.text = ""
                             } else {
-                                self.RecentMedicalConditionTF.text = recent_medical_condition_details
+                                self.arr_knowncondition = recent_medical_condition_details.convertIntoStringArray()!
+                                if self.arr_knowncondition.count > 0 {
+                                    self.lbl_data_knowncondition.text = self.arr_knowncondition.joined(separator: " , ")
+                                }
+                               // self.RecentMedicalConditionTF.text = recent_medical_condition_details
                             }
                             //last vaccination done
                             let placeholder = "Click to select date"
                             let data1 = data.value(forKey: "last_tetanus_date") as? String ?? placeholder
-                            self.selectdateRadio[0].setTitle(data1, for: .normal)
+                            self.btn_selectdates[0].setTitle(data1, for: .normal)
                             
                             let data2 = data.value(forKey: "last_polio_date") as? String ?? placeholder
-                            self.selectdateRadio[1].setTitle(data2, for: .normal)
+                            self.btn_selectdates[1].setTitle(data2, for: .normal)
 
                             let data3 = data.value(forKey: "last_diptheria_date") as? String ?? placeholder
-                            self.selectdateRadio[2].setTitle(data3, for: .normal)
+                            self.btn_selectdates[2].setTitle(data3, for: .normal)
 
                             let data4 = data.value(forKey: "last_mumps_date") as? String ?? placeholder
-                            self.selectdateRadio[3].setTitle(data4, for: .normal)
+                            self.btn_selectdates[3].setTitle(data4, for: .normal)
                             DispatchQueue.main.async {
                                 // self.retrivedata()
                                 self.SetupInterface()
@@ -724,9 +760,7 @@ extension ProfilePageViewController {
             } catch {
                 print("catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
         Utilities.shared.RemoveLoaderView()
     }
     func sendData()
@@ -766,7 +800,7 @@ extension ProfilePageViewController {
                 "personal_physician_contact": self.PP_NumberTF.text!,
                 "p_policy": self.PP_PolicyTF.text!,
                 "p_policy_number": self.PP_PolicyNumberTF.text!,
-                "allergy": self.HaveAllergy,
+                /*"allergy": self.HaveAllergy,
                 "food_alergy": self.selectedfood,
                 "food_allergy_details": self.FoodAllergyTF.text!,
                 "medicine_alergy": self.selectedmedicine,
@@ -786,25 +820,47 @@ extension ProfilePageViewController {
                 "physical_activity_restriction": self.selectedrestriction,
                 "physical_activity_restriction_details": self.RestrictionTF.text!,
                 "recent_medical_condition": self.selectedcondition,
-                "recent_medical_condition_details": self.RecentMedicalConditionTF.text!
+                "recent_medical_condition_details": self.RecentMedicalConditionTF.text!*/
+                "allergy": self.HaveAllergy,
+                "food_alergy": self.selectedfood,
+                "medicine_alergy": self.selectedmedicine,
+                "plants_allergy": self.selectedplants,
+                "insects_allergy": self.selectedinsects,
+                "insects_allergy_details": "",
+                "other_allergy": self.selectedother,
+                "blood_pressure": self.selectedbp,
+                "diabetes": self.selecteddiebetes,
+                "diabetes_details": "",
+                "cancer": self.selectedcancer,
+                "heart_desease": self.selectedheartdisease,
+                "lukemia": self.selectedleukemia,
+                "physical_activity_restriction": self.selectedrestriction,
+                "recent_medical_condition": self.selectedcondition,
+                
+                "food_allergy_details": json(from: self.arr_foodallergy)!,
+                "medicine_allergy_details": json(from: self.arr_drugallergy)!,
+                "plants_allergy_details": json(from: self.arr_environmentalallergy)!,
+                "other_allergy_details": json(from: self.arr_familyhistory)!,
+                "recent_medical_condition_details": json(from: self.arr_knowncondition)!,
+                "physical_activity_restriction_details": json(from: self.arr_geneticdisorders)!
         ]
         let pl = "Click to select date"
-        if self.selectdateRadio[0].titleLabel?.text != pl{
-            param["last_tetanus_date"] = self.selectdateRadio[0].titleLabel?.text!
+        if self.btn_selectdates[0].titleLabel?.text != pl{
+            param["last_tetanus_date"] = self.btn_selectdates[0].titleLabel?.text!
         }
-        if self.selectdateRadio[1].titleLabel?.text! != pl{
-            param["last_polio_date"] = self.selectdateRadio[1].titleLabel?.text!
+        if self.btn_selectdates[1].titleLabel?.text! != pl{
+            param["last_polio_date"] = self.btn_selectdates[1].titleLabel?.text!
         }
-        if self.selectdateRadio[2].titleLabel?.text != pl{
-            param["last_diptheria_date"] = self.selectdateRadio[2].titleLabel?.text!
+        if self.btn_selectdates[2].titleLabel?.text != pl{
+            param["last_diptheria_date"] = self.btn_selectdates[2].titleLabel?.text!
         }
-        if self.selectdateRadio[3].titleLabel?.text != pl{
-            param["last_mumps_date"] = self.selectdateRadio[3].titleLabel?.text!
+        if self.btn_selectdates[3].titleLabel?.text != pl{
+            param["last_mumps_date"] = self.btn_selectdates[3].titleLabel?.text!
         }
         print("param: \(param)")
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Updating data")
         
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "patienteditprofile", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patienteditprofile", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
@@ -845,7 +901,7 @@ extension ProfilePageViewController {
         Utilities.shared.RemoveLoaderView()
     }
     func uploadimage(){
-        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, withOutBaseUrl: "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
+        ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 
@@ -853,9 +909,7 @@ extension ProfilePageViewController {
             } catch {
                 print("image catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
     }
     
 }
@@ -886,50 +940,47 @@ extension ProfilePageViewController {//setupinterface
             }
         }
     }
-    func Utilized(){
-        Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
-        Utilities.shared.cornerRadius(objects: [Save], number: 10.0)
-        Utilities.shared.borderRadius(objects: [Save], color: UIColor.white)
-        
-    }
     @IBAction func ClicktoSelectDate(sender: UIButton){
-        UIView.animate(withDuration: 0.1) {
-            self.cv.isHidden = false
-            self.cv.alpha = 1.0
-        }
-        if sender.tag == 1{
-            selected = "1"
-        }
-        else if sender.tag == 2{
-            selected = "2"
-        }
-        else if sender.tag == 3{
-            selected = "3"
-        }
-        else if sender.tag == 4{
-            selected = "4"
-        }
+        self.datePicker(done_complation: {
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let datestr = formatter.string(from: self.dateview.date)
+            
+            if sender.tag == 1{
+                self.btn_selectdates[0].setTitle(datestr, for: .normal)
+            }
+            else if sender.tag == 2{
+                self.btn_selectdates[1].setTitle(datestr, for: .normal)
+            }
+            else if sender.tag == 3{
+                self.btn_selectdates[2].setTitle(datestr, for: .normal)
+            }
+            else if sender.tag == 4{
+                self.btn_selectdates[3].setTitle(datestr, for: .normal)
+            }
+        })
     }
     func SetupInterface(){
 
         DispatchQueue.main.async {
             self.GenderRadio[Int(self.selectedGender)! - 1].isSelected = true
             
-            if self.HaveAllergy == "0"{
-                self.AllergyRadio[1].isSelected = true
-                self.hideAllergy()
-            } else if self.HaveAllergy == "1" {
-                self.showAllergy()
-                self.AllergyRadio[0].isSelected = true
-            }
-            self.HeightOFallergyView.constant = 0
-            self.bottomContraint.isActive = false
-            self.allergyView.isHidden = true
+//            if self.HaveAllergy == "0"{
+//                self.AllergyRadio[1].isSelected = true
+//                self.hideAllergy()
+//            } else if self.HaveAllergy == "1" {
+//                self.showAllergy()
+//                self.AllergyRadio[0].isSelected = true
+//            }
+//            self.HeightOFallergyView.constant = 0
+//            self.bottomContraint.isActive = false
+//            self.allergyView.isHidden = true
         }
         //4CAF50
-        minimize()
+      //  minimize()
         
-        yesORnoActionInsideAllergyView()
+       // yesORnoActionInsideAllergyView()
     }
     func minimize(){
         minimizeHeight(objects: [FoodAllergyTF,MedicinesAllergiesTF,PlantsTF,InsectsTF,DiebetesTF,CancerTF,HeartDiseaseTF,LeukemiaTF,otherAllergyTF,RestrictionTF],heightContantOutlet:  [HeightOfFoodTF,HeightOfMedicinesTF,HeightOfPlantsTF,HeightOfInsectsTF,HeightOfDiebetesTF,HeightOfCancerTF,HeightOfHeartDiseaseTF,HeightOfLeukemiaTF,HeightOfotherAllergyTF,HeightOfRestrictionTF])
@@ -1077,7 +1128,7 @@ extension ProfilePageViewController {//setupinterface
     }
    
 }
-extension ProfilePageViewController { //button action
+extension ProfilePageViewController: PassSelectionData { //button action
     @IBAction func GenderRadioAction(sender: SKRadioButton){
         self.GenderRadio.forEach { (button) in
             button.isSelected = false
@@ -1247,6 +1298,100 @@ extension ProfilePageViewController { //button action
             minimizeHeight(objects: [RecentMedicalConditionTF], heightContantOutlet: [HeightOfRecentMedicalConditionTF])
         }
     }
+    
+    
+    @IBAction func foodallergy(sender: UIButton){
+        gotoSelectionVC(type: .food_allergies, arr: self.arr_foodallergy)
+    }
+    @IBAction func drugallergy(sender: UIButton){
+        gotoSelectionVC(type: .drug_allergies, arr: self.arr_drugallergy)
+    }
+    @IBAction func environmentallergy(sender: UIButton){
+        gotoSelectionVC(type: .Environmental_allergies, arr: self.arr_environmentalallergy)
+    }
+    @IBAction func familyhistory(sender: UIButton){
+        gotoSelectionVC(type: .family_history, arr: self.arr_familyhistory)
+    }
+    @IBAction func knowncondition(sender: UIButton){
+        gotoSelectionVC(type: .known_conditions, arr: self.arr_knowncondition)
+    }
+    @IBAction func geneticdisorder(sender: UIButton){
+        gotoSelectionVC(type: .genetic_disorders, arr: self.arr_geneticdisorders)
+    }
+    func gotoSelectionVC(type: TypeSelection,arr: [String]){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SelectionViewController") as! SelectionViewController
+        vc.selected = type
+        vc.selectedrowdata = arr
+        vc.delegate = self
+        self.present(vc, animated: true, completion: nil)
+    }
+    func checkmarkdata(type: TypeSelection,Array: [String]) {
+        switch type{
+        case .food_allergies:
+            self.arr_foodallergy = Array
+            let str = self.arr_foodallergy.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_foodallergy.text = "None"
+            } else {
+                self.lbl_data_foodallergy.text = str
+            }
+            break;
+        case .drug_allergies:
+            self.arr_drugallergy = Array
+            let str = self.arr_drugallergy.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_drugallergy.text = "None"
+            } else {
+                self.lbl_data_drugallergy.text = str
+            }
+            break;
+        case .Environmental_allergies:
+            self.arr_environmentalallergy = Array
+            let str = self.arr_environmentalallergy.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_Envirormentallergy.text = "None"
+            } else {
+                self.lbl_data_Envirormentallergy.text = str
+            }
+            break;
+        case .family_history:
+            self.arr_familyhistory = Array
+            let str = self.arr_familyhistory.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_familyhistory.text = "None"
+            } else {
+                self.lbl_data_familyhistory.text = str
+            }
+            break;
+        case .known_conditions:
+            self.arr_knowncondition = Array
+            let str = self.arr_knowncondition.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_knowncondition.text = "None"
+            } else {
+                self.lbl_data_knowncondition.text = str
+            }
+            break;
+        case .genetic_disorders:
+            self.arr_geneticdisorders = Array
+            let str = self.arr_geneticdisorders.joined(separator: " , ")
+            if Array.count == 0{
+                self.lbl_data_geneticdisorder.text = "None"
+            } else {
+                self.lbl_data_geneticdisorder.text = str
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    func json(from object:Any) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject:  object, options: []) else
+        {
+            return nil
+        }
+        return String(data: data, encoding: String.Encoding.utf8)
+    }
 }
 extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -1282,210 +1427,23 @@ extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource
         
         return label
     }
-}
-
-/*
-extension ProfilePageViewController { //coredata save and retrive
-    
-    func savedata(){
-        let managedobject = self.appdel.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Profile", in: managedobject)
+    func datePicker(done_complation: @escaping ()->()){
+        let vc = UIViewController()
         
-        do {
-            SwiftLoader.show(title: "Loading..", animated: true)
-            let profile = NSManagedObject(entity: entity!, insertInto: managedobject)
-            //user
-            let imgdata: Data = (imagesPicView.image?.pngData())!
-            profile.setValue(imgdata, forKey: user.image)
-            profile.setValue(self.NameTF.text!, forKey: user.name)
-            profile.setValue(self.selectedGender, forKey: user.gender)
-            profile.setValue(self.DateOfBirthTF.text!, forKey: user.dateofbirth)
-            profile.setValue(self.age.text!, forKey: user.age)
-            profile.setValue(self.BloodGroupTF.text!, forKey: user.bloodGroup)
-            profile.setValue(self.emailTF.text!, forKey: user.email)
-            profile.setValue(self.PatientTF.text, forKey: user.patientid)
-          //  profile.setValue(self.WeightTF.text!, forKey: user.weight)
-          //  profile.setValue(self.HeightTF.text!, forKey: user.height)
-          //  profile.setValue(self.BloodPressureTF.text!, forKey: user.bloodPressure)
-          //  profile.setValue(self.TempretureTF.text!, forKey: user.temperature)
-            profile.setValue(self.MobileNumberTF.text!, forKey: user.mobileNumber)
-            profile.setValue(self.Address1TF.text!, forKey: user.address1)
-            profile.setValue(self.Address2TF.text!, forKey: user.address2)
-            profile.setValue(self.SubCityTF.text!, forKey: user.subcity)
-            profile.setValue(self.CityTF.text!, forKey: user.city)
-            //guardian
-            profile.setValue(self.GuardianNameTF.text!, forKey: guardian.gName)
-            profile.setValue(self.GuardianMobileNumberTF.text!, forKey: guardian.gMobileNumber)
-            profile.setValue(self.GuardianAddress1TF.text!, forKey: guardian.gAddress1)
-            profile.setValue(self.GuardianAddress2TF.text!, forKey: guardian.gAddress2)
-            profile.setValue(self.GuardianSubCityTF.text!, forKey: guardian.gSubcity)
-            profile.setValue(self.GuardianCityTF.text!, forKey: guardian.gCity)
-            //ec1
-            profile.setValue(self.FirstEC_NameTF.text!, forKey: emergencyContact.ec1name)
-            profile.setValue(self.FirstEC_RelationshipTF.text!, forKey: emergencyContact.ec1relationship)
-            profile.setValue(self.FirstEC_NumberTF.text!, forKey: emergencyContact.ec1number)
-            //ec2
-            profile.setValue(self.SecondEC_NameTF.text!, forKey: emergencyContact.ec2name)
-            profile.setValue(self.SecondEC_RelationshipTF.text!, forKey: emergencyContact.ec2relationship)
-            profile.setValue(self.SecondEC_NumberTF.text!, forKey: emergencyContact.ec2number)
-            //pp
-            profile.setValue(self.PP_NameTF.text!, forKey: emergencyContact.ppname)
-            profile.setValue(self.PP_NumberTF.text!, forKey: emergencyContact.ppnumber)
-            profile.setValue(self.PP_PolicyTF.text!, forKey: emergencyContact.pppolicy)
-            profile.setValue(self.PP_PolicyNumberTF.text!, forKey: emergencyContact.pppolicynumber)
-            //allergy
-            profile.setValue(self.HaveAllergy, forKey: medical.allergy)
-            
-            profile.setValue(self.selectedfood, forKey: medical.afood)
-            profile.setValue(self.FoodAllergyTF.text!, forKey: medical.aexplainFood)
-            
-            profile.setValue(self.selectedmedicine, forKey: medical.amedicine)
-            profile.setValue(self.MedicinesAllergiesTF.text!, forKey: medical.aexplainMedicine)
-            
-            profile.setValue(self.selectedplants, forKey: medical.aplants)
-            profile.setValue(self.PlantsTF.text!, forKey: medical.aexplainPlants)
-            
-            profile.setValue(self.selectedinsects, forKey: medical.ainsects)
-            profile.setValue(self.InsectsTF.text!, forKey: medical.aexplainInsects)
-            
-            profile.setValue(self.selectedother, forKey: medical.aother)
-            profile.setValue(self.otherAllergyTF.text!, forKey: medical.aexplainOther)
-            
-          //  profile.setValue(self.selectedbp, forKey: medical.mbp)
-            profile.setValue(self.BPTF.text!, forKey: medical.mexplainBp)
-            
-            profile.setValue(self.selecteddiebetes, forKey: medical.mdiebetes)
-            profile.setValue(self.DiebetesTF.text!, forKey: medical.mexplainDiebetes)
-            
-            profile.setValue(self.selectedcancer, forKey: medical.mcancer)
-            profile.setValue(self.CancerTF.text!, forKey: medical.mexplainCancer)
-            
-            profile.setValue(self.selectedheartdisease, forKey: medical.mheartdisease)
-            profile.setValue(self.HeartDiseaseTF.text!, forKey: medical.mexplainHeartDisease)
-            
-            profile.setValue(self.selectedleukemia, forKey: medical.mleukemia)
-            profile.setValue(self.LeukemiaTF.text!, forKey: medical.mexplainLeukemia)
-            
-            profile.setValue(self.selectedrestriction, forKey: medical.mrestrict)
-            profile.setValue(self.RestrictionTF.text!, forKey: medical.mexplainRestrict)
-            profile.setValue(self.RecentMedicalConditionTF.text!, forKey: medical.mrecentMC)
-            //last vaccination done
-            profile.setValue(self.tetanusSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate1)
-            profile.setValue(self.polioSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate2)
-            profile.setValue(self.diphtheriaSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate3)
-            profile.setValue(self.mumpsSelectedDate.text!, forKey: lastVaccinationDone.lselecteddate4)
-            profile.setValue(self.declare, forKey: lastVaccinationDone.declare)
-            try managedobject.save()
-            SwiftLoader.hide()
-        } catch {
-            SwiftLoader.hide()
-            print("catch")
-        }
+        let editRadiusAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let width = editRadiusAlert.view.frame.width
+        vc.preferredContentSize = CGSize(width: width,height: 240)
+        dateview = UIDatePicker(frame: CGRect(x: 0, y: 0, width: width, height: 240))
+        dateview.datePickerMode = .date
+        dateview.maximumDate = Date()
+        vc.view.addSubview(dateview)
+        
+        editRadiusAlert.setValue(vc, forKey: "contentViewController")
+        editRadiusAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (action) in
+            done_complation()
+        }))
+        editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(editRadiusAlert, animated: true)
     }
-    func retrivedata(){
-        let managedobject = self.appdel.persistentContainer.viewContext
-        let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
-        do {
-            let result = try managedobject.fetch(fetchReq)
-            for data in result as! [NSManagedObject]{
-                //user
-                SwiftLoader.show(title: "Loading..", animated: true)
-                let imgdata = data.value(forKey: user.image) as? Data
-                if imgdata != nil{
-                    self.imagesPicView.image = UIImage(data: imgdata!)
-                }
-                else {
-                    self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
-                }
-                self.NameTF.text = data.value(forKey: user.name) as? String
-                self.DateOfBirthTF.text = data.value(forKey: user.dateofbirth) as? String
-                self.age.text = data.value(forKey: user.age) as? String
-                self.selectedGender = data.value(forKey: user.gender) as? String ?? "0"
-                self.BloodGroupTF.text = data.value(forKey: user.bloodGroup) as? String
-                self.WeightTF.text = data.value(forKey: user.weight) as? String
-                self.HeightTF.text = data.value(forKey: user.height) as? String
-                self.BloodPressureTF.text = data.value(forKey: user.bloodPressure) as? String
-                self.TempretureTF.text = data.value(forKey: user.temperature) as? String
-                
-                self.MobileNumberTF.text = data.value(forKey: user.mobileNumber) as? String
-                self.Address1TF.text = data.value(forKey: user.address1) as? String
-                self.Address2TF.text = data.value(forKey: user.address2) as? String
-                self.SubCityTF.text = data.value(forKey: user.subcity) as? String
-                self.CityTF.text = data.value(forKey: user.city) as? String
-                //guardian
-                self.GuardianNameTF.text = data.value(forKey: guardian.gName) as? String
-                self.GuardianAddress1TF.text = data.value(forKey: guardian.gAddress1) as? String
-                self.GuardianAddress2TF.text = data.value(forKey: guardian.gAddress2) as? String
-                self.GuardianSubCityTF.text = data.value(forKey: guardian.gSubcity) as? String
-                self.GuardianCityTF.text = data.value(forKey: guardian.gCity) as? String
-                //ec1
-                self.FirstEC_NameTF.text = data.value(forKey: emergencyContact.ec1name) as? String
-                self.FirstEC_RelationshipTF.text = data.value(forKey: emergencyContact.ec1relationship) as? String
-                self.FirstEC_NumberTF.text = data.value(forKey: emergencyContact.ec1number) as? String
-                //ec2
-                self.SecondEC_NameTF.text = data.value(forKey: emergencyContact.ec2name) as? String
-                self.SecondEC_RelationshipTF.text = data.value(forKey: emergencyContact.ec2relationship) as? String
-                self.SecondEC_NumberTF.text = data.value(forKey: emergencyContact.ec2number) as? String
-                //pp
-                self.PP_NameTF.text = data.value(forKey: emergencyContact.ppname) as? String
-                self.PP_NumberTF.text = data.value(forKey: emergencyContact.ppnumber) as? String
-                self.PP_PolicyTF.text = data.value(forKey: emergencyContact.pppolicy) as? String
-                self.PP_PolicyNumberTF.text = data.value(forKey: emergencyContact.pppolicynumber) as? String
-                //allergy
-                HaveAllergy = data.value(forKey: medical.allergy) as! String
-                
-                selectedfood = data.value(forKey: medical.afood) as! String
-                self.FoodAllergyTF.text = data.value(forKey: medical.aexplainFood) as? String
-                
-                selectedmedicine = data.value(forKey: medical.amedicine) as! String
-                self.MedicinesAllergiesTF.text = data.value(forKey: medical.aexplainMedicine) as? String
-                
-                selectedplants = data.value(forKey: medical.aplants) as! String
-                self.PlantsTF.text = data.value(forKey: medical.aexplainPlants) as? String
-                
-                selectedinsects = data.value(forKey: medical.ainsects) as! String
-                self.InsectsTF.text = data.value(forKey: medical.aexplainInsects) as? String
-                
-                selectedother = data.value(forKey: medical.aother) as! String
-                self.otherAllergyTF.text = data.value(forKey: medical.aexplainOther) as? String
-                //medical
-              //  selectedbp = data.value(forKey: medical.mbp) as! String
-                self.BPTF.text = data.value(forKey: medical.mexplainBp) as? String
-                
-                selecteddiebetes = data.value(forKey: medical.mdiebetes) as! String
-                self.DiebetesTF.text = data.value(forKey: medical.mexplainDiebetes) as? String
-                
-                selectedcancer = data.value(forKey: medical.mcancer) as! String
-                self.CancerTF.text = data.value(forKey: medical.mexplainCancer) as? String
-                
-                selectedheartdisease = data.value(forKey: medical.mheartdisease) as! String
-                self.HeartDiseaseTF.text = data.value(forKey: medical.mexplainHeartDisease) as? String
-                
-                selectedleukemia = data.value(forKey: medical.mleukemia) as! String
-                self.LeukemiaTF.text = data.value(forKey: medical.mexplainLeukemia) as? String
-                
-                selectedrestriction = data.value(forKey: medical.mrestrict) as! String
-                self.RestrictionTF.text = data.value(forKey: medical.mexplainRestrict) as? String
-                
-                self.RecentMedicalConditionTF.text = data.value(forKey: medical.mrecentMC) as? String
-                //last vaccination done
-                let data1 = data.value(forKey: lastVaccinationDone.lselecteddate1) as? String
-                self.tetanusSelectedDate.text = data1
-                
-                let data2 = data.value(forKey: lastVaccinationDone.lselecteddate2) as? String
-                self.polioSelectedDate.text = data2
-                
-                let data3 = data.value(forKey: lastVaccinationDone.lselecteddate3) as? String
-                self.diphtheriaSelectedDate.text = data3
-                
-                let data4 = data.value(forKey: lastVaccinationDone.lselecteddate4) as? String
-                self.mumpsSelectedDate.text = data4
-                self.declare = data.value(forKey: lastVaccinationDone.declare) as! String
-                SwiftLoader.hide()
-            }
-        } catch {
-            SwiftLoader.hide()
-            print("failed")
-        }
-    }
-}*/
+}

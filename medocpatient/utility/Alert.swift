@@ -105,11 +105,11 @@ class Alert {
             let first = alertcontroller.textFields![0] as UITextField
             let Second = alertcontroller.textFields![1] as UITextField
             if (first.text?.isEmpty)! && (Second.text?.isEmpty)! {
-               // vc.view.showToast("Empty Remark & Action Plan \n Compulsory If Status is Reject Write Remark & Action Plan", position: .bottom, popTime: 3, dismissOnTap: false)
+                
             } else if (first.text?.isEmpty)!{
-               // vc.view.showToast("Empty Remark \n Compulsory If Status is Reject Write Remark", position: .bottom, popTime: 3, dismissOnTap: false)
+                
             } else if (Second.text?.isEmpty)!{
-              //  vc.view.showToast("Empty Action Plan \n Compulsory If Status is Reject Write Action Plan", position: .bottom, popTime: 3, dismissOnTap: false)
+                
             } else {
                 ActionCompletion()
             }
@@ -191,124 +191,3 @@ extension UIAlertAction {
         }
     }
 }
-/*
- 
- func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
- let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
- deviceTokenString = token
- print(deviceToken)
- }
- func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
- print("i am not available in simulator \(error)")
- }
- 
- UNUserNotificationCenter.current().delegate = self
- application.registerForRemoteNotifications()
- UNUserNotificationCenter.current().cleanRepeatingNotifications()
- UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
- 
- setCategories()
- 
- 
- extension AppDelegate:  UNUserNotificationCenterDelegate{
- 
- func setCategories(){
- let clearRepeatAction = UNNotificationAction(
- identifier: "clear.repeat.action",
- title: "Stop Repeat",
- options: [])
- let remindaction = UNNotificationAction(
- identifier: "remindLater",
- title: "Remind me later",
- options: [])
- let Category = UNNotificationCategory(
- identifier: "medicine.reminder.category",
- actions: [clearRepeatAction,remindaction],
- intentIdentifiers: [],
- options: [])
- UNUserNotificationCenter.current().setNotificationCategories([Category])
- }
- 
- 
- func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
- completionHandler([.alert,.sound])
- 
- }
- 
- func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
- if UIApplication.shared.applicationState == .background{
- print("bg")
- }
- UNUserNotificationCenter.current().cleanRepeatingNotifications()
- print("Did recieve response: \(response.actionIdentifier)")
- if response.actionIdentifier == "clear.repeat.action"{
- UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [response.notification.request.identifier])
- 
- }
- if response.actionIdentifier == "remindLater" {
- UNUserNotificationCenter.current().getDeliveredNotifications { (receivedNotifications) in
- for notification in receivedNotifications {
- let content = notification.request.content
- let newDate = Date(timeInterval: 60, since: Date())
- self.scheduleNotification(at: newDate, title: content.title, body: content.body, withCompletionHandler: {
- completionHandler()
- })
- }
- }
- }
- completionHandler()
- }
- func scheduleNotification(at date: Date,title: String,body: String,withCompletionHandler: @escaping() -> ()) {
- let calendar = Calendar(identifier: .gregorian)
- let components = calendar.dateComponents(in: .current, from: date)
- let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
- 
- let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
- 
- let content = UNMutableNotificationContent()
- content.title = title
- content.body = body
- content.sound = UNNotificationSound.default
- content.categoryIdentifier = "medicine.reminder.category"
- 
- let request = UNNotificationRequest(identifier: date.description, content: content, trigger: trigger)
- 
- UNUserNotificationCenter.current().delegate = self
- UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
- UNUserNotificationCenter.current().add(request) {(error) in
- if let error = error {
- print("Uh oh! We had an error: \(error)")
- }
- }
- }
- 
- }
- 
- 
- 
-
- 
- extension UNUserNotificationCenter{
-    func cleanRepeatingNotifications(){
-        //cleans notification with a userinfo key endDate
-        //which have expired.
-        var cleanStatus = "Cleaning...."
-        getPendingNotificationRequests {
-            (requests) in
-            for request in requests{
-                if let endDate = request.content.userInfo["endDate"]{
-                    if Date() >= (endDate as! Date){
-                        cleanStatus += "Cleaned request"
-                        let center = UNUserNotificationCenter.current()
-                        center.removePendingNotificationRequests(withIdentifiers: [request.identifier])
-                    } else {
-                        cleanStatus += "No Cleaning"
-                    }
-                    print(cleanStatus)
-                }
-            }
-        }
-    }
-    
-    
-}*/

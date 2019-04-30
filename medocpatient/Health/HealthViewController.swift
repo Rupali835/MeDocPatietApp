@@ -33,7 +33,7 @@ class HealthViewController: UIViewController {
         self.fetchhealthdata(attr: "t")
     }
     func fetchhealthdata(attr: String){
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "viewhealthdata/\(attr)/m/0/0", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/m/0/0", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {
@@ -64,9 +64,7 @@ class HealthViewController: UIViewController {
             } catch {
                 print("catch")
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
     }
     
 }
@@ -102,8 +100,8 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 if self.w_dataarr.count > 0{
                     let d1 = self.w_dataarr.object(at: self.w_dataarr.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let weight = d1.value(forKey: "weight") as! String
-                    cell2.firstdata.text = "Weight: \(weight) Kg"
+                    let weight = d1.value(forKey: "weight") as? Int
+                    cell2.firstdata.text = "Weight: \(weight!) Kg"
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -116,8 +114,8 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 if self.h_dataarr.count > 0{
                     let d1 = self.h_dataarr.object(at: self.h_dataarr.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let height = d1.value(forKey: "height") as! String
-                    cell2.firstdata.text = "Height: \(height) Cm"
+                    let height = d1.value(forKey: "height") as? Int
+                    cell2.firstdata.text = "Height: \(height!) Cm"
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -130,8 +128,8 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 if self.t_dataarr.count > 0{
                     let d1 = self.t_dataarr.object(at: self.t_dataarr.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let temperature = d1.value(forKey: "temperature") as! String
-                    cell2.firstdata.text = "Temperature: \(temperature) ºC"
+                    let temperature = d1.value(forKey: "temperature") as? Int
+                    cell2.firstdata.text = "Temperature: \(temperature!) ºC"
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -191,7 +189,7 @@ extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDel
         }
     }
     func postApi(param : [String:String]){
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "addhealthdata", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "addhealthdata", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)

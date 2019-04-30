@@ -85,7 +85,7 @@ class MedicineViewController: UIViewController {
     }
     func fetchmedicine(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetch Medicines..")
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, withOutBaseUrl: "medicines", bearertoken: bearertoken!, parameter: "", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "medicines", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 //print(json)
@@ -109,8 +109,10 @@ class MedicineViewController: UIViewController {
                 }
             } catch {
                 print("catch")
-                self.nodatalbl.isHidden = false
-                Utilities.shared.RemoveLoaderView()
+                DispatchQueue.main.async {
+                    self.nodatalbl.isHidden = false
+                    Utilities.shared.RemoveLoaderView()
+                }
             }
         }) { () -> (Dictionary<String, Any>) in
             ["all":"1"]
@@ -124,6 +126,24 @@ class MedicineViewController: UIViewController {
             
             let mdataarr = self.medicineData.object(at: index) as! NSArray
             
+            var alreadyadded = false
+            
+            for (index,remind) in self.reminders.enumerated() {
+                if remind.notes == "Cheif Complain: \(patient_problem)" || remind.notes == "Cheif Complain: Not Mentioned" || (remind.notes?.contains(find: "Cheif Complain:"))!{
+                    do {
+                        try self.eventStore.remove(remind, commit: true)
+                        self.reminders.remove(at: index)
+                        alreadyadded = false
+                        print("Already Added Remove")
+                    } catch {
+                        print("catch")
+                        print("Already Added")
+                        alreadyadded = true
+                    }
+                    break;
+                }
+            }
+            
             for (index,_) in mdataarr.enumerated() {
                 
                 let mdata = mdataarr.object(at: index) as! NSDictionary
@@ -136,12 +156,12 @@ class MedicineViewController: UIViewController {
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 let date = dateFormatter.date(from: created_at)
                 
-                let interval_type = mdata.value(forKey: "interval_type") as! String
-                let interval_period = mdata.value(forKey: "interval_period") as! String
-                let interval_time = mdata.value(forKey: "interval_time") as! String
+                let interval_type = "\(mdata.value(forKey: "interval_type") as! Int)"
+                let interval_period = "\(mdata.value(forKey: "interval_period") as! Int)"
+                let interval_time = "\(mdata.value(forKey: "interval_time") as! String)"
                 
-                let before_bf = mdata.value(forKey: "before_bf") as! String
-                let before_bf_time = mdata.value(forKey: "before_bf_time") as! String
+                let before_bf = "\(mdata.value(forKey: "before_bf") as! Int)"
+                let before_bf_time = "\(mdata.value(forKey: "before_bf_time") as! Int)"
                 
                 let timedate = Calendar.current.date(byAdding: .day, value: -1, to: date!)
                 
@@ -151,8 +171,8 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: before_bfalarmdate))
                 }
                 
-                let after_bf = mdata.value(forKey: "after_bf") as! String
-                let after_bf_time = mdata.value(forKey: "after_bf_time") as! String
+                let after_bf = "\(mdata.value(forKey: "after_bf") as! Int)"
+                let after_bf_time = "\(mdata.value(forKey: "after_bf_time") as! Int)"
                 
                 if after_bf == "1" {
                     let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
@@ -160,8 +180,8 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: after_bfalarmdate))
                 }
                 
-                let before_lunch = mdata.value(forKey: "before_lunch") as! String
-                let before_lunch_time = mdata.value(forKey: "before_lunch_time") as! String
+                let before_lunch = "\(mdata.value(forKey: "before_lunch") as! Int)"
+                let before_lunch_time = "\(mdata.value(forKey: "before_lunch_time") as! Int)"
                 
                 if before_lunch == "1"{
                     let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
@@ -169,8 +189,8 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: before_lunchalarmdate))
                 }
                 
-                let after_lunch = mdata.value(forKey: "after_lunch") as! String
-                let after_lunch_time = mdata.value(forKey: "after_lunch_time") as! String
+                let after_lunch = "\(mdata.value(forKey: "after_lunch") as! Int)"
+                let after_lunch_time = "\(mdata.value(forKey: "after_lunch_time") as! Int)"
                 
                 if after_lunch == "1"{
                     let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
@@ -178,8 +198,8 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: after_lunchalarmdate))
                 }
                 
-                let before_dinner = mdata.value(forKey: "before_dinner") as! String
-                let before_dinner_time = mdata.value(forKey: "before_dinner_time") as! String
+                let before_dinner = "\(mdata.value(forKey: "before_dinner") as! Int)"
+                let before_dinner_time = "\(mdata.value(forKey: "before_dinner_time") as! Int)"
                 
                 if before_dinner == "1"{
                     let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
@@ -187,8 +207,8 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: before_dinneralarmdate))
                 }
                 
-                let after_dinner = mdata.value(forKey: "after_dinner") as! String
-                let after_dinner_time = mdata.value(forKey: "after_dinner_time") as! String
+                let after_dinner = "\(mdata.value(forKey: "after_dinner") as! Int)"
+                let after_dinner_time = "\(mdata.value(forKey: "after_dinner_time") as! Int)"
                 
                 if after_dinner == "1"{
                     let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
@@ -196,22 +216,6 @@ class MedicineViewController: UIViewController {
                     alarmdates.append(EKAlarm(absoluteDate: after_dinneralarmdate))
                 }
                 
-                var alreadyadded = false
-                
-                for remind in self.reminders {
-                    if remind.notes == "Cheif Complain: \(patient_problem)" || remind.notes == "Cheif Complain: Not Mentioned" {
-                        do {
-                            try self.eventStore.remove(remind, commit: true)
-                            alreadyadded = false
-                            print("Already Added Remove")
-                        } catch {
-                            print("catch")
-                            print("Already Added")
-                            alreadyadded = true
-                        }
-                        break;
-                    }
-                }
                 if alreadyadded == false {
                     print("Adding Reminder")
                     
@@ -375,8 +379,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             
             let name = d.value(forKey: "medicine_name") as! String
             
-            let before_bf = d.value(forKey: "before_bf") as! String
-            let before_bf_time = d.value(forKey: "before_bf_time") as! String
+            let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
+            let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
             if before_bf == "1"{
                 if !self.timeslot.contains("Before \(before_bf_time) minute Of Breakfast"){
                     if before_bf_time == "0" {
@@ -387,8 +391,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let after_bf = d.value(forKey: "after_bf") as! String
-            let after_bf_time = d.value(forKey: "after_bf_time") as! String
+            let after_bf = "\(d.value(forKey: "after_bf") as! Int)"
+            let after_bf_time = "\(d.value(forKey: "after_bf_time") as! Int)"
             if after_bf == "1"{
                 if !self.timeslot.contains("After \(after_bf_time) minute Of Breakfast"){
                     if after_bf_time == "0" {
@@ -399,8 +403,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let before_lunch = d.value(forKey: "before_lunch") as! String
-            let before_lunch_time = d.value(forKey: "before_lunch_time") as! String
+            let before_lunch = "\(d.value(forKey: "before_lunch") as! Int)"
+            let before_lunch_time = "\(d.value(forKey: "before_lunch_time") as! Int)"
             if before_lunch == "1"{
                 if !self.timeslot.contains("Before \(before_lunch_time) minute Of Lunch"){
                     if before_lunch_time == "0" {
@@ -411,8 +415,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let after_lunch = d.value(forKey: "after_lunch") as! String
-            let after_lunch_time = d.value(forKey: "after_lunch_time") as! String
+            let after_lunch = "\(d.value(forKey: "after_lunch") as! Int)"
+            let after_lunch_time = "\(d.value(forKey: "after_lunch_time") as! Int)"
             if after_lunch == "1"{
                 if !self.timeslot.contains("After \(after_lunch_time) minute Of Lunch"){
                     if after_lunch_time == "0" {
@@ -423,8 +427,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let before_dinner = d.value(forKey: "before_dinner") as! String
-            let before_dinner_time = d.value(forKey: "before_dinner_time") as! String
+            let before_dinner = "\(d.value(forKey: "before_dinner") as! Int)"
+            let before_dinner_time = "\(d.value(forKey: "before_dinner_time") as! Int)"
             if before_dinner == "1"{
                 if !self.timeslot.contains("Before \(before_dinner_time) minute Of Dinner"){
                     if before_dinner_time == "0" {
@@ -435,8 +439,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let after_dinner = d.value(forKey: "after_dinner") as! String
-            let after_dinner_time = d.value(forKey: "after_dinner_time") as! String
+            let after_dinner = "\(d.value(forKey: "after_dinner") as! Int)"
+            let after_dinner_time = "\(d.value(forKey: "after_dinner_time") as! Int)"
             if after_dinner == "1"{
                 if !self.timeslot.contains("After \(after_dinner_time) minute Of Dinner"){
                     if after_dinner_time == "0" {
@@ -447,9 +451,9 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             
-            let interval_period = d.value(forKey: "interval_period") as! String
+            let interval_period = "\(d.value(forKey: "interval_period") as! Int)"
             let interval_time = d.value(forKey: "interval_time") as! String
-            let interval_type = d.value(forKey: "interval_type") as! String
+            let interval_type = "\(d.value(forKey: "interval_type") as! Int)"
             
             switch interval_type {
             case "1":

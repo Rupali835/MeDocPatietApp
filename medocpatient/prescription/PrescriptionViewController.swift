@@ -34,7 +34,7 @@ class PrescriptionViewController: UIViewController {
     }
     func fetchPrescription(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait..")
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, withOutBaseUrl: "prescriptions", parameter: "", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "prescriptions", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -56,9 +56,7 @@ class PrescriptionViewController: UIViewController {
                 print("catch")
                 Utilities.shared.RemoveLoaderView()
             }
-        }) { () -> (Dictionary<String, Any>) in
-            [:]
-        }
+        })
     }
 
 }
@@ -86,7 +84,7 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         if prescription_pdf == "NF"{
             self.view.showToast("No PDF Added", position: .bottom, popTime: 3, dismissOnTap: true)
         } else {
-            let url = URL(string: "http://www.otgmart.com/medoc/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
+            let url = URL(string: "http://13.234.38.193/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
             let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
             let urlRequest = URLRequest(url: url!)
             webView.navigationDelegate = self
