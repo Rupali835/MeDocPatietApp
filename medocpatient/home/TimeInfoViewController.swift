@@ -29,7 +29,6 @@ class TimeInfoViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
-
 /*
  extension ProfilePageViewController { //coredata save and retrive
  
@@ -235,3 +234,4 @@ class TimeInfoViewController: UIViewController {
  }
  }
  }*/
+

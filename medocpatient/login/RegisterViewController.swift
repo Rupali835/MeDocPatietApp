@@ -5,15 +5,7 @@
 //  Created by Prem Sahni on 12/12/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
 //
-// Sign up form 
-/*
- full name
- email
- number
- password
- confirm 
- gender
- */
+//
 
 import UIKit
 import SkyFloatingLabelTextField
@@ -62,8 +54,6 @@ class RegisterViewController: UIViewController{
         
         Done.addTarget(self, action: #selector(DoneAction), for: .touchUpInside)
         Close.addTarget(self, action: #selector(CloseAction), for: .touchUpInside)
-        Utilities.shared.setGradientBackground(view: self.view, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
-        Utilities.shared.setGradientBackground(view: Gview, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
         
         let button = UIButton(type: .system)
         button.setTitle("Show", for: .normal)
@@ -162,14 +152,8 @@ class RegisterViewController: UIViewController{
         }
     }
     @objc func CloseAction(){
-//        let pageViewController = self.parent as! PageViewController
-//        pageViewController.PreviousPageWithIndex(index: 0)
         self.dismiss(animated: true, completion: nil)
     }
-//    @objc func SigninAction(){
-//        let pageViewController = self.parent as! PageViewController
-//        pageViewController.PreviousPageWithIndex(index: 0)
-//    }
     @objc func SignupAction(){
         //check empty textfield
         if (self.FullNameTF.text?.isEmpty)! {
@@ -242,8 +226,6 @@ class RegisterViewController: UIViewController{
 
                              NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.NumberTF.text!,"password":self.PasswordTF.text!])
                             self.dismiss(animated: true, completion: nil)
-//                            let pageViewController = self.parent as! PageViewController
-//                            pageViewController.PreviousPageWithIndex(index: 0)
                         }
                     }
                     if msg == "fail" {

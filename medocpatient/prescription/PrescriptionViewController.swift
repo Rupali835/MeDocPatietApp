@@ -84,13 +84,20 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         if prescription_pdf == "NF"{
             self.view.showToast("No PDF Added", position: .bottom, popTime: 3, dismissOnTap: true)
         } else {
-            let url = URL(string: "http://13.234.38.193/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
-            let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
+            let url = URL(string: "http://medoc.co.in/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
+            let webView = WKWebView()
+            webView.translatesAutoresizingMaskIntoConstraints = false
+            pdfVC.view.addSubview(webView)
+
+            webView.leadingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            webView.trailingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            webView.topAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
+            webView.bottomAnchor.constraint(equalTo: pdfVC.view.bottomAnchor).isActive = true
+            
             let urlRequest = URLRequest(url: url!)
             webView.navigationDelegate = self
             webView.load(urlRequest)
             
-            pdfVC.view.addSubview(webView)
             pdfVC.navigationItem.title = "Pdf Viewer"
             self.navigationController?.pushViewController(pdfVC, animated: true)
         }

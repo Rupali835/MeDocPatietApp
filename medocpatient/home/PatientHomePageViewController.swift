@@ -47,7 +47,6 @@ class PatientHomePageViewController: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //fetchProfileDatail()
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -96,32 +95,7 @@ class PatientHomePageViewController: UIViewController{
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PHQ_9ViewController") as! PHQ_9ViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    func fetchProfileDatail(){
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patientprofile", bearertoken: bearertoken!, onSuccessCompletion: {
-            do {
-                self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                let msg = self.dict.value(forKey: "msg") as? String ?? ""
-                if msg == "success" {
-                    if let data = self.dict.value(forKey: "data") as? NSDictionary {
-                        DispatchQueue.main.async {
-                            let pp = data.value(forKey: "profile_picture") as? String ?? ""
-                            if pp != ""{
-                                let url = URL(string: "\(ApiServices.shared.imageorpdfUrl)\(pp)")!
-                                self.imagesPicView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
-                            }
-                            else {
-                                self.imagesPicView.image = #imageLiteral(resourceName: "man.png")
-                            }
-                            let name = data.value(forKey: "name") as? String ?? ""
-                            self.Name.text = "\(name)"
-                        }
-                    }
-                }
-            } catch {
-                print("catch")
-            }
-        })
-    }
+    
     @IBAction func changelanguage(){
         let alertvc = UIAlertController(title: "Choose Language", message: nil, preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -208,9 +182,6 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
             Healthvc.navigationItem.largeTitleDisplayMode = .never
             Healthvc.navigationItem.title = title
-//            Utilities.shared.alertview(title: "Sorry", msg: "Health Module is Not Completed Now", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
-//
-//            }, dismissAction: { })
             self.navigationController?.pushViewController(Healthvc, animated: true)
         }
         else if indexPath.row == 6{

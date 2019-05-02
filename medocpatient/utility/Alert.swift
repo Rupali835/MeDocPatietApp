@@ -26,98 +26,7 @@ class Alert {
     func dismissAlert(vc: UIViewController){
         vc.dismiss(animated: true, completion: nil)
     }
-    func checkIfAlertViewHasPresented() -> UIAlertController? {
-        
-        if var topController = UIApplication.shared.keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            }
-            if topController is UIAlertController {
-                return (topController as! UIAlertController)
-            } else {
-                return nil
-            }
-        }
-        return nil
-    }
-    func ActionAlert(vc: UIViewController,title: String,msg: String,buttontitle: String,button2title: String,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
-        if (checkIfAlertViewHasPresented() != nil) {
-
-        } else {
- 
-            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
-            alertWindow.rootViewController = UIViewController()
-            alertWindow.windowLevel = UIWindow.Level.alert + 1
-            alertWindow.backgroundColor = UIColor.clear
-
-            let alertcontroller = UIAlertController(title: "", message: "", preferredStyle: .alert)
-            let titleFont = [NSAttributedString.Key.font: UIFont(name: "ArialHebrew-Bold", size: 18.0)!]
-            let messageFont = [NSAttributedString.Key.font: UIFont(name: "ArialHebrew-Bold", size: 15.0)!]
-            
-            let titleAttrString = NSMutableAttributedString(string: title, attributes: titleFont)
-            let messageAttrString = NSMutableAttributedString(string: msg, attributes: messageFont)
-            
-            alertcontroller.setValue(titleAttrString, forKey: "attributedTitle")
-            alertcontroller.setValue(messageAttrString, forKey: "attributedMessage")
-
-            alertcontroller.view.backgroundColor = UIColor.clear
-        
-            let button2 = UIAlertAction(title: button2title, style: .cancel) { (action) in
-                Action2Completion()
-            }
-            let button1 = UIAlertAction(title: buttontitle, style: .default, image: #imageLiteral(resourceName: "like.png").withRenderingMode(.alwaysOriginal)) { (action) in
-                ActionCompletion()
-            }
-           // button1.setValue(#imageLiteral(resourceName: "like.png"), forKey: "image")
-            alertcontroller.addAction(button1)
-            alertcontroller.addAction(button2)
-            alertWindow.makeKeyAndVisible()
-            alertWindow.rootViewController?.present(alertcontroller, animated: true, completion: nil)
-        }
-        //    vc.present(alertcontroller, animated: true, completion: nil)
-    }
-    func RejectReason(vc: UIViewController,title: String,msg: String,ActionCompletion: @escaping () -> ()){
-        let alertcontroller = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-        alertcontroller.addTextField { (textfield: UITextField) in
-            textfield.placeholder = "Remark"
-            textfield.delegate = vc as? UITextFieldDelegate
-            textfield.clearButtonMode = .whileEditing
-            textfield.frame.size.height = 50
-            textfield.backgroundColor = UIColor.clear
-            textfield.borderStyle = .none
-            DispatchQueue.main.async {
-                
-            }
-        }
-        alertcontroller.addTextField { (textfield: UITextField) in
-            textfield.placeholder = "Action Plan"
-            textfield.delegate = vc as? UITextFieldDelegate
-            textfield.clearButtonMode = .whileEditing
-            textfield.frame.size.height = 50
-            textfield.backgroundColor = UIColor.clear
-            textfield.borderStyle = .none
-            DispatchQueue.main.async {
-                
-            }
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-        let Send = UIAlertAction(title: "Send", style: .destructive) { (action) in
-            let first = alertcontroller.textFields![0] as UITextField
-            let Second = alertcontroller.textFields![1] as UITextField
-            if (first.text?.isEmpty)! && (Second.text?.isEmpty)! {
-                
-            } else if (first.text?.isEmpty)!{
-                
-            } else if (Second.text?.isEmpty)!{
-                
-            } else {
-                ActionCompletion()
-            }
-        }
-        alertcontroller.addAction(Send)
-        alertcontroller.addAction(cancel)
-        vc.present(alertcontroller, animated: true, completion: nil)
-    }
+    
     func choose(vc: UIViewController,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
         let alertcontroller = UIAlertController(title: "Choose", message: "", preferredStyle: .actionSheet)
         
@@ -177,17 +86,3 @@ class Alert {
     }
 }
 
-extension UIAlertAction {
-    convenience init(title: String?, style: UIAlertAction.Style, image: UIImage, handler: ((UIAlertAction) -> Void)? = nil) {
-        self.init(title: title, style: style, handler: handler)
-        self.actionImage = image
-    }
-    var actionImage: UIImage {
-        get {
-            return self.value(forKey: "image") as? UIImage ?? UIImage()
-        }
-        set(image) {
-            self.setValue(image, forKey: "image")
-        }
-    }
-}

@@ -128,9 +128,6 @@
 /* Class = "UILabel"; text = "Label"; ObjectID = "GrG-gW-p02"; */
 "GrG-gW-p02.text" = "Label";
 
-/* Class = "UIButton"; normalTitle = "Language"; ObjectID = "HUM-mz-evR"; */
-"HUM-mz-evR.normalTitle" = "Language";
-
 /* Class = "UITextField"; placeholder = "Address 1"; ObjectID = "IHU-th-jO0"; */
 "IHU-th-jO0.placeholder" = "Address 1";
 
@@ -209,9 +206,6 @@
 /* Class = "UILabel"; text = "Label"; ObjectID = "PxH-Ca-TlX"; */
 "PxH-Ca-TlX.text" = "Label";
 
-/* Class = "UILabel"; text = "None"; ObjectID = "Q7S-Ey-hjw"; */
-"Q7S-Ey-hjw.text" = "None";
-
 /* Class = "UILabel"; text = "Label"; ObjectID = "Q8Q-4W-TzY"; */
 "Q8Q-4W-TzY.text" = "Label";
 
@@ -280,9 +274,6 @@
 
 /* Class = "UIButton"; normalTitle = "Click to select date"; ObjectID = "Wks-X8-gjg"; */
 "Wks-X8-gjg.normalTitle" = "Click to select date";
-
-/* Class = "UILabel"; text = "None"; ObjectID = "X5z-zF-b2c"; */
-"X5z-zF-b2c.text" = "None";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "XDW-R7-m1F"; */
 "XDW-R7-m1F.text" = "Label";
@@ -519,7 +510,7 @@
 "xG0-XP-02E.normalTitle" = "Don't have an account? Create new";
 
 /* Class = "UILabel"; text = "Standard Meal Timing Chart"; ObjectID = "xKo-VP-0KZ"; */
-"xKo-VP-0KZ.text" = "Standard Meal Timing Chartर्ट";
+"xKo-VP-0KZ.text" = "Standard Meal Timing Chart";
 
 /* Class = "UILabel"; text = "Other Allergy"; ObjectID = "y3N-vw-MAr"; */
 "y3N-vw-MAr.text" = "Other Allergy";

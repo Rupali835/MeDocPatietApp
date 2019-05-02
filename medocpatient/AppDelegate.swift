@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceTokenString: String?
     var notificationBadgeCount = Int(0)
     var fcm_token : String?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         IQKeyboardManager.shared.enable = true
@@ -46,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
+        
         notificationBadgeCount = 0
         application.registerForRemoteNotifications()
         self.registerForPushNotifications()
@@ -190,22 +192,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
     {
-        
-        //  let navigationController = self.window?.rootViewController as! UINavigationController
-        let LoggedByManager = UserDefaults.standard.bool(forKey: "LoggedByManager")
-        let LoggedByEmployee = UserDefaults.standard.bool(forKey: "LoggedByEmployee")
-        
-        if LoggedByManager == true {
-            NotificationCenter.default.post(name: NSNotification.Name("presentPendingVC"), object: self)
-        }
-        else if LoggedByEmployee == true{
-            
-        }
-        else {
-            
-        }
         let userInfo = response.notification.request.content.userInfo
-        
         print(userInfo)
     }
     

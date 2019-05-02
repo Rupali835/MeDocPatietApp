@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 protocol HealthListTableViewCelldelegate : class{
     func indexpath(cell: HealthListTableViewCell)
 }
@@ -15,6 +16,7 @@ class HealthListTableViewCell: UITableViewCell {
     @IBOutlet var title: UILabel!
     @IBOutlet var add: UIButton!
     weak var delegate: HealthListTableViewCelldelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

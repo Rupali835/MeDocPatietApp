@@ -145,14 +145,8 @@ class SelectionViewController: UIViewController {
             break;
         }
         UserDefaults.standard.synchronize()
-        
-//        if self.selectedrowdata.count == 0{
-//            self.view.showToast("Select \(navtitle.text!)", position: .bottom, popTime: 3.0
-//                , dismissOnTap: true)
-//        } else {
-            delegate.checkmarkdata(type: self.selected, Array: self.selectedrowdata)
-            self.dismiss(animated: true, completion: nil)
-       // }
+        delegate.checkmarkdata(type: self.selected, Array: self.selectedrowdata)
+        self.dismiss(animated: true, completion: nil)
     }
     @objc func Action_Cancel(){
         let str = self.selectedrowdata.joined(separator: " , ")

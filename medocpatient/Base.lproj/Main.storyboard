@@ -1087,10 +1087,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rAP-WH-ey4" customClass="GradientView" customModule="medocpatient" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="320" height="250"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="255.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cIx-t4-UOD">
-                                        <rect key="frame" x="0.0" y="150" width="320" height="100"/>
+                                        <rect key="frame" x="0.0" y="155.5" width="320" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lnr-mU-SDS">
                                                 <rect key="frame" x="16" y="73.5" width="288" height="21.5"/>
@@ -1149,7 +1149,7 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Irc-i0-Ngz">
-                                        <rect key="frame" x="85" y="74" width="150" height="150"/>
+                                        <rect key="frame" x="85" y="79.5" width="150" height="150"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="man" translatesAutoresizingMaskIntoConstraints="NO" id="iGw-1b-HUy">
                                                 <rect key="frame" x="15" y="15" width="120" height="120"/>
@@ -1168,7 +1168,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-MA-eFQ">
-                                        <rect key="frame" x="240" y="110" width="70" height="30"/>
+                                        <rect key="frame" x="240" y="115.5" width="70" height="30"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="dn6-wH-o1C"/>
@@ -1183,7 +1183,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUM-mz-evR">
-                                        <rect key="frame" x="10" y="110" width="35" height="35"/>
+                                        <rect key="frame" x="10" y="115.5" width="35" height="35"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="1zr-0z-q23"/>
@@ -1203,7 +1203,6 @@
                                 <constraints>
                                     <constraint firstItem="vHA-ce-ino" firstAttribute="top" secondItem="Afh-6R-WuG" secondAttribute="bottom" constant="5" id="3gq-QU-iGs"/>
                                     <constraint firstItem="vHA-ce-ino" firstAttribute="trailing" secondItem="Afh-6R-WuG" secondAttribute="trailing" id="40k-HJ-4Hk"/>
-                                    <constraint firstAttribute="height" constant="250" id="6IC-jY-xIH"/>
                                     <constraint firstItem="cIx-t4-UOD" firstAttribute="leading" secondItem="rAP-WH-ey4" secondAttribute="leading" id="7sD-El-prt"/>
                                     <constraint firstItem="cIx-t4-UOD" firstAttribute="top" secondItem="HUM-mz-evR" secondAttribute="bottom" constant="5" id="Gtg-5F-ZQt"/>
                                     <constraint firstItem="Irc-i0-Ngz" firstAttribute="centerX" secondItem="rAP-WH-ey4" secondAttribute="centerX" id="KOz-83-ztn"/>
@@ -1233,18 +1232,18 @@
                                 </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b3Y-bJ-SE6">
-                                <rect key="frame" x="0.0" y="270" width="320" height="298"/>
+                                <rect key="frame" x="0.0" y="275.5" width="320" height="292.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="291" id="znn-W2-BKD" customClass="PatientTableViewCell" customModule="medocpatient" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="291"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="236" id="znn-W2-BKD" customClass="PatientTableViewCell" customModule="medocpatient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="236"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="znn-W2-BKD" id="TFT-YV-PxE">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="291"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0vG-x0-bt3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="291"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="KNN-tV-g02">
                                                         <size key="itemSize" width="144" height="100"/>
@@ -1261,14 +1260,14 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q82-WM-Wxb">
-                                                                        <rect key="frame" x="47" y="20" width="50" height="50"/>
+                                                                        <rect key="frame" x="47" y="25" width="50" height="50"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="50" id="QnI-GE-tLh"/>
                                                                             <constraint firstAttribute="height" constant="50" id="tFI-nY-qf6"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnQ-BI-KCT">
-                                                                        <rect key="frame" x="0.0" y="70" width="144" height="17"/>
+                                                                        <rect key="frame" x="0.0" y="75" width="144" height="17"/>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
@@ -1277,11 +1276,11 @@
                                                             </view>
                                                             <color key="backgroundColor" red="1" green="0.99215686274509807" blue="1" alpha="0.47961258561643838" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstItem="q82-WM-Wxb" firstAttribute="top" secondItem="zLs-WP-ThR" secondAttribute="top" constant="20" id="OXo-JZ-pNZ"/>
                                                                 <constraint firstAttribute="trailing" secondItem="XnQ-BI-KCT" secondAttribute="trailing" id="RGM-uL-Mvg"/>
                                                                 <constraint firstItem="XnQ-BI-KCT" firstAttribute="leading" secondItem="zLs-WP-ThR" secondAttribute="leading" id="dns-5G-r3G"/>
                                                                 <constraint firstItem="XnQ-BI-KCT" firstAttribute="top" secondItem="q82-WM-Wxb" secondAttribute="bottom" id="nLi-zb-HLI"/>
                                                                 <constraint firstItem="q82-WM-Wxb" firstAttribute="centerX" secondItem="zLs-WP-ThR" secondAttribute="centerX" id="nWw-ZQ-Btb"/>
+                                                                <constraint firstItem="q82-WM-Wxb" firstAttribute="centerY" secondItem="zLs-WP-ThR" secondAttribute="centerY" id="uJN-rq-KUC"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="icon" destination="q82-WM-Wxb" id="ABW-Ug-LRP"/>
@@ -1312,25 +1311,17 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="2Cv-up-VxX"/>
                                 </connections>
                             </tableView>
-                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aWg-1V-tYG">
-                                <rect key="frame" x="0.0" y="568" width="320" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" id="QqE-9T-cgM"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.29803921570000003" green="0.68627450980000004" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="aWg-1V-tYG" secondAttribute="bottom" id="6Ac-gA-nNf"/>
                             <constraint firstItem="rAP-WH-ey4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="C2f-PS-rxl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="b3Y-bJ-SE6" secondAttribute="bottom" id="DsQ-GQ-KDj"/>
+                            <constraint firstAttribute="bottom" secondItem="b3Y-bJ-SE6" secondAttribute="bottom" id="DsQ-GQ-KDj"/>
                             <constraint firstItem="b3Y-bJ-SE6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="UKc-og-FL4"/>
                             <constraint firstItem="b3Y-bJ-SE6" firstAttribute="top" secondItem="rAP-WH-ey4" secondAttribute="bottom" id="dKn-JA-hi7"/>
                             <constraint firstItem="rAP-WH-ey4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mlH-v1-BuO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="b3Y-bJ-SE6" secondAttribute="trailing" id="p1q-rZ-U4z"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aWg-1V-tYG" secondAttribute="trailing" id="u5N-cD-xuk"/>
                             <constraint firstItem="rAP-WH-ey4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yVW-Jf-Ho5"/>
-                            <constraint firstItem="aWg-1V-tYG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zhv-7M-0z1"/>
+                            <constraint firstItem="rAP-WH-ey4" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.45" id="zRK-MH-7vH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -3255,15 +3246,12 @@
                         <outlet property="Address2TF" destination="62I-2m-JB2" id="dhI-yk-MAN"/>
                         <outlet property="BasicView" destination="9I4-Iw-tY9" id="QTq-32-zIL"/>
                         <outlet property="BloodGroupTF" destination="En1-U9-qNK" id="CWh-Sa-Z6L"/>
-                        <outlet property="CancerTF" destination="mK8-6G-5KK" id="BTa-dd-Ls4"/>
                         <outlet property="CityTF" destination="phF-pt-Cjj" id="AbR-Lv-Otr"/>
                         <outlet property="DateOfBirthTF" destination="axs-Ph-2Wu" id="pPn-Rf-HKW"/>
-                        <outlet property="DiebetesTF" destination="CPN-Lo-LMH" id="YsU-WV-5mV"/>
                         <outlet property="ECView" destination="vzB-7H-ecJ" id="Gd1-wD-0tG"/>
                         <outlet property="FirstEC_NameTF" destination="3Vu-Dd-P3P" id="Jah-4q-z5Z"/>
                         <outlet property="FirstEC_NumberTF" destination="KMl-nu-fCZ" id="Eqs-Cb-gEA"/>
                         <outlet property="FirstEC_RelationshipTF" destination="6vA-qq-qxE" id="Vng-jK-stX"/>
-                        <outlet property="FoodAllergyTF" destination="cgL-Dd-pcm" id="3CH-eG-kEP"/>
                         <outlet property="GuardianAddress1TF" destination="IHU-th-jO0" id="Vhn-hS-jXk"/>
                         <outlet property="GuardianAddress2TF" destination="OXo-8g-Me9" id="PxD-Q9-UU9"/>
                         <outlet property="GuardianCityTF" destination="Twy-eP-Okz" id="UrK-De-Y4T"/>
@@ -3272,24 +3260,7 @@
                         <outlet property="GuardianPincodeTF" destination="QF2-Iv-hHn" id="W8x-Gh-U3Z"/>
                         <outlet property="GuardianSubCityTF" destination="Kag-Mh-JLs" id="y0F-ne-kay"/>
                         <outlet property="GuardianView" destination="roK-8v-A40" id="2wg-PL-InU"/>
-                        <outlet property="HeartDiseaseTF" destination="ake-0i-V90" id="phm-EG-9vZ"/>
-                        <outlet property="HeightOFallergyView" destination="VZN-RE-WS3" id="cxu-1j-WBn"/>
-                        <outlet property="HeightOfCancerTF" destination="t9B-q7-qGs" id="6Xk-7E-RoP"/>
-                        <outlet property="HeightOfDiebetesTF" destination="e4J-Am-VCK" id="uBY-Y9-v7M"/>
-                        <outlet property="HeightOfFoodTF" destination="7vD-WW-hqm" id="CFX-eQ-s1i"/>
-                        <outlet property="HeightOfHeartDiseaseTF" destination="INM-NI-Ykt" id="nDI-cl-AFj"/>
-                        <outlet property="HeightOfInsectsTF" destination="20n-Ji-6bP" id="Wk9-Hs-34L"/>
-                        <outlet property="HeightOfLeukemiaTF" destination="BPJ-pk-lYf" id="mQZ-7W-OJz"/>
-                        <outlet property="HeightOfMedicinesTF" destination="pRD-lM-by7" id="x0z-wt-ijd"/>
-                        <outlet property="HeightOfPlantsTF" destination="joY-1S-XFW" id="TGX-wI-CFB"/>
-                        <outlet property="HeightOfRecentMedicalConditionTF" destination="Nsc-96-WqC" id="oip-8g-QRO"/>
-                        <outlet property="HeightOfRestrictionTF" destination="LF4-4v-QFT" id="keg-kt-3ig"/>
-                        <outlet property="HeightOfotherAllergyTF" destination="mQV-CA-kYM" id="Tpp-71-puf"/>
-                        <outlet property="InsectsTF" destination="RSv-3Z-o7o" id="GGn-Dd-2D4"/>
                         <outlet property="LastDoneView" destination="0lT-Cq-iB7" id="fEn-Nq-btc"/>
-                        <outlet property="LeukemiaTF" destination="kaa-ri-j5z" id="QVe-Kd-8yH"/>
-                        <outlet property="MIPView" destination="JGy-gS-QNH" id="8bQ-Pe-M1R"/>
-                        <outlet property="MedicinesAllergiesTF" destination="7zN-5V-ocQ" id="AnC-Fg-g2b"/>
                         <outlet property="MobileAddressView" destination="ZS1-Sd-eJz" id="dAp-rT-9zo"/>
                         <outlet property="MobileNumberTF" destination="UnG-Ib-maa" id="jZ5-bf-hCP"/>
                         <outlet property="NameTF" destination="dur-i5-jW0" id="XRG-sq-nQA"/>
@@ -3298,9 +3269,6 @@
                         <outlet property="PP_PolicyNumberTF" destination="RZZ-H8-IkP" id="AZS-Cw-i1l"/>
                         <outlet property="PP_PolicyTF" destination="PwJ-z3-nSf" id="bQb-aF-juy"/>
                         <outlet property="PatientTF" destination="NeA-rP-kJZ" id="rqh-Tq-eoC"/>
-                        <outlet property="PlantsTF" destination="Gie-Jz-Rba" id="WiQ-9c-Ei7"/>
-                        <outlet property="RecentMedicalConditionTF" destination="suf-8h-3Tl" id="Vf4-JY-sge"/>
-                        <outlet property="RestrictionTF" destination="53c-lb-6DY" id="Cax-BN-8VR"/>
                         <outlet property="Save" destination="Gf5-12-pLd" id="i1k-6v-FNP"/>
                         <outlet property="SecondEC_NameTF" destination="azz-NS-CA7" id="z1Z-bb-x4Q"/>
                         <outlet property="SecondEC_NumberTF" destination="ZiX-9z-P6j" id="w4b-ry-dLI"/>
@@ -3308,8 +3276,6 @@
                         <outlet property="SubCityTF" destination="izi-6B-fzE" id="OGN-Md-veS"/>
                         <outlet property="addProfileImage" destination="l1y-EL-3pM" id="Guw-Mk-Zfk"/>
                         <outlet property="age" destination="PPv-wX-sKY" id="Mxi-eK-1mF"/>
-                        <outlet property="allergyView" destination="Taw-ue-5ls" id="Aim-Eu-njv"/>
-                        <outlet property="bottomContraint" destination="FIb-e5-Ry8" id="qTv-nN-oVf"/>
                         <outlet property="btn_add_Envirormentallergy" destination="OdA-RN-xHi" id="ZY3-ig-apE"/>
                         <outlet property="btn_add_drugallergy" destination="Dgr-JB-Tc9" id="4mQ-2a-8Dn"/>
                         <outlet property="btn_add_familyhistory" destination="DAN-Li-qhe" id="jRH-Ja-b5o"/>
@@ -3326,36 +3292,11 @@
                         <outlet property="lbl_data_geneticdisorder" destination="F2h-Qq-lra" id="LEt-Aq-n9O"/>
                         <outlet property="lbl_data_knowncondition" destination="e8g-KL-qlp" id="RkL-eD-p0B"/>
                         <outlet property="medical_scrollview" destination="HAF-1e-mB6" id="btO-Ea-LXg"/>
-                        <outlet property="otherAllergyTF" destination="S04-dZ-EQg" id="0FD-WI-f5v"/>
                         <outlet property="pincodeTF" destination="asD-gw-OaK" id="XYf-Qk-kn6"/>
                         <outlet property="segment_typeview" destination="dce-cZ-lRg" id="Cyn-lW-byf"/>
                         <outletCollection property="GenderRadio" destination="Gen-Ep-WcG" collectionClass="NSMutableArray" id="1Co-9p-qNn"/>
                         <outletCollection property="GenderRadio" destination="TFp-JF-VSf" collectionClass="NSMutableArray" id="LCf-Lg-cwN"/>
                         <outletCollection property="GenderRadio" destination="Asv-xI-SVX" collectionClass="NSMutableArray" id="86O-Ce-s6q"/>
-                        <outletCollection property="PlantsRadio" destination="sqT-N4-dxe" collectionClass="NSMutableArray" id="Mfr-bc-axr"/>
-                        <outletCollection property="PlantsRadio" destination="Qw3-0d-1dQ" collectionClass="NSMutableArray" id="mQ7-Jr-pyn"/>
-                        <outletCollection property="otherAllergyRadio" destination="NJ0-em-WGM" collectionClass="NSMutableArray" id="RuB-tG-YQG"/>
-                        <outletCollection property="otherAllergyRadio" destination="16y-b9-AYe" collectionClass="NSMutableArray" id="HzX-OQ-yU4"/>
-                        <outletCollection property="InsectsRadio" destination="ag1-fo-CRa" collectionClass="NSMutableArray" id="gGZ-a0-3Rx"/>
-                        <outletCollection property="FoodRadio" destination="AOh-UN-GjF" collectionClass="NSMutableArray" id="gWN-vF-fOC"/>
-                        <outletCollection property="InsectsRadio" destination="aK2-JO-40V" collectionClass="NSMutableArray" id="wSA-fp-ldM"/>
-                        <outletCollection property="MedicinesRadio" destination="xi6-Pe-y4g" collectionClass="NSMutableArray" id="ppW-Pa-ogq"/>
-                        <outletCollection property="FoodRadio" destination="pdc-mY-YJD" collectionClass="NSMutableArray" id="d9f-ff-NSk"/>
-                        <outletCollection property="MedicinesRadio" destination="q7a-72-bcM" collectionClass="NSMutableArray" id="JkK-RR-sFJ"/>
-                        <outletCollection property="LeukemiaRadio" destination="ES4-rq-aj2" collectionClass="NSMutableArray" id="t5i-zr-Fve"/>
-                        <outletCollection property="CancerRadio" destination="PG1-oL-uPY" collectionClass="NSMutableArray" id="tXD-dF-hHK"/>
-                        <outletCollection property="CancerRadio" destination="fRy-UE-PO7" collectionClass="NSMutableArray" id="qLY-3U-JxR"/>
-                        <outletCollection property="LeukemiaRadio" destination="xRq-82-LCc" collectionClass="NSMutableArray" id="Ui5-fq-wRx"/>
-                        <outletCollection property="RestrictionRadio" destination="yj2-aa-jwK" collectionClass="NSMutableArray" id="hfw-81-qyD"/>
-                        <outletCollection property="RecentMedicalConditionRadio" destination="Otj-8j-j1m" collectionClass="NSMutableArray" id="R8q-Dh-Cwo"/>
-                        <outletCollection property="DiebetesRadio" destination="Tqt-d1-rlb" collectionClass="NSMutableArray" id="Kb6-8X-oA9"/>
-                        <outletCollection property="RecentMedicalConditionRadio" destination="JdW-BX-7jx" collectionClass="NSMutableArray" id="x4I-95-9U9"/>
-                        <outletCollection property="DiebetesRadio" destination="SJ7-V8-NyZ" collectionClass="NSMutableArray" id="JTs-h8-EZJ"/>
-                        <outletCollection property="HeartDiseaseRadio" destination="f4c-7M-N38" collectionClass="NSMutableArray" id="5uE-6R-YhU"/>
-                        <outletCollection property="HeartDiseaseRadio" destination="LCg-Kj-Ch0" collectionClass="NSMutableArray" id="Uxw-e3-Tyd"/>
-                        <outletCollection property="RestrictionRadio" destination="mmM-T4-GBo" collectionClass="NSMutableArray" id="hpJ-vC-mCG"/>
-                        <outletCollection property="AllergyRadio" destination="le9-Zn-Kxg" collectionClass="NSMutableArray" id="NTp-zU-BhT"/>
-                        <outletCollection property="AllergyRadio" destination="i6G-NP-lY0" collectionClass="NSMutableArray" id="ZvE-hL-bgi"/>
                         <outletCollection property="btn_selectdates" destination="gh9-gc-PLC" collectionClass="NSMutableArray" id="rxF-7Z-daD"/>
                         <outletCollection property="btn_selectdates" destination="exV-2L-iQI" collectionClass="NSMutableArray" id="SOY-e6-Q9l"/>
                         <outletCollection property="btn_selectdates" destination="GCT-Yr-9QB" collectionClass="NSMutableArray" id="qZv-TE-Ezi"/>
@@ -3500,934 +3441,6 @@
             </objects>
             <point key="canvasLocation" x="1796" y="2424"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Gaa-v4-iwV">
-            <objects>
-                <viewController id="AWO-gB-iTl" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="J0r-S8-PCX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1200"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Taw-ue-5ls">
-                                <rect key="frame" x="0.0" y="70" width="320" height="404"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergic From Food" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fXg-vc-xfh">
-                                        <rect key="frame" x="8" y="5" width="196" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SyM-7P-Bio">
-                                        <rect key="frame" x="212" y="-2" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOh-UN-GjF" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="FoodYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="sMz-zj-O1v"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdc-mY-YJD" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="FoodYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="G1Y-ls-lZC"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="tLs-xT-Vb2"/>
-                                        </constraints>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cgL-Dd-pcm" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="8" y="32" width="304" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="7vD-WW-hqm"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergic From Medicine" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0zc-wY-IPP">
-                                        <rect key="frame" x="8" y="87" width="196" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7zN-5V-ocQ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="8" y="113.5" width="304" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="pRD-lM-by7"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZF8-e7-NbL">
-                                        <rect key="frame" x="212" y="79.5" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xi6-Pe-y4g" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="MedicineYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="CPs-M0-wJa"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7a-72-bcM" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="MedicineYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="uni-Xp-4dF"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="5kt-cA-4Fh"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergic From Plants" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VK5-Bo-1Ed">
-                                        <rect key="frame" x="8" y="168.5" width="196" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gie-Jz-Rba" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="8" y="195.5" width="304" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="joY-1S-XFW"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rXH-gG-TBg">
-                                        <rect key="frame" x="212" y="161.5" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqT-N4-dxe" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="PlantsYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="1hx-5U-NBv"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="16" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qw3-0d-1dQ" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="PlantsYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="IFe-z6-Aa8"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="dwB-jZ-kfm"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergic From Insects" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHp-9F-kjh">
-                                        <rect key="frame" x="8" y="250.5" width="196" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RSv-3Z-o7o" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="8" y="277" width="304" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="20n-Ji-6bP"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Y4l-ye-9no">
-                                        <rect key="frame" x="212" y="243" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="17" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aK2-JO-40V" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="InsectsYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="Ick-pJ-oY8"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="18" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ag1-fo-CRa" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="InsectsYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="rkp-9U-MIA"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="Hdh-3I-0Ca"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other Allergy" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y3N-vw-MAr">
-                                        <rect key="frame" x="8" y="332" width="196" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S04-dZ-EQg" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="8" y="359" width="304" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="mQV-CA-kYM"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cA1-WB-qYj">
-                                        <rect key="frame" x="212" y="325" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="29" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16y-b9-AYe" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="otherAllergyYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="RL7-5Y-Slx"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJ0-em-WGM" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="otherAllergyYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="4wO-rK-bmk"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="pI8-Kb-7yy"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="rXH-gG-TBg" firstAttribute="trailing" secondItem="7zN-5V-ocQ" secondAttribute="trailing" id="0WH-fd-IGG"/>
-                                    <constraint firstItem="RSv-3Z-o7o" firstAttribute="trailing" secondItem="Gie-Jz-Rba" secondAttribute="trailing" id="1FH-m7-Vay"/>
-                                    <constraint firstItem="fXg-vc-xfh" firstAttribute="leading" secondItem="Taw-ue-5ls" secondAttribute="leading" constant="8" id="4cn-jn-89t"/>
-                                    <constraint firstItem="Y4l-ye-9no" firstAttribute="trailing" secondItem="Gie-Jz-Rba" secondAttribute="trailing" id="4r1-WA-GdT"/>
-                                    <constraint firstItem="VK5-Bo-1Ed" firstAttribute="top" secondItem="7zN-5V-ocQ" secondAttribute="bottom" constant="15" id="4yl-aJ-CLC"/>
-                                    <constraint firstItem="y3N-vw-MAr" firstAttribute="top" secondItem="RSv-3Z-o7o" secondAttribute="bottom" constant="15" id="59s-Vy-8iv"/>
-                                    <constraint firstItem="rXH-gG-TBg" firstAttribute="leading" secondItem="VK5-Bo-1Ed" secondAttribute="trailing" constant="8" id="5xh-7R-WoE"/>
-                                    <constraint firstItem="cA1-WB-qYj" firstAttribute="leading" secondItem="y3N-vw-MAr" secondAttribute="trailing" constant="8" id="8dR-sK-CTE"/>
-                                    <constraint firstItem="cgL-Dd-pcm" firstAttribute="leading" secondItem="fXg-vc-xfh" secondAttribute="leading" id="8fi-Pb-XaO"/>
-                                    <constraint firstItem="cgL-Dd-pcm" firstAttribute="trailing" secondItem="SyM-7P-Bio" secondAttribute="trailing" id="9SV-mP-n9p"/>
-                                    <constraint firstItem="SyM-7P-Bio" firstAttribute="leading" secondItem="fXg-vc-xfh" secondAttribute="trailing" constant="8" id="AHA-HL-mbC"/>
-                                    <constraint firstItem="Gie-Jz-Rba" firstAttribute="leading" secondItem="7zN-5V-ocQ" secondAttribute="leading" id="BhQ-Sd-yW6"/>
-                                    <constraint firstItem="RSv-3Z-o7o" firstAttribute="leading" secondItem="Gie-Jz-Rba" secondAttribute="leading" id="Esg-zq-kUf"/>
-                                    <constraint firstAttribute="bottom" secondItem="S04-dZ-EQg" secondAttribute="bottom" constant="5" id="FIb-e5-Ry8"/>
-                                    <constraint firstItem="VK5-Bo-1Ed" firstAttribute="leading" secondItem="7zN-5V-ocQ" secondAttribute="leading" id="FcP-ZL-Eun"/>
-                                    <constraint firstItem="ZF8-e7-NbL" firstAttribute="leading" secondItem="0zc-wY-IPP" secondAttribute="trailing" constant="8" id="H1n-yW-cMS"/>
-                                    <constraint firstItem="SyM-7P-Bio" firstAttribute="centerY" secondItem="fXg-vc-xfh" secondAttribute="centerY" id="Huc-bC-3MS"/>
-                                    <constraint firstItem="ZF8-e7-NbL" firstAttribute="trailing" secondItem="cgL-Dd-pcm" secondAttribute="trailing" id="Ic4-7p-cMT"/>
-                                    <constraint firstItem="cgL-Dd-pcm" firstAttribute="top" secondItem="SyM-7P-Bio" secondAttribute="bottom" id="JbH-Fs-dmY"/>
-                                    <constraint firstAttribute="trailing" secondItem="SyM-7P-Bio" secondAttribute="trailing" constant="8" id="Nmo-Yr-qgU"/>
-                                    <constraint firstItem="7zN-5V-ocQ" firstAttribute="leading" secondItem="0zc-wY-IPP" secondAttribute="leading" id="Olc-UZ-tZE"/>
-                                    <constraint firstItem="Y4l-ye-9no" firstAttribute="centerY" secondItem="YHp-9F-kjh" secondAttribute="centerY" id="Uww-DS-WlU"/>
-                                    <constraint firstItem="S04-dZ-EQg" firstAttribute="trailing" secondItem="cA1-WB-qYj" secondAttribute="trailing" id="V7r-ji-r5O"/>
-                                    <constraint firstAttribute="height" priority="250" constant="427" id="VZN-RE-WS3"/>
-                                    <constraint firstItem="fXg-vc-xfh" firstAttribute="top" secondItem="Taw-ue-5ls" secondAttribute="top" constant="5" id="Z8I-bF-RZP"/>
-                                    <constraint firstItem="RSv-3Z-o7o" firstAttribute="top" secondItem="Y4l-ye-9no" secondAttribute="bottom" id="bFW-HD-rxv"/>
-                                    <constraint firstItem="7zN-5V-ocQ" firstAttribute="trailing" secondItem="ZF8-e7-NbL" secondAttribute="trailing" id="bHr-Vf-7YC"/>
-                                    <constraint firstItem="Gie-Jz-Rba" firstAttribute="top" secondItem="rXH-gG-TBg" secondAttribute="bottom" id="cDt-9E-uSM"/>
-                                    <constraint firstItem="rXH-gG-TBg" firstAttribute="centerY" secondItem="VK5-Bo-1Ed" secondAttribute="centerY" id="epI-Xd-fjf"/>
-                                    <constraint firstItem="y3N-vw-MAr" firstAttribute="leading" secondItem="RSv-3Z-o7o" secondAttribute="leading" id="fFz-jK-jYG"/>
-                                    <constraint firstItem="S04-dZ-EQg" firstAttribute="leading" secondItem="y3N-vw-MAr" secondAttribute="leading" id="fqF-EL-ANF"/>
-                                    <constraint firstItem="Y4l-ye-9no" firstAttribute="leading" secondItem="YHp-9F-kjh" secondAttribute="trailing" constant="8" id="g8l-cv-m15"/>
-                                    <constraint firstItem="7zN-5V-ocQ" firstAttribute="top" secondItem="ZF8-e7-NbL" secondAttribute="bottom" id="hvk-dl-Ng4"/>
-                                    <constraint firstItem="YHp-9F-kjh" firstAttribute="top" secondItem="Gie-Jz-Rba" secondAttribute="bottom" constant="15" id="iTF-0f-hRH"/>
-                                    <constraint firstItem="0zc-wY-IPP" firstAttribute="top" secondItem="cgL-Dd-pcm" secondAttribute="bottom" constant="15" id="oTw-J3-cuY"/>
-                                    <constraint firstItem="0zc-wY-IPP" firstAttribute="leading" secondItem="fXg-vc-xfh" secondAttribute="leading" id="qMo-D6-wcd"/>
-                                    <constraint firstItem="ZF8-e7-NbL" firstAttribute="centerY" secondItem="0zc-wY-IPP" secondAttribute="centerY" id="qm6-h5-kGO"/>
-                                    <constraint firstItem="YHp-9F-kjh" firstAttribute="leading" secondItem="Gie-Jz-Rba" secondAttribute="leading" id="rgi-Eq-FGw"/>
-                                    <constraint firstItem="cA1-WB-qYj" firstAttribute="trailing" secondItem="RSv-3Z-o7o" secondAttribute="trailing" id="tyO-YN-Oox"/>
-                                    <constraint firstItem="0zc-wY-IPP" firstAttribute="leading" secondItem="cgL-Dd-pcm" secondAttribute="leading" id="vb1-7S-XMs"/>
-                                    <constraint firstItem="S04-dZ-EQg" firstAttribute="top" secondItem="cA1-WB-qYj" secondAttribute="bottom" id="wRI-RW-TnS"/>
-                                    <constraint firstItem="Gie-Jz-Rba" firstAttribute="trailing" secondItem="7zN-5V-ocQ" secondAttribute="trailing" id="yNr-tm-Ery"/>
-                                    <constraint firstItem="cA1-WB-qYj" firstAttribute="centerY" secondItem="y3N-vw-MAr" secondAttribute="centerY" id="zUL-6O-6ru"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xFJ-m3-32q">
-                                <rect key="frame" x="0.0" y="474" width="320" height="586"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaa-ri-j5z" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="277" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="BPJ-pk-lYf"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qqG-Z6-PUV">
-                                        <rect key="frame" x="220" y="79.5" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="23" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRy-UE-PO7" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="CancerYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="oxO-Ea-xAX"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="24" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PG1-oL-uPY" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="CancerYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="9AS-8L-WWF"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="cwy-wS-Ie6"/>
-                                        </constraints>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mK8-6G-5KK" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="113.5" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="t9B-q7-qGs"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-fn-mya">
-                                        <rect key="frame" x="0.0" y="86.5" width="212" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="f6T-Cf-Pw4">
-                                        <rect key="frame" x="220" y="161" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="25" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCg-Kj-Ch0" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="HeartDiseaseYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="jt8-DE-IFP"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="26" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4c-7M-N38" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="HeartDiseaseYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="0hn-Ou-swh"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="WM8-Ic-DaL"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leukemia" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tna-ph-ACx">
-                                        <rect key="frame" x="0.0" y="250" width="212" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CPN-Lo-LMH" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="31.5" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="e4J-Am-VCK"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xbn-iA-faK">
-                                        <rect key="frame" x="220" y="-2.5" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="21" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJ7-V8-NyZ" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="DiebetesYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="VMA-5Y-TBF"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-d1-rlb" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="DiebetesYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="jxv-Di-6W2"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="zaf-LB-jQT"/>
-                                        </constraints>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ake-0i-V90" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="195" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="INM-NI-Ykt"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diebetes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZt-Pr-aac">
-                                        <rect key="frame" x="0.0" y="5" width="220" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3fg-0b-M22">
-                                        <rect key="frame" x="220" y="243" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="27" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRq-82-LCc" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="LeukemiaYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="h6q-V2-UjH"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="28" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ES4-rq-aj2" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="LeukemiaYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="nrT-0s-xnN"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="tJM-Y7-gil"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heart Disease" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dF0-Zj-Vpd">
-                                        <rect key="frame" x="0.0" y="168.5" width="212" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="53c-lb-6DY" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="413.5" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="LF4-4v-QFT"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ya3-t2-KQJ">
-                                        <rect key="frame" x="220" y="353" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="31" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmM-T4-GBo" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="RestrictionYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="9Xu-la-Zmy"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="32" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yj2-aa-jwK" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="RestrictionYesOrNoWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="sA6-XM-AyE"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="Rbc-De-YmF"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restriction From Any Physical Ability (eg: Swimming , Gym, Weight Lifting , etc.)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ar-6J-vuX">
-                                        <rect key="frame" x="0.0" y="332" width="212" height="76.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKH-lt-8uB">
-                                        <rect key="frame" x="0.0" y="468.5" width="212" height="57.5"/>
-                                        <string key="text">Recent Medical Condition
-(Hospitalization,Surgery,Accident,etc..)</string>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="caF-Rz-SGq">
-                                        <rect key="frame" x="220" y="480" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdW-BX-7jx" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="RecentMedicalConditionActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="fGJ-zv-mhV"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otj-8j-j1m" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="RecentMedicalConditionActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="Fe9-bE-6WK"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="6Oz-rP-LtJ"/>
-                                        </constraints>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="If Yes Then Explain About" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="suf-8h-3Tl" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="536" width="320" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="Nsc-96-WqC"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="dF0-Zj-Vpd" firstAttribute="top" secondItem="mK8-6G-5KK" secondAttribute="bottom" constant="15" id="2CI-60-aoE"/>
-                                    <constraint firstItem="dF0-Zj-Vpd" firstAttribute="leading" secondItem="mK8-6G-5KK" secondAttribute="leading" id="2js-4A-lxZ"/>
-                                    <constraint firstItem="f6T-Cf-Pw4" firstAttribute="leading" secondItem="dF0-Zj-Vpd" secondAttribute="trailing" constant="8" id="5Qd-21-jc2"/>
-                                    <constraint firstItem="tna-ph-ACx" firstAttribute="top" secondItem="ake-0i-V90" secondAttribute="bottom" constant="15" id="6Cv-Ep-scH"/>
-                                    <constraint firstItem="tna-ph-ACx" firstAttribute="leading" secondItem="dF0-Zj-Vpd" secondAttribute="leading" id="8df-GE-ioj"/>
-                                    <constraint firstItem="ake-0i-V90" firstAttribute="top" secondItem="f6T-Cf-Pw4" secondAttribute="bottom" id="AA2-L7-iTU"/>
-                                    <constraint firstItem="caF-Rz-SGq" firstAttribute="trailing" secondItem="53c-lb-6DY" secondAttribute="trailing" id="ADL-jY-swo"/>
-                                    <constraint firstItem="CPN-Lo-LMH" firstAttribute="leading" secondItem="xFJ-m3-32q" secondAttribute="leading" id="AMS-uE-dK8"/>
-                                    <constraint firstItem="fVG-fn-mya" firstAttribute="leading" secondItem="CPN-Lo-LMH" secondAttribute="leading" id="Ax4-Kn-Efg"/>
-                                    <constraint firstAttribute="trailing" secondItem="CPN-Lo-LMH" secondAttribute="trailing" id="Ben-X7-WAb"/>
-                                    <constraint firstItem="kaa-ri-j5z" firstAttribute="trailing" secondItem="ake-0i-V90" secondAttribute="trailing" id="Bvt-lY-aGK"/>
-                                    <constraint firstItem="kaa-ri-j5z" firstAttribute="leading" secondItem="ake-0i-V90" secondAttribute="leading" id="CU0-jh-z7c"/>
-                                    <constraint firstItem="53c-lb-6DY" firstAttribute="top" secondItem="5ar-6J-vuX" secondAttribute="bottom" constant="5" id="Dep-aZ-itz"/>
-                                    <constraint firstItem="f6T-Cf-Pw4" firstAttribute="trailing" secondItem="mK8-6G-5KK" secondAttribute="trailing" id="I9h-Bg-DXc"/>
-                                    <constraint firstAttribute="bottom" secondItem="suf-8h-3Tl" secondAttribute="bottom" constant="10" id="IG3-4W-to0"/>
-                                    <constraint firstItem="YZt-Pr-aac" firstAttribute="top" secondItem="xFJ-m3-32q" secondAttribute="top" constant="5" id="Izm-f4-pkS"/>
-                                    <constraint firstItem="qqG-Z6-PUV" firstAttribute="trailing" secondItem="CPN-Lo-LMH" secondAttribute="trailing" id="Lze-es-ju9"/>
-                                    <constraint firstItem="caF-Rz-SGq" firstAttribute="leading" secondItem="oKH-lt-8uB" secondAttribute="trailing" constant="8" id="NWW-d3-dWJ"/>
-                                    <constraint firstItem="53c-lb-6DY" firstAttribute="trailing" secondItem="kaa-ri-j5z" secondAttribute="trailing" id="QUM-aw-Nmm"/>
-                                    <constraint firstItem="oKH-lt-8uB" firstAttribute="top" secondItem="53c-lb-6DY" secondAttribute="bottom" constant="15" id="SbT-RX-1RN"/>
-                                    <constraint firstItem="kaa-ri-j5z" firstAttribute="top" secondItem="3fg-0b-M22" secondAttribute="bottom" id="ShX-e9-vNZ"/>
-                                    <constraint firstItem="Ya3-t2-KQJ" firstAttribute="trailing" secondItem="kaa-ri-j5z" secondAttribute="trailing" id="TsN-Zr-5Ob"/>
-                                    <constraint firstItem="mK8-6G-5KK" firstAttribute="leading" secondItem="CPN-Lo-LMH" secondAttribute="leading" id="UTG-J2-EAU"/>
-                                    <constraint firstItem="f6T-Cf-Pw4" firstAttribute="centerY" secondItem="dF0-Zj-Vpd" secondAttribute="centerY" id="Uiu-LK-3Gg"/>
-                                    <constraint firstAttribute="trailing" secondItem="xbn-iA-faK" secondAttribute="trailing" id="Usd-zk-6B9"/>
-                                    <constraint firstItem="suf-8h-3Tl" firstAttribute="leading" secondItem="53c-lb-6DY" secondAttribute="leading" id="Vq8-dV-O4y"/>
-                                    <constraint firstItem="5ar-6J-vuX" firstAttribute="leading" secondItem="kaa-ri-j5z" secondAttribute="leading" id="W4H-gr-yNV"/>
-                                    <constraint firstItem="suf-8h-3Tl" firstAttribute="top" secondItem="oKH-lt-8uB" secondAttribute="bottom" constant="10" id="WRU-3m-8b8"/>
-                                    <constraint firstItem="suf-8h-3Tl" firstAttribute="trailing" secondItem="53c-lb-6DY" secondAttribute="trailing" id="XTq-gP-Aqe"/>
-                                    <constraint firstItem="qqG-Z6-PUV" firstAttribute="centerY" secondItem="fVG-fn-mya" secondAttribute="centerY" id="Xdw-bD-suY"/>
-                                    <constraint firstItem="Ya3-t2-KQJ" firstAttribute="leading" secondItem="5ar-6J-vuX" secondAttribute="trailing" constant="8" id="Zvk-mE-C1m"/>
-                                    <constraint firstItem="CPN-Lo-LMH" firstAttribute="top" secondItem="xbn-iA-faK" secondAttribute="bottom" id="aA4-tB-3Cg"/>
-                                    <constraint firstItem="fVG-fn-mya" firstAttribute="top" secondItem="CPN-Lo-LMH" secondAttribute="bottom" constant="15" id="aiu-WY-SCf"/>
-                                    <constraint firstItem="3fg-0b-M22" firstAttribute="trailing" secondItem="f6T-Cf-Pw4" secondAttribute="trailing" id="dPn-2H-HTz"/>
-                                    <constraint firstItem="xbn-iA-faK" firstAttribute="centerY" secondItem="YZt-Pr-aac" secondAttribute="centerY" id="eFO-QM-gMk"/>
-                                    <constraint firstItem="ake-0i-V90" firstAttribute="leading" secondItem="mK8-6G-5KK" secondAttribute="leading" id="gWQ-ka-QOB"/>
-                                    <constraint firstItem="5ar-6J-vuX" firstAttribute="top" secondItem="kaa-ri-j5z" secondAttribute="bottom" constant="15" id="hg5-IL-JZ7"/>
-                                    <constraint firstItem="xbn-iA-faK" firstAttribute="leading" secondItem="YZt-Pr-aac" secondAttribute="trailing" id="iO0-nz-Yld"/>
-                                    <constraint firstItem="mK8-6G-5KK" firstAttribute="trailing" secondItem="CPN-Lo-LMH" secondAttribute="trailing" id="mAB-95-Lht"/>
-                                    <constraint firstItem="YZt-Pr-aac" firstAttribute="leading" secondItem="xFJ-m3-32q" secondAttribute="leading" id="mnS-fB-sNb"/>
-                                    <constraint firstItem="oKH-lt-8uB" firstAttribute="leading" secondItem="5ar-6J-vuX" secondAttribute="leading" id="mqv-fb-dAy"/>
-                                    <constraint firstItem="3fg-0b-M22" firstAttribute="centerY" secondItem="tna-ph-ACx" secondAttribute="centerY" id="o5e-QC-F9l"/>
-                                    <constraint firstItem="ake-0i-V90" firstAttribute="trailing" secondItem="mK8-6G-5KK" secondAttribute="trailing" id="oVM-bT-Sbc"/>
-                                    <constraint firstItem="mK8-6G-5KK" firstAttribute="top" secondItem="qqG-Z6-PUV" secondAttribute="bottom" id="s0D-eO-qBJ"/>
-                                    <constraint firstItem="qqG-Z6-PUV" firstAttribute="leading" secondItem="fVG-fn-mya" secondAttribute="trailing" constant="8" id="uwA-Yv-rns"/>
-                                    <constraint firstItem="caF-Rz-SGq" firstAttribute="centerY" secondItem="oKH-lt-8uB" secondAttribute="centerY" id="wH2-9P-1xs"/>
-                                    <constraint firstItem="Ya3-t2-KQJ" firstAttribute="centerY" secondItem="5ar-6J-vuX" secondAttribute="centerY" id="wOf-rY-MPZ"/>
-                                    <constraint firstItem="3fg-0b-M22" firstAttribute="leading" secondItem="tna-ph-ACx" secondAttribute="trailing" constant="8" id="xr6-0h-SFi"/>
-                                    <constraint firstAttribute="height" priority="250" constant="670" id="zQL-Lg-fFU"/>
-                                    <constraint firstItem="53c-lb-6DY" firstAttribute="leading" secondItem="kaa-ri-j5z" secondAttribute="leading" id="zVi-b2-y5n"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGy-gS-QNH">
-                                <rect key="frame" x="8" y="20" width="310" height="50"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do You Have Any Allergy?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0aE-dF-uSx">
-                                        <rect key="frame" x="8" y="10" width="180.5" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                        <color key="textColor" red="0.4039215686" green="0.2274509804" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Yur-RU-BnN">
-                                        <rect key="frame" x="188.5" y="2" width="100" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6G-NP-lY0" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Yes"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="AllergyRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="uZm-C8-1tJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="le9-Zn-Kxg" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
-                                                <rect key="frame" x="55" y="0.0" width="45" height="34"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="No"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
-                                                        <real key="value" value="13"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="AllergyRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="Pcu-BS-5aT"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="BXc-Jh-7Ft"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Yur-RU-BnN" secondAttribute="trailing" id="5xo-7G-4pQ"/>
-                                    <constraint firstItem="0aE-dF-uSx" firstAttribute="leading" secondItem="JGy-gS-QNH" secondAttribute="leading" constant="8" id="Dn7-da-Xgl"/>
-                                    <constraint firstItem="Yur-RU-BnN" firstAttribute="leading" secondItem="0aE-dF-uSx" secondAttribute="trailing" id="Lxe-Ia-0ji"/>
-                                    <constraint firstItem="0aE-dF-uSx" firstAttribute="top" secondItem="JGy-gS-QNH" secondAttribute="top" constant="10" id="Rh2-sL-0E8"/>
-                                    <constraint firstItem="Yur-RU-BnN" firstAttribute="centerY" secondItem="0aE-dF-uSx" secondAttribute="centerY" id="X6z-ak-34a"/>
-                                    <constraint firstAttribute="height" constant="50" id="g8l-EF-8to"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Taw-ue-5ls" firstAttribute="top" secondItem="JGy-gS-QNH" secondAttribute="bottom" id="3bT-8f-PNS"/>
-                            <constraint firstItem="Taw-ue-5ls" firstAttribute="leading" secondItem="J0r-S8-PCX" secondAttribute="leading" id="TaL-0P-eb3"/>
-                            <constraint firstItem="Taw-ue-5ls" firstAttribute="top" secondItem="JGy-gS-QNH" secondAttribute="bottom" id="fJe-bi-wAr"/>
-                            <constraint firstAttribute="trailing" secondItem="Taw-ue-5ls" secondAttribute="trailing" id="fcL-Gf-Mam"/>
-                            <constraint firstItem="xFJ-m3-32q" firstAttribute="top" secondItem="Taw-ue-5ls" secondAttribute="bottom" id="geX-mx-vWz"/>
-                            <constraint firstItem="JGy-gS-QNH" firstAttribute="top" secondItem="tbw-cH-tjg" secondAttribute="top" id="nac-Ad-zcZ"/>
-                            <constraint firstItem="tbw-cH-tjg" firstAttribute="trailing" secondItem="xFJ-m3-32q" secondAttribute="trailing" id="odY-3a-CJN"/>
-                            <constraint firstItem="xFJ-m3-32q" firstAttribute="leading" secondItem="J0r-S8-PCX" secondAttribute="leading" id="qaK-rg-JbT"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="tbw-cH-tjg"/>
-                    </view>
-                    <size key="freeformSize" width="320" height="1200"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w3F-XU-xg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-10841" y="1157"/>
-        </scene>
         <!--Contact Us View Controller-->
         <scene sceneID="EaD-fd-nMz">
             <objects>
@@ -4567,111 +3580,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5pt-M1-t8i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2456.25" y="1693.3098591549297"/>
-        </scene>
-        <!--Page View Controller-->
-        <scene sceneID="HMc-yC-Ry2">
-            <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="76L-e4-10K" customClass="PageViewController" customModule="medocpatient" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YhM-4C-eKq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-10804" y="164"/>
-        </scene>
-        <!--Get Started View Controller-->
-        <scene sceneID="dlb-0s-poF">
-            <objects>
-                <viewController storyboardIdentifier="GetStartedViewController" id="lIa-Ej-huG" customClass="GetStartedViewController" customModule="medocpatient" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hh7-oV-bAW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PatientExplaning.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="rhS-ww-SMe">
-                                <rect key="frame" x="8" y="20" width="304" height="348"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSC-m2-1TG">
-                                <rect key="frame" x="0.0" y="368" width="320" height="200"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="D2f-Vk-get">
-                                        <rect key="frame" x="8" y="84" width="304" height="50"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoE-5b-Xzt">
-                                                <rect key="frame" x="0.0" y="0.0" width="149.5" height="50"/>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal" title="Sign in">
-                                                    <color key="titleColor" red="0.29803921570000003" green="0.68627450980000004" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SiE-Xf-cAh">
-                                                <rect key="frame" x="154.5" y="0.0" width="149.5" height="50"/>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal" title="Sign up">
-                                                    <color key="titleColor" red="0.29803921570000003" green="0.68627450980000004" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="Gag-lw-3gE"/>
-                                        </constraints>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RT5-hz-SlA">
-                                        <rect key="frame" x="8" y="8" width="304" height="24"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Started With" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pMm-Kj-6Pa">
-                                        <rect key="frame" x="8" y="42" width="304" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2018 Kanishka Software. All rights Reserved. Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKH-Eq-CK0">
-                                        <rect key="frame" x="8" y="144" width="304" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="pMm-Kj-6Pa" firstAttribute="leading" secondItem="RT5-hz-SlA" secondAttribute="leading" id="7Ed-Zg-qSh"/>
-                                    <constraint firstItem="fKH-Eq-CK0" firstAttribute="trailing" secondItem="D2f-Vk-get" secondAttribute="trailing" id="Ca4-Ed-lje"/>
-                                    <constraint firstItem="D2f-Vk-get" firstAttribute="leading" secondItem="pMm-Kj-6Pa" secondAttribute="leading" id="FvT-2Z-f3R"/>
-                                    <constraint firstItem="RT5-hz-SlA" firstAttribute="top" secondItem="XSC-m2-1TG" secondAttribute="top" constant="8" id="K14-m1-CyZ"/>
-                                    <constraint firstItem="fKH-Eq-CK0" firstAttribute="top" secondItem="D2f-Vk-get" secondAttribute="bottom" constant="10" id="PLJ-EQ-QNC"/>
-                                    <constraint firstItem="fKH-Eq-CK0" firstAttribute="leading" secondItem="D2f-Vk-get" secondAttribute="leading" id="SnI-ld-Vhi"/>
-                                    <constraint firstAttribute="bottom" secondItem="fKH-Eq-CK0" secondAttribute="bottom" constant="20" id="awj-JB-mu0"/>
-                                    <constraint firstAttribute="trailing" secondItem="RT5-hz-SlA" secondAttribute="trailing" constant="8" id="fY1-m1-5IF"/>
-                                    <constraint firstItem="D2f-Vk-get" firstAttribute="trailing" secondItem="pMm-Kj-6Pa" secondAttribute="trailing" id="lc8-2i-l5c"/>
-                                    <constraint firstItem="RT5-hz-SlA" firstAttribute="leading" secondItem="XSC-m2-1TG" secondAttribute="leading" constant="8" id="mVy-hj-db4"/>
-                                    <constraint firstAttribute="height" constant="200" id="sWI-TE-leC"/>
-                                    <constraint firstItem="pMm-Kj-6Pa" firstAttribute="trailing" secondItem="RT5-hz-SlA" secondAttribute="trailing" id="xFS-X8-Zez"/>
-                                    <constraint firstItem="pMm-Kj-6Pa" firstAttribute="top" secondItem="RT5-hz-SlA" secondAttribute="bottom" constant="10" id="zzf-BT-a5a"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="XSC-m2-1TG" firstAttribute="trailing" secondItem="8ez-RB-oXQ" secondAttribute="trailing" id="324-ep-0Ls"/>
-                            <constraint firstItem="XSC-m2-1TG" firstAttribute="top" secondItem="rhS-ww-SMe" secondAttribute="bottom" id="6Ln-2Q-ggg"/>
-                            <constraint firstItem="rhS-ww-SMe" firstAttribute="top" secondItem="8ez-RB-oXQ" secondAttribute="top" id="Uju-4T-dSF"/>
-                            <constraint firstItem="rhS-ww-SMe" firstAttribute="trailing" secondItem="8ez-RB-oXQ" secondAttribute="trailing" constant="-8" id="cuT-l8-J8X"/>
-                            <constraint firstItem="rhS-ww-SMe" firstAttribute="leading" secondItem="8ez-RB-oXQ" secondAttribute="leading" constant="8" id="h1L-tO-Gkm"/>
-                            <constraint firstItem="XSC-m2-1TG" firstAttribute="bottom" secondItem="8ez-RB-oXQ" secondAttribute="bottom" id="hFa-Y6-eHL"/>
-                            <constraint firstItem="XSC-m2-1TG" firstAttribute="leading" secondItem="8ez-RB-oXQ" secondAttribute="leading" id="j68-QE-Kjh"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="8ez-RB-oXQ"/>
-                    </view>
-                    <connections>
-                        <outlet property="LoginNow" destination="LoE-5b-Xzt" id="P2Z-af-wmg"/>
-                        <outlet property="Register" destination="SiE-Xf-cAh" id="vqi-9K-PfS"/>
-                        <outlet property="image" destination="rhS-ww-SMe" id="fTS-Dd-Y6S"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tOY-eJ-ozr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-10149" y="163"/>
         </scene>
         <!--Login Page-->
         <scene sceneID="G4k-b7-4mb">
@@ -4871,7 +3779,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="PatientExplaning.jpg" width="4752" height="7121"/>
         <image name="Screenshot 2018-12-17 at 4.28.39 PM" width="328" height="309"/>
         <image name="icons8-info-50" width="25" height="25"/>
         <image name="language" width="32" height="32"/>

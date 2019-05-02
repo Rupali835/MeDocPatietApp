@@ -21,7 +21,6 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     @IBOutlet var logo : UIImageView!
     @IBOutlet var cutview: UIView!
 
-    var pageVC = PageViewController()
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     
@@ -220,13 +219,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             }
         }
     }
-    override func viewWillLayoutSubviews() {
-//        Utilities.shared.setGradientBackground(view: self.view, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
-//        Utilities.shared.setGradientBackground(view: Gview, color1: UIColor.groupTableViewBackground,color2: UIColor.white)
-    }
     @objc func registerAction(){
-//        let pageViewController = self.parent as! PageViewController
-//        pageViewController.nextPageWithIndex(index: 1)
         let signupvc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
         self.present(signupvc, animated: true, completion: nil)
     }
