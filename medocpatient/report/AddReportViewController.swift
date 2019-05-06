@@ -41,6 +41,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.selectPrescription.setTitle("Select Prescription", for: .normal)
         addAttachment.addTarget(self, action: #selector(addAttachmentAction), for: .touchUpInside)
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         
@@ -101,7 +102,10 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         })
     }
     @objc func doneAction(){
-        if imagesPicView.image == nil{
+        if self.selectedPrescription == "0"{
+            view.showToast("Select Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
+        }
+        else if imagesPicView.image == nil{
             view.showToast("Select One Image", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else if (textfield.text?.isEmpty)! {

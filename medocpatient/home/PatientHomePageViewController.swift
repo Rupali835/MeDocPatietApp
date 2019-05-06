@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import SDWebImage
+import WebKit
 
 class PatientHomePageViewController: UIViewController{
     
@@ -25,8 +26,8 @@ class PatientHomePageViewController: UIViewController{
 
     @IBOutlet var headerview: UIView!
 
-    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us"]
+    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "reading.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","New Medicines","Disha Guideline"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
@@ -201,6 +202,32 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             contactvc.navigationItem.largeTitleDisplayMode = .never
             contactvc.navigationItem.title = title
             self.navigationController?.pushViewController(contactvc, animated: true)
+        }
+        else if indexPath.row == 9{
+            let newmedicinevc = self.storyboard?.instantiateViewController(withIdentifier: "NewMedicineViewController") as! NewMedicineViewController
+            newmedicinevc.navigationItem.largeTitleDisplayMode = .never
+            newmedicinevc.navigationItem.title = title
+            self.navigationController?.pushViewController(newmedicinevc, animated: true)
+        }
+        else if indexPath.row == 10{
+            let pdfVC = UIViewController()
+            let url = Bundle.main.url(forResource: "R_4179_1521627488625_0", withExtension: "pdf")
+            let webView = WKWebView()
+            webView.translatesAutoresizingMaskIntoConstraints = false
+            pdfVC.view.addSubview(webView)
+            
+            webView.leadingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            webView.trailingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            webView.topAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
+            webView.bottomAnchor.constraint(equalTo: pdfVC.view.bottomAnchor).isActive = true
+            
+            let urlRequest = URLRequest(url: url!)
+            //webView.navigationDelegate = self
+            webView.load(urlRequest)
+            
+            pdfVC.navigationItem.title = "Disha Guidelines"
+            pdfVC.view.backgroundColor = UIColor.white
+            self.navigationController?.pushViewController(pdfVC, animated: true)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

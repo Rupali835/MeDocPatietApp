@@ -361,7 +361,8 @@ extension ProfilePageViewController { //api services
         ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patientprofile", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 print(ApiServices.shared.data)
-                self.dict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers)
+                self.dict = json as! NSDictionary
                 let msg = self.dict.value(forKey: "msg") as? String ?? ""
                 if msg == "success" {
                     if let data = self.dict.value(forKey: "data") as? NSDictionary {

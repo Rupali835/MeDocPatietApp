@@ -107,7 +107,8 @@ class ApiServices {
         urlReq.setValue("Bearer \(bearertoken)", forHTTPHeaderField: "Authorization")
         urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlReq.setValue("application/json", forHTTPHeaderField: "Accept")
-        
+        print(Url)
+        print(urlReq)
         URLSession.shared.dataTask(with: urlReq) { (data, response, error) in
             if error != nil{
                 print("error")
