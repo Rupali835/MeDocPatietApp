@@ -64,7 +64,9 @@ class PHQ_9ViewController: UIViewController {
                     Utilities.shared.removecentermsg()
                 }
             } else {
-                Utilities.shared.centermsg(msg: "No PHQ Added", view: self.view)
+                DispatchQueue.main.async {
+                    Utilities.shared.centermsg(msg: "No PHQ Added", view: self.view)
+                }
             }
         } catch {
             print("catch offline")
@@ -80,6 +82,10 @@ class PHQ_9ViewController: UIViewController {
                     self.phqarr = jsondict.value(forKey: "phq") as! NSArray
                     DispatchQueue.main.async {
                         self.savephqdata()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        Utilities.shared.centermsg(msg: "No PHQ Added", view: self.view)
                     }
                 }
             } catch {

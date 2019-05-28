@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C1052282280415E00778367 /* NewMedicineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1052272280415E00778367 /* NewMedicineViewController.swift */; };
 		1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */; };
 		1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C235D5C227ACC2C000FA40B /* Extensions.swift */; };
+		1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C35AA38229D56AD005C27A0 /* Angleview.swift */; };
 		1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */; };
 		1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */; };
 		1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */; };
@@ -86,9 +86,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1C1052272280415E00778367 /* NewMedicineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMedicineViewController.swift; sourceTree = "<group>"; };
 		1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = R_4179_1521627488625_0.pdf; sourceTree = "<group>"; };
 		1C235D5C227ACC2C000FA40B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1C35AA38229D56AD005C27A0 /* Angleview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angleview.swift; sourceTree = "<group>"; };
 		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
 		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
 		1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPHQViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +199,7 @@
 				57692CD021E777F6002DC4D0 /* ImageManager.swift */,
 				5773ED4321F06E79001497E4 /* Cardview.swift */,
 				1CAA8D6F225608DE0001E4CD /* ImageScrollView.swift */,
+				1C35AA38229D56AD005C27A0 /* Angleview.swift */,
 				57717F6D21F9EC55000EA206 /* CryptLib.h */,
 				57717F6E21F9EC55000EA206 /* CryptLib.m */,
 				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
@@ -297,7 +298,6 @@
 			children = (
 				57254BB621D4BF1300B38849 /* MedicineViewController.swift */,
 				57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */,
-				1C1052272280415E00778367 /* NewMedicineViewController.swift */,
 			);
 			path = medicine;
 			sourceTree = "<group>";
@@ -563,6 +563,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
@@ -579,6 +580,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
@@ -673,8 +675,8 @@
 				575259D021D6061C008DB872 /* IQToolbar.swift in Sources */,
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
+				1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */,
 				57254B9C21D4BE7F00B38849 /* CoreDataModel.swift in Sources */,
-				1C1052282280415E00778367 /* NewMedicineViewController.swift in Sources */,
 				57254BC721D4BF5100B38849 /* ReportTableViewCell.swift in Sources */,
 				57254B9A21D4BE7F00B38849 /* GradientView.swift in Sources */,
 				57254BB421D4BEF400B38849 /* FAQTableViewCell.swift in Sources */,
@@ -850,20 +852,20 @@
 				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 879PB75HQ7;
+				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patient";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDevelopment;
+				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -874,21 +876,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 879PB75HQ7;
+				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = medocpatient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksoftpl.Medoc-Patient";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDistrubution;
+				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

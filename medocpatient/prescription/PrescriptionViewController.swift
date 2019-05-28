@@ -45,10 +45,10 @@ class PrescriptionViewController: UIViewController {
                         }
                     }
                 }
-                if self.Prescriptiondata.count == 0{
-                    Utilities.shared.centermsg(msg: "No Prescription Added for You", view: self.view)
-                }
                 DispatchQueue.main.async {
+                    if self.Prescriptiondata.count == 0{
+                        Utilities.shared.centermsg(msg: "No Prescription Added for You", view: self.view)
+                    }
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
                 }
@@ -84,7 +84,7 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         if prescription_pdf == "NF"{
             self.view.showToast("No PDF Added", position: .bottom, popTime: 3, dismissOnTap: true)
         } else {
-            let url = URL(string: "http://medoc.co.in/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
+            let url = URL(string: "http://13.234.38.193/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
             let webView = WKWebView()
             webView.translatesAutoresizingMaskIntoConstraints = false
             pdfVC.view.addSubview(webView)

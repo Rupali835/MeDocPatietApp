@@ -87,6 +87,10 @@ class ReportViewController: UIViewController {
                         if let data = self.dict.value(forKey: "data") as? NSArray{
                             self.filterdata(r_data: data)
                         }
+                    } else {
+                        DispatchQueue.main.async {
+                            Utilities.shared.centermsg(msg: "No reports found.", view: self.view)
+                        }
                     }
                 }
                 DispatchQueue.main.sync {

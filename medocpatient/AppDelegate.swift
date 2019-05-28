@@ -4,7 +4,6 @@
 //
 //  Created by Prem Sahni on 08/12/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
-//com.ksoftpl.Medoc-Patient
 
 import UIKit
 import CoreData
@@ -90,8 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         print("terminate")
-      //  let singleitem = Medicine(context: self.persistentContainer.viewContext)
-     //   singleitem.took = false
         self.saveContext()
     }
 

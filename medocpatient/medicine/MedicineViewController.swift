@@ -19,8 +19,8 @@ class MedicineViewController: UIViewController {
     var eventStore: EKEventStore!
     var reminders: [EKReminder]!
     
-    var medicineData = NSArray()
-    var prescription = NSArray()
+    var medicineData = NSMutableArray()
+    var prescription = NSMutableArray()
     var timeslot = [String]()
     
     override func viewDidLoad() {
@@ -68,7 +68,7 @@ class MedicineViewController: UIViewController {
     func addreminderSetup(title: String,notes: String?,startdate: DateComponents?,duedate: DateComponents?,completiondate: Date?,alarmdates: [EKAlarm]?,recurrenceRule: [EKRecurrenceRule]?){
         let reminder = EKReminder(eventStore: self.eventStore)
         
-        reminder.title = "Time to Take \(title) Medicines"
+        reminder.title = "Time to Take \(title)"
         reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
         reminder.notes = "Cheif Complain: \(notes ?? "Not Mentioned")"
         reminder.startDateComponents = startdate
@@ -92,11 +92,20 @@ class MedicineViewController: UIViewController {
                 if let msg = json.value(forKey: "msg") as? String {
                     if msg == "success" {
                         if let data = json.value(forKey: "data") as? NSArray{
-                            self.prescription = data.value(forKey: "prescription_details") as! NSArray
-                            print("prescription-\(self.prescription)")
+                            let prescrip = data.value(forKey: "prescription_details") as! NSArray
                             if let medicines = data.value(forKey: "medicines") as? NSArray{
-                                self.medicineData = medicines
+                                
+                                for (index,med) in medicines.enumerated() {
+                                    let count = medicines.object(at: index) as! NSArray
+                                    if count.count == 0{
+                                        
+                                    } else {
+                                        self.medicineData.add(med)
+                                        self.prescription.add(prescrip[index])
+                                    }
+                                }
                                 print("medicines-\(self.medicineData)")
+                                print("prescription-\(self.prescription)")
                                 self.createNewReminder()
                             }
                         }
@@ -105,7 +114,11 @@ class MedicineViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
-                    self.nodatalbl.isHidden = true
+                    if self.medicineData.count == 0{
+                        self.nodatalbl.isHidden = false
+                    } else {
+                        self.nodatalbl.isHidden = true
+                    }
                 }
             } catch {
                 print("catch")
@@ -126,30 +139,32 @@ class MedicineViewController: UIViewController {
             
             let mdataarr = self.medicineData.object(at: index) as! NSArray
             
-            var alreadyadded = false
-            
-            for (index,remind) in self.reminders.enumerated() {
-                if remind.notes == "Cheif Complain: \(patient_problem)" || remind.notes == "Cheif Complain: Not Mentioned" || (remind.notes?.contains(find: "Cheif Complain:"))!{
-                    do {
-                        try self.eventStore.remove(remind, commit: true)
-                        self.reminders.remove(at: index)
-                        alreadyadded = false
-                        print("Already Added Remove")
-                    } catch {
-                        print("catch")
-                        print("Already Added")
-                        alreadyadded = true
-                    }
-                    break;
-                }
-            }
             
             for (index,_) in mdataarr.enumerated() {
+                var alreadyadded = false
                 
                 let mdata = mdataarr.object(at: index) as! NSDictionary
-                let medicinename = mdata.value(forKey: "medicine_name") as! String
                 let created_at = mdata.value(forKey: "created_at") as! String
                 
+                let medicinename = mdata.value(forKey: "medicine_name") as! String
+                let medicine_type = "(\(mdata.value(forKey: "medicine_type") as! String))"
+                let medicine_quantity = " - (Quantity: \(mdata.value(forKey: "medicine_quantity") as! String))"
+                
+                for (index,remind) in self.reminders.enumerated() {
+                    if remind.notes == "Cheif Complain: \(patient_problem)" && (remind.title?.contains(find: medicinename))!{
+                        do {
+                            try self.eventStore.remove(remind, commit: true)
+                            self.reminders.remove(at: index)
+                            alreadyadded = false
+                            print("Already Added Remove")
+                        } catch {
+                            print("catch")
+                            print("Already Added")
+                            alreadyadded = true
+                        }
+                        break;
+                    }
+                }
                 var alarmdates = [EKAlarm]()
                 
                 let dateFormatter = DateFormatter()
@@ -227,7 +242,7 @@ class MedicineViewController: UIViewController {
                         
                         let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
                         
-                        self.addreminderSetup(title: medicinename,
+                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
@@ -290,7 +305,7 @@ class MedicineViewController: UIViewController {
                                 break;
                         }
                         
-                        self.addreminderSetup(title: medicinename,
+                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
@@ -313,7 +328,7 @@ class MedicineViewController: UIViewController {
                         
                         let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
                         
-                        self.addreminderSetup(title: medicinename + " \(interval_time) Times in a day",
+                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
                                               notes: patient_problem,
                                               startdate: startDatecomponent,
                                               duedate: dueDatecomponent,
@@ -334,21 +349,21 @@ class MedicineViewController: UIViewController {
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let md = self.medicineData.object(at: section) as! NSArray
-        print("md: \(md.count)")
-        var rows: Int = 0
-        
-        for i in 0..<section {
-            rows += tableView.numberOfRows(inSection: i)
-        }
-        
-        if md.count == 0{
-            if rows == 0{
-                self.nodatalbl.isHidden = false
-            }
-            return 0
-        } else {
+//        print("md: \(md.count)")
+//        var rows: Int = 0
+//
+//        for i in 0..<section {
+//            rows += tableView.numberOfRows(inSection: i)
+//        }
+//
+//        if md.count == 0{
+//            if rows == 0{
+//                self.nodatalbl.isHidden = false
+//            }
+//            return 0
+//        } else {
             return md.count
-        }
+       // }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.prescription.count
@@ -356,14 +371,14 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableCell(withIdentifier: "headercell") as! headercell
 
-        if self.tableview.dataSource?.tableView(tableView, numberOfRowsInSection: section) == 0 {
-            return UIView(frame: .zero)
-        } else {
+//        if self.tableview.dataSource?.tableView(tableView, numberOfRowsInSection: section) == 0 {
+//            return UIView(frame: .zero)
+//        } else {
             let d = self.prescription.object(at: section) as! NSDictionary
             let patient_problem = d.value(forKey: "patient_problem") as! String
             header.titles.text = patient_problem
             return header
-        }
+       // }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -378,6 +393,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             let d = md.object(at: indexPath.row) as! NSDictionary
             
             let name = d.value(forKey: "medicine_name") as! String
+            let medicine_type = d.value(forKey: "medicine_type") as! String
+            let medicine_quantity = d.value(forKey: "medicine_quantity") as! String
             
             let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
             let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
@@ -457,23 +474,23 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             
             switch interval_type {
             case "1":
-                medicinecell.interval_type.text = "Type: Daily"
+                medicinecell.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
                 medicinecell.interval_period.text = "Period: \(interval_period) days"
                 medicinecell.interval_time.text = "";
             case "2":
-                medicinecell.interval_type.text = "Type: Weekly"
+                medicinecell.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
                 medicinecell.interval_period.text = "Period: \(interval_period) weeks"
                 medicinecell.interval_time.text = "Times: \(interval_time) times in a week";
             case "3":
-                medicinecell.interval_type.text = "Type: Time interval"
+                medicinecell.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
                 medicinecell.interval_period.text = "Period: \(interval_period) days"
                 medicinecell.interval_time.text = "Times: \(interval_time) times in a day";
             default:
-                medicinecell.interval_type.text = "Type: NF"
+                medicinecell.interval_type.text = ""
                 medicinecell.interval_period.text = ""
                 medicinecell.interval_time.text = ""
             }
-            medicinecell.name.text = name
+            medicinecell.name.text = name + "(\(medicine_type))"
             
             var breakfast = Int()
             var lunch = Int()
@@ -492,6 +509,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             if dinner == 2{
                 dinner = 1
             }
+            
             if breakfast == 0 && lunch == 0 && dinner == 0 {
                 medicinecell.timeslot.text = ""
                 medicinecell.beforeaftertime.text = ""

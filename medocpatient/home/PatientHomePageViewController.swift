@@ -26,8 +26,8 @@ class PatientHomePageViewController: UIViewController{
 
     @IBOutlet var headerview: UIView!
 
-    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "reading.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","New Medicines","Disha Guideline"]
+    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
@@ -151,65 +151,50 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
         let title = titles[indexPath.row].localized()
         if indexPath.row == 0 {
             let Profilevc = self.storyboard?.instantiateViewController(withIdentifier: "ProfilePageViewController") as! ProfilePageViewController
-            Profilevc.navigationItem.largeTitleDisplayMode = .never
             Profilevc.navigationItem.title = title
             self.navigationController?.pushViewController(Profilevc, animated: true)
         }
         else if indexPath.row == 1{
             let Reportvc = self.storyboard?.instantiateViewController(withIdentifier: "ReportViewController") as! ReportViewController
-            Reportvc.navigationItem.largeTitleDisplayMode = .never
             Reportvc.navigationItem.title = title
             self.navigationController?.pushViewController(Reportvc, animated: true)
         }
         else if indexPath.row == 2{
             let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
-            Prescriptionvc.navigationItem.largeTitleDisplayMode = .never
             Prescriptionvc.navigationItem.title = title
             self.navigationController?.pushViewController(Prescriptionvc, animated: true)
         }
         else if indexPath.row == 3{
             let Medicinevc = self.storyboard?.instantiateViewController(withIdentifier: "MedicineViewController") as! MedicineViewController
-            Medicinevc.navigationItem.largeTitleDisplayMode = .never
             Medicinevc.navigationItem.title = title
             self.navigationController?.pushViewController(Medicinevc, animated: true)
         }
         else if indexPath.row == 4{
             let qrvc = self.storyboard?.instantiateViewController(withIdentifier: "QRViewController") as! QRViewController
-            qrvc.navigationItem.largeTitleDisplayMode = .never
             qrvc.navigationItem.title = title
             self.navigationController?.pushViewController(qrvc, animated: true)
         }
         else if indexPath.row == 5{
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
-            Healthvc.navigationItem.largeTitleDisplayMode = .never
             Healthvc.navigationItem.title = title
             self.navigationController?.pushViewController(Healthvc, animated: true)
         }
         else if indexPath.row == 6{
             let FAQvc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
-            FAQvc.navigationItem.largeTitleDisplayMode = .never
             FAQvc.navigationItem.title = title
             self.navigationController?.pushViewController(FAQvc, animated: true)
         }
         else if indexPath.row == 7{
             let Aboutvc = self.storyboard?.instantiateViewController(withIdentifier: "AboutUsViewController") as! AboutUsViewController
-            Aboutvc.navigationItem.largeTitleDisplayMode = .never
             Aboutvc.navigationItem.title = title
             self.navigationController?.pushViewController(Aboutvc, animated: true)
         }
         else if indexPath.row == 8{
             let contactvc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsViewController") as! ContactUsViewController
-            contactvc.navigationItem.largeTitleDisplayMode = .never
             contactvc.navigationItem.title = title
             self.navigationController?.pushViewController(contactvc, animated: true)
         }
         else if indexPath.row == 9{
-            let newmedicinevc = self.storyboard?.instantiateViewController(withIdentifier: "NewMedicineViewController") as! NewMedicineViewController
-            newmedicinevc.navigationItem.largeTitleDisplayMode = .never
-            newmedicinevc.navigationItem.title = title
-            self.navigationController?.pushViewController(newmedicinevc, animated: true)
-        }
-        else if indexPath.row == 10{
             let pdfVC = UIViewController()
             let url = Bundle.main.url(forResource: "R_4179_1521627488625_0", withExtension: "pdf")
             let webView = WKWebView()

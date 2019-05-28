@@ -33,7 +33,7 @@ class HealthViewController: UIViewController {
         self.fetchhealthdata(attr: "t")
     }
     func fetchhealthdata(attr: String){
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/m/0/0", bearertoken: bearertoken!, onSuccessCompletion: {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/y/0/0", bearertoken: bearertoken!, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String {

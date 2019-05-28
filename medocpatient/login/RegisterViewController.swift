@@ -221,7 +221,8 @@ class RegisterViewController: UIViewController{
                 print(json)
                 if let msg = json.value(forKey: "msg") as? String{
                     if msg == "success" {
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            Utilities.shared.RemoveLoaderView()
                             self.view.showToast("Signup Successfully", position: .bottom, popTime: 5, dismissOnTap: true)
 
                              NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.NumberTF.text!,"password":self.PasswordTF.text!])
@@ -230,8 +231,8 @@ class RegisterViewController: UIViewController{
                     }
                     if msg == "fail" {
                         if let reason = json.value(forKey: "reason") as? String{
-                            DispatchQueue.main.async {
-                                SwiftLoader.hide()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                Utilities.shared.RemoveLoaderView()
                                 self.view.showToast("Reason: \(reason)", position: .bottom, popTime: 3, dismissOnTap: true)
                             }
                         }
@@ -239,12 +240,12 @@ class RegisterViewController: UIViewController{
                 }
             } catch {
                 print("catch")
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    Utilities.shared.RemoveLoaderView()
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
         })
-        Utilities.shared.RemoveLoaderView()
     }
     func fetchDetailByPatientID(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
@@ -256,7 +257,9 @@ class RegisterViewController: UIViewController{
                 let msg = json.value(forKey: "msg") as? String
                 
                 if msg == "success"{
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        Utilities.shared.RemoveLoaderView()
+                        
                         if let data = json.value(forKey: "data") as? NSDictionary {
                             let name = data.value(forKey: "name") as? String ?? ""
                             let contact_no = data.value(forKey: "contact_no") as? String ?? ""
@@ -289,7 +292,8 @@ class RegisterViewController: UIViewController{
                     }
                 }
                 else if msg == "fail"{
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        Utilities.shared.RemoveLoaderView()
                         if let reason = json.value(forKey: "reason") as? String{
                             self.view.showToast("Reason: \(reason)", position: .bottom, popTime: 3, dismissOnTap: true)
                         }
@@ -297,12 +301,12 @@ class RegisterViewController: UIViewController{
                 }
             } catch {
                 print("catch")
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    Utilities.shared.RemoveLoaderView()
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
         })
-        Utilities.shared.RemoveLoaderView()
     }
     @IBAction func PatientIDYesOrNo(sender: SKRadioButton){
         

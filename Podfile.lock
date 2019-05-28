@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.8.1)
   - Charts (3.2.1):
     - Charts/Core (= 3.2.1)
   - Charts/Core (3.2.1)
@@ -74,6 +75,7 @@ PODS:
   - ZAlertView (1.0.4)
 
 DEPENDENCIES:
+  - Alamofire
   - Charts
   - CryptoSwift
   - DBAttachmentPickerController (~> 1.1.0)
@@ -87,6 +89,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - Charts
     - CryptoSwift
     - DBAttachmentPickerController
@@ -107,6 +110,7 @@ SPEC REPOS:
     - ZAlertView
 
 SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   CryptoSwift: ff68c35a53e03177d31aaa2c1e8b3e010aeed6cb
   DBAttachmentPickerController: 9b3c5f84a9e4530da6d9e098c710f2152957c31e
@@ -126,6 +130,6 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: b87f24721338c969a32639f1a9baa5b5bbf5d024
+PODFILE CHECKSUM: 4a949442972594d89ab43d38951985a15771056a
 
 COCOAPODS: 1.5.3

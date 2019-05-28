@@ -37,7 +37,6 @@
 	<string>for reminding to take medicine on time</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

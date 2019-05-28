@@ -123,7 +123,18 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     
     @objc func addPrescription(){
         self.textfield.endEditing(true)
-        dropdown.show()
+        if self.idarray.count == 0{
+            Utilities.shared.alertview(title: "Alert", msg: "You Can't Add Report Because No Prescription Suggested For You", dismisstitle: "Back", mutlipleButtonAdd: { (alert) in
+                alert.addButton("Ok", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+                    alert.dismissAlertView()
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }, dismissAction: {
+                self.dismiss(animated: true, completion: nil)
+            })
+        } else {
+            dropdown.show()
+        }
     }
     @objc func addAttachmentAction(){
         self.textfield.endEditing(true)

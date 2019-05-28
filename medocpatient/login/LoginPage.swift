@@ -5,10 +5,14 @@
 //  Created by Prem Sahni on 08/12/18.
 //  Copyright © 2018 Kanishka. All rights reserved.
 //
-//Dev01547443972
+//9876545677 & Kalyani@123
+//8108091854 & Prashant@123
+//7738260306 & Amit@123
+
 import UIKit
 import SkyFloatingLabelTextField
 import CoreData
+import Alamofire
 
 class LoginPage: UIViewController, UITextFieldDelegate{
 
@@ -97,11 +101,21 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     }
     func login(){
         print("0")
+       /* let url = ApiServices.shared.baseUrl + "patientlogin"
+        let param: Parameters = ["login_id": self.PatientTextField.text!,"password": self.PasswordTextField.text!]
+        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded","Accept": "application/json"]
+        //,"fcm_token": AppDelegate().fcm_token!
+        //(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
+        Alamofire.request(url, method: .post, parameters: param).responseJSON { (resp) in
+            print(resp)
+        }*/
+        
         Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
         ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
             do {
-                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                print(json)
+                let js = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers)
+                let json = js as! NSDictionary
+                print(js)
                 var msg = ""
                 
                 if let error = json.value(forKey: "msg") as? String {
@@ -116,7 +130,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         
                         let contact_no = data.value(forKey: "contact_no") as! String
                         let email = data.value(forKey: "email") as? String ?? ""
-                        let profile_image = data.value(forKey: "profile_image") as! String
+                        let profile_image = data.value(forKey: "profile_image") as? String ?? ""
                         let name = data.value(forKey: "name") as! String
                         let pid = data.value(forKey: "patient_id") as! String
                         let gender = data.value(forKey: "gender") as? Int ?? 1
@@ -138,7 +152,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         
                         if let bt = bearertokenget {
                             if bt == bearertoken {
-                                DispatchQueue.main.async {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                    Utilities.shared.RemoveLoaderView()
                                     self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
                                     self.appdel.RootPatientHomeVC()
                                 }
@@ -150,33 +165,32 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     }
                 }
                 else if msg == "User not registered"{
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        Utilities.shared.RemoveLoaderView()
                         self.view.showToast("\(msg)", position: .bottom, popTime: 3, dismissOnTap: true)
                     }
                 }
                 else if msg == "Unauthorised"{
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        Utilities.shared.RemoveLoaderView()
                         self.view.showToast("Maybe You Entered Wrong Password", position: .bottom, popTime: 3, dismissOnTap: true)
                     }
                 }
                 else if msg == "fail"{
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        Utilities.shared.RemoveLoaderView()
                         let reason = json.value(forKey: "reason") as! String
                         self.view.showToast(reason, position: .bottom, popTime: 3, dismissOnTap: true)
-                        SwiftLoader.hide()
                     }
                 }
             } catch {
                 print("catch")
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    Utilities.shared.RemoveLoaderView()
                     self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
                 }
             }
         })
-        Utilities.shared.RemoveLoaderView()
     }
     @objc func loginAction(){
         if (PatientTextField.text?.isEmpty)! {
@@ -209,7 +223,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         if text.isValidPassword() {
                             floatingLabelTextField.errorMessage = ""
                         } else {
-                            floatingLabelTextField.errorMessage = "Invalid password"
+                            floatingLabelTextField.errorMessage = ""//"Invalid password"
                         }
                     }
                     else if text.count < 1{

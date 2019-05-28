@@ -360,10 +360,10 @@
 "dZW-r6-Uyu.text" = "Primary Emergency Contact ";
 
 /* Class = "UISegmentedControl"; dce-cZ-lRg.segmentTitles[0] = "Details"; ObjectID = "dce-cZ-lRg"; */
-"dce-cZ-lRg.segmentTitles[0]" = "Details";
+"dce-cZ-lRg.segmentTitles[0]" = "PERSONAL";
 
 /* Class = "UISegmentedControl"; dce-cZ-lRg.segmentTitles[1] = "Medical"; ObjectID = "dce-cZ-lRg"; */
-"dce-cZ-lRg.segmentTitles[1]" = "Medical";
+"dce-cZ-lRg.segmentTitles[1]" = "MEDICAL";
 
 /* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "dgN-Zm-AAJ"; */
 "dgN-Zm-AAJ.normalTitle" = "Cancel";

@@ -16,4 +16,5 @@ pod 'Charts'
 pod 'ZAlertView'
 pod 'Firebase/Messaging'
 pod 'Firebase/Core'
+pod 'Alamofire'
     end
