@@ -99,7 +99,7 @@ class ProfilePageViewController: UIViewController {
     
     var back = true
     var edit = false
-    var selectedGender = "1"
+    var selectedGender = 1
     var dict = NSDictionary()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var urlpath = ""
@@ -132,6 +132,7 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         segment_typeview.addTarget(self, action: #selector(Action_segment_typeview), for: .valueChanged)
         
         Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [Save], number: 10)
         
         Save.addTarget(self, action: #selector(SaveAction), for: .touchUpInside)
         
@@ -154,7 +155,6 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         self.navigationItem.leftBarButtonItem = back
         
         customizePickerViewandDateView()
-        self.GenderRadio[Int(self.selectedGender)! - 1].isSelected = true
         
         NetworkManager.isReachable { _ in
             self.fetchProfileDatail()
@@ -162,6 +162,7 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
             self.fetchProfileDatail()
         }
+        
     }
     
     func toast(msg: String){
@@ -395,7 +396,8 @@ extension ProfilePageViewController { //api services
                                 let months = ageComponents! % 12
                                 self.age.text = "Age: \(years) Y / \(months) M"
                             }
-                            self.selectedGender = data.value(forKey: "gender") as? String ?? "1"
+                            self.selectedGender = data.value(forKey: "gender") as? Int ?? 1
+
                             self.BloodGroupTF.text = data.value(forKey: "blood_group") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
                             self.emailTF.text = email
@@ -452,49 +454,48 @@ extension ProfilePageViewController { //api services
                                 }
                             }
                             
-                            let medicine_allergy_details = data.value(forKey: "medicine_allergy_details") as? String ?? ""
-                            if medicine_allergy_details == "NF" || medicine_allergy_details == "" || medicine_allergy_details == "[]"{
+                            let drug_allergy_details = data.value(forKey: "drug_allergy_details") as? String ?? ""
+                            if drug_allergy_details == "NF" || drug_allergy_details == "" || drug_allergy_details == "[]"{
                                 
                             } else {
-                                self.arr_drugallergy = medicine_allergy_details.convertIntoStringArray()!
+                                self.arr_drugallergy = drug_allergy_details.convertIntoStringArray()!
                                 if self.arr_drugallergy.count > 0 {
                                     self.lbl_data_drugallergy.text = self.arr_drugallergy.joined(separator: " , ")
                                 }
                             }
                             
-                            let plants_allergy_details = data.value(forKey: "plants_allergy_details") as? String ?? ""
-                            if plants_allergy_details == "NF" || plants_allergy_details == "" || plants_allergy_details == "[]"{
+                            let environmental_allergy_details = data.value(forKey: "environmental_allergy_details") as? String ?? ""
+                            if environmental_allergy_details == "NF" || environmental_allergy_details == "" || environmental_allergy_details == "[]"{
                                 
                             } else {
-                                self.arr_environmentalallergy = plants_allergy_details.convertIntoStringArray()!
+                                self.arr_environmentalallergy = environmental_allergy_details.convertIntoStringArray()!
                                 if self.arr_environmentalallergy.count > 0 {
                                     self.lbl_data_Envirormentallergy.text = self.arr_environmentalallergy.joined(separator: " , ")
                                 }
                             }
-                            let other_allergy_details = data.value(forKey: "other_allergy_details") as? String ?? ""
-                            if other_allergy_details == "NF" || other_allergy_details == "" || other_allergy_details == "[]"{
+                            let family_history_allergy_details = data.value(forKey: "family_history_allergy_details") as? String ?? ""
+                            if family_history_allergy_details == "NF" || family_history_allergy_details == "" || family_history_allergy_details == "[]"{
                                 
                             } else {
-                                self.arr_familyhistory = other_allergy_details.convertIntoStringArray()!
+                                self.arr_familyhistory = family_history_allergy_details.convertIntoStringArray()!
                                 if self.arr_familyhistory.count > 0 {
                                     self.lbl_data_familyhistory.text = self.arr_familyhistory.joined(separator: " , ")
                                 }
                             }
-                            //medical
-                            let physical_activity_restriction_details = data.value(forKey: "physical_activity_restriction_details") as? String ?? ""
-                            if physical_activity_restriction_details == "NF" || physical_activity_restriction_details == "" || physical_activity_restriction_details == "[]"{
+                            let genetic_disorders_details = data.value(forKey: "genetic_disorders_details") as? String ?? ""
+                            if genetic_disorders_details == "NF" || genetic_disorders_details == "" || genetic_disorders_details == "[]"{
                                 
                             } else {
-                                self.arr_geneticdisorders = physical_activity_restriction_details.convertIntoStringArray()!
+                                self.arr_geneticdisorders = genetic_disorders_details.convertIntoStringArray()!
                                 if self.arr_geneticdisorders.count > 0 {
                                     self.lbl_data_geneticdisorder.text = self.arr_geneticdisorders.joined(separator: " , ")
                                 }
                             }
-                            let recent_medical_condition_details = data.value(forKey: "recent_medical_condition_details") as? String ?? ""
-                            if recent_medical_condition_details == "NF" || recent_medical_condition_details == "" || recent_medical_condition_details == "[]"{
+                            let known_condition_details = data.value(forKey: "known_condition_details") as? String ?? ""
+                            if known_condition_details == "NF" || known_condition_details == "" || known_condition_details == "[]"{
                                 
                             } else {
-                                self.arr_knowncondition = recent_medical_condition_details.convertIntoStringArray()!
+                                self.arr_knowncondition = known_condition_details.convertIntoStringArray()!
                                 if self.arr_knowncondition.count > 0 {
                                     self.lbl_data_knowncondition.text = self.arr_knowncondition.joined(separator: " , ")
                                 }
@@ -513,7 +514,7 @@ extension ProfilePageViewController { //api services
                             let data4 = data.value(forKey: "last_mumps_date") as? String ?? placeholder
                             self.btn_selectdates[3].setTitle(data4, for: .normal)
                             DispatchQueue.main.async {
-                                self.GenderRadio[Int(self.selectedGender)! - 1].isSelected = true
+                                self.GenderRadio[self.selectedGender - 1].isSelected = true
                             }
                         }
                     }
@@ -561,7 +562,7 @@ extension ProfilePageViewController { //api services
                 "personal_physician_contact": self.PP_NumberTF.text!,
                 "p_policy": self.PP_PolicyTF.text!,
                 "p_policy_number": self.PP_PolicyNumberTF.text!,
-                
+                /*
                 "allergy": "0",
                 "food_alergy": "0",
                 "medicine_alergy": "0",
@@ -577,13 +578,20 @@ extension ProfilePageViewController { //api services
                 "lukemia": "0",
                 "physical_activity_restriction": "0",
                 "recent_medical_condition": "0",
-                
+ 
                 "food_allergy_details": json(from: self.arr_foodallergy)!,
                 "medicine_allergy_details": json(from: self.arr_drugallergy)!,
                 "plants_allergy_details": json(from: self.arr_environmentalallergy)!,
                 "other_allergy_details": json(from: self.arr_familyhistory)!,
                 "recent_medical_condition_details": json(from: self.arr_knowncondition)!,
                 "physical_activity_restriction_details": json(from: self.arr_geneticdisorders)!
+                 */
+                "food_allergy_details": json(from: self.arr_foodallergy)!,
+                "drug_allergy_details": json(from: self.arr_drugallergy)!,
+                "environmental_allergy_details": json(from: self.arr_environmentalallergy)!,
+                "family_history_allergy_details": json(from: self.arr_familyhistory)!,
+                "known_condition_details": json(from: self.arr_knowncondition)!,
+                "genetic_disorders_details": json(from: self.arr_geneticdisorders)!
         ]
         let pl = "Click to select date"
         if self.btn_selectdates[0].titleLabel?.text != pl{
@@ -613,6 +621,7 @@ extension ProfilePageViewController { //api services
                             UserDefaults.standard.set(self.NameTF.text!, forKey: "name")
                             UserDefaults.standard.synchronize()
                             self.uploadimage()
+                            Utilities.shared.RemoveLoaderView()
                             self.view.showToast("Update Profile Details Successfully", position: .bottom, popTime: 3.0, dismissOnTap: true)
                             self.navigationController?.popViewController(animated: true)
                         }
@@ -620,6 +629,7 @@ extension ProfilePageViewController { //api services
                 }
                 if let error = json.value(forKey: "error") as? NSDictionary{
                     DispatchQueue.main.async {
+                        Utilities.shared.RemoveLoaderView()
                         if let email = error.value(forKey: "email") as? [String]{
                             self.view.showToast(email.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
                         }
@@ -639,7 +649,6 @@ extension ProfilePageViewController { //api services
         }) { () -> (Dictionary<String, Any>) in
             param
         }
-        Utilities.shared.RemoveLoaderView()
     }
     func uploadimage(){
         ApiServices.shared.FetchMultiformDataWithImageFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "add_files", parameter: nil, bearertoken: bearertoken!, image: self.imagesPicView.image!, filename: self.imagename, filePathKey: "images[]", pdfurl: pdfurl, onSuccessCompletion: {
@@ -741,13 +750,13 @@ extension ProfilePageViewController: PassSelectionData { //button action
         }
         sender.isSelected = true
         if sender.tag == 5{
-            selectedGender = "1"
+            selectedGender = 1
         }
         else if sender.tag == 6{
-            selectedGender = "2"
+            selectedGender = 2
         }
         else if sender.tag == 7{
-            selectedGender = "3"
+            selectedGender = 3
         }
     }
    

@@ -75,6 +75,7 @@ class PatientHomePageViewController: UIViewController{
         self.navigationItem.rightBarButtonItems = [LogoutBar,info]
  
     }
+    
     @objc func infodetails(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TimeInfoViewController") as! TimeInfoViewController
         self.present(vc, animated: true, completion: nil)
@@ -210,13 +211,13 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             //webView.navigationDelegate = self
             webView.load(urlRequest)
             
-            pdfVC.navigationItem.title = "Disha Guidelines"
+            pdfVC.navigationItem.title = title
             pdfVC.view.backgroundColor = UIColor.white
             self.navigationController?.pushViewController(pdfVC, animated: true)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.size.width / 3) - (10 + 5), height: (collectionView.frame.size.width / 3) - (10 + 5))
+        return CGSize(width: (collectionView.frame.size.width / 3) - (10 + 5), height: (collectionView.frame.size.width / 2.5) - (10 + 5))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10

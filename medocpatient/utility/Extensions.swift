@@ -9,6 +9,11 @@
 import UIKit
 
 extension String {
+    func toDouble() -> Double? {
+        return NumberFormatter().number(from: self)?.doubleValue
+    }
+}
+extension String {
     func contains(find: String) -> Bool{
         return self.range(of: find) != nil
     }

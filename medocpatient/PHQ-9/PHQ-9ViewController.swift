@@ -73,6 +73,7 @@ class PHQ_9ViewController: UIViewController {
         }
     }
     func fetchphq(){
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait..")
         ApiServices.shared.FetchformPostDataFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "get_phq", bearertoken: bearertoken!, parameter: "patient_id=\(self.p_id!)") {
             do {
                 let jsondict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
@@ -82,9 +83,11 @@ class PHQ_9ViewController: UIViewController {
                     self.phqarr = jsondict.value(forKey: "phq") as! NSArray
                     DispatchQueue.main.async {
                         self.savephqdata()
+                        Utilities.shared.RemoveLoaderView()
                     }
                 } else {
                     DispatchQueue.main.async {
+                        Utilities.shared.RemoveLoaderView()
                         Utilities.shared.centermsg(msg: "No PHQ Added", view: self.view)
                     }
                 }

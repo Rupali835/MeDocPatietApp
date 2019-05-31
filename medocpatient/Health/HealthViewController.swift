@@ -14,7 +14,8 @@ class HealthViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
     let list = ["Blood Pressure","Weight","Height","Temperature"]
-    
+    var Prescriptiondata = NSArray()
+
     var alertwithtext = ZAlertView()
     var bp_dataarr = NSArray()
     var w_dataarr = NSArray()
@@ -24,13 +25,14 @@ class HealthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
+        fetchPrescription()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
-        self.fetchhealthdata(attr: "bp")
-        self.fetchhealthdata(attr: "w")
-        self.fetchhealthdata(attr: "h")
-        self.fetchhealthdata(attr: "t")
+//        self.fetchhealthdata(attr: "bp")
+//        self.fetchhealthdata(attr: "w")
+//        self.fetchhealthdata(attr: "h")
+//        self.fetchhealthdata(attr: "t")
     }
     func fetchhealthdata(attr: String){
         ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/y/0/0", bearertoken: bearertoken!, onSuccessCompletion: {
@@ -66,28 +68,51 @@ class HealthViewController: UIViewController {
             }
         })
     }
-    
+    func fetchPrescription(){
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait..")
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "prescriptions", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        if let p_data = json.value(forKey: "data") as? NSArray{
+                            self.Prescriptiondata = p_data
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableview.reloadData()
+                    Utilities.shared.RemoveLoaderView()
+                }
+            } catch {
+                print("catch")
+                Utilities.shared.RemoveLoaderView()
+            }
+        })
+    }
 }
 extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.list.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "healthcell") as! HealthListTableViewCell
-        cell.title.text = self.list[indexPath.row]
-        cell.delegate = self
-        if indexPath.section == 1{
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "healthcell") as! HealthListTableViewCell
+//        cell.title.text = self.list[indexPath.row]
+//        cell.delegate = self
+//        if indexPath.section == 1{
             let cell2 = tableView.dequeueReusableCell(withIdentifier: "LatestData") as! LatestDataTableViewCell
             cell2.accessoryType = .disclosureIndicator
             if indexPath.row == 0{
-                if self.bp_dataarr.count > 0{
-                    let d1 = self.bp_dataarr.object(at: self.bp_dataarr.count - 1) as! NSDictionary
+                if self.Prescriptiondata.count > 0{
+                    let d1 = self.Prescriptiondata.object(at: self.Prescriptiondata.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let blood_pressure = d1.value(forKey: "blood_pressure") as! String
-                    cell2.firstdata.text = "Blood Pressure: \(blood_pressure)"
+                    if let blood_pressure = d1.value(forKey: "blood_pressure") as? String {
+                        cell2.firstdata.text = "Blood Pressure: \(blood_pressure)"
+                    }
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -97,11 +122,19 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             if indexPath.row == 1{
-                if self.w_dataarr.count > 0{
-                    let d1 = self.w_dataarr.object(at: self.w_dataarr.count - 1) as! NSDictionary
+                if self.Prescriptiondata.count > 0{
+                    let d1 = self.Prescriptiondata.object(at: self.Prescriptiondata.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let weight = d1.value(forKey: "weight") as? Int
-                    cell2.firstdata.text = "Weight: \(weight!) Kg"
+                    if let weight = d1.value(forKey: "weight") as? Int{
+                        cell2.firstdata.text = "Weight: \(weight) Kg"
+                    }
+                    else if let weight = d1.value(forKey: "weight") as? String{
+                        if weight == "NF" {
+                            cell2.firstdata.text = "Weight: \(weight)"
+                        } else {
+                            cell2.firstdata.text = "Weight: \(weight) Kg"
+                        }
+                    }
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -111,11 +144,15 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             if indexPath.row == 2{
-                if self.h_dataarr.count > 0{
-                    let d1 = self.h_dataarr.object(at: self.h_dataarr.count - 1) as! NSDictionary
+                if self.Prescriptiondata.count > 0{
+                    let d1 = self.Prescriptiondata.object(at: self.Prescriptiondata.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let height = d1.value(forKey: "height") as? Int
-                    cell2.firstdata.text = "Height: \(height!) Cm"
+                    if let height = d1.value(forKey: "height") as? Int{
+                        cell2.firstdata.text = "Height: \(height) Cm"
+                    }
+                    else if let height = d1.value(forKey: "height") as? String{
+                        cell2.firstdata.text = "Height: \(height)"
+                    }
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -125,11 +162,19 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             if indexPath.row == 3{
-                if self.t_dataarr.count > 0{
-                    let d1 = self.t_dataarr.object(at: self.t_dataarr.count - 1) as! NSDictionary
+                if self.Prescriptiondata.count > 0{
+                    let d1 = self.Prescriptiondata.object(at: self.Prescriptiondata.count - 1) as! NSDictionary
                     let created_at1 = d1.value(forKey: "created_at") as! String
-                    let temperature = d1.value(forKey: "temperature") as? Int
-                    cell2.firstdata.text = "Temperature: \(temperature!) ºC"
+                    if let temperature = d1.value(forKey: "temperature") as? Int {
+                        cell2.firstdata.text = "Temperature: \(temperature) ºC"
+                    }
+                    else if let temperature = d1.value(forKey: "temperature") as? String {
+                        if temperature == "NF"{
+                            cell2.firstdata.text = "Temperature: \(temperature)"
+                        } else {
+                            cell2.firstdata.text = "Temperature: \(temperature) ºC"
+                        }
+                    }
                     cell2.seconddata.text = ""
                     cell2.date.text = "Date: \(created_at1)"
                 } else {
@@ -139,28 +184,29 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
                 }
             }
             return cell2
-        }
-        return cell
+//        }
+//        return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1{
-            return 80
-        }
-        return 50
+//        if indexPath.section == 1{
+//            return 80
+//        }
+        return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1{
+       // if indexPath.section == 1{
             let chartvc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as! ChartViewController
             chartvc.selectedtitle = self.list[indexPath.row]
+            chartvc.dataarr = self.Prescriptiondata
             self.navigationController?.pushViewController(chartvc, animated: true)
-        }
+       // }
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ["Add Health Data","Show Latest & All Data"][section]
-    }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return ["Add Health Data","Show Latest & All Data"][section]
+//    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 50
+//    }
 }
 extension HealthViewController: HealthListTableViewCelldelegate , UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

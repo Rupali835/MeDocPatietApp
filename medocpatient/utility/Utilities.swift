@@ -52,19 +52,10 @@ class Utilities {
     func go_to_zoomimageview(vc: UIViewController,image: UIImage?){
         let zvc = UIViewController()
         zvc.navigationItem.title = "Image Viewer"
-        let imageview = ImageScrollView(frame: CGRect(x: 0, y: 64, width: zvc.view.frame.size.width, height: zvc.view.frame.size.height - 64))
+        let imageview = ImageScrollView(frame: CGRect(x: 0, y: 64, width: zvc.view.frame.width, height: zvc.view.frame.height - 64))
         imageview.backgroundColor = .white
         if image != nil{
-          //  imageview.translatesAutoresizingMaskIntoConstraints = false
             zvc.view.addSubview(imageview)
-//
-//            imageview.leadingAnchor.constraint(equalTo: zvc.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-//            imageview.trailingAnchor.constraint(equalTo: zvc.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-//            imageview.topAnchor.constraint(equalTo: zvc.view.safeAreaLayoutGuide.topAnchor).isActive = true
-//            imageview.bottomAnchor.constraint(equalTo: zvc.view.bottomAnchor).isActive = true
-//
-//            imageview.setup()
-
             imageview.display(image: image!)
             vc.navigationController?.pushViewController(zvc, animated: false)
         }
@@ -88,7 +79,7 @@ class Utilities {
     var blurEffectView = UIVisualEffectView()
     
     func ShowLoaderView(view: UIView,Message: String){
-        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffect = UIBlurEffect(style: .regular)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.frame
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
