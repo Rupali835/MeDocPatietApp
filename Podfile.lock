@@ -37,7 +37,6 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
-  - FSCalendar (2.8.0)
   - GoogleAppMeasurement (5.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -68,6 +67,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - ScrollableGraphView (4.0.6)
   - SDWebImage (4.4.3):
     - SDWebImage/Core (= 4.4.3)
   - SDWebImage/Core (4.4.3)
@@ -82,7 +82,7 @@ DEPENDENCIES:
   - DropDown
   - Firebase/Core
   - Firebase/Messaging
-  - FSCalendar
+  - ScrollableGraphView
   - SDWebImage (~> 4.0)
   - SkyFloatingLabelTextField (~> 3.0)
   - ZAlertView
@@ -100,11 +100,11 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - FirebaseMessaging
-    - FSCalendar
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
     - Protobuf
+    - ScrollableGraphView
     - SDWebImage
     - SkyFloatingLabelTextField
     - ZAlertView
@@ -121,15 +121,15 @@ SPEC CHECKSUMS:
   FirebaseCore: 8f49b70f57ab5cbb032ef41d64992ded21606459
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
-  FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: 4a949442972594d89ab43d38951985a15771056a
+PODFILE CHECKSUM: cc5d57e352735da497638aef723abef9f7e49437
 
 COCOAPODS: 1.5.3

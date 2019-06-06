@@ -8,6 +8,7 @@
 //9876545677 & Kalyani@123
 //8108091854 & Prashant@123
 //7738260306 & Amit@123
+//9619913968 & Sunil@123 & Krish@123
 
 import UIKit
 import SkyFloatingLabelTextField
@@ -200,6 +201,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             self.view.showToast("Enter \(PasswordTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
         }
         else{
+            self.PatientTextField.endEditing(true)
+            self.PasswordTextField.endEditing(true)
             login()
         }
     }

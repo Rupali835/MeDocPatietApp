@@ -10,6 +10,8 @@
 		1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */; };
 		1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C235D5C227ACC2C000FA40B /* Extensions.swift */; };
 		1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C35AA38229D56AD005C27A0 /* Angleview.swift */; };
+		1C682DEB22A7870B00028276 /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEA22A7870B00028276 /* FamilyViewController.swift */; };
+		1C682DED22A7872100028276 /* FamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */; };
 		1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */; };
 		1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */; };
 		1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */; };
@@ -81,7 +83,6 @@
 		5773ED4421F06E79001497E4 /* Cardview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5773ED4321F06E79001497E4 /* Cardview.swift */; };
 		57861E7C21D4C67200927E33 /* medocpatient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */; };
 		57A9EA5421E5E253008C9CB2 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */; };
-		57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */; };
 		E86675A4A60569FE8C09618A /* Pods_medocpatient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E344C21990F2680276BFEC /* Pods_medocpatient.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,8 @@
 		1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = R_4179_1521627488625_0.pdf; sourceTree = "<group>"; };
 		1C235D5C227ACC2C000FA40B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1C35AA38229D56AD005C27A0 /* Angleview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angleview.swift; sourceTree = "<group>"; };
+		1C682DEA22A7870B00028276 /* FamilyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyViewController.swift; sourceTree = "<group>"; };
+		1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyTableViewCell.swift; sourceTree = "<group>"; };
 		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
 		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
 		1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPHQViewController.swift; sourceTree = "<group>"; };
@@ -172,7 +175,6 @@
 		5773ED4321F06E79001497E4 /* Cardview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardview.swift; sourceTree = "<group>"; };
 		57861E7B21D4C67200927E33 /* medocpatient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medocpatient.xcdatamodel; sourceTree = "<group>"; };
 		57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
-		57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthListTableViewCell.swift; sourceTree = "<group>"; };
 		71D8EC6C20D4888CACF8142D /* Pods-medocpatient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.debug.xcconfig"; sourceTree = "<group>"; };
 		72E2C42C57A7A40F4F57822E /* Pods-medocpatient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medocpatient.release.xcconfig"; path = "Pods/Target Support Files/Pods-medocpatient/Pods-medocpatient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +208,15 @@
 				575259E021D65DCC008DB872 /* EasyToast */,
 			);
 			path = "Third Party Library";
+			sourceTree = "<group>";
+		};
+		1C682DE922A786EE00028276 /* Family */ = {
+			isa = PBXGroup;
+			children = (
+				1C682DEA22A7870B00028276 /* FamilyViewController.swift */,
+				1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */,
+			);
+			path = Family;
 			sourceTree = "<group>";
 		};
 		1C93C40D2268868C00AF6989 /* PHQ-9 */ = {
@@ -277,6 +288,7 @@
 				57254BC821D4BF6400B38849 /* prescription */,
 				1CC43BA22265A99600534E6B /* Other */,
 				57A9EA5221E5E22E008C9CB2 /* Health */,
+				1C682DE922A786EE00028276 /* Family */,
 				1C93C40D2268868C00AF6989 /* PHQ-9 */,
 				1CFF601B2271D69D00112FF3 /* Localizable.strings */,
 			);
@@ -448,7 +460,6 @@
 			isa = PBXGroup;
 			children = (
 				57A9EA5321E5E253008C9CB2 /* HealthViewController.swift */,
-				57A9EA5521E5E2FA008C9CB2 /* HealthListTableViewCell.swift */,
 				574E0BE821EF76C4000127DC /* LatestDataTableViewCell.swift */,
 				57692CB721E731D6002DC4D0 /* ChartViewController.swift */,
 				574E0BE621EF6EC6000127DC /* ShowDataTableViewCell.swift */,
@@ -568,10 +579,10 @@
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/DBAttachmentPickerController/DBAttachmentPickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
-				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/ScrollableGraphView/ScrollableGraphView.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -585,10 +596,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBAttachmentPickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScrollableGraphView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -672,7 +683,9 @@
 				1CAA8D72225618330001E4CD /* Reachability.swift in Sources */,
 				57254BAF21D4BEE400B38849 /* RegisterViewController.swift in Sources */,
 				574E0BE921EF76C4000127DC /* LatestDataTableViewCell.swift in Sources */,
+				1C682DEB22A7870B00028276 /* FamilyViewController.swift in Sources */,
 				575259D021D6061C008DB872 /* IQToolbar.swift in Sources */,
+				1C682DED22A7872100028276 /* FamilyTableViewCell.swift in Sources */,
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
 				1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */,
@@ -686,7 +699,6 @@
 				57254B9821D4BE7F00B38849 /* FAQData.swift in Sources */,
 				574E0BE721EF6EC6000127DC /* ShowDataTableViewCell.swift in Sources */,
 				57717F6B21F9CED6000EA206 /* ContactUsViewController.swift in Sources */,
-				57A9EA5621E5E2FA008C9CB2 /* HealthListTableViewCell.swift in Sources */,
 				57254B9B21D4BE7F00B38849 /* SwiftLoader.swift in Sources */,
 				575259D921D6061C008DB872 /* IQUIViewController+Additions.swift in Sources */,
 				57254B9E21D4BE7F00B38849 /* Utilities.swift in Sources */,

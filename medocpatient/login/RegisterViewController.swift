@@ -267,11 +267,23 @@ class RegisterViewController: UIViewController{
                             let gender = "\(data.value(forKey: "gender") as! Int)"
                             let patient_id = "\(data.value(forKey: "patient_id") as! String)"
 
+                            self.FullNameTF.text = ""
+                            self.EmailTF.text = ""
+                            self.NumberTF.text = ""
+                            self.selectedGender = 0
+                            self.patientidget = ""
+                            self.GenderRadio[0].isSelected = false
+                            self.GenderRadio[1].isSelected = false
+                            self.GenderRadio[2].isSelected = false
+                            self.PasswordTF.text = ""
+                            self.ConfirmPasswordTF.text = ""
+                            
                             self.FullNameTF.text = name
                             self.EmailTF.text = email
                             self.NumberTF.text = contact_no
                             self.selectedGender = Int(gender)!
                             self.patientidget = patient_id
+                            
                             
                             if gender == "1"{
                                 self.GenderRadio[0].isSelected = true

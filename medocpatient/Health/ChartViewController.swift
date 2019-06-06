@@ -13,129 +13,28 @@ class ChartViewController: UIViewController {
     
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
-    @IBOutlet weak var viewChart: ScatterChartView!
+    @IBOutlet weak var viewChart: LineChartView!
     weak var axisFormatDelegate: IAxisValueFormatter?
     @IBOutlet var tableview: UITableView!
-    @IBOutlet var intervalSegment: UISegmentedControl!
     var dataarr = NSArray()
     var selectedtitle = ""
     
-    var charttype = [String]()
+    var xAxisValue = [String]()
     var chartvalue = [Double]()
-    
-    let dayPoint = ["12A","3","6","9","12P","3","6","9"]
-    let weekPoint = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
-    let monthPoint = ["1","7","14","21","28"]
-    let yearPoint = ["J","F","M","A","M","J","J","A","S","O","N","D"]
-
-    var attr = ""
-    var timeinterval = "d"
-    var fromdate = "0"
-    var todate = "0"
-    
-    let startWeek = Date().startOfWeek
-    let endWeek = Date().endOfWeek
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = selectedtitle
-        /*if selectedtitle == "Blood Pressure"{
-            attr = "bp"
-        }
-        else if selectedtitle == "Height"{
-            attr = "h"
-        }
-        else if selectedtitle == "Weight"{
-            attr = "w"
-        }
-        else if selectedtitle == "Temperature"{
-            attr = "t"
-        }
-        else {
-            print("none")
-        }*/
-        //fetchhealthdata()
-        updateChart()
         axisFormatDelegate = self
+        updateChart()
         tableview.tableFooterView = UIView(frame: .zero)
-        //intervalSegment.addTarget(self, action: #selector(changeintervalSegment), for: .valueChanged)
         // Do any additional setup after loading the view.
     }
-   /* @objc func changeintervalSegment(sender: UISegmentedControl){
-        if sender.selectedSegmentIndex == 0{
-            timeinterval = "d"
-            fromdate = "0"
-            todate = "0"
-            charttype = dayPoint
-            fetchhealthdata()
-        }
-        else if sender.selectedSegmentIndex == 1{
-            timeinterval = "w"
-            let df = DateFormatter()
-            df.dateFormat = "YYYY-MM-DD"
-            fromdate = df.string(from: startWeek!)
-            todate = df.string(from: endWeek!)
-            charttype = weekPoint
-            fetchhealthdata()
-        }
-        else if sender.selectedSegmentIndex == 2{
-            timeinterval = "m"
-            fromdate = "0"
-            todate = "0"
-            charttype = monthPoint
-            fetchhealthdata()
-        }
-        else if sender.selectedSegmentIndex == 3{
-            timeinterval = "y"
-            fromdate = "0"
-            todate = "0"
-            charttype = yearPoint
-            fetchhealthdata()
-        }
-    }
-    func fetchhealthdata(){
-        Utilities.shared.ShowLoaderView(view: self.view, Message: "")
-        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "viewhealthdata/\(attr)/\(timeinterval)/\(fromdate)/\(todate)", bearertoken: bearertoken!, onSuccessCompletion: {
-            do {
-                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
-                if let msg = json.value(forKey: "msg") as? String {
-                    if msg == "success"{
-                        if let data = json.value(forKey: "data") as? NSArray{
-                            self.dataarr = data
-                            self.updateChart()
-                        }
-                    }
-                }
-                print(json)
-                DispatchQueue.main.async {
-                    self.tableview.reloadData()
-                    Utilities.shared.RemoveLoaderView()
-                    self.viewChart.data?.notifyDataChanged()
-                    self.viewChart.notifyDataSetChanged()
-                }
-            } catch {
-                print("catch")
-            }
-        })
-    }*/
     func updateChart(){
         if self.dataarr.count > 0 {
             self.chartvalue.removeAll()
+            self.xAxisValue.removeAll()
             
-//            DispatchQueue.main.async {
-//                if self.intervalSegment.selectedSegmentIndex == 0{
-//                    self.charttype = self.dayPoint
-//                }
-//                else if self.intervalSegment.selectedSegmentIndex == 1{
-//                    self.charttype = self.weekPoint
-//                }
-//                else if self.intervalSegment.selectedSegmentIndex == 2{
-//                    self.charttype = self.monthPoint
-//                }
-//                else if self.intervalSegment.selectedSegmentIndex == 3{
-//                    self.charttype = self.yearPoint
-//                }
-//            }
             var appendvalue = [Double]()
             var appendvalue2 = [Double]()
             
@@ -147,8 +46,13 @@ class ChartViewController: UIViewController {
                 let weight = d.value(forKey: "weight") as? String
                 let temperature = d.value(forKey: "temperature") as? Int ?? 0
                 
-                let dateformatter = DateFormatter()
-                dateformatter.dateFormat = ""
+                let df = DateFormatter()
+                df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let date = df.date(from: created_at)
+                
+                let dateformatter2 = DateFormatter()
+                dateformatter2.dateFormat = "d MMM"
+                let datestr = dateformatter2.string(from: date!)
                 
                 if blood_pressure == "NF" || blood_pressure == "" {
                     blood_pressure = "0/0"
@@ -161,6 +65,7 @@ class ChartViewController: UIViewController {
                     if blood_pressure != "0/0" {
                         appendvalue.append(Double(systolic)!)
                         appendvalue2.append(Double(diastolic)!)
+                        xAxisValue.append(datestr)
                     }
                 }
                 else if self.selectedtitle == "Height"{
@@ -169,6 +74,7 @@ class ChartViewController: UIViewController {
                         if let a2 = height?.slice(from: "Feet ", to: " Inch") {
                             if let height = "\(a1!).\(a2)".toDouble() {
                                 appendvalue.append(Double(height))
+                                xAxisValue.append(datestr)
                             }
                         }
                     }
@@ -177,12 +83,14 @@ class ChartViewController: UIViewController {
                     if weight != "NF" || weight != ""{
                         if let w = weight?.toDouble() {
                             appendvalue.append(w)
+                            xAxisValue.append(datestr)
                         }
                     }
                 }
                 else if self.selectedtitle == "Temperature"{
                     if temperature != 0{
                         appendvalue.append(Double(temperature))
+                        xAxisValue.append(datestr)
                     }
                 }
             }
@@ -190,9 +98,9 @@ class ChartViewController: UIViewController {
             self.chartvalue = appendvalue
             
             if appendvalue.count > 0 {
-                self.setChart(dataPoints: self.charttype, values: self.chartvalue, values2: appendvalue2)
+                self.setChart(dataPoints: self.xAxisValue, values: self.chartvalue, values2: appendvalue2)
             } else {
-                self.setChart(dataPoints: self.charttype, values: self.chartvalue, values2: nil)
+                self.setChart(dataPoints: self.xAxisValue, values: self.chartvalue, values2: nil)
             }
             DispatchQueue.main.async {
                 self.tableview.isHidden = false
@@ -212,57 +120,62 @@ class ChartViewController: UIViewController {
         var dataEntries2: [ChartDataEntry] = []
         
         for (i,_) in values.enumerated() {
-            let dataEntry = ChartDataEntry(x: Double(i), y: values[i])
+            let dataEntry = ChartDataEntry(x: Double(i), y: values[i],data: dataPoints as AnyObject)
             dataEntries.append(dataEntry)
         }
         if values2 != nil{
             for (i,_) in values2!.enumerated() {
-                let dataEntry = ChartDataEntry(x: Double(i), y: values2![i])
+                let dataEntry = ChartDataEntry(x: Double(i), y: values2![i],data: dataPoints as AnyObject)
                 dataEntries2.append(dataEntry)
             }
         }
-        var ChartData = ScatterChartData()
-        var ChartDataSet = ScatterChartDataSet()
-        var ChartDataSet2 = ScatterChartDataSet()
+        var chartData = ChartData()
+        var chartDataSet = LineChartDataSet()
+        var chartDataSet2 = LineChartDataSet()
         
         if self.selectedtitle == "Blood Pressure" {
-            ChartDataSet = ScatterChartDataSet(values: dataEntries, label: "Systolic")
-            ChartDataSet2 = ScatterChartDataSet(values: dataEntries2, label: "Diastolic")
-            ChartDataSet.setScatterShape(.chevronDown)
-            ChartDataSet.setColor(UIColor.red)
-            ChartDataSet2.setScatterShape(.chevronUp)
-            ChartData = ScatterChartData(dataSets: [ChartDataSet,ChartDataSet2])
+            chartDataSet = LineChartDataSet(values: dataEntries, label: "Systolic")
+            chartDataSet2 = LineChartDataSet(values: dataEntries2, label: "Diastolic")
+            chartDataSet.setColor(UIColor.red)
+            chartDataSet.setCircleColor(UIColor.red)
+            chartDataSet.circleHoleColor = UIColor.red
+            chartDataSet2.setColor(UIColor.blue.withAlphaComponent(0.5))
+            chartDataSet.setCircleColor(UIColor.blue.withAlphaComponent(0.5))
+            chartDataSet2.circleHoleColor = UIColor.blue.withAlphaComponent(0.5)
+            chartData = LineChartData(dataSets: [chartDataSet,chartDataSet2])
         } else {
             if self.selectedtitle == "Height"{
-                ChartDataSet = ScatterChartDataSet(values: dataEntries, label: selectedtitle + " in ft")
+                chartDataSet = LineChartDataSet(values: dataEntries, label: selectedtitle + " in ft")
             }
             else if self.selectedtitle == "Weight"{
-                ChartDataSet = ScatterChartDataSet(values: dataEntries, label: selectedtitle + " in kg")
+                chartDataSet = LineChartDataSet(values: dataEntries, label: selectedtitle + " in kg")
             }
             else if self.selectedtitle == "Temperature"{
-                ChartDataSet = ScatterChartDataSet(values: dataEntries, label: selectedtitle + " in ºC")
+                chartDataSet = LineChartDataSet(values: dataEntries, label: selectedtitle + " in ºC")
             }
-            ChartDataSet.setScatterShape(.circle)
-            ChartData = ScatterChartData(dataSet: ChartDataSet)
+            chartData = LineChartData(dataSet: chartDataSet)
         }
-        viewChart.data = ChartData
+        viewChart.data = chartData
         viewChart.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
         viewChart.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
         viewChart.rightAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
-        ChartDataSet.valueFont = UIFont.boldSystemFont(ofSize: 10)
-        ChartDataSet2.valueFont = UIFont.boldSystemFont(ofSize: 10)
-
-//        let xAxisValue = viewChart.xAxis
-//        viewChart.xAxis.granularityEnabled = true
-//        viewChart.xAxis.granularity = 1.0
-//        viewChart.animate(xAxisDuration: 1.0, easingOption: ChartEasingOption.linear)
-//        xAxisValue.valueFormatter = axisFormatDelegate
+        chartDataSet.valueFont = UIFont.boldSystemFont(ofSize: 10)
+        chartDataSet2.valueFont = UIFont.boldSystemFont(ofSize: 10)
+        
+        let xAxisValue = viewChart.xAxis
+        xAxisValue.granularityEnabled = true
+        xAxisValue.granularity = 1.0
+        xAxisValue.spaceMin = 0.5
+        xAxisValue.spaceMax = 0.5
+        xAxisValue.labelPosition = .bottom
+        viewChart.animate(xAxisDuration: 1.0, easingOption: ChartEasingOption.linear)
+        xAxisValue.valueFormatter = axisFormatDelegate
     }
 }
 extension ChartViewController: IAxisValueFormatter {
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return charttype[Int(value)]
+        return xAxisValue[Int(value) % xAxisValue.count]
     }
 }
 extension ChartViewController: UITableViewDelegate, UITableViewDataSource {

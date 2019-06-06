@@ -6,7 +6,6 @@ target 'medocpatient' do
   use_frameworks!
 
   # Pods for medocpatient
-pod 'FSCalendar'
 pod 'DBAttachmentPickerController', '~> 1.1.0'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'CryptoSwift'
@@ -17,4 +16,5 @@ pod 'ZAlertView'
 pod 'Firebase/Messaging'
 pod 'Firebase/Core'
 pod 'Alamofire'
+pod 'ScrollableGraphView'
     end

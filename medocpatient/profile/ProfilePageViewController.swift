@@ -151,7 +151,7 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         self.alltextfield(bool: false)
         self.navigationItem.hidesBackButton = true
         let back = UIBarButtonItem(image: #imageLiteral(resourceName: "left-arrow.png"), style: .plain, target: self, action: #selector(handleBack))
-        back.imageInsets = UIEdgeInsets(top: 3, left: -20, bottom: -7, right: -10)
+        back.imageInsets = UIEdgeInsets(top: 3, left: -5, bottom: -7, right: -10)
         self.navigationItem.leftBarButtonItem = back
         
         customizePickerViewandDateView()

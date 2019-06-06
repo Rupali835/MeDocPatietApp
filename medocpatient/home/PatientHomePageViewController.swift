@@ -26,12 +26,13 @@ class PatientHomePageViewController: UIViewController{
 
     @IBOutlet var headerview: UIView!
 
-    let icons = [#imageLiteral(resourceName: "users.png"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram.png"),#imageLiteral(resourceName: "question.png"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png")]
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline"]
+    let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var dict = NSDictionary()
+    let offset: CGFloat = 7
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -43,6 +44,7 @@ class PatientHomePageViewController: UIViewController{
         self.hometitle.text = "Welcome To Medoc !".localized()
         // Do any additional setup after loading the view.
     }
+    
     override func viewWillLayoutSubviews() {
         navItem()
     }
@@ -71,7 +73,7 @@ class PatientHomePageViewController: UIViewController{
         self.navigationItem.leftBarButtonItem = titlebar
         
         let LogoutBar = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "power.png"), target: self, action: #selector(LogoutAction))
-        let info = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "icons8-info-50.png"), target: self, action: #selector(infodetails))
+        let info = UIBarButtonItem.itemWith(colorfulImage: #imageLiteral(resourceName: "info"), target: self, action: #selector(infodetails))
         self.navigationItem.rightBarButtonItems = [LogoutBar,info]
  
     }
@@ -215,17 +217,22 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             pdfVC.view.backgroundColor = UIColor.white
             self.navigationController?.pushViewController(pdfVC, animated: true)
         }
+        else if indexPath.row == 10{
+            let familyvc = self.storyboard?.instantiateViewController(withIdentifier: "FamilyViewController") as! FamilyViewController
+            familyvc.navigationItem.title = title
+            self.navigationController?.pushViewController(familyvc, animated: true)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.size.width / 3) - (10 + 5), height: (collectionView.frame.size.width / 2.5) - (10 + 5))
+        return CGSize(width: (collectionView.frame.size.width / 3) - (offset + offset/2), height: (collectionView.frame.size.width / 2.65) - (offset + offset/2))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return offset
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return offset
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: offset, left: offset, bottom: offset, right: offset)
     }
 }

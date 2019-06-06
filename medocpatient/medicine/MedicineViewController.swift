@@ -349,36 +349,17 @@ class MedicineViewController: UIViewController {
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let md = self.medicineData.object(at: section) as! NSArray
-//        print("md: \(md.count)")
-//        var rows: Int = 0
-//
-//        for i in 0..<section {
-//            rows += tableView.numberOfRows(inSection: i)
-//        }
-//
-//        if md.count == 0{
-//            if rows == 0{
-//                self.nodatalbl.isHidden = false
-//            }
-//            return 0
-//        } else {
-            return md.count
-       // }
+        return md.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.prescription.count
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableCell(withIdentifier: "headercell") as! headercell
-
-//        if self.tableview.dataSource?.tableView(tableView, numberOfRowsInSection: section) == 0 {
-//            return UIView(frame: .zero)
-//        } else {
-            let d = self.prescription.object(at: section) as! NSDictionary
-            let patient_problem = d.value(forKey: "patient_problem") as! String
-            header.titles.text = patient_problem
-            return header
-       // }
+        let d = self.prescription.object(at: section) as! NSDictionary
+        let patient_problem = d.value(forKey: "patient_problem") as! String
+        header.titles.text = patient_problem
+        return header
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -386,138 +367,136 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
         let md = self.medicineData.object(at: indexPath.section) as! NSArray
-        if md.count == 0{
-            
-        } else {
-            self.timeslot.removeAll()
-            let d = md.object(at: indexPath.row) as! NSDictionary
-            
-            let name = d.value(forKey: "medicine_name") as! String
-            let medicine_type = d.value(forKey: "medicine_type") as! String
-            let medicine_quantity = d.value(forKey: "medicine_quantity") as! String
-            
-            let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
-            let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
-            if before_bf == "1"{
-                if !self.timeslot.contains("Before \(before_bf_time) minute Of Breakfast"){
-                    if before_bf_time == "0" {
-                        self.timeslot.append("Before Breakfast")
-                    } else {
-                        self.timeslot.append("Before \(before_bf_time) minute Of Breakfast")
-                    }
+        
+        self.timeslot.removeAll()
+        let d = md.object(at: indexPath.row) as! NSDictionary
+        
+        let name = d.value(forKey: "medicine_name") as! String
+        let medicine_type = d.value(forKey: "medicine_type") as! String
+        let medicine_quantity = d.value(forKey: "medicine_quantity") as! String
+        
+        let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
+        let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
+        if before_bf == "1"{
+            if !self.timeslot.contains("Before \(before_bf_time) minute Of Breakfast"){
+                if before_bf_time == "0" {
+                    self.timeslot.append("Before Breakfast")
+                } else {
+                    self.timeslot.append("Before \(before_bf_time) minute Of Breakfast")
                 }
-            }
-            
-            let after_bf = "\(d.value(forKey: "after_bf") as! Int)"
-            let after_bf_time = "\(d.value(forKey: "after_bf_time") as! Int)"
-            if after_bf == "1"{
-                if !self.timeslot.contains("After \(after_bf_time) minute Of Breakfast"){
-                    if after_bf_time == "0" {
-                        self.timeslot.append("After Breakfast")
-                    } else {
-                        self.timeslot.append("After \(after_bf_time) minute Of Breakfast")
-                    }
-                }
-            }
-            
-            let before_lunch = "\(d.value(forKey: "before_lunch") as! Int)"
-            let before_lunch_time = "\(d.value(forKey: "before_lunch_time") as! Int)"
-            if before_lunch == "1"{
-                if !self.timeslot.contains("Before \(before_lunch_time) minute Of Lunch"){
-                    if before_lunch_time == "0" {
-                        self.timeslot.append("Before  Lunch")
-                    } else {
-                        self.timeslot.append("Before \(before_lunch_time) minute Of Lunch")
-                    }
-                }
-            }
-            
-            let after_lunch = "\(d.value(forKey: "after_lunch") as! Int)"
-            let after_lunch_time = "\(d.value(forKey: "after_lunch_time") as! Int)"
-            if after_lunch == "1"{
-                if !self.timeslot.contains("After \(after_lunch_time) minute Of Lunch"){
-                    if after_lunch_time == "0" {
-                        self.timeslot.append("After Lunch")
-                    } else {
-                        self.timeslot.append("After \(after_lunch_time) minute Of Lunch")
-                    }
-                }
-            }
-            
-            let before_dinner = "\(d.value(forKey: "before_dinner") as! Int)"
-            let before_dinner_time = "\(d.value(forKey: "before_dinner_time") as! Int)"
-            if before_dinner == "1"{
-                if !self.timeslot.contains("Before \(before_dinner_time) minute Of Dinner"){
-                    if before_dinner_time == "0" {
-                        self.timeslot.append("Before Dinner")
-                    } else {
-                        self.timeslot.append("Before \(before_dinner_time) minute Of Dinner")
-                    }
-                }
-            }
-            
-            let after_dinner = "\(d.value(forKey: "after_dinner") as! Int)"
-            let after_dinner_time = "\(d.value(forKey: "after_dinner_time") as! Int)"
-            if after_dinner == "1"{
-                if !self.timeslot.contains("After \(after_dinner_time) minute Of Dinner"){
-                    if after_dinner_time == "0" {
-                        self.timeslot.append("After Dinner")
-                    } else {
-                        self.timeslot.append("After \(after_dinner_time) minute Of Dinner")
-                    }
-                }
-            }
-            
-            let interval_period = "\(d.value(forKey: "interval_period") as! Int)"
-            let interval_time = d.value(forKey: "interval_time") as! String
-            let interval_type = "\(d.value(forKey: "interval_type") as! Int)"
-            
-            switch interval_type {
-            case "1":
-                medicinecell.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
-                medicinecell.interval_period.text = "Period: \(interval_period) days"
-                medicinecell.interval_time.text = "";
-            case "2":
-                medicinecell.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
-                medicinecell.interval_period.text = "Period: \(interval_period) weeks"
-                medicinecell.interval_time.text = "Times: \(interval_time) times in a week";
-            case "3":
-                medicinecell.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
-                medicinecell.interval_period.text = "Period: \(interval_period) days"
-                medicinecell.interval_time.text = "Times: \(interval_time) times in a day";
-            default:
-                medicinecell.interval_type.text = ""
-                medicinecell.interval_period.text = ""
-                medicinecell.interval_time.text = ""
-            }
-            medicinecell.name.text = name + "(\(medicine_type))"
-            
-            var breakfast = Int()
-            var lunch = Int()
-            var dinner = Int()
-            
-            breakfast = Int(before_bf)! + Int(after_bf)!
-            lunch = Int(before_lunch)! + Int(after_lunch)!
-            dinner = Int(before_dinner)! + Int(after_dinner)!
-            
-            if breakfast == 2{
-                breakfast = 1
-            }
-            if lunch == 2{
-                lunch = 1
-            }
-            if dinner == 2{
-                dinner = 1
-            }
-            
-            if breakfast == 0 && lunch == 0 && dinner == 0 {
-                medicinecell.timeslot.text = ""
-                medicinecell.beforeaftertime.text = ""
-            } else {
-                medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
-                medicinecell.beforeaftertime.text = "-\(self.timeslot.joined(separator: "\n-"))"
             }
         }
+        
+        let after_bf = "\(d.value(forKey: "after_bf") as! Int)"
+        let after_bf_time = "\(d.value(forKey: "after_bf_time") as! Int)"
+        if after_bf == "1"{
+            if !self.timeslot.contains("After \(after_bf_time) minute Of Breakfast"){
+                if after_bf_time == "0" {
+                    self.timeslot.append("After Breakfast")
+                } else {
+                    self.timeslot.append("After \(after_bf_time) minute Of Breakfast")
+                }
+            }
+        }
+        
+        let before_lunch = "\(d.value(forKey: "before_lunch") as! Int)"
+        let before_lunch_time = "\(d.value(forKey: "before_lunch_time") as! Int)"
+        if before_lunch == "1"{
+            if !self.timeslot.contains("Before \(before_lunch_time) minute Of Lunch"){
+                if before_lunch_time == "0" {
+                    self.timeslot.append("Before  Lunch")
+                } else {
+                    self.timeslot.append("Before \(before_lunch_time) minute Of Lunch")
+                }
+            }
+        }
+        
+        let after_lunch = "\(d.value(forKey: "after_lunch") as! Int)"
+        let after_lunch_time = "\(d.value(forKey: "after_lunch_time") as! Int)"
+        if after_lunch == "1"{
+            if !self.timeslot.contains("After \(after_lunch_time) minute Of Lunch"){
+                if after_lunch_time == "0" {
+                    self.timeslot.append("After Lunch")
+                } else {
+                    self.timeslot.append("After \(after_lunch_time) minute Of Lunch")
+                }
+            }
+        }
+        
+        let before_dinner = "\(d.value(forKey: "before_dinner") as! Int)"
+        let before_dinner_time = "\(d.value(forKey: "before_dinner_time") as! Int)"
+        if before_dinner == "1"{
+            if !self.timeslot.contains("Before \(before_dinner_time) minute Of Dinner"){
+                if before_dinner_time == "0" {
+                    self.timeslot.append("Before Dinner")
+                } else {
+                    self.timeslot.append("Before \(before_dinner_time) minute Of Dinner")
+                }
+            }
+        }
+        
+        let after_dinner = "\(d.value(forKey: "after_dinner") as! Int)"
+        let after_dinner_time = "\(d.value(forKey: "after_dinner_time") as! Int)"
+        if after_dinner == "1"{
+            if !self.timeslot.contains("After \(after_dinner_time) minute Of Dinner"){
+                if after_dinner_time == "0" {
+                    self.timeslot.append("After Dinner")
+                } else {
+                    self.timeslot.append("After \(after_dinner_time) minute Of Dinner")
+                }
+            }
+        }
+        
+        let interval_period = "\(d.value(forKey: "interval_period") as! Int)"
+        let interval_time = d.value(forKey: "interval_time") as! String
+        let interval_type = "\(d.value(forKey: "interval_type") as! Int)"
+        
+        switch interval_type {
+        case "1":
+            medicinecell.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
+            medicinecell.interval_period.text = "Period: \(interval_period) days"
+            medicinecell.interval_time.text = "";
+        case "2":
+            medicinecell.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
+            medicinecell.interval_period.text = "Period: \(interval_period) weeks"
+            medicinecell.interval_time.text = "Times: \(interval_time) times in a week";
+        case "3":
+            medicinecell.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
+            medicinecell.interval_period.text = "Period: \(interval_period) days"
+            medicinecell.interval_time.text = "Times: \(interval_time) times in a day";
+        default:
+            medicinecell.interval_type.text = ""
+            medicinecell.interval_period.text = ""
+            medicinecell.interval_time.text = ""
+        }
+        medicinecell.name.text = name + "(\(medicine_type))"
+        
+        var breakfast = Int()
+        var lunch = Int()
+        var dinner = Int()
+        
+        breakfast = Int(before_bf)! + Int(after_bf)!
+        lunch = Int(before_lunch)! + Int(after_lunch)!
+        dinner = Int(before_dinner)! + Int(after_dinner)!
+        
+        if breakfast == 2{
+            breakfast = 1
+        }
+        if lunch == 2{
+            lunch = 1
+        }
+        if dinner == 2{
+            dinner = 1
+        }
+        
+        if breakfast == 0 && lunch == 0 && dinner == 0 {
+            medicinecell.timeslot.text = ""
+            medicinecell.beforeaftertime.text = ""
+        } else {
+            medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
+            medicinecell.beforeaftertime.text = "-\(self.timeslot.joined(separator: "\n-"))"
+        }
+        
         return medicinecell
     }
 }
