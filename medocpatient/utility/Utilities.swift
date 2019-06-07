@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import ZAlertView
 import UserNotifications
+import MaterialComponents.MaterialSnackbar
 
 class Utilities {
     static let shared: Utilities = Utilities()
@@ -60,6 +61,18 @@ class Utilities {
             vc.navigationController?.pushViewController(zvc, animated: false)
         }
     }
+    func showToast(text: String,duration: TimeInterval?){
+        let message = MDCSnackbarMessage()
+        message.text = text
+        
+        if duration != nil{
+            message.duration = duration ?? 3.0
+        }
+        MDCSnackbarManager.buttonFont = UIFont.boldSystemFont(ofSize: 25)
+//        MDCSnackbarManager.messageTextColor = UIColor.black
+//        MDCSnackbarManager.snackbarMessageViewBackgroundColor = UIColor.white
+        MDCSnackbarManager.show(message)
+    }
     func centermsg(msg: String,view: UIView){
         message.text = msg
         message.translatesAutoresizingMaskIntoConstraints = false
@@ -79,12 +92,12 @@ class Utilities {
     var blurEffectView = UIVisualEffectView()
     
     func ShowLoaderView(view: UIView,Message: String){
-        let blurEffect = UIBlurEffect(style: .regular)
+        let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.frame
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(blurEffectView)
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         blurEffectView.contentView.addSubview(activityIndicator)
         activityIndicator.center = blurEffectView.contentView.center
@@ -96,6 +109,7 @@ class Utilities {
         message.numberOfLines = 0
         message.textAlignment = .center
         message.font = UIFont.boldSystemFont(ofSize: 18)
+        message.textColor = UIColor.white
         blurEffectView.contentView.addSubview(message)
         
         message.leftAnchor.constraint(equalTo: blurEffectView.contentView.leftAnchor, constant: 30).isActive = true

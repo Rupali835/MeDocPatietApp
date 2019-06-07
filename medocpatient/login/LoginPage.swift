@@ -9,6 +9,7 @@
 //8108091854 & Prashant@123
 //7738260306 & Amit@123
 //9619913968 & Sunil@123 & Krish@123
+//8850214693 & Meera@123
 
 import UIKit
 import SkyFloatingLabelTextField
@@ -100,19 +101,14 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             print("catch")
         }
     }
+    
+   
     func login(){
         print("0")
-       /* let url = ApiServices.shared.baseUrl + "patientlogin"
-        let param: Parameters = ["login_id": self.PatientTextField.text!,"password": self.PasswordTextField.text!]
-        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded","Accept": "application/json"]
-        //,"fcm_token": AppDelegate().fcm_token!
-        //(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
-        Alamofire.request(url, method: .post, parameters: param).responseJSON { (resp) in
-            print(resp)
-        }*/
         
-        Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
+//       Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
         ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
+            
             do {
                 let js = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers)
                 let json = js as! NSDictionary
@@ -153,9 +149,9 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         
                         if let bt = bearertokenget {
                             if bt == bearertoken {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                     Utilities.shared.RemoveLoaderView()
-                                    self.view.showToast("Successfully Logged in", position: .bottom, popTime: 3, dismissOnTap: true)
+                                    Utilities.shared.showToast(text: "Successfully Logged in", duration: 3.0)
                                     self.appdel.RootPatientHomeVC()
                                 }
                             } else {
@@ -166,44 +162,58 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     }
                 }
                 else if msg == "User not registered"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         Utilities.shared.RemoveLoaderView()
-                        self.view.showToast("\(msg)", position: .bottom, popTime: 3, dismissOnTap: true)
+                        Utilities.shared.showToast(text: "\(msg)", duration: 3.0)
                     }
                 }
                 else if msg == "Unauthorised"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         Utilities.shared.RemoveLoaderView()
-                        self.view.showToast("Maybe You Entered Wrong Password", position: .bottom, popTime: 3, dismissOnTap: true)
+                        Utilities.shared.showToast(text: "Maybe You Entered Wrong Password", duration: 3.0)
                     }
                 }
                 else if msg == "fail"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         Utilities.shared.RemoveLoaderView()
                         let reason = json.value(forKey: "reason") as! String
-                        self.view.showToast(reason, position: .bottom, popTime: 3, dismissOnTap: true)
+                        Utilities.shared.showToast(text: reason, duration: 3.0)
                     }
                 }
             } catch {
                 print("catch")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     Utilities.shared.RemoveLoaderView()
-                    self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
                 }
             }
         })
     }
     @objc func loginAction(){
         if (PatientTextField.text?.isEmpty)! {
-            self.view.showToast("Enter \(PatientTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(PatientTextField.placeholder!)", duration: 3.0)
         }
         else if (PasswordTextField.text?.isEmpty)! {
-            self.view.showToast("Enter \(PasswordTextField.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(PasswordTextField.placeholder!)", duration: 3.0)
         }
         else{
             self.PatientTextField.endEditing(true)
             self.PasswordTextField.endEditing(true)
-            login()
+            
+            NetworkManager.isReachable { _ in
+                self.login()
+            }
+            NetworkManager.isUnreachable { (_) in
+                Alert.shared.internetoffline(vc: self)
+            }
+            NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+                self.login()
+            }
+            NetworkManager.sharedInstance.reachability.whenUnreachable = { _ in
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                }
+            }
         }
     }
     @objc func showpassword(sender: UIButton){
@@ -242,3 +252,11 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     }
 }
 
+/* let url = ApiServices.shared.baseUrl + "patientlogin"
+ let param: Parameters = ["login_id": self.PatientTextField.text!,"password": self.PasswordTextField.text!]
+ let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded","Accept": "application/json"]
+ //,"fcm_token": AppDelegate().fcm_token!
+ //(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
+ Alamofire.request(url, method: .post, parameters: param).responseJSON { (resp) in
+ print(resp)
+ }*/

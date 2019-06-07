@@ -31,9 +31,6 @@ class MedicineViewController: UIViewController {
         tableview.sectionHeaderHeight = UITableView.automaticDimension
         tableview.estimatedSectionHeaderHeight = 50;
         
-        // Do any additional setup after loading the view.
-    }
-    override func viewDidAppear(_ animated: Bool) {
         setupReminder()
         
         NetworkManager.isReachable { _ in
@@ -48,6 +45,7 @@ class MedicineViewController: UIViewController {
             self.nodatalbl.text = "No Internet Connection"
             self.nodatalbl.isHidden = false
         }
+        // Do any additional setup after loading the view.
     }
     func setupReminder(){
         self.eventStore = EKEventStore()
@@ -94,7 +92,8 @@ class MedicineViewController: UIViewController {
                         if let data = json.value(forKey: "data") as? NSArray{
                             let prescrip = data.value(forKey: "prescription_details") as! NSArray
                             if let medicines = data.value(forKey: "medicines") as? NSArray{
-                                
+                                self.medicineData.removeAllObjects()
+                                self.prescription.removeAllObjects()
                                 for (index,med) in medicines.enumerated() {
                                     let count = medicines.object(at: index) as! NSArray
                                     if count.count == 0{
@@ -106,6 +105,16 @@ class MedicineViewController: UIViewController {
                                 }
                                 print("medicines-\(self.medicineData)")
                                 print("prescription-\(self.prescription)")
+                                for (index,remind) in self.reminders.enumerated() {
+                                    if (remind.notes?.contains(find: "Cheif Complain:"))! {
+                                        do {
+                                            try self.eventStore.remove(remind, commit: true)
+                                            print("Already Added Remove")
+                                        } catch {
+                                            print("catch")
+                                        }
+                                    }
+                                }
                                 self.createNewReminder()
                             }
                         }
@@ -149,22 +158,22 @@ class MedicineViewController: UIViewController {
                 let medicinename = mdata.value(forKey: "medicine_name") as! String
                 let medicine_type = "(\(mdata.value(forKey: "medicine_type") as! String))"
                 let medicine_quantity = " - (Quantity: \(mdata.value(forKey: "medicine_quantity") as! String))"
-                
-                for (index,remind) in self.reminders.enumerated() {
-                    if remind.notes == "Cheif Complain: \(patient_problem)" && (remind.title?.contains(find: medicinename))!{
-                        do {
-                            try self.eventStore.remove(remind, commit: true)
-                            self.reminders.remove(at: index)
-                            alreadyadded = false
-                            print("Already Added Remove")
-                        } catch {
-                            print("catch")
-                            print("Already Added")
-                            alreadyadded = true
-                        }
-                        break;
-                    }
-                }
+//
+//                for (index,remind) in self.reminders.enumerated() {
+//                    if remind.notes == "Cheif Complain: \(patient_problem)" && (remind.title?.contains(find: medicinename))!{
+//                        do {
+//                            try self.eventStore.remove(remind, commit: true)
+//                            self.reminders.remove(at: index)
+//                            alreadyadded = false
+//                            print("Already Added Remove")
+//                        } catch {
+//                            print("catch")
+//                            print("Already Added")
+//                            alreadyadded = true
+//                        }
+//                        break;
+//                    }
+//                }
                 var alarmdates = [EKAlarm]()
                 
                 let dateFormatter = DateFormatter()

@@ -71,7 +71,7 @@ class AddPHQViewController: UIViewController {
     }
     @objc func Action_Save(){
         if self.faq.contains(where: {$0.Answer == ""}) {
-            self.view.showToast("You have not answered all question", position: .bottom, popTime: 3.0, dismissOnTap: true)
+            Utilities.shared.showToast(text: "You have not answered all question", duration: 3.0)
         } else {
             self.finalanswerview.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             self.view.addSubview(self.finalanswerview)
@@ -82,7 +82,7 @@ class AddPHQViewController: UIViewController {
     }
     @IBAction func submit(){
         if self.final_answer_title == ""{
-            self.view.showToast("Select anyone of the following", position: .bottom, popTime: 3.0, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Select anyone of the following", duration: 3.0)
         } else {
             NetworkManager.isReachable { _ in
                 DispatchQueue.main.async {
@@ -94,7 +94,7 @@ class AddPHQViewController: UIViewController {
             }
             NetworkManager.isUnreachable { _ in
                 DispatchQueue.main.async {
-                    self.view.showToast("Turn on Internet Connection to upload", position: .bottom, popTime: 3.0, dismissOnTap: true)
+                    Utilities.shared.showToast(text: "Turn on Internet Connection to upload", duration: 3.0)
                 }
             }
         }
@@ -234,7 +234,7 @@ extension AddPHQViewController : UITableViewDataSource, UITableViewDelegate {
                 let msg = json.value(forKey: "msg") as! String
                 if msg == "success" {
                     DispatchQueue.main.async {
-                        self.view.showToast("Submitted PHQ Successfully", position: .bottom, popTime: 3.0, dismissOnTap: true)
+                        Utilities.shared.showToast(text: "Submitted PHQ Successfully", duration: 3.0)
                     }
                 }
                 print(json)

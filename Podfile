@@ -17,4 +17,5 @@ pod 'Firebase/Messaging'
 pod 'Firebase/Core'
 pod 'Alamofire'
 pod 'ScrollableGraphView'
+pod 'MaterialComponents/Snackbar'
     end

@@ -166,7 +166,7 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
     }
     
     func toast(msg: String){
-        self.view.showToast(msg, position: .bottom, popTime: 3, dismissOnTap: true)
+        Utilities.shared.showToast(text: msg, duration: 3.0)
     }
     func json(from object:Any) -> String? {
         guard let data = try? JSONSerialization.data(withJSONObject:  object, options: []) else
@@ -622,7 +622,7 @@ extension ProfilePageViewController { //api services
                             UserDefaults.standard.synchronize()
                             self.uploadimage()
                             Utilities.shared.RemoveLoaderView()
-                            self.view.showToast("Update Profile Details Successfully", position: .bottom, popTime: 3.0, dismissOnTap: true)
+                            self.toast(msg: "Update Profile Details Successfully")
                             self.navigationController?.popViewController(animated: true)
                         }
                     }
@@ -631,13 +631,13 @@ extension ProfilePageViewController { //api services
                     DispatchQueue.main.async {
                         Utilities.shared.RemoveLoaderView()
                         if let email = error.value(forKey: "email") as? [String]{
-                            self.view.showToast(email.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                            self.toast(msg: email.joined())
                         }
                         else if let contact_no = error.value(forKey: "contact_no") as? [String]{
-                            self.view.showToast(contact_no.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                            self.toast(msg: contact_no.joined())
                         }
                         else if let name = error.value(forKey: "name") as? [String]{
-                            self.view.showToast(name.joined(), position: .bottom, popTime: 5, dismissOnTap: true)
+                            self.toast(msg: name.joined())
                         }
                     }
                 }

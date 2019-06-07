@@ -146,7 +146,7 @@ class RegisterViewController: UIViewController{
     }
     @objc func DoneAction(){
         if (PatientIDTF.text?.isEmpty)! {
-            self.view.showToast("Enter Patient Id", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter Patient Id", duration: 3.0)
         } else {
             fetchDetailByPatientID()
         }
@@ -157,40 +157,40 @@ class RegisterViewController: UIViewController{
     @objc func SignupAction(){
         //check empty textfield
         if (self.FullNameTF.text?.isEmpty)! {
-            self.view.showToast("Enter \(self.FullNameTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(self.FullNameTF.placeholder!)", duration: 3.0)
         }
 //        else if (self.EmailTF.text?.isEmpty)! {
-//            self.view.showToast("Enter \(self.EmailTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+//            Utilities.shared.showToast(text: "Enter \(self.EmailTF.placeholder!)", duration: 3.0)
 //        }
         else if self.EmailTF.text != "" && self.EmailTF.text?.isValidEmail() == false{
-            self.view.showToast("Invalid Email", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Invalid Email", duration: 3.0)
         }
         else if (self.NumberTF.text?.isEmpty)! {
-            self.view.showToast("Enter \(self.NumberTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(self.NumberTF.placeholder!)", duration: 3.0)
         }
         else if (self.PasswordTF.text?.isEmpty)! {
-            self.view.showToast("Enter \(self.PasswordTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(self.PasswordTF.placeholder!)", duration: 3.0)
         }
         else if (self.ConfirmPasswordTF.text?.isEmpty)! {
-            self.view.showToast("Enter \(self.ConfirmPasswordTF.placeholder!)", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Enter \(self.ConfirmPasswordTF.placeholder!)", duration: 3.0)
         }
 //        else if self.NumberTF.text?.isValidIndianContact == false{
-//            self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
+  //      Utilities.shared.showToast(text: "Invalid Mobile Number", duration: 3.0)
 //        }
         else if self.NumberTF.text?.count != 10{
-            self.view.showToast("Invalid Mobile Number", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Invalid Mobile Number", duration: 3.0)
         }
         else if self.NumberTF.text != "" && self.NumberTF.text?.first == "0"{
-            self.view.showToast("Mobile Number Should Not Start With 0", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Mobile Number Should Not Start With 0", duration: 3.0)
         }
         else if self.PasswordTF.text?.isValidPassword() == false{
-            self.view.showToast("Invalid Password", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Invalid Password", duration: 3.0)
         }
         else if self.ConfirmPasswordTF.text != self.PasswordTF.text {
-            self.view.showToast("Not Matched With Password", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Not Matched With Password", duration: 3.0)
         }
         else if self.selectedGender == 0{
-            self.view.showToast("Select Gender", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Select Gender", duration: 3.0)
         }
         //check all validation
         else {
@@ -201,20 +201,48 @@ class RegisterViewController: UIViewController{
                 } else {
                     print("0")
                     let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.patientidget)"
-                    register(parameter: with_patient_id)
+                    
+                    NetworkManager.isReachable { _ in
+                        self.register(parameter: with_patient_id)
+                    }
+                    NetworkManager.isUnreachable { (_) in
+                        Alert.shared.internetoffline(vc: self)
+                    }
+                    NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+                        self.register(parameter: with_patient_id)
+                    }
+                    NetworkManager.sharedInstance.reachability.whenUnreachable = { _ in
+                        DispatchQueue.main.async {
+                            Utilities.shared.RemoveLoaderView()
+                        }
+                    }
                 }
             }
             else if HavePatientID == false{
                 print("1")
                 //without patient id
                 let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)"
-                register(parameter: without_patient_id)
+                
+                NetworkManager.isReachable { _ in
+                    self.register(parameter: without_patient_id)
+                }
+                NetworkManager.isUnreachable { (_) in
+                    Alert.shared.internetoffline(vc: self)
+                }
+                NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+                    self.register(parameter: without_patient_id)
+                }
+                NetworkManager.sharedInstance.reachability.whenUnreachable = { _ in
+                    DispatchQueue.main.async {
+                        Utilities.shared.RemoveLoaderView()
+                    }
+                }
             }
             
         }
     }//7218845446 & Amit@123
     func register(parameter: String){
-        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
+        //Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
         ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregister", parameter:  parameter, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
@@ -223,7 +251,7 @@ class RegisterViewController: UIViewController{
                     if msg == "success" {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                             Utilities.shared.RemoveLoaderView()
-                            self.view.showToast("Signup Successfully", position: .bottom, popTime: 5, dismissOnTap: true)
+                            Utilities.shared.showToast(text: "Signup Successfully", duration: 3.0)
 
                              NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.NumberTF.text!,"password":self.PasswordTF.text!])
                             self.dismiss(animated: true, completion: nil)
@@ -233,7 +261,7 @@ class RegisterViewController: UIViewController{
                         if let reason = json.value(forKey: "reason") as? String{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                                 Utilities.shared.RemoveLoaderView()
-                                self.view.showToast("Reason: \(reason)", position: .bottom, popTime: 3, dismissOnTap: true)
+                                Utilities.shared.showToast(text: "Reason: \(reason)", duration: 3.0)
                             }
                         }
                     }
@@ -242,13 +270,13 @@ class RegisterViewController: UIViewController{
                 print("catch")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     Utilities.shared.RemoveLoaderView()
-                    self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
                 }
             }
         })
     }
     func fetchDetailByPatientID(){
-        Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
+        //Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
         PatientIDTF.endEditing(true)
         ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
             do {
@@ -307,7 +335,7 @@ class RegisterViewController: UIViewController{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                         Utilities.shared.RemoveLoaderView()
                         if let reason = json.value(forKey: "reason") as? String{
-                            self.view.showToast("Reason: \(reason)", position: .bottom, popTime: 3, dismissOnTap: true)
+                            Utilities.shared.showToast(text: "Reason: \(reason)", duration: 3.0)
                         }
                     }
                 }
@@ -315,7 +343,7 @@ class RegisterViewController: UIViewController{
                 print("catch")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     Utilities.shared.RemoveLoaderView()
-                    self.view.showToast("Something Went Wrong", position: .bottom, popTime: 3, dismissOnTap: true)
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
                 }
             }
         })

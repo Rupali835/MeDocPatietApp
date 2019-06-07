@@ -109,7 +109,7 @@ class SelectionViewController: UIViewController {
     }
     @objc func Action_Add(){
         if tf_addnew.text?.isEmpty == true{
-            self.view.showToast("Empty Textfield", position: .top, popTime: 2.0, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Empty Textfield", duration: 3.0)
         }
         else {
             self.data.append(tf_addnew.text!)
@@ -119,7 +119,7 @@ class SelectionViewController: UIViewController {
             self.selectedrowdata.append(tf_addnew.text!)
             self.tableview.reloadData()
             self.tableview.endUpdates()
-            self.view.showToast("New Added & Selected Succesfully", position: .top, popTime: 2.0, dismissOnTap: true)
+            Utilities.shared.showToast(text: "New Added & Selected Succesfully", duration: 3.0)
             self.tf_addnew.text = ""
             self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: false)
         }

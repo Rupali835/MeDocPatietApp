@@ -82,7 +82,7 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         let prescription_pdf = data.value(forKey: "prescription_pdf") as! String
         let patient_id = data.value(forKey: "patient_id") as! String
         if prescription_pdf == "NF"{
-            self.view.showToast("No PDF Added", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "No PDF Added", duration: 3.0)
         } else {
             let url = URL(string: "http://medoc.co.in/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
             let webView = WKWebView()

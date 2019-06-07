@@ -91,7 +91,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                     if msg == "success" {
                         self.dismiss(animated: true, completion: {
                             NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
-                            self.view.showToast("Report Added Successfully", position: .bottom, popTime: 1, dismissOnTap: true)
+                            Utilities.shared.showToast(text: "Report Added Successfully", duration: 3.0)
                         })
                     }
                 }
@@ -103,13 +103,13 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     }
     @objc func doneAction(){
         if self.selectedPrescription == "0"{
-            view.showToast("Select Prescription", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Select Prescription", duration: 3.0)
         }
         else if imagesPicView.image == nil{
-            view.showToast("Select One Image", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Select One Image", duration: 3.0)
         }
         else if (textfield.text?.isEmpty)! {
-            view.showToast("Write Report Name", position: .bottom, popTime: 3, dismissOnTap: true)
+            Utilities.shared.showToast(text: "Write Report Name", duration: 3.0)
         }
         else {
             Utilities.shared.alertview(title: "Are You Sure", msg: "You Want To Add Reports?", dismisstitle: "No", mutlipleButtonAdd: { (alert) in

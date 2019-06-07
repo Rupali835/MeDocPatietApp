@@ -61,6 +61,44 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.6):
     - GoogleUtilities/Logger
+  - MaterialComponents/AnimationTiming (77.0.0)
+  - MaterialComponents/Buttons (77.0.0):
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Shapes
+    - MaterialComponents/Typography
+    - MDFInternationalization
+    - MDFTextAccessibility
+  - MaterialComponents/Ink (77.0.0):
+    - MaterialComponents/private/Math
+  - MaterialComponents/OverlayWindow (77.0.0):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Application (77.0.0)
+  - MaterialComponents/private/KeyboardWatcher (77.0.0):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Math (77.0.0)
+  - MaterialComponents/private/Overlay (77.0.0)
+  - MaterialComponents/ShadowElevations (77.0.0)
+  - MaterialComponents/ShadowLayer (77.0.0):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/Shapes (77.0.0):
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
+  - MaterialComponents/Snackbar (77.0.0):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Buttons
+    - MaterialComponents/OverlayWindow
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/KeyboardWatcher
+    - MaterialComponents/private/Overlay
+    - MaterialComponents/Typography
+  - MaterialComponents/Typography (77.0.0):
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/Math
+  - MDFInternationalization (2.0.0)
+  - MDFTextAccessibility (2.0.0)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -82,6 +120,7 @@ DEPENDENCIES:
   - DropDown
   - Firebase/Core
   - Firebase/Messaging
+  - MaterialComponents/Snackbar
   - ScrollableGraphView
   - SDWebImage (~> 4.0)
   - SkyFloatingLabelTextField (~> 3.0)
@@ -102,6 +141,9 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleUtilities
+    - MaterialComponents
+    - MDFInternationalization
+    - MDFTextAccessibility
     - nanopb
     - Protobuf
     - ScrollableGraphView
@@ -123,6 +165,9 @@ SPEC CHECKSUMS:
   FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
+  MaterialComponents: 1dc805d52502bd9d5692c2ffcc8a169c8b65b916
+  MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
+  MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
@@ -130,6 +175,6 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: cc5d57e352735da497638aef723abef9f7e49437
+PODFILE CHECKSUM: 4492256d3dda0e249418e85dfa74151b826e3cf4
 
 COCOAPODS: 1.5.3

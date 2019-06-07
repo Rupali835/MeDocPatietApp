@@ -224,7 +224,12 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.size.width / 3) - (offset + offset/2), height: (collectionView.frame.size.width / 2.65) - (offset + offset/2))
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return CGSize(width: (collectionView.frame.size.width / 3) - (offset + offset/2), height: (collectionView.frame.size.width / 2.65) - (offset + offset/2))
+        }
+        else {
+            return CGSize(width: (collectionView.frame.size.width / 4) - (offset + offset/2), height: (collectionView.frame.size.width / 4) - (offset + offset/2))
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return offset
