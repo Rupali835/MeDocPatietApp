@@ -93,6 +93,12 @@ class PHQ_9ViewController: UIViewController {
                 }
             } catch {
                 print("catch")
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.fetchphq()
+                    })
+                }
             }
         }
     }

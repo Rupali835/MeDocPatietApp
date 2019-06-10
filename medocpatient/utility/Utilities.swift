@@ -73,12 +73,26 @@ class Utilities {
 //        MDCSnackbarManager.snackbarMessageViewBackgroundColor = UIColor.white
         MDCSnackbarManager.show(message)
     }
+    func ActionToast(text: String,actionTitle: String,actionHandler: @escaping ()->()){
+        let message = MDCSnackbarMessage()
+        message.text = text
+        message.duration = 5.0
+        
+        let action = MDCSnackbarMessageAction()
+        action.handler = actionHandler
+        action.title = actionTitle
+        
+        message.action = action
+        message.buttonTextColor = UIColor.orange
+        //MDCSnackbarManager.show(message)
+    }
     func centermsg(msg: String,view: UIView){
         message.text = msg
         message.translatesAutoresizingMaskIntoConstraints = false
         message.lineBreakMode = .byWordWrapping
         message.numberOfLines = 0
         message.textAlignment = .center
+        message.textColor = UIColor.black
         message.font = UIFont.boldSystemFont(ofSize: 18)
         view.addSubview(message)
         

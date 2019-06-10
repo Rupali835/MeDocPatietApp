@@ -1194,7 +1194,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="changelanguage" destination="BYZ-38-t0r" eventType="touchUpInside" id="7MN-RK-62o"/>
+                                            <action selector="changeLanguage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iHr-8x-VkG"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2005,29 +2005,18 @@
                                     <outlet property="delegate" destination="vrS-at-Hfx" id="TGG-Z9-bQq"/>
                                 </connections>
                             </tableView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are fit, no medicine found for you" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Isf-ZM-Zz7">
-                                <rect key="frame" x="10" y="274.5" width="300" height="19.5"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KDF-wn-HL3" firstAttribute="trailing" secondItem="cll-bo-osw" secondAttribute="trailing" id="6HD-cX-7Ea"/>
                             <constraint firstItem="cll-bo-osw" firstAttribute="top" secondItem="KDF-wn-HL3" secondAttribute="top" id="JiY-0k-4aV"/>
-                            <constraint firstItem="Isf-ZM-Zz7" firstAttribute="leading" secondItem="KDF-wn-HL3" secondAttribute="leading" constant="10" id="SN8-HM-Ref"/>
                             <constraint firstItem="KDF-wn-HL3" firstAttribute="bottom" secondItem="cll-bo-osw" secondAttribute="bottom" id="TAV-0B-uho"/>
-                            <constraint firstItem="Isf-ZM-Zz7" firstAttribute="centerX" secondItem="cAa-B5-BXr" secondAttribute="centerX" id="b0F-G8-IwU"/>
-                            <constraint firstItem="KDF-wn-HL3" firstAttribute="trailing" secondItem="Isf-ZM-Zz7" secondAttribute="trailing" constant="10" id="l0c-bQ-YY9"/>
-                            <constraint firstItem="Isf-ZM-Zz7" firstAttribute="centerY" secondItem="cAa-B5-BXr" secondAttribute="centerY" id="m9C-xM-147"/>
                             <constraint firstItem="cll-bo-osw" firstAttribute="leading" secondItem="KDF-wn-HL3" secondAttribute="leading" id="umj-Wq-ASm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KDF-wn-HL3"/>
                     </view>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
-                        <outlet property="nodatalbl" destination="Isf-ZM-Zz7" id="Mlc-ya-3me"/>
                         <outlet property="tableview" destination="cll-bo-osw" id="vX8-nb-Ubb"/>
                     </connections>
                 </viewController>
@@ -3880,7 +3869,7 @@
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MedocPatiennt-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Qaj-8K-SDn">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Medoc Patient Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Qaj-8K-SDn">
                                                 <rect key="frame" x="90" y="24" width="140" height="140"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="140" id="M4Q-Px-bj0"/>
@@ -3969,7 +3958,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MedocPatiennt-Logo" width="90" height="91"/>
+        <image name="Medoc Patient Logo" width="140" height="89"/>
         <image name="info" width="21" height="21"/>
         <image name="left-arrow" width="20" height="20"/>
         <image name="man" width="85" height="85"/>

@@ -515,15 +515,20 @@ extension ProfilePageViewController { //api services
                             self.btn_selectdates[3].setTitle(data4, for: .normal)
                             DispatchQueue.main.async {
                                 self.GenderRadio[self.selectedGender - 1].isSelected = true
+                                Utilities.shared.RemoveLoaderView()
                             }
                         }
                     }
                 }
             } catch {
                 print("catch")
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         })
-        Utilities.shared.RemoveLoaderView()
     }
     func sendData()
     {
@@ -847,7 +852,7 @@ extension ProfilePageViewController: PassSelectionData { //button action
     }
     
     @IBAction func ClicktoSelectDate(sender: UIButton){
-        self.datePicker(done_complation: {
+        self.datePicker(sender: sender, done_complation: {
             
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
@@ -903,12 +908,17 @@ extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource
         
         return label
     }
-    func datePicker(done_complation: @escaping ()->()){
+    func datePicker(sender: UIView,done_complation: @escaping ()->()){
         let vc = UIViewController()
         
         let editRadiusAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
         
-        let width = editRadiusAlert.view.frame.width
+        var width: CGFloat = 240
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            width = editRadiusAlert.view.frame.width / 2
+        } else {
+            width = editRadiusAlert.view.frame.width
+        }
         vc.preferredContentSize = CGSize(width: width,height: 240)
         dateview = UIDatePicker(frame: CGRect(x: 0, y: 0, width: width, height: 240))
         dateview.datePickerMode = .date
@@ -920,6 +930,11 @@ extension ProfilePageViewController: UIPickerViewDelegate,UIPickerViewDataSource
             done_complation()
         }))
         editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        editRadiusAlert.popoverPresentationController?.sourceView = sender
+        editRadiusAlert.popoverPresentationController?.sourceRect = sender.bounds
+        editRadiusAlert.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down;
+        
         self.present(editRadiusAlert, animated: true)
     }
 }

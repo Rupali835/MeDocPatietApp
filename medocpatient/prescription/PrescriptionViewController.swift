@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import WebKit
 import SDWebImage
+import Network
 
 class PrescriptionViewController: UIViewController {
 
@@ -24,11 +25,37 @@ class PrescriptionViewController: UIViewController {
         self.tableview.tableFooterView = UIView(frame: .zero)
         self.tableview.reloadData()
 
+//        if #available(iOS 12.0, *) {
+//            let monitor = NWPathMonitor()
+//            let queue = DispatchQueue.global(qos: .background)
+//            monitor.start(queue: queue)
+//            monitor.pathUpdateHandler = { path in
+//                if path.usesInterfaceType(.wifi) {
+//                    print("It's WiFi!")
+//                }
+//                else if path.usesInterfaceType(.cellular) {
+//                    print("3G/4G FTW!!!")
+//                }
+//                if path.status == .satisfied {
+//                    print("Yay! We have internet!")
+//                }
+//                else if path.status == .unsatisfied {
+//                    print("ops! We have not internet!")
+//                }
+//            }
+//        } else {
+//            // Fallback on earlier versions
+//        }
+
+        
         NetworkManager.isReachable { _ in
             self.fetchPrescription()
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
             self.fetchPrescription()
+        }
+        NetworkManager.isUnreachable { _ in
+            Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
         }
         // Do any additional setup after loading the view.
     }
@@ -48,13 +75,20 @@ class PrescriptionViewController: UIViewController {
                 DispatchQueue.main.async {
                     if self.Prescriptiondata.count == 0{
                         Utilities.shared.centermsg(msg: "No Prescription Added for You", view: self.view)
+                    } else {
+                        Utilities.shared.removecentermsg()
                     }
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
                 }
             } catch {
                 print("catch")
-                Utilities.shared.RemoveLoaderView()
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.fetchPrescription()
+                    })
+                }
             }
         })
     }
@@ -84,7 +118,7 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
         if prescription_pdf == "NF"{
             Utilities.shared.showToast(text: "No PDF Added", duration: 3.0)
         } else {
-            let url = URL(string: "http://medoc.co.in/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
+            let url = URL(string: "http://13.234.38.193/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
             let webView = WKWebView()
             webView.translatesAutoresizingMaskIntoConstraints = false
             pdfVC.view.addSubview(webView)

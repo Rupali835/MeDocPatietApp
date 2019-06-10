@@ -100,7 +100,7 @@ class PatientHomePageViewController: UIViewController{
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func changelanguage(){
+    @IBAction func changeLanguage(_ sender: UIButton) {
         let alertvc = UIAlertController(title: "Choose Language", message: nil, preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let english = UIAlertAction(title: "English", style: .default) { (action) in
@@ -119,6 +119,11 @@ class PatientHomePageViewController: UIViewController{
         alertvc.addAction(hindi)
         alertvc.addAction(marathi)
         alertvc.addAction(cancel)
+        
+        alertvc.popoverPresentationController?.sourceView = sender
+        alertvc.popoverPresentationController?.sourceRect = sender.bounds
+        alertvc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down;
+        
         self.present(alertvc, animated: true, completion: nil)
     }
     func updatelanguage(){

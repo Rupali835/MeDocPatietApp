@@ -138,7 +138,7 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
     }
     @objc func addAttachmentAction(){
         self.textfield.endEditing(true)
-        Alert.shared.choose(vc: self, ActionCompletion: {
+        Alert.shared.choose(sender: addAttachment, vc: self, ActionCompletion: {
             print("image")
             PHPhotoLibrary.requestAuthorization { (status) in
                 if status == PHAuthorizationStatus.notDetermined {

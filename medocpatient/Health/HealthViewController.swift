@@ -41,7 +41,12 @@ class HealthViewController: UIViewController {
                 }
             } catch {
                 print("catch")
-                Utilities.shared.RemoveLoaderView()
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.fetchPrescription()
+                    })
+                }
             }
         })
     }

@@ -298,9 +298,9 @@
 		57254B8521D4BE4F00B38849 /* report */ = {
 			isa = PBXGroup;
 			children = (
-				57254BC221D4BF5000B38849 /* AddReportViewController.swift */,
-				57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */,
 				57254BC021D4BF5000B38849 /* ReportViewController.swift */,
+				57254BC321D4BF5000B38849 /* ReportTableViewCell.swift */,
+				57254BC221D4BF5000B38849 /* AddReportViewController.swift */,
 			);
 			path = report;
 			sourceTree = "<group>";

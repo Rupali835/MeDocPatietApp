@@ -27,7 +27,7 @@ class Alert {
         vc.dismiss(animated: true, completion: nil)
     }
     
-    func choose(vc: UIViewController,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
+    func choose(sender: UIView,vc: UIViewController,ActionCompletion: @escaping () -> (),Action2Completion: @escaping () -> ()){
         let alertcontroller = UIAlertController(title: "Choose", message: "", preferredStyle: .actionSheet)
         
         let button1 = UIAlertAction(title: "Image", style: .default) { (action) in
@@ -40,6 +40,11 @@ class Alert {
         alertcontroller.addAction(button1)
         alertcontroller.addAction(button2)
         alertcontroller.addAction(cancel)
+        
+        alertcontroller.popoverPresentationController?.sourceView = sender
+        alertcontroller.popoverPresentationController?.sourceRect = sender.bounds
+        alertcontroller.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any;
+        
         vc.present(alertcontroller, animated: true, completion: nil)
     }
     func loaderAlert(vc: UIViewController,msg: String?){

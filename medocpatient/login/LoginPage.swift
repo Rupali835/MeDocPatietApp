@@ -30,6 +30,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Utilities.shared.borderRadius(objects: [LoginNow], color: UIColor(hexString: "673AB7"))
@@ -102,9 +103,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         }
     }
     
-   
     func login(){
-        print("0")
+        print("0" )
         
 //       Utilities.shared.ShowLoaderView(view: self.view, Message:  "Please Wait..")
         ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientlogin", parameter:  "login_id=\(self.PatientTextField.text!)&password=\(self.PasswordTextField.text!)", onSuccessCompletion: {
@@ -212,6 +212,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
             NetworkManager.sharedInstance.reachability.whenUnreachable = { _ in
                 DispatchQueue.main.async {
                     Utilities.shared.RemoveLoaderView()
+                    Alert.shared.internetoffline(vc: self)
                 }
             }
         }

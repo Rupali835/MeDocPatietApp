@@ -60,6 +60,9 @@ class ReportViewController: UIViewController {
             self.fetchreport()
             self.navigationItem.rightBarButtonItem = add
         }
+        NetworkManager.isUnreachable { _ in
+            Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(reloaddata), name: NSNotification.Name("reloaddata"), object: nil)
         // Do any additional setup after loading the view.
     }
@@ -86,6 +89,7 @@ class ReportViewController: UIViewController {
                     if msg == "success" {
                         if let data = self.dict.value(forKey: "data") as? NSArray{
                             self.filterdata(r_data: data)
+                            Utilities.shared.removecentermsg()
                         }
                     } else {
                         DispatchQueue.main.async {
@@ -99,11 +103,18 @@ class ReportViewController: UIViewController {
                 }
             } catch {
                 print("catch")
-                Utilities.shared.RemoveLoaderView()
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.fetchPrescription()
+                        self.fetchreport()
+                    })
+                }
             }
         })
     }
     func filterdata(r_data: NSArray){
+        self.reportdata.removeAll()
         for (index,_) in r_data.enumerated() {
             let data = r_data.object(at: index) as! NSDictionary
             if let image = data.value(forKey: "image_name") as? String {

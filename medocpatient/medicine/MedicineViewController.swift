@@ -12,7 +12,6 @@ import EventKit
 class MedicineViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
-    @IBOutlet var nodatalbl: UILabel!
     
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
@@ -25,7 +24,6 @@ class MedicineViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nodatalbl.text = "You are fit, no medicine found for you"
         self.tableview.tableFooterView = UIView(frame: .zero)
         
         tableview.sectionHeaderHeight = UITableView.automaticDimension
@@ -34,16 +32,13 @@ class MedicineViewController: UIViewController {
         setupReminder()
         
         NetworkManager.isReachable { _ in
-            self.nodatalbl.text = "You are fit, no medicine found for you"
             self.fetchmedicine()
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
-            self.nodatalbl.text = "You are fit, no medicine found for you"
             self.fetchmedicine()
         }
         NetworkManager.isUnreachable { _ in
-            self.nodatalbl.text = "No Internet Connection"
-            self.nodatalbl.isHidden = false
+            Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
         }
         // Do any additional setup after loading the view.
     }
@@ -124,16 +119,18 @@ class MedicineViewController: UIViewController {
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
                     if self.medicineData.count == 0{
-                        self.nodatalbl.isHidden = false
+                        Utilities.shared.centermsg(msg: "You are fit, no medicine found for you", view: self.view)
                     } else {
-                        self.nodatalbl.isHidden = true
+                        Utilities.shared.removecentermsg()
                     }
                 }
             } catch {
                 print("catch")
                 DispatchQueue.main.async {
-                    self.nodatalbl.isHidden = false
                     Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.fetchmedicine()
+                    })
                 }
             }
         }) { () -> (Dictionary<String, Any>) in

@@ -12,9 +12,9 @@ import UIKit
 class ApiServices {
     
     var data = Data()
-    let baseUrl = "http://medoc.co.in/medoc_patient_api/public/api/"
-    let medocDoctorUrl = "http://medoc.co.in/medoc_doctor_api/index.php/API/"
-    let imageorpdfUrl = "http://medoc.co.in/medoc_doctor_api/uploads/"
+    let baseUrl = "http://13.234.38.193/medoc_patient_api/public/api/"
+    let medocDoctorUrl = "http://13.234.38.193/medoc_doctor_api/index.php/API/"
+    let imageorpdfUrl = "http://13.234.38.193/medoc_doctor_api/uploads/"
     static let shared: ApiServices = ApiServices()
     private init() {}
     

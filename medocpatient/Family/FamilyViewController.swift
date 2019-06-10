@@ -37,7 +37,12 @@ class FamilyViewController: UIViewController {
                     }
                 }
             } catch {
-                print("catch")
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.ActionToast(text: "Something Went Wrong", actionTitle: "Retry", actionHandler: {
+                        self.getRelationship()
+                    })
+                }
             }
         }
     }
@@ -51,9 +56,13 @@ extension FamilyViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FamilyTableViewCell") as! FamilyTableViewCell
         let d = self.familydetaildata.object(at: indexPath.row) as! NSDictionary
         let name = d.value(forKey: "name") as? String ?? ""
-        let relation = d.value(forKey: "relationship") as? String ?? ""
+        let relation = d.value(forKey: "relationship") as? String ?? "Not Mentioned"
         cell.lbl_name.text = "Name: \(name)"
-        cell.lbl_relationship.text = "Relationship: \(relation)"
+        if relation == "" || relation == "NF" {
+            cell.lbl_relationship.text = "Relationship: Not Mentioned"
+        } else {
+            cell.lbl_relationship.text = "Relationship: \(relation)"
+        }
         cell.lbl_cheif_complain.text = ""//Cheif Complain: "
         cell.lbl_hospital_name.text = ""//Hospital Name: "
         return cell
