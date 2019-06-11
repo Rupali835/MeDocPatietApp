@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -30,11 +30,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To take some photos.</string>
+	<string>This App Uses the Camera to Allow Users to Take and Upload their Report File and Profile Photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To pick some photos.</string>
+	<string>This App Uses the Photo Library to Allow Users to Pick and Upload their Report File and Profile Photo.</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>for reminding to take medicine on time</string>
+	<string>This App Uses the Reminder to Allow Users to Reminding to Take Medicine on Time.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

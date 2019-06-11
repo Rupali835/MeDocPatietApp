@@ -84,7 +84,7 @@ class Utilities {
         
         message.action = action
         message.buttonTextColor = UIColor.orange
-        //MDCSnackbarManager.show(message)
+        MDCSnackbarManager.show(message)
     }
     func centermsg(msg: String,view: UIView){
         message.text = msg
@@ -101,7 +101,9 @@ class Utilities {
         message.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     func removecentermsg(){
-        message.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.message.removeFromSuperview()
+        }
     }
     var blurEffectView = UIVisualEffectView()
     
@@ -109,12 +111,15 @@ class Utilities {
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.frame
+        print(view.frame)
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(blurEffectView)
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.contentView.addSubview(activityIndicator)
-        activityIndicator.center = blurEffectView.contentView.center
+
+        activityIndicator.centerXAnchor.constraint(equalTo: blurEffectView.contentView.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: blurEffectView.contentView.centerYAnchor).isActive = true
         activityIndicator.startAnimating()
         
         message.text = Message

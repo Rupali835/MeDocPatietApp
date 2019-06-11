@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var fcm_token : String?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         IQKeyboardManager.shared.enable = true
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
@@ -60,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = loginViewController
     }
     func RootPatientHomeVC(){
-        let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootManagerVC")
+        let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "navigation")
         window?.rootViewController = Rootvc
     }
     func applicationWillResignActive(_ application: UIApplication) {

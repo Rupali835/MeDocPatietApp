@@ -26,13 +26,13 @@ class PatientHomePageViewController: UIViewController{
 
     @IBOutlet var headerview: UIView!
 
-    let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports.png"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
+    let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var dict = NSDictionary()
-    let offset: CGFloat = 7
+    let spacing: CGFloat = 7
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -44,7 +44,6 @@ class PatientHomePageViewController: UIViewController{
         self.hometitle.text = "Welcome To Medoc !".localized()
         // Do any additional setup after loading the view.
     }
-    
     override func viewWillLayoutSubviews() {
         navItem()
     }
@@ -68,7 +67,7 @@ class PatientHomePageViewController: UIViewController{
         let title = UILabel()
         title.textColor = UIColor.white
         title.font = UIFont.boldSystemFont(ofSize: 23)
-        title.text = "MeDoc"
+        title.text = "Welcome To Medoc !".localized()//"MeDoc"
         let titlebar = UIBarButtonItem(customView: title)
         self.navigationItem.leftBarButtonItem = titlebar
         
@@ -128,6 +127,7 @@ class PatientHomePageViewController: UIViewController{
     }
     func updatelanguage(){
         self.hometitle.text = "Welcome To Medoc !".localized()
+        self.navItem()
         self.tableview.reloadData()
     }
 }
@@ -230,19 +230,19 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return CGSize(width: (collectionView.frame.size.width / 3) - (offset + offset/2), height: (collectionView.frame.size.width / 2.65) - (offset + offset/2))
+            return CGSize(width: (collectionView.frame.size.width / 3) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2.65) - (spacing + spacing/2))
         }
         else {
-            return CGSize(width: (collectionView.frame.size.width / 4) - (offset + offset/2), height: (collectionView.frame.size.width / 4) - (offset + offset/2))
+            return CGSize(width: (collectionView.frame.size.width / 4) - (spacing + spacing/2), height: (collectionView.frame.size.width / 4) - (spacing + spacing/2))
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return offset
+        return spacing
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return offset
+        return spacing
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: offset, left: offset, bottom: offset, right: offset)
+        return UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
     }
 }

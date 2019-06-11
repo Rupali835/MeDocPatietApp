@@ -160,8 +160,8 @@ extension UIBarButtonItem {
     class func itemWith(colorfulImage: UIImage?, target: AnyObject, action: Selector) -> UIBarButtonItem {
         let button = UIButton(type: .custom)
         button.setImage(colorfulImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
-        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+        button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         button.addTarget(target, action: action, for: .touchUpInside)
         button.tintColor = UIColor(hexString: "FFFFFF")
         

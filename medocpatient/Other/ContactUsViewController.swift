@@ -12,15 +12,16 @@ import WebKit
 class ContactUsViewController: UIViewController , WKNavigationDelegate{
    
     let urlstr = "http://ksoftpl.com/contact-us"
-    
+    @IBOutlet var webView : WKWebView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
+       // let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
         let urlRequest = URLRequest(url: URL(string: urlstr)!)
         webView.navigationDelegate = self
         webView.load(urlRequest)
         //webView.evaluateJavaScript("document.getElementsByClassName(\"mylinkclass\").removeAttribute(\"href\");")
-        view.addSubview(webView)
+        //view.addSubview(webView)
         // Do any additional setup after loading the view.
     }
     
