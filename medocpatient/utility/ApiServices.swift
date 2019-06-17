@@ -18,14 +18,12 @@ class ApiServices {
     static let shared: ApiServices = ApiServices()
     private init() {}
     
-    func Login_and_Register(vc: UIViewController,
+    func FetchPostDataFromUrlWithoutToken(vc: UIViewController,
                               Url: String,
                               parameter: String,
                               onSuccessCompletion: @escaping ()->())
     {
         
-        Utilities.shared.ShowLoaderView(view: vc.view, Message:  "Please Wait..")
-
         var urlReq = URLRequest(url: URL(string: Url)!)
         let myParams = parameter
         let postData = myParams.data(using: String.Encoding.ascii, allowLossyConversion: true)
@@ -44,7 +42,6 @@ class ApiServices {
                     
                 }
             } else {
-              //  Utilities.shared.RemoveLoaderView()
                 print("data: \(data)")
                 self.data = data!
                 onSuccessCompletion()

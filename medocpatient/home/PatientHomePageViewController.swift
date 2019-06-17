@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import SDWebImage
 import WebKit
+import SVGKit
 
 class PatientHomePageViewController: UIViewController{
     
@@ -24,15 +25,20 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var infoBtn: UIButton!
     @IBOutlet var logoutBtn: UIButton!
 
-    @IBOutlet var headerview: UIView!
+    @IBOutlet var followupBtn: UIButton!
+    var Prescriptiondata = NSArray()
 
-    let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
+    @IBOutlet var headerview: UIView!
+    @IBOutlet var height_of_header_contraint: NSLayoutConstraint!
+    
+    //let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
+    let icons = ["group.svg","report.svg","prescription.svg","pills.svg","qr-code.svg","hospital.svg","question.svg","teamwork.svg","customer-support.svg","guide.svg","family.svg"]
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var dict = NSDictionary()
-    let spacing: CGFloat = 7
+    let spacing: CGFloat = 1
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -42,7 +48,33 @@ class PatientHomePageViewController: UIViewController{
         logoutBtn.addTarget(self, action: #selector(LogoutAction), for: .touchUpInside)
         self.tableview.tableFooterView = UIView(frame: .zero)
         self.hometitle.text = "Welcome To Medoc !".localized()
+        fetchPrescription()
+        followupBtn.addTarget(self, action: #selector(ActionFollowUp), for: .touchUpInside)
         // Do any additional setup after loading the view.
+    }
+    @objc func ActionFollowUp(){
+        let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
+        Prescriptionvc.navigationItem.title = "Prescription".localized()
+        self.splitnavigate(vc: Prescriptionvc)
+    }
+    func fetchPrescription(){
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "prescriptions", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        if let p_data = json.value(forKey: "data") as? NSArray{
+                            self.Prescriptiondata = p_data
+                            DispatchQueue.main.async {
+                                self.followupBtn.setTitle("Follow Up \(self.Prescriptiondata.count) Times", for: .normal)
+                            }
+                        }
+                    }
+                }
+            } catch {
+                print("catch")
+            }
+        })
     }
     override func viewWillLayoutSubviews() {
         navItem()
@@ -62,6 +94,30 @@ class PatientHomePageViewController: UIViewController{
         
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    func fetchlogout() {
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "logout", bearertoken: bearertoken!) {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                let msg = json.value(forKey: "msg") as? String ?? ""
+                if msg == "Successfully logged out" {
+                    DispatchQueue.main.async {
+                        UserDefaults.standard.set(false, forKey: "Logged")
+                        UserDefaults.standard.set("nil", forKey: "bearertoken")
+                        UserDefaults.standard.synchronize()
+                        self.appdel.SwitchLogin()
+                        Utilities.shared.showToast(text: msg, duration: 3.0)
+                    }
+                } else {
+                    print(json)
+                    DispatchQueue.main.async {
+                        Utilities.shared.showToast(text: msg, duration: 3.0)
+                    }
+                }
+            } catch {
+                print("catch")
+            }
+        }
     }
     func navItem(){
         let title = UILabel()
@@ -84,19 +140,15 @@ class PatientHomePageViewController: UIViewController{
     @objc func LogoutAction(){
         Utilities.shared.alertview(title: "Alert".localized(), msg: "Are You Sure, Do You Want to Logout?".localized(), dismisstitle: "No".localized(), mutlipleButtonAdd: { (alert) in
             alert.addButton("Yes".localized(), font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
-                DispatchQueue.main.async {
-                    UserDefaults.standard.set(false, forKey: "Logged")
-                    UserDefaults.standard.set("nil", forKey: "bearertoken")
-                    UserDefaults.standard.synchronize()
-                    self.appdel.SwitchLogin()
-                }
+                self.fetchlogout()
                 alert.dismissAlertView()
             }
         }, dismissAction: { })
     }
     @IBAction func go_to_PHQ_VC(sender: UIButton){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PHQ_9ViewController") as! PHQ_9ViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.splitnavigate(vc: vc)
+       // self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func changeLanguage(_ sender: UIButton) {
@@ -121,7 +173,7 @@ class PatientHomePageViewController: UIViewController{
         
         alertvc.popoverPresentationController?.sourceView = sender
         alertvc.popoverPresentationController?.sourceRect = sender.bounds
-        alertvc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down;
+        alertvc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any;
         
         self.present(alertvc, animated: true, completion: nil)
     }
@@ -151,7 +203,7 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PatientHomePageCollectionViewCell
-        cell.icon.image = icons[indexPath.row]
+        cell.icon.image = SVGKImage(named: icons[indexPath.row])?.uiImage
         cell.title.text = titles[indexPath.row].localized()
         return cell
     }
@@ -160,47 +212,56 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
         if indexPath.row == 0 {
             let Profilevc = self.storyboard?.instantiateViewController(withIdentifier: "ProfilePageViewController") as! ProfilePageViewController
             Profilevc.navigationItem.title = title
-            self.navigationController?.pushViewController(Profilevc, animated: true)
+            self.splitnavigate(vc: Profilevc)
+           // self.navigationController?.pushViewController(Profilevc, animated: true)
         }
         else if indexPath.row == 1{
             let Reportvc = self.storyboard?.instantiateViewController(withIdentifier: "ReportViewController") as! ReportViewController
             Reportvc.navigationItem.title = title
-            self.navigationController?.pushViewController(Reportvc, animated: true)
+            self.splitnavigate(vc: Reportvc)
+            //self.navigationController?.pushViewController(Reportvc, animated: true)
         }
         else if indexPath.row == 2{
             let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
             Prescriptionvc.navigationItem.title = title
-            self.navigationController?.pushViewController(Prescriptionvc, animated: true)
+            self.splitnavigate(vc: Prescriptionvc)
+           // self.navigationController?.pushViewController(Prescriptionvc, animated: true)
         }
         else if indexPath.row == 3{
             let Medicinevc = self.storyboard?.instantiateViewController(withIdentifier: "MedicineViewController") as! MedicineViewController
             Medicinevc.navigationItem.title = title
-            self.navigationController?.pushViewController(Medicinevc, animated: true)
+            self.splitnavigate(vc: Medicinevc)
+           // self.navigationController?.pushViewController(Medicinevc, animated: true)
         }
         else if indexPath.row == 4{
             let qrvc = self.storyboard?.instantiateViewController(withIdentifier: "QRViewController") as! QRViewController
             qrvc.navigationItem.title = title
-            self.navigationController?.pushViewController(qrvc, animated: true)
+            self.splitnavigate(vc: qrvc)
+            //self.navigationController?.pushViewController(qrvc, animated: true)
         }
         else if indexPath.row == 5{
             let Healthvc = self.storyboard?.instantiateViewController(withIdentifier: "HealthViewController") as! HealthViewController
             Healthvc.navigationItem.title = title
-            self.navigationController?.pushViewController(Healthvc, animated: true)
+            self.splitnavigate(vc: Healthvc)
+           // self.navigationController?.pushViewController(Healthvc, animated: true)
         }
         else if indexPath.row == 6{
             let FAQvc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
             FAQvc.navigationItem.title = title
-            self.navigationController?.pushViewController(FAQvc, animated: true)
+            self.splitnavigate(vc: FAQvc)
+           // self.navigationController?.pushViewController(FAQvc, animated: true)
         }
         else if indexPath.row == 7{
             let Aboutvc = self.storyboard?.instantiateViewController(withIdentifier: "AboutUsViewController") as! AboutUsViewController
             Aboutvc.navigationItem.title = title
-            self.navigationController?.pushViewController(Aboutvc, animated: true)
+            self.splitnavigate(vc: Aboutvc)
+           // self.navigationController?.pushViewController(Aboutvc, animated: true)
         }
         else if indexPath.row == 8{
             let contactvc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsViewController") as! ContactUsViewController
             contactvc.navigationItem.title = title
-            self.navigationController?.pushViewController(contactvc, animated: true)
+            self.splitnavigate(vc: contactvc)
+            //self.navigationController?.pushViewController(contactvc, animated: true)
         }
         else if indexPath.row == 9{
             let pdfVC = UIViewController()
@@ -220,20 +281,29 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
             
             pdfVC.navigationItem.title = title
             pdfVC.view.backgroundColor = UIColor.white
-            self.navigationController?.pushViewController(pdfVC, animated: true)
+            self.splitnavigate(vc: pdfVC)
+            //self.navigationController?.pushViewController(pdfVC, animated: true)
         }
         else if indexPath.row == 10{
             let familyvc = self.storyboard?.instantiateViewController(withIdentifier: "FamilyViewController") as! FamilyViewController
             familyvc.navigationItem.title = title
-            self.navigationController?.pushViewController(familyvc, animated: true)
+            self.splitnavigate(vc: familyvc)
+           // self.navigationController?.pushViewController(familyvc, animated: true)
         }
+    }
+    func splitnavigate(vc: UIViewController){
+        let detailvc = UINavigationController(rootViewController: vc)
+        detailvc.navigationBar.barTintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
+        detailvc.navigationBar.tintColor = UIColor.white
+        detailvc.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.splitViewController?.showDetailViewController(detailvc, sender: self)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return CGSize(width: (collectionView.frame.size.width / 3) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2.65) - (spacing + spacing/2))
         }
         else {
-            return CGSize(width: (collectionView.frame.size.width / 4) - (spacing + spacing/2), height: (collectionView.frame.size.width / 4) - (spacing + spacing/2))
+            return CGSize(width: (collectionView.frame.size.width / 2) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2) - (spacing + spacing/2))
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

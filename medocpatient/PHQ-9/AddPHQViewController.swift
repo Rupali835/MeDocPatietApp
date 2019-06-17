@@ -73,7 +73,7 @@ class AddPHQViewController: UIViewController {
         if self.faq.contains(where: {$0.Answer == ""}) {
             Utilities.shared.showToast(text: "You have not answered all question", duration: 3.0)
         } else {
-            self.finalanswerview.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            self.finalanswerview.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
             self.view.addSubview(self.finalanswerview)
         }
     }

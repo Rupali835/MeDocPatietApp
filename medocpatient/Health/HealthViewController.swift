@@ -148,5 +148,6 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
             self.navigationController?.pushViewController(chartvc, animated: true)
         }
     }
+   
 }
 

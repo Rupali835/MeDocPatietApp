@@ -24,5 +24,4 @@ class PatientHomePageCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-
 }

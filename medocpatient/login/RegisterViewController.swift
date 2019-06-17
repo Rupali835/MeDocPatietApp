@@ -18,6 +18,9 @@ class RegisterViewController: UIViewController{
     @IBOutlet var NumberTF: UITextField!
     @IBOutlet var PasswordTF: UITextField!
     @IBOutlet var ConfirmPasswordTF: UITextField!
+    @IBOutlet var DateOfBirthTF: UITextField!
+    @IBOutlet var RelationshipBtn: UIButton!
+    @IBOutlet var width_RelationshipBtn: NSLayoutConstraint!
     @IBOutlet var GenderRadio: [SKRadioButton]!
     @IBOutlet var Signup: UIButton!
     @IBOutlet var Gview: UIView!
@@ -31,12 +34,19 @@ class RegisterViewController: UIViewController{
     var HavePatientID = false
     var selectedGender = 0
     var patientidget = ""
+    var relationship = "Self"
+    var name_relationship = ""
+    var dateview = UIDatePicker()
+    let relations = ["Grandfather","Grandmother","Father","Mother","Son","Daughter","Brother","Sister","Husband","Wife"]
+    var multipleuserdata = NSArray()
     
     @IBOutlet var HeightofPatientIDview: NSLayoutConstraint!
     @IBOutlet var HeightofSignupview: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.width_RelationshipBtn.constant = 0
+
         PatientIDTF.delegate = self
         FullNameTF.delegate = self
         EmailTF.delegate = self
@@ -59,6 +69,7 @@ class RegisterViewController: UIViewController{
         button.setTitle("Show", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.frame = CGRect(x: CGFloat(PasswordTF.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
+        button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
         button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
         PasswordTF.rightView = button
         PasswordTF.rightViewMode = .always
@@ -68,14 +79,55 @@ class RegisterViewController: UIViewController{
         EmailTF.addTarget(self, action: #selector(updateEmail), for: .editingChanged)
 
         Signup.addTarget(self, action: #selector(SignupAction), for: .touchUpInside)
+        
+        DateOfBirthTF.delegate = self
+        DateOfBirthTF.inputView = dateview
+        
+        dateview.datePickerMode = .date
+        dateview.maximumDate = Date()
+        dateview.backgroundColor = UIColor.white
+        dateview.setValue(UIColor.black, forKeyPath: "textColor")
+        dateview.setDate(Date(), animated: true)
+        dateview.addTarget(self, action: #selector(setdate), for: .valueChanged)
+        
+        RelationshipBtn.addTarget(self, action: #selector(Actionselectrelation), for: .touchUpInside)
+        PatientIDTF.addTarget(self, action: #selector(updatePatient), for: .editingChanged)
+
         // Do any additional setup after loading the view.
+    }
+    @objc func Actionselectrelation(){
+        self.selectrelationshipAlert(title: "Select Relationship With \(self.name_relationship)", msg: "User/s is/are already registered with this number")
+    }
+    @objc func setdate(datePicker: UIDatePicker){
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        if DateOfBirthTF.isFirstResponder {
+            DateOfBirthTF.text = df.string(from: datePicker.date)
+            let calendar : NSCalendar = NSCalendar.current as NSCalendar
+            let ageComponents = calendar.components(.month, from: dateview.date, to: Date() as Date, options: []).month
+            let years = ageComponents! / 12
+            let months = ageComponents! % 12
+            let age = "Age: \(years) Y / \(months) M"
+        }
+    }
+    func selectrelationshipAlert(title: String?,msg: String?){
+        let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        for relation in self.relations {
+            let alert = UIAlertAction(title: relation, style: .default) { (action) in
+                print(action.title!)
+                self.relationship = action.title!
+                self.RelationshipBtn.setTitle(self.relationship, for: .normal)
+            }
+            alertController.addAction(alert)
+        }
+        present(alertController, animated: true, completion: nil)
     }
     @objc func updateEmail(){
         if EmailTF.isFirstResponder {
             if let text = EmailTF.text {
                 if let floatingLabelTextField = EmailTF as? SkyFloatingLabelTextField {
                     if text.isEmpty {
-                        floatingLabelTextField.errorMessage = "Fill Your Email"
+                        floatingLabelTextField.errorMessage = ""
                     }
                     else if text.count > 0 && text.contains(find: "@"){
                         if text.isValidEmail() {
@@ -96,7 +148,11 @@ class RegisterViewController: UIViewController{
                 if text.count >= 0{
                     if text == PasswordTF.text! && text.isValidPassword() {
                         floatingLabelTextField.errorMessage = ""
-                    } else {
+                    }
+                    else if text.isEmpty == true{
+                        floatingLabelTextField.errorMessage = ""
+                    }
+                    else {
                         floatingLabelTextField.errorMessage = "Not Matched With Password"
                     }
                 }
@@ -110,7 +166,11 @@ class RegisterViewController: UIViewController{
                     if text.count >= 0{
                         if text.isValidPassword() {
                             floatingLabelTextField.errorMessage = ""
-                        } else {
+                        }
+                        else if text.isEmpty == true{
+                            floatingLabelTextField.errorMessage = ""
+                        }
+                        else {
                             floatingLabelTextField.errorMessage = "Invalid password"
                         }
                     }
@@ -146,7 +206,7 @@ class RegisterViewController: UIViewController{
     }
     @objc func DoneAction(){
         if (PatientIDTF.text?.isEmpty)! {
-            Utilities.shared.showToast(text: "Enter Patient Id", duration: 3.0)
+            Utilities.shared.showToast(text: "Enter \(self.PatientIDTF.placeholder!)", duration: 3.0)
         } else {
             fetchDetailByPatientID()
         }
@@ -167,6 +227,9 @@ class RegisterViewController: UIViewController{
         }
         else if (self.NumberTF.text?.isEmpty)! {
             Utilities.shared.showToast(text: "Enter \(self.NumberTF.placeholder!)", duration: 3.0)
+        }
+        else if self.DateOfBirthTF.text?.isEmpty == true {
+            Utilities.shared.showToast(text: "Select Date Of Birth", duration: 3.0)
         }
         else if (self.PasswordTF.text?.isEmpty)! {
             Utilities.shared.showToast(text: "Enter \(self.PasswordTF.placeholder!)", duration: 3.0)
@@ -200,7 +263,7 @@ class RegisterViewController: UIViewController{
                     
                 } else {
                     print("0")
-                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.patientidget)"
+                    let with_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&patient_id=\(self.patientidget)&relationship=\(relationship)&dob=\(self.DateOfBirthTF.text!)"
                     
                     NetworkManager.isReachable { _ in
                         self.register(parameter: with_patient_id)
@@ -221,7 +284,7 @@ class RegisterViewController: UIViewController{
             else if HavePatientID == false{
                 print("1")
                 //without patient id
-                let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)"
+                let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.NumberTF.text!)&gender=\(self.selectedGender)&email=\(self.EmailTF.text!)&password=\(self.PasswordTF.text!)&c_password=\(self.ConfirmPasswordTF.text!)&relationship=\(relationship)&dob=\(self.DateOfBirthTF.text!)"
                 
                 NetworkManager.isReachable { _ in
                     self.register(parameter: without_patient_id)
@@ -242,8 +305,8 @@ class RegisterViewController: UIViewController{
         }
     }//7218845446 & Amit@123
     func register(parameter: String){
-        //Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
-        ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregister", parameter:  parameter, onSuccessCompletion: {
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")
+        ApiServices.shared.FetchPostDataFromUrlWithoutToken(vc: self, Url: ApiServices.shared.baseUrl + "patientregister", parameter:  parameter, onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -252,8 +315,11 @@ class RegisterViewController: UIViewController{
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                             Utilities.shared.RemoveLoaderView()
                             Utilities.shared.showToast(text: "Signup Successfully", duration: 3.0)
-
-                             NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":self.NumberTF.text!,"password":self.PasswordTF.text!])
+                            
+                            if let data = json.value(forKey: "data") as? NSDictionary {
+                                let patient_id = data.value(forKey: "patient_id") as! String
+                                NotificationCenter.default.post(name: NSNotification.Name("loginupdate"), object: nil, userInfo:["email":patient_id,"password":self.PasswordTF.text!])
+                            }
                             self.dismiss(animated: true, completion: nil)
                         }
                     }
@@ -276,9 +342,9 @@ class RegisterViewController: UIViewController{
         })
     }
     func fetchDetailByPatientID(){
-        //Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetching Details...")
         PatientIDTF.endEditing(true)
-        ApiServices.shared.Login_and_Register(vc: self, Url: ApiServices.shared.baseUrl + "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrlWithoutToken(vc: self, Url: ApiServices.shared.baseUrl + "patientregisterusingid", parameter: "login_id=\(PatientIDTF.text!)", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
@@ -289,12 +355,15 @@ class RegisterViewController: UIViewController{
                         Utilities.shared.RemoveLoaderView()
                         
                         if let data = json.value(forKey: "data") as? NSDictionary {
+                            
                             let name = data.value(forKey: "name") as? String ?? ""
                             let contact_no = data.value(forKey: "contact_no") as? String ?? ""
                             let email = data.value(forKey: "email") as? String ?? ""
                             let gender = "\(data.value(forKey: "gender") as! Int)"
                             let patient_id = "\(data.value(forKey: "patient_id") as! String)"
-
+                            let dob = data.value(forKey: "dob") as? String ?? ""
+                            let relationship = data.value(forKey: "relationship") as? String ?? ""
+                            
                             self.FullNameTF.text = ""
                             self.EmailTF.text = ""
                             self.NumberTF.text = ""
@@ -306,12 +375,28 @@ class RegisterViewController: UIViewController{
                             self.PasswordTF.text = ""
                             self.ConfirmPasswordTF.text = ""
                             
+                            if name != ""{
+                                self.FullNameTF.isUserInteractionEnabled = false
+                            }
+                            if contact_no != ""{
+                                self.NumberTF.isUserInteractionEnabled = false
+                            }
+                            
+                            if dob != ""{
+                                self.DateOfBirthTF.isUserInteractionEnabled = false
+                            }
+                            
+                            if email != "" {
+                                self.EmailTF.isUserInteractionEnabled = false
+                            }
+                            
                             self.FullNameTF.text = name
                             self.EmailTF.text = email
                             self.NumberTF.text = contact_no
                             self.selectedGender = Int(gender)!
                             self.patientidget = patient_id
-                            
+                            self.DateOfBirthTF.text = dob
+                            self.relationship = relationship
                             
                             if gender == "1"{
                                 self.GenderRadio[0].isSelected = true
@@ -348,6 +433,51 @@ class RegisterViewController: UIViewController{
             }
         })
     }
+    func fetch_register_relative_check(completion: @escaping ()->()){
+        ApiServices.shared.FetchPostDataFromUrlWithoutToken(vc: self, Url: ApiServices.shared.baseUrl + "register-relative-check", parameter: "login_id=\(self.NumberTF.text!)") {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                let msg = json.value(forKey: "msg") as! String
+                print("register-relative-check \(json)")
+                if msg == "success" {
+                    let data = json.value(forKey: "data") as! String
+                    DispatchQueue.main.async {
+                        if data == "No User" {
+                            
+                        }
+                        else if data == "User/s is/are already registered with this number"{
+                            if let extra = json.value(forKey: "extra") as? NSArray {
+                                print("extra \(extra)")
+                                if extra.count == 0{
+                                    
+                                } else {
+                                    self.relationship = ""
+                                    self.width_RelationshipBtn.constant = 120
+                                    for (index,_) in extra.enumerated() {
+                                        let dic = extra.object(at: index) as? NSDictionary
+                                        self.name_relationship = dic?.value(forKey: "name") as! String
+                                        let checkrelation = dic?.value(forKey: "relationship") as? String ?? ""
+                                        if checkrelation == "Self"{
+                                            self.selectrelationshipAlert(title: "Select Relationship With \(self.name_relationship)", msg: "User/s is/are already registered with this number")
+                                            break;
+                                        }
+                                        else {
+                                            self.selectrelationshipAlert(title: "Select Relationship With \(self.name_relationship)", msg: "User/s is/are already registered with this number")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            Utilities.shared.showToast(text: data, duration: 3.0)
+                        }
+                    }
+                }
+            } catch {
+                print("catch register-relative-check")
+            }
+        }
+    }
     @IBAction func PatientIDYesOrNo(sender: SKRadioButton){
         
         if sender.isSelected == false {
@@ -359,6 +489,25 @@ class RegisterViewController: UIViewController{
         else if sender.isSelected == true {
             sender.isSelected = false
             HavePatientID = false
+            self.FullNameTF.text = ""
+            self.EmailTF.text = ""
+            self.NumberTF.text = ""
+            self.selectedGender = 0
+            self.patientidget = ""
+            self.GenderRadio[0].isSelected = false
+            self.GenderRadio[1].isSelected = false
+            self.GenderRadio[2].isSelected = false
+            self.PasswordTF.text = ""
+            self.ConfirmPasswordTF.text = ""
+            
+            self.FullNameTF.isUserInteractionEnabled = true
+            self.NumberTF.isUserInteractionEnabled = true
+            self.DateOfBirthTF.isUserInteractionEnabled = true
+            self.GenderRadio[0].isUserInteractionEnabled = true
+            self.GenderRadio[1].isUserInteractionEnabled = true
+            self.GenderRadio[2].isUserInteractionEnabled = true
+            self.EmailTF.isUserInteractionEnabled = true
+            
             minimizeHeight(objects: [PatientIDTF,Done], heightContantOutlet: [HeightofPatientIDview], constant: 0)
             maximizeHeight(objects: [signupView], heightContantOutlet: [HeightofSignupview],constant: 400)
         }
@@ -388,28 +537,113 @@ class RegisterViewController: UIViewController{
             }
         }
     }
-    
-}
-extension RegisterViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func datePicker(sender: UIView,done_complation: @escaping ()->()){
+        let vc = UIViewController()
+        
+        let editRadiusAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        
+        var width: CGFloat = 240
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            width = editRadiusAlert.view.frame.width / 2
+        } else {
+            width = editRadiusAlert.view.frame.width
+        }
+        vc.preferredContentSize = CGSize(width: width,height: 240)
+        dateview = UIDatePicker(frame: CGRect(x: 0, y: 0, width: width, height: 240))
+        dateview.datePickerMode = .date
+        dateview.maximumDate = Date()
+        vc.view.addSubview(dateview)
+        
+        editRadiusAlert.setValue(vc, forKey: "contentViewController")
+        editRadiusAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (action) in
+            done_complation()
+        }))
+        editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        editRadiusAlert.popoverPresentationController?.sourceView = sender
+        editRadiusAlert.popoverPresentationController?.sourceRect = sender.bounds
+        editRadiusAlert.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down;
+        
+        self.present(editRadiusAlert, animated: true)
+    }
+    func fetch_login_by_relative_check(){
+        ApiServices.shared.FetchPostDataFromUrlWithoutToken(vc: self, Url: ApiServices.shared.baseUrl + "login-by-relative-check", parameter: "login_id=\(self.PatientIDTF.text!)") {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print("login-by-relative-check json: \(json)")
+                let msg = json.value(forKey: "msg") as! String
+                if msg == "success" {
+                    DispatchQueue.main.async {
+                        if let data = json.value(forKey: "data") as? NSArray {
+                            print("data: \(data)")
+                            if data.count == 0{
+                                
+                            } else {
+                                self.multipleuserdata = data
+                                self.tableview_Alert(title: "Number Register With Multiple User", msg: "Select Your Name To Get Details")
+                            }
+                        }
+                        else if let data = json.value(forKey: "data") as? String {
+                            print("data in String: \(data)")
+                            if data == "Single or No User"{
+                                
+                            }
+                        }
+                    }
+                }
+            } catch {
+                print("catch login-by-relative-check")
+            }
+        }
+    }
+    func tableview_Alert(title: String?,msg: String?){
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: 250,height: 250)
+        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 250, height: 240))
+        tableview.delegate = self
+        tableview.dataSource = self
+        vc.view.addSubview(tableview)
+        let editRadiusAlert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
+        editRadiusAlert.setValue(vc, forKey: "contentViewController")
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
+        
+        editRadiusAlert.addAction(cancelAction)
+        self.present(editRadiusAlert, animated: true, completion:{})
+    }
+    @objc func updatePatient(){
         if PatientIDTF.isFirstResponder {
             if let text = PatientIDTF.text {
                 if let floatingLabelTextField = PatientIDTF as? SkyFloatingLabelTextField {
                     if text.isEmpty {
                         floatingLabelTextField.errorMessage = ""
                     }
-                    else if text.count > 0{
+//                    else if text.count > 3 && text.contains(find: "@"){
+//                        if text.isValidEmail() {
+//                            floatingLabelTextField.errorMessage = ""
+//                            self.fetch_login_by_relative_check()
+//                        } else {
+//                            floatingLabelTextField.errorMessage = "Invalid email"
+//                        }
+//                    }
+                    else if text.count < 3{
                         floatingLabelTextField.errorMessage = ""
                     }
-                    
+                    else if text.count == 10 && text.containsNumbers() == true{
+                        self.fetch_login_by_relative_check()
+                    }
                 }
             }
         }
-        else if FullNameTF.isFirstResponder {
+    }
+}
+extension RegisterViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if FullNameTF.isFirstResponder {
             if let text = FullNameTF.text {
                 if let floatingLabelTextField = FullNameTF as? SkyFloatingLabelTextField {
                     if text.isEmpty {
-                        floatingLabelTextField.errorMessage = "Fill Your Full Name"
+                        floatingLabelTextField.errorMessage = ""
                     }
                     else if text.count >= 0{
                         floatingLabelTextField.errorMessage = ""
@@ -421,7 +655,7 @@ extension RegisterViewController: UITextFieldDelegate {
             if let text = NumberTF.text {
                 if let floatingLabelTextField = NumberTF as? SkyFloatingLabelTextField {
                     if text.isEmpty {
-                        floatingLabelTextField.errorMessage = "Fill Your Mobile Number"
+                        floatingLabelTextField.errorMessage = ""
                     }
                     else if text.count >= 0{
                         if text.isValidIndianContact {
@@ -431,11 +665,43 @@ extension RegisterViewController: UITextFieldDelegate {
                         }
                     }
                 }
+                
                 let limitLength = 10
                 let newLength = text.count + string.count - range.length
+                
+                if newLength == limitLength {
+                    if string.containsNumbers() == true{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            self.fetch_register_relative_check(completion: {})
+                        }
+                    }
+                }
+                
                 return newLength <= limitLength
             }
         }
         return true
+    }
+}
+extension RegisterViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.multipleuserdata.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        let data = self.multipleuserdata.object(at: indexPath.row) as! NSDictionary
+        let patient_id = data.value(forKey: "patient_id") as? String
+        let name = data.value(forKey: "name") as? String
+        let relationship = data.value(forKey: "relationship") as? String ?? ""
+        cell.textLabel?.text = name!
+        cell.detailTextLabel?.text = patient_id
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell!.accessoryType = .checkmark
+        self.PatientIDTF.text = cell?.detailTextLabel?.text
+        self.dismiss(animated: true, completion: nil)
+        fetchDetailByPatientID()
     }
 }

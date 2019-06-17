@@ -25,7 +25,7 @@ class MedicineViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
-        
+        self.navigationItem.title = "Medicines".localized()
         tableview.sectionHeaderHeight = UITableView.automaticDimension
         tableview.estimatedSectionHeaderHeight = 50;
         

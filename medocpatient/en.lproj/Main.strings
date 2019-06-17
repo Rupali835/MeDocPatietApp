@@ -78,7 +78,7 @@
 "CTa-Be-cZK.text" = "Environmental Allergies";
 
 /* Class = "UITextField"; placeholder = "Patient id Or Contact Or Email"; ObjectID = "CeV-CD-9Xn"; */
-"CeV-CD-9Xn.placeholder" = "Patient id Or Contact Or Email";
+"CeV-CD-9Xn.placeholder" = "Patient id Or Mobile Number";
 
 /* Class = "UITextField"; placeholder = "Write Report name"; ObjectID = "Cf1-Jv-DfL"; */
 "Cf1-Jv-DfL.placeholder" = "Write Report name";
@@ -486,7 +486,7 @@
 "t74-cR-VSO.placeholder" = "Add New";
 
 /* Class = "UITextField"; placeholder = "Patient id Or Number Or Email"; ObjectID = "tYK-Ib-JAJ"; */
-"tYK-Ib-JAJ.placeholder" = "Patient id Or Number Or Email";
+"tYK-Ib-JAJ.placeholder" = "Patient id Or Mobile Number";
 
 /* Class = "UITextField"; text = "8108091854"; ObjectID = "tYK-Ib-JAJ"; */
 "tYK-Ib-JAJ.text" = "8108091854";

@@ -11,12 +11,14 @@ import UIKit
 import ZAlertView
 import UserNotifications
 import MaterialComponents.MaterialSnackbar
+import WebKit
 
 class Utilities {
     static let shared: Utilities = Utilities()
     private init() {}
     var message = UILabel()
-    
+    let pdfVC = UIViewController()
+
     func shadow(object: [UIView]){
         for blueView in object{
             blueView.layer.cornerRadius = 5.0 
@@ -52,6 +54,8 @@ class Utilities {
     }
     func go_to_zoomimageview(vc: UIViewController,image: UIImage?){
         let zvc = UIViewController()
+        zvc.preferredContentSize = vc.view.bounds.size
+        zvc.view.bounds.size = vc.view.bounds.size
         zvc.navigationItem.title = "Image Viewer"
         let imageview = ImageScrollView(frame: CGRect(x: 0, y: 64, width: zvc.view.frame.width, height: zvc.view.frame.height - 64))
         imageview.backgroundColor = .white
@@ -61,6 +65,24 @@ class Utilities {
             vc.navigationController?.pushViewController(zvc, animated: false)
         }
     }
+    func go_to_pdfviewer(vc: UIViewController,title: String?,pdfurl: URL){
+
+        let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        pdfVC.view.addSubview(webView)
+        
+        webView.leadingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        webView.trailingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        webView.topAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: pdfVC.view.bottomAnchor).isActive = true
+        
+        let urlRequest = URLRequest(url: pdfurl)
+        webView.navigationDelegate = vc as? WKNavigationDelegate
+        webView.load(urlRequest)
+        
+        pdfVC.navigationItem.title = title ?? "Pdf Viewer"
+        vc.navigationController?.pushViewController(pdfVC, animated: true)
+    }
     func showToast(text: String,duration: TimeInterval?){
         let message = MDCSnackbarMessage()
         message.text = text
@@ -68,7 +90,6 @@ class Utilities {
         if duration != nil{
             message.duration = duration ?? 3.0
         }
-        MDCSnackbarManager.buttonFont = UIFont.boldSystemFont(ofSize: 25)
 //        MDCSnackbarManager.messageTextColor = UIColor.black
 //        MDCSnackbarManager.snackbarMessageViewBackgroundColor = UIColor.white
         MDCSnackbarManager.show(message)
@@ -141,17 +162,19 @@ class Utilities {
         }
     }
     func alertview(title: String,msg: String,dismisstitle: String,mutlipleButtonAdd: @escaping(ZAlertView)->(),dismissAction: @escaping()->()){
-        ZAlertView.alertTitleFont = UIFont.boldSystemFont(ofSize: 25)
-        ZAlertView.messageFont = UIFont.boldSystemFont(ofSize: 18)
-        ZAlertView.buttonHeight = 50
-        
-        let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
-        mutlipleButtonAdd(alert)
-        alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.clear, titleColor: UIColor.black) { (dismiss) in
-            dismissAction()
-            alert.dismissAlertView()
+        DispatchQueue.main.async {
+            ZAlertView.alertTitleFont = UIFont.boldSystemFont(ofSize: 25)
+            ZAlertView.messageFont = UIFont.boldSystemFont(ofSize: 18)
+            ZAlertView.buttonHeight = 50
+            
+            let alert = ZAlertView(title: title, message: msg, alertType: ZAlertView.AlertType.multipleChoice)
+            mutlipleButtonAdd(alert)
+            alert.addButton(dismisstitle, font: UIFont.boldSystemFont(ofSize: 18), color: UIColor.groupTableViewBackground, titleColor: UIColor.black) { (dismiss) in
+                dismissAction()
+                alert.dismissAlertView()
+            }
+            alert.show()
         }
-        alert.show()
     }
     func dropdowninTextfield(fields: [UITextField]){
         for field in fields {

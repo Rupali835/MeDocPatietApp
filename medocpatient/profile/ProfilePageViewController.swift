@@ -149,10 +149,15 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         editbutton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditableandNonEditable))
         self.navigationItem.rightBarButtonItem = editbutton
         self.alltextfield(bool: false)
-        self.navigationItem.hidesBackButton = true
+        self.navigationItem.setHidesBackButton(true, animated: false)
         let back = UIBarButtonItem(image: #imageLiteral(resourceName: "left-arrow.png"), style: .plain, target: self, action: #selector(handleBack))
         back.imageInsets = UIEdgeInsets(top: 3, left: -5, bottom: -7, right: -10)
-        self.navigationItem.leftBarButtonItem = back
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.navigationItem.leftBarButtonItem = nil
+        } else {
+            self.navigationItem.leftBarButtonItem = back
+        }
         
         customizePickerViewandDateView()
         
@@ -525,7 +530,10 @@ extension ProfilePageViewController { //api services
                 DispatchQueue.main.async {
                     Utilities.shared.RemoveLoaderView()
                     Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
-                    self.navigationController?.popViewController(animated: true)
+                    if let navController = self.splitViewController?.viewControllers[0] as? UINavigationController {
+                        navController.popViewController(animated: true)
+                    }
+                    
                 }
             }
         })
@@ -628,7 +636,10 @@ extension ProfilePageViewController { //api services
                             self.uploadimage()
                             Utilities.shared.RemoveLoaderView()
                             self.toast(msg: "Update Profile Details Successfully")
-                            self.navigationController?.popViewController(animated: true)
+                            if let navController = self.splitViewController?.viewControllers[0] as? UINavigationController {
+                                navController.popViewController(animated: true)
+                            }
+                            
                         }
                     }
                 }
@@ -732,7 +743,9 @@ extension ProfilePageViewController: PassSelectionData { //button action
     }
     @objc func handleBack(){
         if back == true {
-            self.navigationController?.popViewController(animated: true)
+            if let navController = self.splitViewController?.viewControllers[0] as? UINavigationController {
+                navController.popViewController(animated: true)
+            }
         } else {
             Utilities.shared.alertview(title: "Alert", msg: "Do you want to go back,Your data will be lost", dismisstitle: "Back", mutlipleButtonAdd: { (alert) in
                 alert.addButton("Update", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
@@ -745,7 +758,9 @@ extension ProfilePageViewController: PassSelectionData { //button action
                     alert.dismissAlertView()
                 }
             }, dismissAction: {
-                self.navigationController?.popViewController(animated: true)
+                if let navController = self.splitViewController?.viewControllers[0] as? UINavigationController {
+                    navController.popViewController(animated: true)
+                }
             })
         }
     }
@@ -788,7 +803,8 @@ extension ProfilePageViewController: PassSelectionData { //button action
         vc.selected = type
         vc.selectedrowdata = arr
         vc.delegate = self
-        self.present(vc, animated: true, completion: nil)
+        //self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: vc)
     }
     func checkmarkdata(type: TypeSelection,Array: [String]) {
         switch type{

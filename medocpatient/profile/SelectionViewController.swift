@@ -149,12 +149,14 @@ class SelectionViewController: UIViewController {
         }
         UserDefaults.standard.synchronize()
         delegate.checkmarkdata(type: self.selected, Array: self.selectedrowdata)
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
     }
     @objc func Action_Cancel(){
         let str = self.selectedrowdata.joined(separator: " , ")
         print(str)
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+       // self.dismiss(animated: true, completion: nil)
     }
 }
 

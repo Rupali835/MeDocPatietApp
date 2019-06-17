@@ -76,7 +76,8 @@ class ReportViewController: UIViewController {
         let addReportVC = self.storyboard?.instantiateViewController(withIdentifier: "AddReportViewController") as! AddReportViewController
         addReportVC.idarray = self.idarray
         addReportVC.problemArray = self.problemArray
-        self.present(addReportVC, animated: true, completion: nil)
+        navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addReportVC)
+        //self.present(addReportVC, animated: true, completion: nil)
     }
     func fetchreport(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait...")

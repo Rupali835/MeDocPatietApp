@@ -384,3 +384,38 @@ extension UIAlertAction {
         }
     }
 }
+extension UINavigationController {
+    
+    func pushViewControllerWithFlipAnimation(Self:UIViewController,pushVC: UIViewController){
+        let transition:CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromTop
+        pushVC.navigationItem.setHidesBackButton(true, animated: false)
+        Self.navigationController?.setNavigationBarHidden(true, animated: false)
+        Self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        Self.navigationController?.pushViewController(pushVC, animated: false)
+    }
+    
+    func popViewControllerWithFlipAnimation(Self: UIViewController){
+        let transition:CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromBottom
+        Self.navigationItem.setHidesBackButton(false, animated: false)
+        Self.navigationController?.setNavigationBarHidden(false, animated: false)
+        Self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        Self.navigationController?.popViewController(animated: false)
+    }
+}
+extension String
+{
+    func containsNumbers() -> Bool
+    {
+        let numberRegEx  = ".*[0-9]+.*"
+        let testCase     = NSPredicate(format:"SELF MATCHES %@", numberRegEx)
+        return testCase.evaluate(with: self)
+    }
+}

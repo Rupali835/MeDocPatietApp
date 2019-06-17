@@ -89,10 +89,11 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String{
                     if msg == "success" {
-                        self.dismiss(animated: true, completion: {
+                      //  self.dismiss(animated: true, completion: {
                             NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
                             Utilities.shared.showToast(text: "Report Added Successfully", duration: 3.0)
-                        })
+                       // })
+                        self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
                     }
                 }
                 print("image:\(json)")
@@ -127,10 +128,12 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
             Utilities.shared.alertview(title: "Alert", msg: "You Can't Add Report Because No Prescription Suggested For You", dismisstitle: "Back", mutlipleButtonAdd: { (alert) in
                 alert.addButton("Ok", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
                     alert.dismissAlertView()
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                   // self.dismiss(animated: true, completion: nil)
                 }
             }, dismissAction: {
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+               // self.dismiss(animated: true, completion: nil)
             })
         } else {
             dropdown.show()
@@ -174,7 +177,8 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         
     }
     @objc func closeAction(){
-        self.dismiss(animated: true, completion: nil)
+       // self.dismiss(animated: true, completion: nil)
+        navigationController?.popViewControllerWithFlipAnimation(Self: self)
     }
 }
 extension AddReportViewController: UIDocumentPickerDelegate,UINavigationControllerDelegate{

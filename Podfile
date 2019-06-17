@@ -18,4 +18,5 @@ pod 'Firebase/Core'
 pod 'Alamofire'
 pod 'ScrollableGraphView'
 pod 'MaterialComponents/Snackbar'
+pod 'SVGKit'
     end

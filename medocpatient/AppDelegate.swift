@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
+         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
         if Logged == true{
@@ -59,8 +59,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = loginViewController
     }
     func RootPatientHomeVC(){
-        let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "navigation")
+        let Rootvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "splitview") as? UISplitViewController
+        Rootvc?.preferredDisplayMode = .allVisible
+        
         window?.rootViewController = Rootvc
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let detailvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MedicineViewController")
+            let nav = UINavigationController(rootViewController: detailvc)
+            nav.navigationBar.barTintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
+            nav.navigationBar.tintColor = UIColor.white
+            nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            Rootvc?.showDetailViewController(nav, sender: nil)
+        }
+        Rootvc?.preferredDisplayMode = .allVisible
+        if let navController = Rootvc?.viewControllers[0] as? UINavigationController {
+            navController.popViewController(animated: true)
+        }
+        
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

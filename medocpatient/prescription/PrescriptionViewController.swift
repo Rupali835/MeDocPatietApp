@@ -119,28 +119,14 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
             Utilities.shared.showToast(text: "No PDF Added", duration: 3.0)
         } else {
             let url = URL(string: "http://13.234.38.193/medoc_doctor_api/prescription_pdf/\(patient_id)/\(prescription_pdf)")
-            let webView = WKWebView()
-            webView.translatesAutoresizingMaskIntoConstraints = false
-            pdfVC.view.addSubview(webView)
-
-            webView.leadingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-            webView.trailingAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-            webView.topAnchor.constraint(equalTo: pdfVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
-            webView.bottomAnchor.constraint(equalTo: pdfVC.view.bottomAnchor).isActive = true
-            
-            let urlRequest = URLRequest(url: url!)
-            webView.navigationDelegate = self
-            webView.load(urlRequest)
-            
-            pdfVC.navigationItem.title = "Pdf Viewer"
-            self.navigationController?.pushViewController(pdfVC, animated: true)
+            Utilities.shared.go_to_pdfviewer(vc: self, title: nil, pdfurl: url!)
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        Utilities.shared.ShowLoaderView(view: self.pdfVC.view, Message: "")
+        Utilities.shared.ShowLoaderView(view: Utilities.shared.pdfVC.view, Message: "")
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Utilities.shared.RemoveLoaderView()
