@@ -475,7 +475,8 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             medicinecell.interval_period.text = ""
             medicinecell.interval_time.text = ""
         }
-        medicinecell.name.text = name + "(\(medicine_type))"
+        medicinecell.name.text = name //+ "(\(medicine_type))"
+        medicinecell.type.text = medicine_type
         
         var breakfast = Int()
         var lunch = Int()
@@ -500,7 +501,49 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             medicinecell.beforeaftertime.text = ""
         } else {
             medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
-            medicinecell.beforeaftertime.text = "-\(self.timeslot.joined(separator: "\n-"))"
+            medicinecell.beforeaftertime.text = "# \(self.timeslot.joined(separator: "\n# "))"
+        }
+        
+        let created_at = d.value(forKey: "created_at") as! String
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = df.date(from: created_at)
+        
+        let df1 = DateFormatter()
+        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+        let datestr = df1.string(from: date!)
+        
+        let Start_dateSeparate = datestr.components(separatedBy: .whitespaces)
+        
+        medicinecell.start_date.text = Start_dateSeparate[0]
+        medicinecell.start_month.text = Start_dateSeparate[1]
+        medicinecell.start_year.text = Start_dateSeparate[2]
+       // medicinecell.start_time.text = dateSeparate[3]
+        
+        var endDate: Date?
+        
+        switch interval_type {
+        case "1":
+            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
+        case "2":
+            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
+        case "3":
+            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
+        default:
+            break;
+        }
+        
+        if endDate != nil {
+            let df1 = DateFormatter()
+            df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+            let datestr = df1.string(from: endDate!)
+            
+            let End_dateSeparate = datestr.components(separatedBy: .whitespaces)
+            
+            medicinecell.end_date.text = End_dateSeparate[0]
+            medicinecell.end_month.text = End_dateSeparate[1]
+            medicinecell.end_year.text = End_dateSeparate[2]
+            // medicinecell.end_time.text = dateSeparate[3]
         }
         
         return medicinecell

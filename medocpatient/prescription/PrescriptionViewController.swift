@@ -24,7 +24,6 @@ class PrescriptionViewController: UIViewController {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
         self.tableview.reloadData()
-
 //        if #available(iOS 12.0, *) {
 //            let monitor = NWPathMonitor()
 //            let queue = DispatchQueue.global(qos: .background)
@@ -100,15 +99,36 @@ extension PrescriptionViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let Precell = tableView.dequeueReusableCell(withIdentifier: "PrescriptionCell") as! PrescriptionTableViewCell
-        Precell.accessoryType = .disclosureIndicator
+        let Precell = tableView.dequeueReusableCell(withIdentifier: "PrescriptionTableViewCell") as! PrescriptionTableViewCell
+       // Precell.accessoryType = .disclosureIndicator
         let d = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
         let patient_problem = d.value(forKey: "patient_problem") as! String
         let created_at = d.value(forKey: "created_at") as! String
         
         Precell.prescription_pdf.image = #imageLiteral(resourceName: "pdf.png")
-        Precell.patient_problem.text = "Chief Complain: \(patient_problem)"
-        Precell.date.text = "Date:\(created_at)"
+        
+        if patient_problem == "" || patient_problem == "NF" {
+            Precell.patient_problem.text = "Not Mentioned"
+        } else {
+            Precell.patient_problem.text = patient_problem//"Chief Complain: \(patient_problem)"
+        }
+        //Precell.date.text = "Date:\(created_at)"
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = df.date(from: created_at)
+        
+        let df1 = DateFormatter()
+        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+        let datestr = df1.string(from: date!)
+
+        let dateSeparate = datestr.components(separatedBy: .whitespaces)
+        
+        Precell.date.text = dateSeparate[0]
+        Precell.month.text = dateSeparate[1]
+        Precell.year.text = dateSeparate[2]
+        Precell.time.text = dateSeparate[3]
+
         return Precell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

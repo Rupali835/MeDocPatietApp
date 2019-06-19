@@ -10,6 +10,8 @@
 import UIKit
 import SkyFloatingLabelTextField
 
+let relations = ["Grandfather","Grandmother","Father","Mother","Son","Daughter","Brother","Sister","Husband","Wife"]
+
 class RegisterViewController: UIViewController{
 
     @IBOutlet var Close: UIButton!
@@ -37,7 +39,6 @@ class RegisterViewController: UIViewController{
     var relationship = "Self"
     var name_relationship = ""
     var dateview = UIDatePicker()
-    let relations = ["Grandfather","Grandmother","Father","Mother","Son","Daughter","Brother","Sister","Husband","Wife"]
     var multipleuserdata = NSArray()
     
     @IBOutlet var HeightofPatientIDview: NSLayoutConstraint!
@@ -112,7 +113,7 @@ class RegisterViewController: UIViewController{
     }
     func selectrelationshipAlert(title: String?,msg: String?){
         let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-        for relation in self.relations {
+        for relation in relations {
             let alert = UIAlertAction(title: relation, style: .default) { (action) in
                 print(action.title!)
                 self.relationship = action.title!

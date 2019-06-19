@@ -11,11 +11,22 @@ import UIKit
 class MedicineTableViewCell: UITableViewCell {
 
     @IBOutlet var name: UILabel!
+    @IBOutlet var type: UILabel!
     @IBOutlet var timeslot: UILabel!
     @IBOutlet var interval_time: UILabel!
     @IBOutlet var interval_type: UILabel!
     @IBOutlet var interval_period: UILabel!
     @IBOutlet var beforeaftertime: UILabel!
+    
+    @IBOutlet var start_date: UILabel!
+    @IBOutlet var start_month: UILabel!
+    @IBOutlet var start_year: UILabel!
+    @IBOutlet var start_time: UILabel!
+    
+    @IBOutlet var end_date: UILabel!
+    @IBOutlet var end_month: UILabel!
+    @IBOutlet var end_year: UILabel!
+    @IBOutlet var end_time: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

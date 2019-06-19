@@ -175,17 +175,33 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reportcell = tableView.dequeueReusableCell(withIdentifier: "ReportCell") as! ReportTableViewCell
-        reportcell.accessoryType = .disclosureIndicator
+      //  reportcell.accessoryType = .disclosureIndicator
         let data = self.reportdata[indexPath.row]
         reportcell.pre.text = ""
-        reportcell.date.text = "date: \(data.created_at!)"
-        reportcell.remark.text = "Report name: \(data.dataTag!)"
+      //  reportcell.date.text = "date: \(data.created_at!)"
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = df.date(from: data.created_at)
+        
+        let df1 = DateFormatter()
+        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+        let datestr = df1.string(from: date!)
+        
+        let dateSeparate = datestr.components(separatedBy: .whitespaces)
+        
+        reportcell.date.text = dateSeparate[0]
+        reportcell.month.text = dateSeparate[1]
+        reportcell.year.text = dateSeparate[2]
+        reportcell.time.text = dateSeparate[3]
+        
+        reportcell.remark.text = data.dataTag//"Report name: \(data.dataTag!)"
         for item in self.prescriptionsgeneraldata {
             if "\(item.prescription_id!)" == data.prescription_id {
-                reportcell.pre.text = "Prescription: \(item.patientProblem!)"
+                reportcell.pre.text = item.patientProblem!//"Prescription: \(item.patientProblem!)"
                 break;
             } else {
-                reportcell.pre.text = "No Prescription Selected"
+                reportcell.pre.text = "Not Selected"//"No Prescription Selected"
             }
         }
         if data.dataName.contains(find: ".pdf") {

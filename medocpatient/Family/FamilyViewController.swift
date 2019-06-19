@@ -20,6 +20,14 @@ class FamilyViewController: UIViewController {
         getRelationship()
         // Do any additional setup after loading the view.
     }
+    @objc func ActionAdd(){
+        let addfamilyvc = self.storyboard?.instantiateViewController(withIdentifier: "AddFamilyMemberVC") as! AddFamilyMemberVC
+        addfamilyvc.callback = { self.getRelationship() }
+        let d = self.familydetaildata.object(at: 0) as! NSDictionary
+        let name = d.value(forKey: "name") as? String ?? ""
+        addfamilyvc.name_relationship = name
+        navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addfamilyvc)
+    }
     func getRelationship(){
         ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "get-relationships", bearertoken: bearertoken!) {
             do {
@@ -31,6 +39,7 @@ class FamilyViewController: UIViewController {
                             self.familydetaildata = data
                             print("data: \(data)")
                             DispatchQueue.main.async {
+                                self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.ActionAdd))
                                 self.tableview.reloadData()
                             }
                         }

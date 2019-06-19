@@ -38,7 +38,7 @@ class PatientHomePageViewController: UIViewController{
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var dict = NSDictionary()
-    let spacing: CGFloat = 1
+    let spacing: CGFloat = 7
     
     override func viewDidLoad(){
         super.viewDidLoad()

@@ -14,6 +14,9 @@ class ReportTableViewCell: UITableViewCell {
     @IBOutlet var pre: UILabel!
     @IBOutlet var remark: UILabel!
     @IBOutlet var date: UILabel!
+    @IBOutlet var month: UILabel!
+    @IBOutlet var year: UILabel!
+    @IBOutlet var time: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

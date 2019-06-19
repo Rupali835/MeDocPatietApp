@@ -11,8 +11,11 @@ import UIKit
 class PrescriptionTableViewCell: UITableViewCell {
 
     @IBOutlet var patient_problem: UILabel!
-    @IBOutlet var date : UILabel!
     @IBOutlet var prescription_pdf : UIImageView!
+    @IBOutlet var date: UILabel!
+    @IBOutlet var month: UILabel!
+    @IBOutlet var year: UILabel!
+    @IBOutlet var time: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

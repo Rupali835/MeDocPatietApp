@@ -16,19 +16,29 @@ class ChartViewController: UIViewController {
     @IBOutlet weak var viewChart: LineChartView!
     weak var axisFormatDelegate: IAxisValueFormatter?
     @IBOutlet var tableview: UITableView!
+    @IBOutlet var type_imageview: UIImageView!
+    
     var dataarr = NSArray()
     var selectedtitle = ""
+    var typeimage : UIImage?
     
     var xAxisValue = [String]()
     var chartvalue = [Double]()
     
+    let color = UIColor.black
+    let skyblue = UIColor(red: 0, green: 187/255, blue: 204/255, alpha: 1.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = selectedtitle
+        self.type_imageview.image = typeimage
         axisFormatDelegate = self
         updateChart()
         tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
+    }
+    @IBAction func close(){
+        self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
     }
     func updateChart(){
         if self.dataarr.count > 0 {
@@ -136,12 +146,15 @@ class ChartViewController: UIViewController {
         if self.selectedtitle == "Blood Pressure" {
             chartDataSet = LineChartDataSet(values: dataEntries, label: "Systolic")
             chartDataSet2 = LineChartDataSet(values: dataEntries2, label: "Diastolic")
+            
             chartDataSet.setColor(UIColor.red)
-            chartDataSet.setCircleColor(UIColor.red)
-            chartDataSet.circleHoleColor = UIColor.red
-            chartDataSet2.setColor(UIColor.blue.withAlphaComponent(0.5))
-            chartDataSet.setCircleColor(UIColor.blue.withAlphaComponent(0.5))
-            chartDataSet2.circleHoleColor = UIColor.blue.withAlphaComponent(0.5)
+            chartDataSet.setCircleColor(UIColor.red.withAlphaComponent(0.5))
+            chartDataSet.circleHoleColor = UIColor.red.withAlphaComponent(0.5)
+            
+            chartDataSet2.setColor(skyblue)
+            chartDataSet2.setCircleColor(skyblue.withAlphaComponent(0.5))
+            chartDataSet2.circleHoleColor = skyblue.withAlphaComponent(0.5)
+            
             chartData = LineChartData(dataSets: [chartDataSet,chartDataSet2])
         } else {
             if self.selectedtitle == "Height"{
@@ -153,6 +166,9 @@ class ChartViewController: UIViewController {
             else if self.selectedtitle == "Temperature"{
                 chartDataSet = LineChartDataSet(values: dataEntries, label: selectedtitle + " in ºC")
             }
+            chartDataSet.setColor(skyblue)
+            chartDataSet.setCircleColor(skyblue.withAlphaComponent(0.5))
+            chartDataSet.circleHoleColor = skyblue.withAlphaComponent(0.5)
             chartData = LineChartData(dataSet: chartDataSet)
         }
         viewChart.data = chartData
@@ -161,6 +177,12 @@ class ChartViewController: UIViewController {
         viewChart.rightAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
         chartDataSet.valueFont = UIFont.boldSystemFont(ofSize: 10)
         chartDataSet2.valueFont = UIFont.boldSystemFont(ofSize: 10)
+        
+        viewChart.xAxis.labelTextColor = color
+        viewChart.leftAxis.labelTextColor = color
+        viewChart.rightAxis.labelTextColor = color
+        chartDataSet.valueTextColor = color
+        chartDataSet2.valueTextColor = color
         
         let xAxisValue = viewChart.xAxis
         xAxisValue.granularityEnabled = true
@@ -187,51 +209,68 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         let showdatacell = tableView.dequeueReusableCell(withIdentifier: "ShowDataCell") as! ShowDataTableViewCell
         let d = self.dataarr.object(at: indexPath.row) as! NSDictionary
         let created_at = d.value(forKey: "created_at") as! String
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = df.date(from: created_at)
+        
+        let df1 = DateFormatter()
+        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+        let datestr = df1.string(from: date!)
+        
+        let dateSeparate = datestr.components(separatedBy: .whitespaces)
+        
+        showdatacell.date.text = dateSeparate[0]
+        showdatacell.month.text = dateSeparate[1]
+        showdatacell.year.text = dateSeparate[2]
+        showdatacell.time.text = dateSeparate[3]
+        
         if selectedtitle == "Blood Pressure"{
             let blood_pressure = d.value(forKey: "blood_pressure") as? String ?? "0/0"
             if blood_pressure == "NF" || blood_pressure == "" {
-                showdatacell.firstdata.text = "Systolic: NF :Diastolic"
+                //showdatacell.value.text = "Systolic: NF :Diastolic"
+                showdatacell.value.text = "NF"
             } else {
-                showdatacell.firstdata.text = "Systolic: \(blood_pressure) :Diastolic"
+                //showdatacell.value.text = "Systolic: \(blood_pressure) :Diastolic"
+                showdatacell.value.text = blood_pressure
             }
-            showdatacell.seconddata.text = ""
-            showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Height"{
             if let height = d.value(forKey: "height") as? String {
                 if height == "NF" || height == ""{
-                    showdatacell.firstdata.text = "\(selectedtitle): NF"
+                    //showdatacell.value.text = "\(selectedtitle): NF"
+                    showdatacell.value.text = "NF"
                 } else {
-                    showdatacell.firstdata.text = "\(selectedtitle): \(height)"
+                    //showdatacell.value.text = "\(selectedtitle): \(height)"
+                    showdatacell.value.text = height
                 }
             }
-            showdatacell.seconddata.text = ""
-            showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Weight"{
             if let weight = d.value(forKey: "weight") as? String {
                 if weight == "NF" || weight == ""{
-                    showdatacell.firstdata.text = "\(selectedtitle): NF"
+                  //  showdatacell.value.text = "\(selectedtitle): NF"
+                    showdatacell.value.text = "NF"
                 } else {
-                    showdatacell.firstdata.text = "\(selectedtitle): \(weight) Kg"
+                   // showdatacell.value.text = "\(selectedtitle): \(weight) Kg"
+                    showdatacell.value.text = "\(weight) Kg"
                 }
             }
-            showdatacell.seconddata.text = ""
-            showdatacell.date.text = "Date: \(created_at)"
         }
         else if selectedtitle == "Temperature"{
             if let temperature = d.value(forKey: "temperature") as? Int {
                 if temperature == 0{
-                    showdatacell.firstdata.text = "\(selectedtitle): NF"
+                   // showdatacell.value.text = "\(selectedtitle): NF"
+                    showdatacell.value.text = "NF"
                 } else {
-                    showdatacell.firstdata.text = "\(selectedtitle): \(temperature) ºC"
+                   // showdatacell.value.text = "\(selectedtitle): \(temperature) ºC"
+                    showdatacell.value.text = "\(temperature) ºC"
                 }
             }
             else if let temperature = d.value(forKey: "temperature") as? String {
-                showdatacell.firstdata.text = "\(selectedtitle): \(temperature)"
+                //showdatacell.value.text = "\(selectedtitle): \(temperature)"
+                showdatacell.value.text = "\(temperature) ºC"
             }
-            showdatacell.seconddata.text = ""
-            showdatacell.date.text = "Date: \(created_at)"
         }
         else {
             print("none")

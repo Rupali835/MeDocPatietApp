@@ -11,6 +11,9 @@ import CoreData
 
 class PHQCell: UITableViewCell {
     @IBOutlet var date: UILabel!
+    @IBOutlet var month: UILabel!
+    @IBOutlet var year: UILabel!
+    @IBOutlet var time: UILabel!
 }
 class PHQ_9ViewController: UIViewController {
 
@@ -136,6 +139,12 @@ class PHQ_9ViewController: UIViewController {
                 let UserEntity = DataArr[index]
                 contx.delete(UserEntity)
             }
+            do {
+                try contx.save()
+            } catch {
+                print("catch")
+            }
+            
         } catch {}
     }
 }
@@ -145,12 +154,30 @@ extension PHQ_9ViewController : UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PHQCell") as! PHQCell
-        cell.date.text = self.items[indexPath.row].created_at
+        
+        let created_at = self.items[indexPath.row].created_at
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = df.date(from: created_at!)
+        
+        let df1 = DateFormatter()
+        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
+        let datestr = df1.string(from: date!)
+        
+        let dateSeparate = datestr.components(separatedBy: .whitespaces)
+        
+        cell.date.text = dateSeparate[0]
+        cell.month.text = dateSeparate[1]
+        cell.year.text = dateSeparate[2]
+        cell.time.text = dateSeparate[3]
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ShowPHQViewController") as! ShowPHQViewController
-        let created_at = self.items[indexPath.row].created_at!
+        let cell = self.tableview.cellForRow(at: indexPath) as! PHQCell
+        let created_at = "\(cell.date.text!) \(cell.month.text!) \(cell.year.text!) \(cell.time.text!)"
         let que_ans = self.items[indexPath.row].que_ans!
         vc.faq = self.faq
         vc.que_ansarr = que_ans.convertIntoJsonArray()!
