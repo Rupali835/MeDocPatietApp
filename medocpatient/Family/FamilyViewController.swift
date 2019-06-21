@@ -72,8 +72,22 @@ extension FamilyViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             cell.lbl_relationship.text = "Relationship: \(relation)"
         }
-        cell.lbl_cheif_complain.text = ""//Cheif Complain: "
-        cell.lbl_hospital_name.text = ""//Hospital Name: "
+        let gender = d.value(forKey: "gender") as? Int
+        
+        switch gender {
+        case 1:
+            cell.lbl_Gender.text = "Gender: Male"
+        case 2:
+            cell.lbl_Gender.text = "Gender: Female"
+        case 3:
+            cell.lbl_Gender.text = "Gender: Others"
+        default:
+            print("none gender")
+        }
+        
+        let patient_id = d.value(forKey: "patient_id") as? String ?? ""
+        cell.lbl_Patient_id.text = "Patient id: \(patient_id)"
+
         return cell
     }
 }

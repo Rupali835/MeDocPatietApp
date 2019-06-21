@@ -34,7 +34,7 @@ class AddFamilyMemberVC: UIViewController {
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         Add.addTarget(self, action: #selector(AddAction), for: .touchUpInside)
         RelationshipBtn.addTarget(self, action: #selector(Actionselectrelation), for: .touchUpInside)
-        PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
+       // PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
 
         self.registernumber = contact_no!
 
@@ -50,11 +50,11 @@ class AddFamilyMemberVC: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Show", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.frame = CGRect(x: CGFloat(PasswordTF.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
+      //  button.frame = CGRect(x: CGFloat(PasswordTF.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
         button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
         button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
-        PasswordTF.rightView = button
-        PasswordTF.rightViewMode = .always
+       // PasswordTF.rightView = button
+      //  PasswordTF.rightViewMode = .always
         // Do any additional setup after loading the view.
     }
     @objc func showpassword(sender: UIButton){
@@ -101,15 +101,15 @@ class AddFamilyMemberVC: UIViewController {
         else if self.selectedGender == 0{
             Utilities.shared.showToast(text: "Select Gender", duration: 3.0)
         }
-        else if (self.PasswordTF.text?.isEmpty)! {
-            Utilities.shared.showToast(text: "Enter \(self.PasswordTF.placeholder!)", duration: 3.0)
-        }
-        else if self.PasswordTF.text?.isValidPassword() == false{
-            Utilities.shared.showToast(text: "Invalid Password", duration: 3.0)
-        }
+//        else if (self.PasswordTF.text?.isEmpty)! {
+//            Utilities.shared.showToast(text: "Enter \(self.PasswordTF.placeholder!)", duration: 3.0)
+//        }
+//        else if self.PasswordTF.text?.isValidPassword() == false{
+//            Utilities.shared.showToast(text: "Invalid Password", duration: 3.0)
+//        }
         else {
             
-            let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.registernumber)&gender=\(self.selectedGender)&relationship=\(relationship)&dob=\(self.DateOfBirthTF.text!)&email=&password=\(self.PasswordTF.text!)&c_password=\(self.PasswordTF.text!)"
+            let without_patient_id = "name=\(self.FullNameTF.text!)&contact_no=\(self.registernumber)&gender=\(self.selectedGender)&relationship=\(relationship)&dob=\(self.DateOfBirthTF.text!)&email=&password=\(987654321)&c_password=\(987654321)"
             
             NetworkManager.isReachable { _ in
                 self.register(parameter: without_patient_id)

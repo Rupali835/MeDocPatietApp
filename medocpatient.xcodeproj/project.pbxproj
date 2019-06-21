@@ -10,9 +10,26 @@
 		1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */; };
 		1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C235D5C227ACC2C000FA40B /* Extensions.swift */; };
 		1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C35AA38229D56AD005C27A0 /* Angleview.swift */; };
-		1C3D7BA622B229C900CAFA42 /* FollowUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3D7BA522B229C900CAFA42 /* FollowUpViewController.swift */; };
 		1C682DEB22A7870B00028276 /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEA22A7870B00028276 /* FamilyViewController.swift */; };
 		1C682DED22A7872100028276 /* FamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */; };
+		1C6CD70622BCA86400F29D06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD70522BCA86400F29D06 /* Main.storyboard */; };
+		1C6CD73C22BCC3F000F29D06 /* Physiotherapy.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD72B22BCC3EF00F29D06 /* Physiotherapy.svg */; };
+		1C6CD73D22BCC3F000F29D06 /* Others.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD72C22BCC3EF00F29D06 /* Others.svg */; };
+		1C6CD73E22BCC3F000F29D06 /* Tablet.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD72D22BCC3EF00F29D06 /* Tablet.svg */; };
+		1C6CD73F22BCC3F000F29D06 /* Treatment Session.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD72E22BCC3EF00F29D06 /* Treatment Session.svg */; };
+		1C6CD74022BCC3F000F29D06 /* Ointment.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD72F22BCC3EF00F29D06 /* Ointment.svg */; };
+		1C6CD74122BCC3F000F29D06 /* Cream.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73022BCC3EF00F29D06 /* Cream.svg */; };
+		1C6CD74222BCC3F000F29D06 /* Inhaler.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73122BCC3EF00F29D06 /* Inhaler.svg */; };
+		1C6CD74322BCC3F000F29D06 /* Spray.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73222BCC3F000F29D06 /* Spray.svg */; };
+		1C6CD74422BCC3F000F29D06 /* Capsules.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73322BCC3F000F29D06 /* Capsules.svg */; };
+		1C6CD74522BCC3F000F29D06 /* Suppository.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73422BCC3F000F29D06 /* Suppository.svg */; };
+		1C6CD74622BCC3F000F29D06 /* Lotion.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73522BCC3F000F29D06 /* Lotion.svg */; };
+		1C6CD74722BCC3F000F29D06 /* Mouthwash.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73622BCC3F000F29D06 /* Mouthwash.svg */; };
+		1C6CD74822BCC3F000F29D06 /* Injection.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73722BCC3F000F29D06 /* Injection.svg */; };
+		1C6CD74922BCC3F000F29D06 /* Drops.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73822BCC3F000F29D06 /* Drops.svg */; };
+		1C6CD74A22BCC3F000F29D06 /* Powder.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73922BCC3F000F29D06 /* Powder.svg */; };
+		1C6CD74B22BCC3F100F29D06 /* Gel.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73A22BCC3F000F29D06 /* Gel.svg */; };
+		1C6CD74C22BCC3F100F29D06 /* Syrup.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73B22BCC3F000F29D06 /* Syrup.svg */; };
 		1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */; };
 		1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */; };
 		1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */; };
@@ -38,7 +55,6 @@
 		1CF88D8322BA35550024AA9D /* scale.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1CF88D7F22BA35550024AA9D /* scale.svg */; };
 		1CF88D8422BA35550024AA9D /* height-limit.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1CF88D8022BA35550024AA9D /* height-limit.svg */; };
 		1CF88D8522BA35550024AA9D /* thermometer.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1CF88D8122BA35550024AA9D /* thermometer.svg */; };
-		1CFF60112271C28A00112FF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF60132271C28A00112FF3 /* Main.storyboard */; };
 		1CFF60192271D69D00112FF3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF601B2271D69D00112FF3 /* Localizable.strings */; };
 		57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6721D4BD6B00B38849 /* Assets.xcassets */; };
 		57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57254B6821D4BD6B00B38849 /* AppDelegate.swift */; };
@@ -109,9 +125,26 @@
 		1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = R_4179_1521627488625_0.pdf; sourceTree = "<group>"; };
 		1C235D5C227ACC2C000FA40B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1C35AA38229D56AD005C27A0 /* Angleview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angleview.swift; sourceTree = "<group>"; };
-		1C3D7BA522B229C900CAFA42 /* FollowUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpViewController.swift; sourceTree = "<group>"; };
 		1C682DEA22A7870B00028276 /* FamilyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyViewController.swift; sourceTree = "<group>"; };
 		1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyTableViewCell.swift; sourceTree = "<group>"; };
+		1C6CD70522BCA86400F29D06 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		1C6CD72B22BCC3EF00F29D06 /* Physiotherapy.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Physiotherapy.svg; sourceTree = "<group>"; };
+		1C6CD72C22BCC3EF00F29D06 /* Others.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Others.svg; sourceTree = "<group>"; };
+		1C6CD72D22BCC3EF00F29D06 /* Tablet.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tablet.svg; sourceTree = "<group>"; };
+		1C6CD72E22BCC3EF00F29D06 /* Treatment Session.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Treatment Session.svg"; sourceTree = "<group>"; };
+		1C6CD72F22BCC3EF00F29D06 /* Ointment.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ointment.svg; sourceTree = "<group>"; };
+		1C6CD73022BCC3EF00F29D06 /* Cream.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cream.svg; sourceTree = "<group>"; };
+		1C6CD73122BCC3EF00F29D06 /* Inhaler.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Inhaler.svg; sourceTree = "<group>"; };
+		1C6CD73222BCC3F000F29D06 /* Spray.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spray.svg; sourceTree = "<group>"; };
+		1C6CD73322BCC3F000F29D06 /* Capsules.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Capsules.svg; sourceTree = "<group>"; };
+		1C6CD73422BCC3F000F29D06 /* Suppository.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Suppository.svg; sourceTree = "<group>"; };
+		1C6CD73522BCC3F000F29D06 /* Lotion.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Lotion.svg; sourceTree = "<group>"; };
+		1C6CD73622BCC3F000F29D06 /* Mouthwash.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Mouthwash.svg; sourceTree = "<group>"; };
+		1C6CD73722BCC3F000F29D06 /* Injection.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Injection.svg; sourceTree = "<group>"; };
+		1C6CD73822BCC3F000F29D06 /* Drops.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Drops.svg; sourceTree = "<group>"; };
+		1C6CD73922BCC3F000F29D06 /* Powder.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Powder.svg; sourceTree = "<group>"; };
+		1C6CD73A22BCC3F000F29D06 /* Gel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gel.svg; sourceTree = "<group>"; };
+		1C6CD73B22BCC3F000F29D06 /* Syrup.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Syrup.svg; sourceTree = "<group>"; };
 		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
 		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
 		1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPHQViewController.swift; sourceTree = "<group>"; };
@@ -133,14 +166,10 @@
 		1CAA8D71225618330001E4CD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		1CC43B9E2265A73000534E6B /* SelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
-		1CD2C61822B75E130022D034 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		1CD2C61922B75E170022D034 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
-		1CD2C61A22B75E1A0022D034 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Main.strings; sourceTree = "<group>"; };
 		1CF88D7E22BA35550024AA9D /* blood-pressure.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "blood-pressure.svg"; sourceTree = "<group>"; };
 		1CF88D7F22BA35550024AA9D /* scale.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scale.svg; sourceTree = "<group>"; };
 		1CF88D8022BA35550024AA9D /* height-limit.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "height-limit.svg"; sourceTree = "<group>"; };
 		1CF88D8122BA35550024AA9D /* thermometer.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = thermometer.svg; sourceTree = "<group>"; };
-		1CFF60122271C28A00112FF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1CFF601A2271D69D00112FF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1CFF601C2271D6B700112FF3 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1CFF60202271E45B00112FF3 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -248,14 +277,6 @@
 			path = "Third Party Library";
 			sourceTree = "<group>";
 		};
-		1C3D7BA422B229A200CAFA42 /* Follow Up */ = {
-			isa = PBXGroup;
-			children = (
-				1C3D7BA522B229C900CAFA42 /* FollowUpViewController.swift */,
-			);
-			path = "Follow Up";
-			sourceTree = "<group>";
-		};
 		1C682DE922A786EE00028276 /* Family */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +285,30 @@
 				1CA8234E22B8AD0900998170 /* AddFamilyMemberVC.swift */,
 			);
 			path = Family;
+			sourceTree = "<group>";
+		};
+		1C6CD72A22BCC3B700F29D06 /* Medicine Type ICon SVG */ = {
+			isa = PBXGroup;
+			children = (
+				1C6CD73322BCC3F000F29D06 /* Capsules.svg */,
+				1C6CD73022BCC3EF00F29D06 /* Cream.svg */,
+				1C6CD73822BCC3F000F29D06 /* Drops.svg */,
+				1C6CD73A22BCC3F000F29D06 /* Gel.svg */,
+				1C6CD73122BCC3EF00F29D06 /* Inhaler.svg */,
+				1C6CD73722BCC3F000F29D06 /* Injection.svg */,
+				1C6CD73522BCC3F000F29D06 /* Lotion.svg */,
+				1C6CD73622BCC3F000F29D06 /* Mouthwash.svg */,
+				1C6CD72F22BCC3EF00F29D06 /* Ointment.svg */,
+				1C6CD72C22BCC3EF00F29D06 /* Others.svg */,
+				1C6CD72B22BCC3EF00F29D06 /* Physiotherapy.svg */,
+				1C6CD73922BCC3F000F29D06 /* Powder.svg */,
+				1C6CD73222BCC3F000F29D06 /* Spray.svg */,
+				1C6CD73422BCC3F000F29D06 /* Suppository.svg */,
+				1C6CD73B22BCC3F000F29D06 /* Syrup.svg */,
+				1C6CD72D22BCC3EF00F29D06 /* Tablet.svg */,
+				1C6CD72E22BCC3EF00F29D06 /* Treatment Session.svg */,
+			);
+			path = "Medicine Type ICon SVG";
 			sourceTree = "<group>";
 		};
 		1C93C40D2268868C00AF6989 /* PHQ-9 */ = {
@@ -344,12 +389,13 @@
 				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
 				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
 				57254B6B21D4BD6C00B38849 /* LaunchScreen.storyboard */,
-				1CFF60132271C28A00112FF3 /* Main.storyboard */,
+				1C6CD70522BCA86400F29D06 /* Main.storyboard */,
 				57254B5E21D4BC5C00B38849 /* Info.plist */,
 				575D2E5721F5D34700501D20 /* GoogleService-Info.plist */,
 				57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */,
 				1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */,
 				1C97D6D222B0E4F5009BC7B9 /* SVG Icons */,
+				1C6CD72A22BCC3B700F29D06 /* Medicine Type ICon SVG */,
 				57254B8D21D4BE6600B38849 /* utility */,
 				57254B8A21D4BE5E00B38849 /* login */,
 				57254B8C21D4BE6400B38849 /* home */,
@@ -362,7 +408,6 @@
 				57A9EA5221E5E22E008C9CB2 /* Health */,
 				1C682DE922A786EE00028276 /* Family */,
 				1C93C40D2268868C00AF6989 /* PHQ-9 */,
-				1C3D7BA422B229A200CAFA42 /* Follow Up */,
 				1CFF601B2271D69D00112FF3 /* Localizable.strings */,
 			);
 			path = medocpatient;
@@ -625,30 +670,47 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C6CD74622BCC3F000F29D06 /* Lotion.svg in Resources */,
 				1C97D6D622B0E511009BC7B9 /* prescription.svg in Resources */,
 				1CF88D8422BA35550024AA9D /* height-limit.svg in Resources */,
 				575259D521D6061C008DB872 /* IQKeyboardManager.bundle in Resources */,
+				1C6CD70622BCA86400F29D06 /* Main.storyboard in Resources */,
 				1C97D6D122B0E406009BC7B9 /* users.svg in Resources */,
+				1C6CD74422BCC3F000F29D06 /* Capsules.svg in Resources */,
+				1C6CD74722BCC3F000F29D06 /* Mouthwash.svg in Resources */,
+				1C6CD74A22BCC3F000F29D06 /* Powder.svg in Resources */,
+				1C6CD74822BCC3F000F29D06 /* Injection.svg in Resources */,
+				1C6CD73E22BCC3F000F29D06 /* Tablet.svg in Resources */,
 				1C97D6E622B0E8D6009BC7B9 /* guide.svg in Resources */,
+				1C6CD74C22BCC3F100F29D06 /* Syrup.svg in Resources */,
+				1C6CD74222BCC3F000F29D06 /* Inhaler.svg in Resources */,
 				57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */,
 				1C97D6E222B0E7BF009BC7B9 /* teamwork.svg in Resources */,
 				1C97D6E122B0E7BF009BC7B9 /* customer-support.svg in Resources */,
+				1C6CD74922BCC3F000F29D06 /* Drops.svg in Resources */,
 				1C97D6DA22B0E6C5009BC7B9 /* qr-code.svg in Resources */,
 				57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */,
 				1C97D6DC22B0E762009BC7B9 /* hospital.svg in Resources */,
+				1C6CD74122BCC3F000F29D06 /* Cream.svg in Resources */,
 				1C97D6D522B0E511009BC7B9 /* folder.svg in Resources */,
 				1CF88D8222BA35550024AA9D /* blood-pressure.svg in Resources */,
 				1C97D6DE22B0E788009BC7B9 /* question.svg in Resources */,
+				1C6CD73D22BCC3F000F29D06 /* Others.svg in Resources */,
 				1CF88D8322BA35550024AA9D /* scale.svg in Resources */,
 				1C97D6EA22B0F48A009BC7B9 /* group.svg in Resources */,
+				1C6CD74522BCC3F000F29D06 /* Suppository.svg in Resources */,
+				1C6CD74022BCC3F000F29D06 /* Ointment.svg in Resources */,
+				1C6CD74B22BCC3F100F29D06 /* Gel.svg in Resources */,
+				1C6CD74322BCC3F000F29D06 /* Spray.svg in Resources */,
 				1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */,
 				1CF88D8522BA35550024AA9D /* thermometer.svg in Resources */,
 				1C97D6E922B0F48A009BC7B9 /* report.svg in Resources */,
 				1C97D6D822B0E665009BC7B9 /* pills.svg in Resources */,
+				1C6CD73C22BCC3F000F29D06 /* Physiotherapy.svg in Resources */,
 				1C97D6E422B0E847009BC7B9 /* family.svg in Resources */,
 				1CFF60192271D69D00112FF3 /* Localizable.strings in Resources */,
-				1CFF60112271C28A00112FF3 /* Main.storyboard in Resources */,
 				575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */,
+				1C6CD73F22BCC3F000F29D06 /* Treatment Session.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,7 +819,6 @@
 				57254BA621D4BE9900B38849 /* QRViewController.swift in Sources */,
 				575259D821D6061C008DB872 /* IQUIScrollView+Additions.swift in Sources */,
 				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
-				1C3D7BA622B229C900CAFA42 /* FollowUpViewController.swift in Sources */,
 				575259D221D6061C008DB872 /* IQInvocation.swift in Sources */,
 				575259CF21D6061C008DB872 /* IQBarButtonItem.swift in Sources */,
 				575259CE21D6061C008DB872 /* IQTitleBarButtonItem.swift in Sources */,
@@ -815,17 +876,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1CFF60132271C28A00112FF3 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1CFF60122271C28A00112FF3 /* Base */,
-				1CD2C61822B75E130022D034 /* en */,
-				1CD2C61922B75E170022D034 /* hi */,
-				1CD2C61A22B75E1A0022D034 /* mr */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1CFF601B2271D69D00112FF3 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -964,7 +1014,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = medocpatient/Info.plist;
@@ -975,7 +1025,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
+				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDistrubution;
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -990,7 +1040,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = medocpatient/medocpatient.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = medocpatient/Info.plist;
@@ -1001,7 +1051,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
+				PROVISIONING_PROFILE_SPECIFIER = MedocPatientDistrubution;
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

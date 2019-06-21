@@ -8,6 +8,7 @@
 
 import UIKit
 import EventKit
+import SVGKit
 
 class MedicineViewController: UIViewController {
 
@@ -477,6 +478,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         }
         medicinecell.name.text = name //+ "(\(medicine_type))"
         medicinecell.type.text = medicine_type
+        medicinecell.img_type.image = SVGKImage(named: medicine_type)?.uiImage
         
         var breakfast = Int()
         var lunch = Int()

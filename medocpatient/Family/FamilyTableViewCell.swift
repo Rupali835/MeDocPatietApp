@@ -12,8 +12,8 @@ class FamilyTableViewCell: UITableViewCell {
 
     @IBOutlet var lbl_name: UILabel!
     @IBOutlet var lbl_relationship: UILabel!
-    @IBOutlet var lbl_cheif_complain: UILabel!
-    @IBOutlet var lbl_hospital_name: UILabel!
+    @IBOutlet var lbl_Gender: UILabel!
+    @IBOutlet var lbl_Patient_id: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

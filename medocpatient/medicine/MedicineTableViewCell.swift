@@ -12,6 +12,7 @@ class MedicineTableViewCell: UITableViewCell {
 
     @IBOutlet var name: UILabel!
     @IBOutlet var type: UILabel!
+    @IBOutlet var img_type: UIImageView!
     @IBOutlet var timeslot: UILabel!
     @IBOutlet var interval_time: UILabel!
     @IBOutlet var interval_type: UILabel!

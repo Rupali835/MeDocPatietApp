@@ -18,14 +18,14 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var tableview: UITableView!
     @IBOutlet var imagesPicView: UIImageView!
     @IBOutlet var Name: UILabel!
-    @IBOutlet var DateOfBirth: UILabel!
-    @IBOutlet var Gender: UILabel!
+    @IBOutlet var languagebtn: UIButton!
     @IBOutlet var cornerview: UIView!
     
     @IBOutlet var infoBtn: UIButton!
     @IBOutlet var logoutBtn: UIButton!
 
     @IBOutlet var followupBtn: UIButton!
+    @IBOutlet var phqBtn: UIButton!
     var Prescriptiondata = NSArray()
 
     @IBOutlet var headerview: UIView!
@@ -43,6 +43,8 @@ class PatientHomePageViewController: UIViewController{
     override func viewDidLoad(){
         super.viewDidLoad()
         Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [languagebtn,logoutBtn,infoBtn], number: languagebtn.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [followupBtn,phqBtn], number: 5)
         Utilities.shared.cornerRadius(objects: [cornerview], number: cornerview.frame.width / 2)
         infoBtn.addTarget(self, action: #selector(infodetails), for: .touchUpInside)
         logoutBtn.addTarget(self, action: #selector(LogoutAction), for: .touchUpInside)
@@ -292,15 +294,17 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
         }
     }
     func splitnavigate(vc: UIViewController){
-        let detailvc = UINavigationController(rootViewController: vc)
-        detailvc.navigationBar.barTintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
-        detailvc.navigationBar.tintColor = UIColor.white
-        detailvc.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.splitViewController?.showDetailViewController(detailvc, sender: self)
+        DispatchQueue.main.async {
+            let detailvc = UINavigationController(rootViewController: vc)
+            detailvc.navigationBar.barTintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
+            detailvc.navigationBar.tintColor = UIColor.white
+            detailvc.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            self.splitViewController?.showDetailViewController(detailvc, sender: self)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return CGSize(width: (collectionView.frame.size.width / 3) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2.65) - (spacing + spacing/2))
+            return CGSize(width: (collectionView.frame.size.width / 3) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2.9) - (spacing + spacing/2))
         }
         else {
             return CGSize(width: (collectionView.frame.size.width / 2) - (spacing + spacing/2), height: (collectionView.frame.size.width / 2) - (spacing + spacing/2))
