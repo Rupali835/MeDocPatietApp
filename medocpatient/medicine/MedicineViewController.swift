@@ -22,6 +22,8 @@ class MedicineViewController: UIViewController {
     var medicineData = NSMutableArray()
     var prescription = NSMutableArray()
     var timeslot = [String]()
+    let image_Types_dataSource = ["Capsules", "Cream", "Drops", "Gel", "Inhaler", "Injection", "Lotion", "Mouthwash", "Ointment", "Others", "Physiotherapy", "Powder", "Spray", "Suppository", "Syrup", "Tablet", "Treatment Session"]
+    var images_types = [UIImage?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +33,14 @@ class MedicineViewController: UIViewController {
         tableview.estimatedSectionHeaderHeight = 50;
         
         setupReminder()
+        
+        DispatchQueue.main.async {
+            for medicine_type in self.image_Types_dataSource {
+                let image = SVGKImage(named: medicine_type)?.uiImage
+                image?.accessibilityIdentifier = medicine_type
+                self.images_types.append(image)
+            }
+        }
         
         NetworkManager.isReachable { _ in
             self.fetchmedicine()
@@ -478,7 +488,12 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         }
         medicinecell.name.text = name //+ "(\(medicine_type))"
         medicinecell.type.text = medicine_type
-        medicinecell.img_type.image = SVGKImage(named: medicine_type)?.uiImage
+        
+        for (index,item) in self.images_types.enumerated() {
+            if item?.accessibilityIdentifier == medicine_type {
+                medicinecell.img_type.image = item
+            }
+        }
         
         var breakfast = Int()
         var lunch = Int()

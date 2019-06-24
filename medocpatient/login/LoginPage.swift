@@ -32,7 +32,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     var multipleuserdata = NSArray()
     var alertwithtextfield = UIAlertController()
     var alertwithtext = ZAlertView()
-
+    var forget_password_mobile_number = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +77,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                         floatingLabelTextField.errorMessage = ""
                     }
                     else if text.count == 10 && text.containsNumbers() == true{
+                        self.forget_password_mobile_number = text
                         self.fetch_login_by_relative_check()
                     }
                 }
@@ -335,32 +336,31 @@ extension LoginPage {
                 }
             }
         } else {
-            fetchforgetPassword(login_id: self.PatientTextField.text!)
+            fetchforgetPassword(login_id: self.forget_password_mobile_number)
         }
     }
     func fetchforgetPassword(login_id: String){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "")
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "forgot-password", bearertoken: "", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "forgot-password-otp-mobile", bearertoken: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                let type = json.value(forKey: "type") as? String ?? ""
                 let msg = json.value(forKey: "msg") as? String ?? ""
-                if msg.contains(find: "OTP has been sent") {
+                if type == "success" {
                     DispatchQueue.main.async {
                         self.alertwithtext.dismissAlertView()
                         self.PatientTextField.endEditing(true)
                         self.PasswordTextField.endEditing(true)
-                        self.EnterOTP(title: "", msg: msg, log_id: login_id)
+                        self.EnterOTP(title: "", msg: "OTP has been Sent to Your Mobile Number", log_id: login_id)
                     }
                 }
-                else if msg == "fail" {
-                    let reason = json.value(forKey: "reason") as? String ?? ""
-                    if reason == "Login ID Incorrect" {
-                        Utilities.shared.showToast(text: "Incorrect Mobile Number", duration: 3.0)
+                else if type == "fail" || msg == "fail"{
+                    if let reason = json.value(forKey: "reason") as? String{
+                        if reason == "Login ID Incorrect" {
+                            Utilities.shared.showToast(text: "Incorrect Mobile Number", duration: 3.0)
+                        }
                     }
-                }
-                else {
-                    print(json)
-                    Utilities.shared.showToast(text: msg, duration: 3.0)
                 }
                 DispatchQueue.main.async {
                     Utilities.shared.RemoveLoaderView()
@@ -377,31 +377,35 @@ extension LoginPage {
     }
     func fetchforgot_password_approve(login_id: String,otp: String){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "")
-        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "forgot-password-approve", bearertoken: "", onSuccessCompletion: {
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "forgot-password-approve-otp-mobile", bearertoken: "", onSuccessCompletion: {
             do {
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 print(json)
-                let msg = json.value(forKey: "msg") as? String ?? ""
-                if msg == "success" {
-                    DispatchQueue.main.async {
-                        self.alertwithtext.dismissAlertView()
-                        let token = json.value(forKey: "token") as? String ?? ""
-                        self.addNewPassword(title: "", msg: "Note: Password Should be Atleast one Capital and Small Alphabet , Number , Special Character (eg:@,$,#)", Token: token)
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        DispatchQueue.main.async {
+                            self.alertwithtext.dismissAlertView()
+                            let token = json.value(forKey: "token") as? String ?? ""
+                            self.addNewPassword(title: "", msg: "Note: Password Should be Atleast one Capital and Small Alphabet , Number , Special Character (eg:@,$,#)", Token: token)
+                        }
                     }
-                   
                 }
-                else if msg == "Login Id or OTP Incorrect" {
-                    Utilities.shared.alertview(title: "Alert", msg: "Incorrect OTP", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
-                        
-                    }, dismissAction: {})
-                   // Utilities.shared.showToast(text: "Incorrect OTP", duration: 3.0)
+                else if let type_resp = json.value(forKey: "type") as? String {
+                    let message = json.value(forKey: "message") as? String ?? ""
+                    if type_resp == "error" {
+                        Utilities.shared.alertview(title: "Alert", msg: message, dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
+                            
+                        }, dismissAction: {})
+                        // Utilities.shared.showToast(text: "Incorrect OTP", duration: 3.0)
+                    }
+                    else {
+                        Utilities.shared.alertview(title: "Alert", msg: message, dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
+                            
+                        }, dismissAction: {})
+                        //  Utilities.shared.showToast(text: msg, duration: 3.0)
+                    }
                 }
-                else {
-                    Utilities.shared.alertview(title: "Alert", msg: msg, dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
-                        
-                    }, dismissAction: {})
-                  //  Utilities.shared.showToast(text: msg, duration: 3.0)
-                }
+               
                 DispatchQueue.main.async {
                     Utilities.shared.RemoveLoaderView()
                 }
@@ -412,7 +416,7 @@ extension LoginPage {
                 }
             }
         }, HttpBodyCompletion: {
-            ["login_id": login_id,
+            ["mobile": login_id,
              "otp": otp]
         })
     }

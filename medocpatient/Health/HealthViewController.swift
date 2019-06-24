@@ -17,10 +17,21 @@ class HealthViewController: UIViewController {
     var list = ["Blood Pressure","Weight","Height","Temperature"]
     let images = ["blood-pressure.svg","scale.svg","height-limit.svg","thermometer.svg"]
     var Prescriptiondata = NSArray()
+    var images_types = [UIImage?]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
+        self.tableview.reloadData()
+        
+        DispatchQueue.main.async {
+            for image_type in self.images {
+                let image = SVGKImage(named: image_type)?.uiImage
+                image?.accessibilityIdentifier = image_type
+                self.images_types.append(image)
+            }
+        }
+        
         NetworkManager.isReachable { _ in
             self.fetchPrescription()
         }
@@ -72,7 +83,13 @@ extension HealthViewController: UITableViewDataSource , UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LatestData") as! LatestDataTableViewCell
         //cell.accessoryType = .disclosureIndicator
         cell.type_name.text = self.list[indexPath.row]
-        cell.type_img.image = SVGKImage(named: self.images[indexPath.row])?.uiImage
+        
+        for (index,item) in self.images_types.enumerated() {
+            if item?.accessibilityIdentifier == self.images[indexPath.row] {
+                cell.type_img.image = item
+            }
+        }
+        
         cell.value.text = "No Data Found"
 
         if self.Prescriptiondata.count > 0 {
