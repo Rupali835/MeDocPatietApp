@@ -10,6 +10,8 @@ import UIKit
 
 class MedicineTableViewCell: UITableViewCell {
 
+    @IBOutlet var cardview: Cardview!
+    
     @IBOutlet var name: UILabel!
     @IBOutlet var type: UILabel!
     @IBOutlet var img_type: UIImageView!
@@ -23,6 +25,8 @@ class MedicineTableViewCell: UITableViewCell {
     @IBOutlet var start_month: UILabel!
     @IBOutlet var start_year: UILabel!
     @IBOutlet var start_time: UILabel!
+    
+    @IBOutlet var to: UILabel!
     
     @IBOutlet var end_date: UILabel!
     @IBOutlet var end_month: UILabel!
@@ -40,6 +44,38 @@ class MedicineTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func currentMedicineColor(primarycolor: UIColor,secondarycolor: UIColor){
+        name.textColor = primarycolor
+        interval_type.textColor = primarycolor
+        start_date.textColor = primarycolor
+        start_month.textColor = primarycolor
+        start_year.textColor = primarycolor
+        end_date.textColor = primarycolor
+        end_month.textColor = primarycolor
+        end_year.textColor = primarycolor
+        beforeaftertime.textColor = primarycolor
+        
+        type.textColor = secondarycolor
+        timeslot.textColor = secondarycolor
+        interval_period.textColor = secondarycolor
+        interval_time.textColor = secondarycolor
+    }
+    func non_currentMedicineColor(primarycolor: UIColor,secondarycolor: UIColor){
+        name.textColor = primarycolor
+        interval_type.textColor = primarycolor
+        start_date.textColor = primarycolor
+        start_month.textColor = primarycolor
+        start_year.textColor = primarycolor
+        end_date.textColor = primarycolor
+        end_month.textColor = primarycolor
+        end_year.textColor = primarycolor
+        beforeaftertime.textColor = primarycolor
+        
+        type.textColor = secondarycolor
+        timeslot.textColor = secondarycolor
+        interval_period.textColor = secondarycolor
+        interval_time.textColor = secondarycolor
+    }
 }
 class headercell: UITableViewCell {
     

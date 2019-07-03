@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
+        application.statusBarStyle = .default
          UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
@@ -55,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     func SwitchLogin(){
-        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginPage") as! LoginPage
+        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginPage")
         window?.rootViewController = loginViewController
     }
     func RootPatientHomeVC(){

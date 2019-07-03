@@ -69,7 +69,8 @@ class RegisterViewController: UIViewController{
         let button = UIButton(type: .system)
         button.setTitle("Show", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.frame = CGRect(x: CGFloat(PasswordTF.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
+        button.frame = CGRect(x: CGFloat((PasswordTF.bounds.size.width) - 60 - 5), y: CGFloat(0), width: CGFloat(60), height: CGFloat(50))
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
         button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
         PasswordTF.rightView = button
@@ -96,6 +97,12 @@ class RegisterViewController: UIViewController{
 
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
     @objc func Actionselectrelation(){
         self.selectrelationshipAlert(title: "Select Relationship With \(self.name_relationship)", msg: "User/s is/are already registered with this number")
     }
@@ -117,7 +124,8 @@ class RegisterViewController: UIViewController{
             let alert = UIAlertAction(title: relation, style: .default) { (action) in
                 print(action.title!)
                 self.relationship = action.title!
-                self.RelationshipBtn.setTitle(self.relationship, for: .normal)
+                let settitle = self.relationship
+                self.RelationshipBtn.setTitle(settitle, for: .normal)
             }
             alertController.addAction(alert)
         }

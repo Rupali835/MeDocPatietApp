@@ -18,11 +18,15 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var tableview: UITableView!
     @IBOutlet var imagesPicView: UIImageView!
     @IBOutlet var Name: UILabel!
-    @IBOutlet var languagebtn: UIButton!
     @IBOutlet var cornerview: UIView!
     
+    @IBOutlet var morebtn: UIButton!
     @IBOutlet var infoBtn: UIButton!
     @IBOutlet var logoutBtn: UIButton!
+    @IBOutlet var languagebtn: UIButton!
+    @IBOutlet var closebtn: UIButton!
+    
+    @IBOutlet var MoreView: UIView!
 
     @IBOutlet var followupBtn: UIButton!
     @IBOutlet var phqBtn: UIButton!
@@ -31,28 +35,77 @@ class PatientHomePageViewController: UIViewController{
     @IBOutlet var headerview: UIView!
     @IBOutlet var height_of_header_contraint: NSLayoutConstraint!
     
+    
     //let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
     let icons = ["group.svg","report.svg","prescription.svg","pills.svg","qr-code.svg","hospital.svg","question.svg","teamwork.svg","customer-support.svg","guide.svg","family.svg"]
+
     let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
     var dict = NSDictionary()
     let spacing: CGFloat = 7
+    var images_types = [UIImage?]()
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        
+        for item in icons {
+            let image = SVGKImage(named: item)?.uiImage
+            image?.accessibilityIdentifier = item
+            self.images_types.append(image)
+        }
+        
         Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
-        Utilities.shared.cornerRadius(objects: [languagebtn,logoutBtn,infoBtn], number: languagebtn.frame.width / 2)
+        Utilities.shared.cornerRadius(objects: [morebtn,languagebtn,logoutBtn,infoBtn,closebtn], number: languagebtn.frame.width / 2)
         Utilities.shared.cornerRadius(objects: [followupBtn,phqBtn], number: 5)
         Utilities.shared.cornerRadius(objects: [cornerview], number: cornerview.frame.width / 2)
+        
+        closeMoreOption()
+        
+        morebtn.addTarget(self, action: #selector(moreAction), for: .touchUpInside)
         infoBtn.addTarget(self, action: #selector(infodetails), for: .touchUpInside)
         logoutBtn.addTarget(self, action: #selector(LogoutAction), for: .touchUpInside)
+        languagebtn.addTarget(self, action: #selector(changeLanguage(sender:)), for: .touchUpInside)
+        closebtn.addTarget(self, action: #selector(closeMoreOption), for: .touchUpInside)
+        
         self.tableview.tableFooterView = UIView(frame: .zero)
         self.hometitle.text = "Welcome To Medoc !".localized()
-        fetchPrescription()
         followupBtn.addTarget(self, action: #selector(ActionFollowUp), for: .touchUpInside)
+
+        NetworkManager.isReachable { _ in
+            self.fetchPrescription()
+        }
+        NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+            self.fetchPrescription()
+        }
         // Do any additional setup after loading the view.
+    }
+    @objc func moreAction(){
+        UIView.animate(withDuration: 0.3) {
+            self.MoreView.transform = .identity
+            self.MoreView.alpha = 1.0
+            self.MoreView.isHidden = false
+            self.morebtn.alpha = 0.0
+            self.morebtn.isHidden = true
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0, options: [], animations: {
+            self.languagebtn.transform = .identity
+            self.logoutBtn.transform = .identity
+            self.infoBtn.transform = .identity
+        }, completion: nil)
+    }
+    @objc func closeMoreOption(){
+        self.MoreView.alpha = 0.0
+        self.MoreView.isHidden = true
+        
+        self.morebtn.alpha = 1.0
+        self.morebtn.isHidden = false
+        
+        self.MoreView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        self.infoBtn.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        self.languagebtn.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        self.logoutBtn.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
     }
     @objc func ActionFollowUp(){
         let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
@@ -83,6 +136,7 @@ class PatientHomePageViewController: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .default
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -93,7 +147,8 @@ class PatientHomePageViewController: UIViewController{
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        UIApplication.shared.statusBarStyle = .lightContent
+        closeMoreOption()
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
@@ -136,10 +191,12 @@ class PatientHomePageViewController: UIViewController{
     }
     
     @objc func infodetails(){
+        closeMoreOption()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TimeInfoViewController") as! TimeInfoViewController
         self.present(vc, animated: true, completion: nil)
     }
     @objc func LogoutAction(){
+        closeMoreOption()
         Utilities.shared.alertview(title: "Alert".localized(), msg: "Are You Sure, Do You Want to Logout?".localized(), dismisstitle: "No".localized(), mutlipleButtonAdd: { (alert) in
             alert.addButton("Yes".localized(), font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
                 self.fetchlogout()
@@ -153,7 +210,8 @@ class PatientHomePageViewController: UIViewController{
        // self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func changeLanguage(_ sender: UIButton) {
+    @objc func changeLanguage(sender: UIButton) {
+        
         let alertvc = UIAlertController(title: "Choose Language", message: nil, preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let english = UIAlertAction(title: "English", style: .default) { (action) in
@@ -180,9 +238,12 @@ class PatientHomePageViewController: UIViewController{
         self.present(alertvc, animated: true, completion: nil)
     }
     func updatelanguage(){
-        self.hometitle.text = "Welcome To Medoc !".localized()
-        self.navItem()
-        self.tableview.reloadData()
+        DispatchQueue.main.async {
+            self.closeMoreOption()
+            self.hometitle.text = "Welcome To Medoc !".localized()
+            self.navItem()
+            self.tableview.reloadData()
+        }
     }
 }
 extension PatientHomePageViewController: UITableViewDataSource, UITableViewDelegate {
@@ -205,7 +266,7 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PatientHomePageCollectionViewCell
-        cell.icon.image = SVGKImage(named: icons[indexPath.row])?.uiImage
+        cell.icon.image = self.images_types[indexPath.row]
         cell.title.text = titles[indexPath.row].localized()
         return cell
     }

@@ -79,6 +79,10 @@ class PrescriptionViewController: UIViewController {
                     }
                     self.tableview.reloadData()
                     Utilities.shared.RemoveLoaderView()
+                    
+//                    if self.Prescriptiondata.count > 0 {
+//                        self.tableview.scrollToRow(at: IndexPath(row: self.Prescriptiondata.count - 1, section: 0), at: .bottom, animated: true)
+//                    }
                 }
             } catch {
                 print("catch")

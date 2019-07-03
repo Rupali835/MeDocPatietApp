@@ -33,6 +33,7 @@ class LoginPage: UIViewController, UITextFieldDelegate{
     var alertwithtextfield = UIAlertController()
     var alertwithtext = ZAlertView()
     var forget_password_mobile_number = ""
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,8 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         let button = UIButton(type: .system)
         button.setTitle("Show", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.frame = CGRect(x: CGFloat(PasswordTextField.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
+        button.frame = CGRect(x: CGFloat((PasswordTextField.bounds.size.width) - 60 - 5), y: CGFloat(0), width: CGFloat(60), height: CGFloat(50))
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
         button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
         PasswordTextField.rightView = button
@@ -56,7 +58,21 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         PatientTextField.addTarget(self, action: #selector(updatePatient), for: .editingChanged)
 
         LoginNow.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
+        
+//        let textFieldFrame = CGRect(x: 150, y: 100, width: 120, height: 45)
+//        
+//        let textField1 = SkyFloatingLabelTextFieldWithIcon(frame: textFieldFrame,iconType: .image)
+//        textField1.placeholder = "Departure"
+//        textField1.title = "Flying from"
+//        textField1.iconImage = UIImage(named: "users")
+//        self.view.addSubview(textField1)
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
     }
     @objc func updatePatient(){
         if PatientTextField.isFirstResponder {
@@ -352,7 +368,7 @@ extension LoginPage {
                         self.alertwithtext.dismissAlertView()
                         self.PatientTextField.endEditing(true)
                         self.PasswordTextField.endEditing(true)
-                        self.EnterOTP(title: "", msg: "OTP has been Sent to Your Mobile Number", log_id: login_id)
+                        self.EnterOTP(title: "OTP has been Sent!", msg: "If Otp Has Not Recieve After Few Minutes Then Click On Resend Otp or Voice Call Otp Button.", log_id: login_id)
                     }
                 }
                 else if type == "fail" || msg == "fail"{
@@ -420,6 +436,30 @@ extension LoginPage {
              "otp": otp]
         })
     }
+    func fetchRetry_OTP(mobile: String,retryType: String){
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "")
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "forgot-password-otp-mobile-retry", bearertoken: "", onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                if let msg = json.value(forKey: "message") as? String {
+                    if msg == "otp_sent_successfully" {
+                        let type = json.value(forKey: "type") as? String ?? ""
+                        if type == "success" {
+                            Utilities.shared.alertview(title: "", msg: "Otp has been Send Successfully", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
+                                
+                            }, dismissAction: {})
+                        }
+                    }
+                }
+            } catch {
+                print("catch retry otp")
+            }
+        }, HttpBodyCompletion: {
+            ["mobile": mobile,
+             "retryType": retryType]
+        })
+    }
     func fetchchange_password(token: String,newPassword: String){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "")
         ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "change-password", bearertoken: token, onSuccessCompletion: {
@@ -475,6 +515,18 @@ extension LoginPage {
                 }
             }
             
+            alert.addButton("Resend OTP", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+                DispatchQueue.main.async {
+                    self.fetchRetry_OTP(mobile: log_id, retryType: "text")
+                }
+            }
+            
+            alert.addButton("Voice Call OTP", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
+                DispatchQueue.main.async {
+                    self.fetchRetry_OTP(mobile: log_id, retryType: "voice")
+                }
+            }
+            
             alert.addTextField("OTP", placeHolder: "Enter OTP",keyboardType: .numberPad)
             
         }, dismissAction: { })
@@ -508,16 +560,16 @@ extension LoginPage {
         
     }
 }
-/* let url = ApiServices.shared.baseUrl + "patientlogin"
- let param: Parameters = ["login_id": self.PatientTextField.text!,"password": self.PasswordTextField.text!]
- let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded","Accept": "application/json"]
- //,"fcm_token": AppDelegate().fcm_token!
- //(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
- Alamofire.request(url, method: .post, parameters: param).responseJSON { (resp) in
- print(resp)
- }*/
 
-//            alert.addButton("Resend OTP", font: UIFont.boldSystemFont(ofSize: 20), color: UIColor.orange, titleColor: UIColor.white) { (action) in
-//                self.fetchforgetPassword(login_id: log_id)
-//                Utilities.shared.showToast(text: "Resend OTP", duration: 3.0)
-//            }
+//func alamofire(){
+//    let url = ApiServices.shared.baseUrl + "patientlogin"
+//    let param: Parameters = ["login_id": self.PatientTextField.text!,"password": self.PasswordTextField.text!]
+//    let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded","Accept": "application/json"]
+//    ,"fcm_token": AppDelegate().fcm_token!
+//    (url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
+//    Alamofire.request(url, method: .post, parameters: param).responseJSON { (resp) in
+//        print(resp)
+//    }
+//}
+
+

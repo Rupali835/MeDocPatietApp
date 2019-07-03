@@ -259,13 +259,20 @@ class MedicineViewController: UIViewController {
                         
                         let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
                         
-                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-                                              notes: patient_problem,
-                                              startdate: startDatecomponent,
-                                              duedate: dueDatecomponent,
-                                              completiondate: dueDate,
-                                              alarmdates: alarmdates,
-                                              recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
+                        
+                        if dueDate != nil {
+                            if dueDate! >= Date() {
+                                //print("Current")
+                                
+                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
+                                                      notes: patient_problem,
+                                                      startdate: startDatecomponent,
+                                                      duedate: dueDatecomponent,
+                                                      completiondate: dueDate,
+                                                      alarmdates: alarmdates,
+                                                      recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
+                            }
+                        }
                         break
                         //medicinecell.interval_type.text = "Type: Daily"
                     case "2":
@@ -322,22 +329,28 @@ class MedicineViewController: UIViewController {
                                 break;
                         }
                         
-                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-                                              notes: patient_problem,
-                                              startdate: startDatecomponent,
-                                              duedate: dueDatecomponent,
-                                              completiondate: dueDate,
-                                              alarmdates: alarmdates,
-                                              recurrenceRule:
-                            [EKRecurrenceRule(recurrenceWith: .weekly,
-                                              interval: Int(interval_period)!,
-                                              daysOfTheWeek: daysofWeek,
-                                              daysOfTheMonth: nil,
-                                              monthsOfTheYear: nil,
-                                              weeksOfTheYear: nil,
-                                              daysOfTheYear: nil,
-                                              setPositions: nil,
-                                              end: EKRecurrenceEnd(end: dueDate!))])
+                        if dueDate != nil {
+                            if dueDate! >= Date() {
+                                //print("Current")
+                                
+                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
+                                                      notes: patient_problem,
+                                                      startdate: startDatecomponent,
+                                                      duedate: dueDatecomponent,
+                                                      completiondate: dueDate,
+                                                      alarmdates: alarmdates,
+                                                      recurrenceRule:
+                                    [EKRecurrenceRule(recurrenceWith: .weekly,
+                                                      interval: Int(interval_period)!,
+                                                      daysOfTheWeek: daysofWeek,
+                                                      daysOfTheMonth: nil,
+                                                      monthsOfTheYear: nil,
+                                                      weeksOfTheYear: nil,
+                                                      daysOfTheYear: nil,
+                                                      setPositions: nil,
+                                                      end: EKRecurrenceEnd(end: dueDate!))])
+                            }
+                        }
                         break
                        // medicinecell.interval_type.text = "Type: Weekly"
                     case "3":
@@ -345,13 +358,19 @@ class MedicineViewController: UIViewController {
                         
                         let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
                         
-                        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
-                                              notes: patient_problem,
-                                              startdate: startDatecomponent,
-                                              duedate: dueDatecomponent,
-                                              completiondate: dueDate,
-                                              alarmdates: alarmdates,
-                                              recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
+                        if dueDate != nil {
+                            if dueDate! >= Date() {
+                                //print("Current")
+                                
+                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
+                                    notes: patient_problem,
+                                    startdate: startDatecomponent,
+                                    duedate: dueDatecomponent,
+                                    completiondate: dueDate,
+                                    alarmdates: alarmdates,
+                                    recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
+                            }
+                        }
                         break
                       //  medicinecell.interval_type.text = "Type: Time interval"
                     default:
@@ -561,6 +580,17 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             medicinecell.end_month.text = End_dateSeparate[1]
             medicinecell.end_year.text = End_dateSeparate[2]
             // medicinecell.end_time.text = dateSeparate[3]
+            
+            if endDate! >= Date() {
+                print("\(indexPath.row)-Current")
+                medicinecell.cardview.backgroundColor = UIColor(hexString: "#69f0ae")
+                medicinecell.currentMedicineColor(primarycolor: UIColor.black, secondarycolor: UIColor.darkGray)
+            }
+            else {
+                print("\(indexPath.row)-Non-Current")
+                medicinecell.cardview.backgroundColor = UIColor.white
+                medicinecell.non_currentMedicineColor(primarycolor: UIColor.black, secondarycolor: .darkGray)
+            }
         }
         
         return medicinecell

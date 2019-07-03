@@ -61,6 +61,12 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         }
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
     func addReport(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Adding Report")
         self.uploadimage()
@@ -89,11 +95,13 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
                 let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
                 if let msg = json.value(forKey: "msg") as? String{
                     if msg == "success" {
-                      //  self.dismiss(animated: true, completion: {
+                        DispatchQueue.main.async {
+                            //  self.dismiss(animated: true, completion: {
                             NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
                             Utilities.shared.showToast(text: "Report Added Successfully", duration: 3.0)
-                       // })
-                        self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                            // })
+                            self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                        }
                     }
                 }
                 print("image:\(json)")

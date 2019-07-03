@@ -129,6 +129,9 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
         self.medical_scrollview.alpha = 0
         self.details_scrollview.alpha = 1
         
+        self.imagesPicView.layer.borderColor = UIColor.lightText.cgColor
+        self.imagesPicView.layer.borderWidth = 5
+        
         segment_typeview.addTarget(self, action: #selector(Action_segment_typeview), for: .valueChanged)
         
         Utilities.shared.cornerRadius(objects: [imagesPicView], number: imagesPicView.frame.width / 2)
@@ -209,7 +212,7 @@ extension ProfilePageViewController : DBAssetPickerControllerDelegate {
             let ageComponents = calendar.components(.month, from: dateview.date, to: Date() as Date, options: []).month
             let years = ageComponents! / 12
             let months = ageComponents! % 12
-            self.age.text = "Age: \(years) Y / \(months) M"
+            self.age.text = "\(years) Y / \(months) M"
         }
     }
     func editAllTextfield(bool: Bool,objects: [SkyFloatingLabelTextField]){
@@ -390,7 +393,7 @@ extension ProfilePageViewController { //api services
                             UserDefaults.standard.set(name, forKey: "name")
                             UserDefaults.standard.synchronize()
                             if self.DateOfBirthTF.text == ""{
-                                self.age.text = "Age"
+                                self.age.text = ""
                             } else {
                                 let df = DateFormatter()
                                 df.dateFormat = "yyyy-MM-dd"
@@ -399,7 +402,7 @@ extension ProfilePageViewController { //api services
                                 let ageComponents = calendar.components(.month, from: date!, to: Date() as Date, options: []).month
                                 let years = ageComponents! / 12
                                 let months = ageComponents! % 12
-                                self.age.text = "Age: \(years) Y / \(months) M"
+                                self.age.text = "\(years) Y / \(months) M"
                             }
                             self.selectedGender = data.value(forKey: "gender") as? Int ?? 1
 

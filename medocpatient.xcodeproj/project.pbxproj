@@ -10,6 +10,24 @@
 		1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */; };
 		1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C235D5C227ACC2C000FA40B /* Extensions.swift */; };
 		1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C35AA38229D56AD005C27A0 /* Angleview.swift */; };
+		1C3E57F922CC9601005D5060 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3E57F822CC9601005D5060 /* ActionButton.swift */; };
+		1C3E57FB22CC9665005D5060 /* ActionButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3E57FA22CC9665005D5060 /* ActionButtonItem.swift */; };
+		1C60D0AF22C9F3D100637F40 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0A922C9F3D000637F40 /* user.png */; };
+		1C60D0B022C9F3D100637F40 /* birthday.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0AA22C9F3D000637F40 /* birthday.png */; };
+		1C60D0B122C9F3D100637F40 /* call.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0AB22C9F3D000637F40 /* call.png */; };
+		1C60D0B222C9F3D100637F40 /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0AC22C9F3D000637F40 /* key.png */; };
+		1C60D0B322C9F3D100637F40 /* identification.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0AD22C9F3D100637F40 /* identification.png */; };
+		1C60D0B422C9F3D100637F40 /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0AE22C9F3D100637F40 /* email.png */; };
+		1C60D0B622C9FE3700637F40 /* love.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0B522C9FE3700637F40 /* love.png */; };
+		1C60D0B822CA016700637F40 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0B722CA016700637F40 /* check.png */; };
+		1C60D0BA22CA05F400637F40 /* protect.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0B922CA05F300637F40 /* protect.png */; };
+		1C60D0BD22CA365C00637F40 /* blood-type.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0BB22CA365B00637F40 /* blood-type.png */; };
+		1C60D0BE22CA365C00637F40 /* circular-line-with-word-age-in-the-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0BC22CA365B00637F40 /* circular-line-with-word-age-in-the-center.png */; };
+		1C60D0C422CB243E00637F40 /* sort-by-numeric-order.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0BF22CB243D00637F40 /* sort-by-numeric-order.png */; };
+		1C60D0C522CB243E00637F40 /* skyline.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0C022CB243D00637F40 /* skyline.png */; };
+		1C60D0C622CB243E00637F40 /* building.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0C122CB243D00637F40 /* building.png */; };
+		1C60D0C722CB243E00637F40 /* policy.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0C222CB243E00637F40 /* policy.png */; };
+		1C60D0C822CB243E00637F40 /* address.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C60D0C322CB243E00637F40 /* address.png */; };
 		1C682DEB22A7870B00028276 /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEA22A7870B00028276 /* FamilyViewController.swift */; };
 		1C682DED22A7872100028276 /* FamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */; };
 		1C6CD70622BCA86400F29D06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD70522BCA86400F29D06 /* Main.storyboard */; };
@@ -125,6 +143,24 @@
 		1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = R_4179_1521627488625_0.pdf; sourceTree = "<group>"; };
 		1C235D5C227ACC2C000FA40B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1C35AA38229D56AD005C27A0 /* Angleview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angleview.swift; sourceTree = "<group>"; };
+		1C3E57F822CC9601005D5060 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		1C3E57FA22CC9665005D5060 /* ActionButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonItem.swift; sourceTree = "<group>"; };
+		1C60D0A922C9F3D000637F40 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
+		1C60D0AA22C9F3D000637F40 /* birthday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = birthday.png; sourceTree = "<group>"; };
+		1C60D0AB22C9F3D000637F40 /* call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = call.png; sourceTree = "<group>"; };
+		1C60D0AC22C9F3D000637F40 /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
+		1C60D0AD22C9F3D100637F40 /* identification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = identification.png; sourceTree = "<group>"; };
+		1C60D0AE22C9F3D100637F40 /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email.png; sourceTree = "<group>"; };
+		1C60D0B522C9FE3700637F40 /* love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = love.png; sourceTree = "<group>"; };
+		1C60D0B722CA016700637F40 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		1C60D0B922CA05F300637F40 /* protect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protect.png; sourceTree = "<group>"; };
+		1C60D0BB22CA365B00637F40 /* blood-type.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blood-type.png"; sourceTree = "<group>"; };
+		1C60D0BC22CA365B00637F40 /* circular-line-with-word-age-in-the-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circular-line-with-word-age-in-the-center.png"; sourceTree = "<group>"; };
+		1C60D0BF22CB243D00637F40 /* sort-by-numeric-order.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-by-numeric-order.png"; sourceTree = "<group>"; };
+		1C60D0C022CB243D00637F40 /* skyline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skyline.png; sourceTree = "<group>"; };
+		1C60D0C122CB243D00637F40 /* building.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building.png; sourceTree = "<group>"; };
+		1C60D0C222CB243E00637F40 /* policy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = policy.png; sourceTree = "<group>"; };
+		1C60D0C322CB243E00637F40 /* address.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = address.png; sourceTree = "<group>"; };
 		1C682DEA22A7870B00028276 /* FamilyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyViewController.swift; sourceTree = "<group>"; };
 		1C682DEC22A7872100028276 /* FamilyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyTableViewCell.swift; sourceTree = "<group>"; };
 		1C6CD70522BCA86400F29D06 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -273,8 +309,33 @@
 				57717F6E21F9EC55000EA206 /* CryptLib.m */,
 				575259B421D6061C008DB872 /* IQKeyboardManagerSwift */,
 				575259E021D65DCC008DB872 /* EasyToast */,
+				1C3E57F822CC9601005D5060 /* ActionButton.swift */,
+				1C3E57FA22CC9665005D5060 /* ActionButtonItem.swift */,
 			);
 			path = "Third Party Library";
+			sourceTree = "<group>";
+		};
+		1C60D0A822C9F3BD00637F40 /* Textfield Icons */ = {
+			isa = PBXGroup;
+			children = (
+				1C60D0B722CA016700637F40 /* check.png */,
+				1C60D0AA22C9F3D000637F40 /* birthday.png */,
+				1C60D0AB22C9F3D000637F40 /* call.png */,
+				1C60D0AE22C9F3D100637F40 /* email.png */,
+				1C60D0C322CB243E00637F40 /* address.png */,
+				1C60D0C122CB243D00637F40 /* building.png */,
+				1C60D0C222CB243E00637F40 /* policy.png */,
+				1C60D0C022CB243D00637F40 /* skyline.png */,
+				1C60D0BF22CB243D00637F40 /* sort-by-numeric-order.png */,
+				1C60D0AD22C9F3D100637F40 /* identification.png */,
+				1C60D0AC22C9F3D000637F40 /* key.png */,
+				1C60D0B522C9FE3700637F40 /* love.png */,
+				1C60D0A922C9F3D000637F40 /* user.png */,
+				1C60D0B922CA05F300637F40 /* protect.png */,
+				1C60D0BB22CA365B00637F40 /* blood-type.png */,
+				1C60D0BC22CA365B00637F40 /* circular-line-with-word-age-in-the-center.png */,
+			);
+			path = "Textfield Icons";
 			sourceTree = "<group>";
 		};
 		1C682DE922A786EE00028276 /* Family */ = {
@@ -385,6 +446,7 @@
 		57254B4E21D4BC5B00B38849 /* medocpatient */ = {
 			isa = PBXGroup;
 			children = (
+				1C60D0A822C9F3BD00637F40 /* Textfield Icons */,
 				575259DD21D60FDC008DB872 /* medocpatient.entitlements */,
 				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
 				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
@@ -680,26 +742,40 @@
 				1C6CD74722BCC3F000F29D06 /* Mouthwash.svg in Resources */,
 				1C6CD74A22BCC3F000F29D06 /* Powder.svg in Resources */,
 				1C6CD74822BCC3F000F29D06 /* Injection.svg in Resources */,
+				1C60D0BE22CA365C00637F40 /* circular-line-with-word-age-in-the-center.png in Resources */,
 				1C6CD73E22BCC3F000F29D06 /* Tablet.svg in Resources */,
+				1C60D0B122C9F3D100637F40 /* call.png in Resources */,
 				1C97D6E622B0E8D6009BC7B9 /* guide.svg in Resources */,
 				1C6CD74C22BCC3F100F29D06 /* Syrup.svg in Resources */,
+				1C60D0B322C9F3D100637F40 /* identification.png in Resources */,
 				1C6CD74222BCC3F000F29D06 /* Inhaler.svg in Resources */,
+				1C60D0C522CB243E00637F40 /* skyline.png in Resources */,
 				57254B6C21D4BD6C00B38849 /* Assets.xcassets in Resources */,
+				1C60D0C822CB243E00637F40 /* address.png in Resources */,
+				1C60D0B622C9FE3700637F40 /* love.png in Resources */,
+				1C60D0BD22CA365C00637F40 /* blood-type.png in Resources */,
 				1C97D6E222B0E7BF009BC7B9 /* teamwork.svg in Resources */,
+				1C60D0C622CB243E00637F40 /* building.png in Resources */,
+				1C60D0C422CB243E00637F40 /* sort-by-numeric-order.png in Resources */,
 				1C97D6E122B0E7BF009BC7B9 /* customer-support.svg in Resources */,
 				1C6CD74922BCC3F000F29D06 /* Drops.svg in Resources */,
+				1C60D0B422C9F3D100637F40 /* email.png in Resources */,
 				1C97D6DA22B0E6C5009BC7B9 /* qr-code.svg in Resources */,
 				57254B7021D4BD6C00B38849 /* LaunchScreen.storyboard in Resources */,
 				1C97D6DC22B0E762009BC7B9 /* hospital.svg in Resources */,
 				1C6CD74122BCC3F000F29D06 /* Cream.svg in Resources */,
+				1C60D0B222C9F3D100637F40 /* key.png in Resources */,
 				1C97D6D522B0E511009BC7B9 /* folder.svg in Resources */,
 				1CF88D8222BA35550024AA9D /* blood-pressure.svg in Resources */,
 				1C97D6DE22B0E788009BC7B9 /* question.svg in Resources */,
 				1C6CD73D22BCC3F000F29D06 /* Others.svg in Resources */,
+				1C60D0B022C9F3D100637F40 /* birthday.png in Resources */,
+				1C60D0C722CB243E00637F40 /* policy.png in Resources */,
 				1CF88D8322BA35550024AA9D /* scale.svg in Resources */,
 				1C97D6EA22B0F48A009BC7B9 /* group.svg in Resources */,
 				1C6CD74522BCC3F000F29D06 /* Suppository.svg in Resources */,
 				1C6CD74022BCC3F000F29D06 /* Ointment.svg in Resources */,
+				1C60D0AF22C9F3D100637F40 /* user.png in Resources */,
 				1C6CD74B22BCC3F100F29D06 /* Gel.svg in Resources */,
 				1C6CD74322BCC3F000F29D06 /* Spray.svg in Resources */,
 				1C10522A2280553200778367 /* R_4179_1521627488625_0.pdf in Resources */,
@@ -707,6 +783,8 @@
 				1C97D6E922B0F48A009BC7B9 /* report.svg in Resources */,
 				1C97D6D822B0E665009BC7B9 /* pills.svg in Resources */,
 				1C6CD73C22BCC3F000F29D06 /* Physiotherapy.svg in Resources */,
+				1C60D0B822CA016700637F40 /* check.png in Resources */,
+				1C60D0BA22CA05F400637F40 /* protect.png in Resources */,
 				1C97D6E422B0E847009BC7B9 /* family.svg in Resources */,
 				1CFF60192271D69D00112FF3 /* Localizable.strings in Resources */,
 				575D2E5821F5D34700501D20 /* GoogleService-Info.plist in Resources */,
@@ -842,6 +920,7 @@
 				1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */,
 				57254BC621D4BF5100B38849 /* AddReportViewController.swift in Sources */,
 				575259E921D65DE3008DB872 /* ToastWindow.swift in Sources */,
+				1C3E57FB22CC9665005D5060 /* ActionButtonItem.swift in Sources */,
 				575259D421D6061C008DB872 /* IQKeyboardManagerConstants.swift in Sources */,
 				1CAA8D72225618330001E4CD /* Reachability.swift in Sources */,
 				57254BAF21D4BEE400B38849 /* RegisterViewController.swift in Sources */,
@@ -849,6 +928,7 @@
 				1C682DEB22A7870B00028276 /* FamilyViewController.swift in Sources */,
 				575259D021D6061C008DB872 /* IQToolbar.swift in Sources */,
 				1C682DED22A7872100028276 /* FamilyTableViewCell.swift in Sources */,
+				1C3E57F922CC9601005D5060 /* ActionButton.swift in Sources */,
 				575259D621D6061C008DB872 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				575259CC21D6061C008DB872 /* IQTextView.swift in Sources */,
 				1C35AA39229D56AD005C27A0 /* Angleview.swift in Sources */,

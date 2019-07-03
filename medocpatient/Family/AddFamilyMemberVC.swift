@@ -15,6 +15,7 @@ class AddFamilyMemberVC: UIViewController {
     @IBOutlet var FullNameTF: UITextField!
     @IBOutlet var DateOfBirthTF: UITextField!
     @IBOutlet var RelationshipBtn: UIButton!
+    @IBOutlet var RelationshipTF: UITextField!
     @IBOutlet var GenderRadio: [SKRadioButton]!
     @IBOutlet var PasswordTF: UITextField!
     @IBOutlet var Add: UIButton!
@@ -28,13 +29,22 @@ class AddFamilyMemberVC: UIViewController {
     
     let contact_no = UserDefaults.standard.string(forKey: "contact_no")
     let name = UserDefaults.standard.string(forKey: "name")
-    
+    let pickerview = UIPickerView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         Add.addTarget(self, action: #selector(AddAction), for: .touchUpInside)
-        RelationshipBtn.addTarget(self, action: #selector(Actionselectrelation), for: .touchUpInside)
-       // PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
+       // RelationshipBtn.addTarget(self, action: #selector(Actionselectrelation), for: .touchUpInside)
+        self.pickerview.reloadAllComponents()
+        self.pickerview.reloadInputViews()
+        self.pickerview.dataSource = self
+        self.pickerview.delegate = self
+        self.pickerview.backgroundColor = UIColor.lightText
+        
+        RelationshipTF.delegate = self
+        RelationshipTF.inputView = pickerview
+        // PasswordTF.addTarget(self, action: #selector(updatePassword), for: .editingChanged)
 
         self.registernumber = contact_no!
 
@@ -47,15 +57,22 @@ class AddFamilyMemberVC: UIViewController {
         dateview.setDate(Date(), animated: true)
         dateview.addTarget(self, action: #selector(setdate), for: .valueChanged)
         
-        let button = UIButton(type: .system)
-        button.setTitle("Show", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+//        let button = UIButton(type: .system)
+//        button.setTitle("Show", for: .normal)
+//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
       //  button.frame = CGRect(x: CGFloat(PasswordTF.frame.size.width - 10), y: CGFloat(0), width: CGFloat(80), height: CGFloat(40))
-        button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
-        button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
+//        button.tintColor = #colorLiteral(red: 0.2117647059, green: 0.09411764706, blue: 0.3294117647, alpha: 1)
+//        button.addTarget(self, action: #selector(self.showpassword), for: .touchUpInside)
        // PasswordTF.rightView = button
       //  PasswordTF.rightViewMode = .always
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     @objc func showpassword(sender: UIButton){
         if sender.titleLabel?.text == "Show"{
@@ -210,5 +227,40 @@ class AddFamilyMemberVC: UIViewController {
         else if self.GenderRadio[2].isSelected == true{
             self.selectedGender = 3
         }
+    }
+}
+extension AddFamilyMemberVC: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return relations.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return relations[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.relationship = relations[row]
+        self.RelationshipTF.text = self.relationship
+    }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 45
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        if let view = view as? UILabel{
+            label = view
+        } else {
+            label = UILabel()
+        }
+        label.textColor = UIColor.black
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = relations[row]
+        
+        return label
     }
 }

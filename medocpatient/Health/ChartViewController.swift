@@ -37,6 +37,12 @@ class ChartViewController: UIViewController {
         tableview.tableFooterView = UIView(frame: .zero)
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
     @IBAction func close(){
         self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
     }
