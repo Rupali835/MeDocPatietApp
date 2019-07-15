@@ -11,6 +11,7 @@ import UserNotifications
 import Firebase
 import FirebaseMessaging
 import FirebaseInstanceID
+import WatchConnectivity
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         application.statusBarStyle = .default
+        
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
          UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
@@ -52,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.registerForPushNotifications()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
+        
         // Override point for customization after application launch.
         return true
     }
@@ -197,7 +205,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        let userInfo = notification.request.content.userInfo
+        let userInfo = notification.request.content
         
         print(userInfo)
         completionHandler([.alert, .badge, .sound])
@@ -205,8 +213,31 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
     {
+        
         let userInfo = response.notification.request.content.userInfo
         print(userInfo)
+        
+        if response.actionIdentifier == SoonzeIdentifier {
+            let content = response.notification.request.content
+            print(content)
+            let attachments = content.attachments as? [UNNotificationAttachment]
+            let snoozeTrigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: 60 * 5,
+                repeats: false)
+            let snoozeRequest = UNNotificationRequest(
+                identifier: attachments?[0].identifier ?? "",
+                content: content,
+                trigger: snoozeTrigger)
+            center.add(snoozeRequest){
+                (error) in
+                if error != nil {
+                    print("Snooze Request Error: \(error?.localizedDescription)")
+                }
+            }
+        }
+    
+        
+        completionHandler()
     }
     
     func application(received remoteMessage: MessagingRemoteMessage)
@@ -228,5 +259,19 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
     func instance() ->  AppDelegate{
         return AppDelegate()
     }
+}
+extension AppDelegate: WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("session")
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("sessionDidBecomeInactive")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("sessionDidDeactivate")
+    }
+    
     
 }

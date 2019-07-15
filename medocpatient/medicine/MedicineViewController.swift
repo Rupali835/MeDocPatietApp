@@ -9,6 +9,11 @@
 import UIKit
 import EventKit
 import SVGKit
+import UserNotifications
+
+let CategoryIdentifier = "Medicines"
+let SoonzeIdentifier = "Soonze"
+let TakenIdentifier = "Taken Medicine"
 
 class MedicineViewController: UIViewController {
 
@@ -32,7 +37,7 @@ class MedicineViewController: UIViewController {
         tableview.sectionHeaderHeight = UITableView.automaticDimension
         tableview.estimatedSectionHeaderHeight = 50;
         
-        setupReminder()
+       // setupReminder()
         
         DispatchQueue.main.async {
             for medicine_type in self.image_Types_dataSource {
@@ -87,6 +92,41 @@ class MedicineViewController: UIViewController {
             print("Error creating and saving new reminder : \(error)")
         }
     }
+    func LocaladdnotificationSetup(id: Int,title: String?,subtitle: String?,body: String?,imagename: String?,datecomponent: [DateComponents]){
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Time to Take \(title ?? "")"
+        content.subtitle = subtitle ?? ""
+        content.body = "Cheif Complain: \(body ?? "Not Mentioned")"
+        content.categoryIdentifier = CategoryIdentifier
+    
+        let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
+        
+        let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 5 Minute ⏱", options: [])
+        let TakenAction = UNNotificationAction(identifier: TakenIdentifier, title: "Medicine Taken! 👍 ", options: [])
+
+        let category = UNNotificationCategory(identifier: CategoryIdentifier, actions: [TakenAction,snoozeAction], intentIdentifiers: [], options: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+
+       // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+
+        for (i,date) in datecomponent.enumerated() {
+            let requestidentifier = "notification.id-\(id)-\(i)"
+            if url != nil {
+                if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
+                    content.attachments = [attachment]
+                }
+            }
+            
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+            let request = UNNotificationRequest(identifier: "notification.id-\(id)-\(i)", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+        
+    }
     func fetchmedicine(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Fetch Medicines..")
         ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "medicines", bearertoken: bearertoken!, onSuccessCompletion: {
@@ -111,17 +151,19 @@ class MedicineViewController: UIViewController {
                                 }
                                 print("medicines-\(self.medicineData)")
                                 print("prescription-\(self.prescription)")
-                                for (index,remind) in self.reminders.enumerated() {
-                                    if (remind.notes?.contains(find: "Cheif Complain:"))! {
-                                        do {
-                                            try self.eventStore.remove(remind, commit: true)
-                                            print("Already Added Remove")
-                                        } catch {
-                                            print("catch")
-                                        }
-                                    }
+//                                for (index,remind) in self.reminders.enumerated() {
+//                                    if (remind.notes?.contains(find: "Cheif Complain:"))! {
+//                                        do {
+//                                            try self.eventStore.remove(remind, commit: true)
+//                                            print("Already Added Remove")
+//                                        } catch {
+//                                            print("catch")
+//                                        }
+//                                    }
+//                                }
+                                DispatchQueue.main.async {
+                                    self.createNewReminder()
                                 }
-                                self.createNewReminder()
                             }
                         }
                     }
@@ -156,33 +198,17 @@ class MedicineViewController: UIViewController {
             
             let mdataarr = self.medicineData.object(at: index) as! NSArray
             
-            
             for (index,_) in mdataarr.enumerated() {
-                var alreadyadded = false
                 
                 let mdata = mdataarr.object(at: index) as! NSDictionary
                 let created_at = mdata.value(forKey: "created_at") as! String
                 
+                let id = mdata.value(forKey: "id") as? Int ?? 0
                 let medicinename = mdata.value(forKey: "medicine_name") as! String
-                let medicine_type = "(\(mdata.value(forKey: "medicine_type") as! String))"
+                let medicine_type = "\(mdata.value(forKey: "medicine_type") as! String)"
                 let medicine_quantity = " - (Quantity: \(mdata.value(forKey: "medicine_quantity") as! String))"
-//
-//                for (index,remind) in self.reminders.enumerated() {
-//                    if remind.notes == "Cheif Complain: \(patient_problem)" && (remind.title?.contains(find: medicinename))!{
-//                        do {
-//                            try self.eventStore.remove(remind, commit: true)
-//                            self.reminders.remove(at: index)
-//                            alreadyadded = false
-//                            print("Already Added Remove")
-//                        } catch {
-//                            print("catch")
-//                            print("Already Added")
-//                            alreadyadded = true
-//                        }
-//                        break;
-//                    }
-//                }
-                var alarmdates = [EKAlarm]()
+                
+               // var alarmdates = [EKAlarm]()
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -192,194 +218,310 @@ class MedicineViewController: UIViewController {
                 let interval_period = "\(mdata.value(forKey: "interval_period") as! Int)"
                 let interval_time = "\(mdata.value(forKey: "interval_time") as! String)"
                 
-                let before_bf = "\(mdata.value(forKey: "before_bf") as! Int)"
-                let before_bf_time = "\(mdata.value(forKey: "before_bf_time") as! Int)"
+                let startDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date!)
                 
-                let timedate = Calendar.current.date(byAdding: .day, value: -1, to: date!)
-                
-                if before_bf == "1"{
-                    let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
-                    let before_bfalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_bf_time)!, to: breakfastdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: before_bfalarmdate))
-                }
-                
-                let after_bf = "\(mdata.value(forKey: "after_bf") as! Int)"
-                let after_bf_time = "\(mdata.value(forKey: "after_bf_time") as! Int)"
-                
-                if after_bf == "1" {
-                    let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
-                    let after_bfalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_bf_time)!, to: breakfastdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: after_bfalarmdate))
-                }
-                
-                let before_lunch = "\(mdata.value(forKey: "before_lunch") as! Int)"
-                let before_lunch_time = "\(mdata.value(forKey: "before_lunch_time") as! Int)"
-                
-                if before_lunch == "1"{
-                    let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
-                    let before_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_lunch_time)!, to: lunchdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: before_lunchalarmdate))
-                }
-                
-                let after_lunch = "\(mdata.value(forKey: "after_lunch") as! Int)"
-                let after_lunch_time = "\(mdata.value(forKey: "after_lunch_time") as! Int)"
-                
-                if after_lunch == "1"{
-                    let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
-                    let after_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_lunch_time)!, to: lunchdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: after_lunchalarmdate))
-                }
-                
-                let before_dinner = "\(mdata.value(forKey: "before_dinner") as! Int)"
-                let before_dinner_time = "\(mdata.value(forKey: "before_dinner_time") as! Int)"
-                
-                if before_dinner == "1"{
-                    let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
-                    let before_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_dinner_time)!, to: dinnerdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: before_dinneralarmdate))
-                }
-                
-                let after_dinner = "\(mdata.value(forKey: "after_dinner") as! Int)"
-                let after_dinner_time = "\(mdata.value(forKey: "after_dinner_time") as! Int)"
-                
-                if after_dinner == "1"{
-                    let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
-                    let after_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_dinner_time)!, to: dinnerdate)!
-                    alarmdates.append(EKAlarm(absoluteDate: after_dinneralarmdate))
-                }
-                
-                if alreadyadded == false {
-                    print("Adding Reminder")
-                    
-                    let startDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date!)
-                    
-                    switch interval_type {
-                    case "1":
-                        let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-                        
-                        let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
-                        
-                        
-                        if dueDate != nil {
-                            if dueDate! >= Date() {
-                                //print("Current")
-                                
-                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-                                                      notes: patient_problem,
-                                                      startdate: startDatecomponent,
-                                                      duedate: dueDatecomponent,
-                                                      completiondate: dueDate,
-                                                      alarmdates: alarmdates,
-                                                      recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
-                            }
+                switch interval_type {
+                case "1": //"Type: Daily"
+                    let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
+                    if dueDate != nil {
+                        if dueDate! >= Date() {
+                            
                         }
-                        break
-                        //medicinecell.interval_type.text = "Type: Daily"
-                    case "2":
-                        let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
-                        
-                        let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
-                        
-                        var daysofWeek = [EKRecurrenceDayOfWeek]()
-                        
-                        switch Int(interval_time)!{
-                            case 1:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-                                break;
-                            case 2:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                break;
-                            case 3:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                break;
-                            case 4:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-                                break;
-                            case 5:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
-                                break;
-                            case 6:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
-                                break;
-                            case 7:
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-                                daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        if dueDate != nil {
-                            if dueDate! >= Date() {
-                                //print("Current")
-                                
-                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-                                                      notes: patient_problem,
-                                                      startdate: startDatecomponent,
-                                                      duedate: dueDatecomponent,
-                                                      completiondate: dueDate,
-                                                      alarmdates: alarmdates,
-                                                      recurrenceRule:
-                                    [EKRecurrenceRule(recurrenceWith: .weekly,
-                                                      interval: Int(interval_period)!,
-                                                      daysOfTheWeek: daysofWeek,
-                                                      daysOfTheMonth: nil,
-                                                      monthsOfTheYear: nil,
-                                                      weeksOfTheYear: nil,
-                                                      daysOfTheYear: nil,
-                                                      setPositions: nil,
-                                                      end: EKRecurrenceEnd(end: dueDate!))])
-                            }
-                        }
-                        break
-                       // medicinecell.interval_type.text = "Type: Weekly"
-                    case "3":
-                        let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-                        
-                        let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate!)
-                        
-                        if dueDate != nil {
-                            if dueDate! >= Date() {
-                                //print("Current")
-                                
-                                self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
-                                    notes: patient_problem,
-                                    startdate: startDatecomponent,
-                                    duedate: dueDatecomponent,
-                                    completiondate: dueDate,
-                                    alarmdates: alarmdates,
-                                    recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
-                            }
-                        }
-                        break
-                      //  medicinecell.interval_type.text = "Type: Time interval"
-                    default:
-                        break
                     }
+                    break
+                case "2": //"Type: Weekly"
+                    let Time_dates = GetBeforeAfterTime_Dates(mdata: mdata, startdate: date!)
 
+                    let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
+                    if dueDate != nil {
+                        if dueDate! >= Date() {
+                            self.WeeklyNotification(dueDate: dueDate!, interval_time: interval_time, Startdate: date!, Time_dates: Time_dates, id: id, medicinename: medicinename, medicine_type: medicine_type, medicine_quantity: medicine_quantity, patient_problem: patient_problem)
+                        }
+                    }
+                    break
+                case "3": //"Type: Time interval"
+                    let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
+                    if dueDate != nil {
+                        if dueDate! >= Date() {
+                            
+                        }
+                    }
+                    break
+                default:
+                    break
                 }
             }
         }
+    }
+    func GetBeforeAfterTime_Dates(mdata: NSDictionary,startdate: Date)->[Date]{
+        var Time_dates = [Date]()
+
+        let before_bf = "\(mdata.value(forKey: "before_bf") as! Int)"
+        let before_bf_time = "\(mdata.value(forKey: "before_bf_time") as! Int)"
+        
+        let timedate = Calendar.current.date(byAdding: .day, value: -1, to: startdate)
+        
+        if before_bf == "1"{
+            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
+            let before_bfalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_bf_time)!, to: breakfastdate)!
+            Time_dates.append(before_bfalarmdate)
+           // alarmdates.append(EKAlarm(absoluteDate: before_bfalarmdate))
+        }
+        
+        let after_bf = "\(mdata.value(forKey: "after_bf") as! Int)"
+        let after_bf_time = "\(mdata.value(forKey: "after_bf_time") as! Int)"
+        
+        if after_bf == "1" {
+            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
+            let after_bfalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_bf_time)!, to: breakfastdate)!
+            Time_dates.append(after_bfalarmdate)
+          //  alarmdates.append(EKAlarm(absoluteDate: after_bfalarmdate))
+        }
+        
+        let before_lunch = "\(mdata.value(forKey: "before_lunch") as! Int)"
+        let before_lunch_time = "\(mdata.value(forKey: "before_lunch_time") as! Int)"
+        
+        if before_lunch == "1"{
+            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
+            let before_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_lunch_time)!, to: lunchdate)!
+            Time_dates.append(before_lunchalarmdate)
+          //  alarmdates.append(EKAlarm(absoluteDate: before_lunchalarmdate))
+        }
+        
+        let after_lunch = "\(mdata.value(forKey: "after_lunch") as! Int)"
+        let after_lunch_time = "\(mdata.value(forKey: "after_lunch_time") as! Int)"
+        
+        if after_lunch == "1"{
+            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
+            let after_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_lunch_time)!, to: lunchdate)!
+            Time_dates.append(after_lunchalarmdate)
+          //  alarmdates.append(EKAlarm(absoluteDate: after_lunchalarmdate))
+        }
+        
+        let before_dinner = "\(mdata.value(forKey: "before_dinner") as! Int)"
+        let before_dinner_time = "\(mdata.value(forKey: "before_dinner_time") as! Int)"
+        
+        if before_dinner == "1"{
+            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
+            let before_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_dinner_time)!, to: dinnerdate)!
+            Time_dates.append(before_dinneralarmdate)
+         //   alarmdates.append(EKAlarm(absoluteDate: before_dinneralarmdate))
+        }
+        
+        let after_dinner = "\(mdata.value(forKey: "after_dinner") as! Int)"
+        let after_dinner_time = "\(mdata.value(forKey: "after_dinner_time") as! Int)"
+        
+        if after_dinner == "1"{
+            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
+            let after_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_dinner_time)!, to: dinnerdate)!
+            Time_dates.append(after_dinneralarmdate)
+        //    alarmdates.append(EKAlarm(absoluteDate: after_dinneralarmdate))
+        }
+        return Time_dates
+    }
+    func DailyNotification(dueDate: Date,interval_time: String,Startdate: Date,Time_dates: [Date],id: Int,medicinename: String,medicine_type: String,medicine_quantity: String,patient_problem: String){
+        
+        let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate)
+        
+        print("Adding Daily Reminder")
+        var DailyComponents = [DateComponents]()
+        
+        let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
+        
+        for date in datesBetweenArray {
+            print("dates: \(date)")
+            
+            for time in Time_dates {
+                let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
+                let Time = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: time)
+                
+                var component = DateComponents()
+                component.day = DailyDate.day
+                component.month = DailyDate.month
+                component.year = DailyDate.year
+                component.hour = Time.hour
+                component.minute = Time.minute
+                component.second = Time.second
+                
+                if date >= Date(){
+                    DailyComponents.append(component)
+                }
+            }
+        }
+        
+        self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: DailyComponents)
+        
+//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
+//                              notes: patient_problem,
+//                              startdate: startDatecomponent,
+//                              duedate: dueDatecomponent,
+//                              completiondate: dueDate,
+//                              alarmdates: alarmdates,
+//                              recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
+        
+    }
+    func WeeklyNotification(dueDate: Date,interval_time: String,Startdate: Date,Time_dates: [Date],id: Int,medicinename: String,medicine_type: String,medicine_quantity: String,patient_problem: String){
+        
+        var dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate)
+        
+        var daysofWeek = [EKRecurrenceDayOfWeek]()
+        var weekdays = [Int]()
+        
+        switch Int(interval_time)!{
+        case 1:
+           // daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
+            weekdays = [4]
+            break;
+        case 2:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+            weekdays = [3,6]
+            break;
+        case 3:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+            weekdays = [2,4,6]
+            break;
+        case 4:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
+            weekdays = [2,4,6,1]
+            break;
+        case 5:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
+            weekdays = [1,2,4,6,7]
+            break;
+        case 6:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
+            weekdays = [1,2,3,5,6,7]
+            break;
+        case 7:
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
+//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
+            weekdays = [1,2,3,4,5,6,7]
+            break;
+        default:
+            break;
+        }
+        
+        print("Adding Weekly Reminder")
+        var weekdayComponents = [DateComponents]()
+        
+        let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
+
+        for date in datesBetweenArray {
+            print("dates: \(date)")
+            let weekday = Calendar.current.component(.weekday, from: date)
+            
+            if weekdays.contains(weekday) {
+                print("weekday date: \(date)")
+                for time in Time_dates {
+                    let weekdayDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
+                    let Time = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: time)
+
+                    var component = DateComponents()
+                    component.day = weekdayDate.day
+                    component.month = weekdayDate.month
+                    component.year = weekdayDate.year
+                    component.hour = Time.hour
+                    component.minute = Time.minute
+                    component.second = Time.second
+                    
+                    if date >= Date(){
+                        weekdayComponents.append(component)
+                    }
+                }
+            }
+        }
+        
+        self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
+        
+//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
+//                              notes: patient_problem,
+//                              startdate: startDatecomponent,
+//                              duedate: dueDatecomponent,
+//                              completiondate: dueDate,
+//                              alarmdates: alarmdates,
+//                              recurrenceRule:
+//            [EKRecurrenceRule(recurrenceWith: .weekly,
+//                              interval: Int(interval_period)!,
+//                              daysOfTheWeek: daysofWeek,
+//                              daysOfTheMonth: nil,
+//                              monthsOfTheYear: nil,
+//                              weeksOfTheYear: nil,
+//                              daysOfTheYear: nil,
+//                              setPositions: nil,
+//                              end: EKRecurrenceEnd(end: dueDate!))])
+    }
+    func TimeIntervalNotification(dueDate: Date,interval_time: String,Startdate: Date,Time_dates: [Date],id: Int,medicinename: String,medicine_type: String,medicine_quantity: String,patient_problem: String){
+        
+        let dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate)
+        
+        print("Adding Time Interval Reminder")
+        var IntervalComponents = [DateComponents]()
+        
+        let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
+        
+        for date in datesBetweenArray {
+            print("dates: \(date)")
+            
+            for time in Time_dates {
+                let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
+                
+                var component = DateComponents()
+                component.day = DailyDate.day
+                component.month = DailyDate.month
+                component.year = DailyDate.year
+                
+                let int_time = interval_time == "" ? 0 : Int(interval_time)!
+                
+                var eachtime = 0
+                
+                for _ in 0...int_time {
+                    
+                    let addtime = Calendar.current.date(byAdding: .minute, value: eachtime, to: time)!
+                    
+                    let Time = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: addtime)
+                    
+                    component.hour = Time.hour
+                    component.minute = Time.minute
+                    component.second = Time.second
+                    
+                    eachtime += 15
+                }
+                
+                if date >= Date(){
+                    IntervalComponents.append(component)
+                }
+            }
+        }
+        
+        self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: IntervalComponents)
+        
+//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
+//            notes: patient_problem,
+//            startdate: startDatecomponent,
+//            duedate: dueDatecomponent,
+//            completiondate: dueDate,
+//            alarmdates: alarmdates,
+//            recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
     }
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
@@ -403,195 +545,11 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
         let md = self.medicineData.object(at: indexPath.section) as! NSArray
+        let data = md.object(at: indexPath.row) as! NSDictionary
         
-        self.timeslot.removeAll()
-        let d = md.object(at: indexPath.row) as! NSDictionary
-        
-        let name = d.value(forKey: "medicine_name") as! String
-        let medicine_type = d.value(forKey: "medicine_type") as! String
-        let medicine_quantity = d.value(forKey: "medicine_quantity") as! String
-        
-        let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
-        let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
-        if before_bf == "1"{
-            if !self.timeslot.contains("Before \(before_bf_time) minute Of Breakfast"){
-                if before_bf_time == "0" {
-                    self.timeslot.append("Before Breakfast")
-                } else {
-                    self.timeslot.append("Before \(before_bf_time) minute Of Breakfast")
-                }
-            }
-        }
-        
-        let after_bf = "\(d.value(forKey: "after_bf") as! Int)"
-        let after_bf_time = "\(d.value(forKey: "after_bf_time") as! Int)"
-        if after_bf == "1"{
-            if !self.timeslot.contains("After \(after_bf_time) minute Of Breakfast"){
-                if after_bf_time == "0" {
-                    self.timeslot.append("After Breakfast")
-                } else {
-                    self.timeslot.append("After \(after_bf_time) minute Of Breakfast")
-                }
-            }
-        }
-        
-        let before_lunch = "\(d.value(forKey: "before_lunch") as! Int)"
-        let before_lunch_time = "\(d.value(forKey: "before_lunch_time") as! Int)"
-        if before_lunch == "1"{
-            if !self.timeslot.contains("Before \(before_lunch_time) minute Of Lunch"){
-                if before_lunch_time == "0" {
-                    self.timeslot.append("Before  Lunch")
-                } else {
-                    self.timeslot.append("Before \(before_lunch_time) minute Of Lunch")
-                }
-            }
-        }
-        
-        let after_lunch = "\(d.value(forKey: "after_lunch") as! Int)"
-        let after_lunch_time = "\(d.value(forKey: "after_lunch_time") as! Int)"
-        if after_lunch == "1"{
-            if !self.timeslot.contains("After \(after_lunch_time) minute Of Lunch"){
-                if after_lunch_time == "0" {
-                    self.timeslot.append("After Lunch")
-                } else {
-                    self.timeslot.append("After \(after_lunch_time) minute Of Lunch")
-                }
-            }
-        }
-        
-        let before_dinner = "\(d.value(forKey: "before_dinner") as! Int)"
-        let before_dinner_time = "\(d.value(forKey: "before_dinner_time") as! Int)"
-        if before_dinner == "1"{
-            if !self.timeslot.contains("Before \(before_dinner_time) minute Of Dinner"){
-                if before_dinner_time == "0" {
-                    self.timeslot.append("Before Dinner")
-                } else {
-                    self.timeslot.append("Before \(before_dinner_time) minute Of Dinner")
-                }
-            }
-        }
-        
-        let after_dinner = "\(d.value(forKey: "after_dinner") as! Int)"
-        let after_dinner_time = "\(d.value(forKey: "after_dinner_time") as! Int)"
-        if after_dinner == "1"{
-            if !self.timeslot.contains("After \(after_dinner_time) minute Of Dinner"){
-                if after_dinner_time == "0" {
-                    self.timeslot.append("After Dinner")
-                } else {
-                    self.timeslot.append("After \(after_dinner_time) minute Of Dinner")
-                }
-            }
-        }
-        
-        let interval_period = "\(d.value(forKey: "interval_period") as! Int)"
-        let interval_time = d.value(forKey: "interval_time") as! String
-        let interval_type = "\(d.value(forKey: "interval_type") as! Int)"
-        
-        switch interval_type {
-        case "1":
-            medicinecell.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
-            medicinecell.interval_period.text = "Period: \(interval_period) days"
-            medicinecell.interval_time.text = "";
-        case "2":
-            medicinecell.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
-            medicinecell.interval_period.text = "Period: \(interval_period) weeks"
-            medicinecell.interval_time.text = "Times: \(interval_time) times in a week";
-        case "3":
-            medicinecell.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
-            medicinecell.interval_period.text = "Period: \(interval_period) days"
-            medicinecell.interval_time.text = "Times: \(interval_time) times in a day";
-        default:
-            medicinecell.interval_type.text = ""
-            medicinecell.interval_period.text = ""
-            medicinecell.interval_time.text = ""
-        }
-        medicinecell.name.text = name //+ "(\(medicine_type))"
-        medicinecell.type.text = medicine_type
-        
-        for (index,item) in self.images_types.enumerated() {
-            if item?.accessibilityIdentifier == medicine_type {
-                medicinecell.img_type.image = item
-            }
-        }
-        
-        var breakfast = Int()
-        var lunch = Int()
-        var dinner = Int()
-        
-        breakfast = Int(before_bf)! + Int(after_bf)!
-        lunch = Int(before_lunch)! + Int(after_lunch)!
-        dinner = Int(before_dinner)! + Int(after_dinner)!
-        
-        if breakfast == 2{
-            breakfast = 1
-        }
-        if lunch == 2{
-            lunch = 1
-        }
-        if dinner == 2{
-            dinner = 1
-        }
-        
-        if breakfast == 0 && lunch == 0 && dinner == 0 {
-            medicinecell.timeslot.text = ""
-            medicinecell.beforeaftertime.text = ""
-        } else {
-            medicinecell.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
-            medicinecell.beforeaftertime.text = "# \(self.timeslot.joined(separator: "\n# "))"
-        }
-        
-        let created_at = d.value(forKey: "created_at") as! String
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let date = df.date(from: created_at)
-        
-        let df1 = DateFormatter()
-        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
-        let datestr = df1.string(from: date!)
-        
-        let Start_dateSeparate = datestr.components(separatedBy: .whitespaces)
-        
-        medicinecell.start_date.text = Start_dateSeparate[0]
-        medicinecell.start_month.text = Start_dateSeparate[1]
-        medicinecell.start_year.text = Start_dateSeparate[2]
-       // medicinecell.start_time.text = dateSeparate[3]
-        
-        var endDate: Date?
-        
-        switch interval_type {
-        case "1":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-        case "2":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
-        case "3":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-        default:
-            break;
-        }
-        
-        if endDate != nil {
-            let df1 = DateFormatter()
-            df1.dateFormat = "dd MMM yyyy HH:mm:ss"
-            let datestr = df1.string(from: endDate!)
-            
-            let End_dateSeparate = datestr.components(separatedBy: .whitespaces)
-            
-            medicinecell.end_date.text = End_dateSeparate[0]
-            medicinecell.end_month.text = End_dateSeparate[1]
-            medicinecell.end_year.text = End_dateSeparate[2]
-            // medicinecell.end_time.text = dateSeparate[3]
-            
-            if endDate! >= Date() {
-                print("\(indexPath.row)-Current")
-                medicinecell.cardview.backgroundColor = UIColor(hexString: "#69f0ae")
-                medicinecell.currentMedicineColor(primarycolor: UIColor.black, secondarycolor: UIColor.darkGray)
-            }
-            else {
-                print("\(indexPath.row)-Non-Current")
-                medicinecell.cardview.backgroundColor = UIColor.white
-                medicinecell.non_currentMedicineColor(primarycolor: UIColor.black, secondarycolor: .darkGray)
-            }
-        }
+        timeslot.removeAll()
+
+        medicinecell.SetCellData(d: data, images_types: self.images_types, indexPath: indexPath)
         
         return medicinecell
     }

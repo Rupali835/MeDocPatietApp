@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 extension String {
     func toDouble() -> Double? {
@@ -418,4 +419,60 @@ extension String
         let testCase     = NSPredicate(format:"SELF MATCHES %@", numberRegEx)
         return testCase.evaluate(with: self)
     }
+}
+extension UNNotification {
+    func snoozeNotification(for hours: Int, minutes: Int) {
+        let content = self.request.content
+        let identifier = self.request.identifier
+        guard let oldTrigger = self.request.trigger as? UNCalendarNotificationTrigger else {
+            fatalError("Cannot reschedule notification without calendar trigger.")
+        }
+        
+        var components = oldTrigger.dateComponents
+        components.hour = (components.hour ?? 0) + hours
+        components.minute = (components.minute ?? 0) + minutes
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Reschduling failed", error.localizedDescription)
+            }
+        }
+    }
+}
+extension Date {
+    static func dates(from fromDate: Date, to toDate: Date) -> [Date] {
+        var dates: [Date] = []
+        var date = fromDate
+        
+        while date <= toDate {
+            dates.append(date)
+            guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { break }
+            date = newDate
+        }
+        return dates
+    }
+}
+class AssetExtractor {
+    
+    static func createLocalUrl(forImageNamed name: String) -> URL? {
+        
+        let fileManager = FileManager.default
+        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        let url = cacheDirectory.appendingPathComponent("\(name).png")
+        
+        guard fileManager.fileExists(atPath: url.path) else {
+            guard
+                let image = UIImage(named: name),
+                let data = image.pngData()
+                else { return nil }
+            
+            fileManager.createFile(atPath: url.path, contents: data, attributes: nil)
+            return url
+        }
+        
+        return url
+    }
+    
 }

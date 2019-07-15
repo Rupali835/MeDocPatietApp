@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.70" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.21"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="RemiderMedicineOnWatch_Extension">
+                    <items>
+                        <button width="1" alignment="left" title="Get Count" id="1ps-8O-yM0">
+                            <connections>
+                                <action selector="Action" destination="AgC-eL-Hgc" id="s81-4L-rkl"/>
+                            </connections>
+                        </button>
+                        <label width="136" height="103" alignment="left" text="Label" textAlignment="center" id="0n4-i3-ZuS"/>
+                    </items>
+                    <connections>
+                        <outlet property="button" destination="1ps-8O-yM0" id="Qjk-p7-5aU"/>
+                        <outlet property="label" destination="0n4-i3-ZuS" id="z0B-W5-3R4"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="283" y="320"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="Uul-Qo-Ngx">
+            <objects>
+                <notificationController id="RLN-C1-l74" customClass="NotificationController" customModule="RemiderMedicineOnWatch_Extension">
+                    <items>
+                        <label alignment="left" text="Alert Label" numberOfLines="0" id="pQ4-eC-tMb"/>
+                        <label alignment="left" text="Label" numberOfLines="0" id="lY8-LU-8Mo"/>
+                        <label alignment="left" text="Label" numberOfLines="0" id="alI-07-TnH"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="Medicines" handlesGrouping="YES" id="0yG-2M-sAT"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="alI-07-TnH" id="cjt-IK-5H4"/>
+                        <outlet property="notificationSubtitleLabel" destination="lY8-LU-8Mo" id="al3-F8-8zD"/>
+                        <outlet property="notificationTitleLabel" destination="pQ4-eC-tMb" id="Nzy-cq-3x5"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="-208" y="197"/>
+        </scene>
+    </scenes>
+</document>

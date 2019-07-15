@@ -11,6 +11,7 @@ import CoreData
 import SDWebImage
 import WebKit
 import SVGKit
+import UserNotifications
 
 class PatientHomePageViewController: UIViewController{
     
@@ -144,6 +145,15 @@ class PatientHomePageViewController: UIViewController{
         Name.text = UserDefaults.standard.string(forKey: "name")
         let img = UserDefaults.standard.string(forKey: "profile_image")
         imagesPicView.sd_setImage(with: URL(string: "\(ApiServices.shared.imageorpdfUrl)\(img!)"), placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
+            print("App Count: \(notifications.count)")
+            for item in notifications {
+                //UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.identifier])
+                
+                print("App: \(item)")
+            }
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

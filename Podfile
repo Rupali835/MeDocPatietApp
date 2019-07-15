@@ -19,4 +19,4 @@ pod 'Alamofire'
 pod 'ScrollableGraphView'
 pod 'MaterialComponents/Snackbar'
 pod 'SVGKit'
-    end
+end

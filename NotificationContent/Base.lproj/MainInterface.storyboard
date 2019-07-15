@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Notification View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" userLabel="Notification View Controller" customClass="NotificationViewController" customModule="NotificationContent" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cF0-21-Ybo">
+                                <rect key="frame" x="0.0" y="44" width="320" height="256"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Daily" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-1B-qZn">
+                                        <rect key="frame" x="15" y="221.5" width="290" height="24.5"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Crosin" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-YP-Iyr">
+                                        <rect key="frame" x="15" y="80" width="290" height="34"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="24"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Tablet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKO-5g-5ve">
+                                        <rect key="frame" x="15" y="114" width="290" height="63"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="20"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLf-yl-L4M">
+                                        <rect key="frame" x="15" y="187" width="290" height="24.5"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Capsules" translatesAutoresizingMaskIntoConstraints="NO" id="Jh1-jZ-eeM">
+                                        <rect key="frame" x="135" y="15" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Gbc-T4-c8p"/>
+                                            <constraint firstAttribute="width" constant="50" id="IYL-Fh-hvv"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Jh1-jZ-eeM" firstAttribute="top" secondItem="cF0-21-Ybo" secondAttribute="top" constant="15" id="3H3-kg-Tsr"/>
+                                    <constraint firstItem="bLf-yl-L4M" firstAttribute="trailing" secondItem="fKO-5g-5ve" secondAttribute="trailing" id="80I-ft-98x"/>
+                                    <constraint firstItem="tRa-1B-qZn" firstAttribute="leading" secondItem="fKO-5g-5ve" secondAttribute="leading" id="8Mf-AK-sfz"/>
+                                    <constraint firstAttribute="bottom" secondItem="tRa-1B-qZn" secondAttribute="bottom" constant="10" id="8q3-aX-vo9"/>
+                                    <constraint firstItem="fKO-5g-5ve" firstAttribute="leading" secondItem="PDV-YP-Iyr" secondAttribute="leading" id="Lwx-77-rxd"/>
+                                    <constraint firstItem="tRa-1B-qZn" firstAttribute="top" secondItem="bLf-yl-L4M" secondAttribute="bottom" constant="10" id="MB3-dI-j2X"/>
+                                    <constraint firstItem="Jh1-jZ-eeM" firstAttribute="centerX" secondItem="cF0-21-Ybo" secondAttribute="centerX" id="bFi-wH-Glh"/>
+                                    <constraint firstAttribute="trailing" secondItem="tRa-1B-qZn" secondAttribute="trailing" constant="15" id="fKC-Zz-BVH"/>
+                                    <constraint firstItem="PDV-YP-Iyr" firstAttribute="leading" secondItem="cF0-21-Ybo" secondAttribute="leading" constant="15" id="osR-xd-g8p"/>
+                                    <constraint firstItem="fKO-5g-5ve" firstAttribute="trailing" secondItem="PDV-YP-Iyr" secondAttribute="trailing" id="p72-xp-Vnz"/>
+                                    <constraint firstItem="fKO-5g-5ve" firstAttribute="top" secondItem="PDV-YP-Iyr" secondAttribute="bottom" id="rSq-sr-Svw"/>
+                                    <constraint firstItem="bLf-yl-L4M" firstAttribute="leading" secondItem="fKO-5g-5ve" secondAttribute="leading" id="rUp-WO-dCs"/>
+                                    <constraint firstItem="PDV-YP-Iyr" firstAttribute="top" secondItem="Jh1-jZ-eeM" secondAttribute="bottom" constant="15" id="v1M-uH-CVO"/>
+                                    <constraint firstAttribute="trailing" secondItem="PDV-YP-Iyr" secondAttribute="trailing" constant="15" id="yxV-RB-W2f"/>
+                                    <constraint firstItem="bLf-yl-L4M" firstAttribute="top" secondItem="fKO-5g-5ve" secondAttribute="bottom" constant="10" id="zL2-21-C51"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="cF0-21-Ybo" secondAttribute="bottom" id="CfK-Sd-sgY"/>
+                            <constraint firstItem="cF0-21-Ybo" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="VTm-9O-8vc"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="cF0-21-Ybo" secondAttribute="trailing" id="j3c-be-kUt"/>
+                            <constraint firstItem="cF0-21-Ybo" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" id="lYf-4T-Sw5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2BE-c3-nQJ"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="300"/>
+                    <connections>
+                        <outlet property="_title" destination="PDV-YP-Iyr" id="QZ1-3y-ZGo"/>
+                        <outlet property="body" destination="tRa-1B-qZn" id="hqz-bW-0BW"/>
+                        <outlet property="imageview" destination="Jh1-jZ-eeM" id="dCK-Y9-6Wg"/>
+                        <outlet property="quantity" destination="bLf-yl-L4M" id="1BO-8p-0D1"/>
+                        <outlet property="subtitle" destination="fKO-5g-5ve" id="r44-s7-H9M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="47.826086956521742" y="20.758928571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Capsules" width="143" height="143"/>
+    </resources>
+</document>

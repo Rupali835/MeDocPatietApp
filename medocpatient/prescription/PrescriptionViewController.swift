@@ -24,39 +24,25 @@ class PrescriptionViewController: UIViewController {
         super.viewDidLoad()
         self.tableview.tableFooterView = UIView(frame: .zero)
         self.tableview.reloadData()
-//        if #available(iOS 12.0, *) {
-//            let monitor = NWPathMonitor()
-//            let queue = DispatchQueue.global(qos: .background)
-//            monitor.start(queue: queue)
-//            monitor.pathUpdateHandler = { path in
-//                if path.usesInterfaceType(.wifi) {
-//                    print("It's WiFi!")
-//                }
-//                else if path.usesInterfaceType(.cellular) {
-//                    print("3G/4G FTW!!!")
-//                }
-//                if path.status == .satisfied {
-//                    print("Yay! We have internet!")
-//                }
-//                else if path.status == .unsatisfied {
-//                    print("ops! We have not internet!")
-//                }
-//            }
-//        } else {
-//            // Fallback on earlier versions
-//        }
-
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(AddAction))
         
         NetworkManager.isReachable { _ in
             self.fetchPrescription()
+            self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
             self.fetchPrescription()
+            self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.isUnreachable { _ in
             Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
         }
         // Do any additional setup after loading the view.
+    }
+    @objc func AddAction(){
+        let addPrescriptionVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPrescriptionViewController") as! AddPrescriptionViewController
+        navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addPrescriptionVC)
+        //self.present(addReportVC, animated: true, completion: nil)
     }
     func fetchPrescription(){
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait..")
