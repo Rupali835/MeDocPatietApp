@@ -988,7 +988,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dfu-zD-xLD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2454" y="1039"/>
+            <point key="canvasLocation" x="2529" y="1039"/>
         </scene>
         <!--Add Report View Controller-->
         <scene sceneID="RC8-Xg-2S8">
@@ -2450,6 +2450,700 @@ Before 15 minute of breakfast</string>
             </objects>
             <point key="canvasLocation" x="1790.625" y="328.52112676056339"/>
         </scene>
+        <!--Add Medicine View Controller-->
+        <scene sceneID="E41-6T-BMj">
+            <objects>
+                <viewController storyboardIdentifier="AddMedicineViewController" id="0P2-DK-5mo" customClass="AddMedicineViewController" customModule="medocpatient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a2X-JB-flN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1000"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7iB-Cj-N8F">
+                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="kMX-Uj-UcA"/>
+                                    <constraint firstAttribute="width" constant="50" id="vFi-VZ-9Xy"/>
+                                </constraints>
+                                <color key="tintColor" name="Color"/>
+                                <inset key="imageEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                <state key="normal" image="close"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Medicine Page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HyT-yp-ecQ">
+                                <rect key="frame" x="70" y="33" width="180.5" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZK5-oI-wKg">
+                                <rect key="frame" x="0.0" y="70" width="320" height="930"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Flv-cv-QDE">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="765"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient Problem" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DyW-T9-45q" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="20" y="10" width="280" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Ihy-lr-2lW"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Medicine Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9e6-gu-9vq" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="20" y="80" width="280" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="8G7-5u-bLG"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Medicine Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HRd-kS-3TV" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="20" y="150" width="190" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Z0d-rm-AXG"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CY5-ql-E9F" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="220" y="150" width="80" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="b3E-Gx-AYQ"/>
+                                                    <constraint firstAttribute="width" constant="80" id="uX3-W6-02t"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="e6B-Dd-1L0">
+                                                <rect key="frame" x="20" y="220" width="280" height="50"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yaw-GT-D54">
+                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAc-DT-OyT" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="80" id="aTa-ko-jny"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Daily"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="Egy-4s-bzJ"/>
+                                                                    <action selector="IntervalTypeRadioActionWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="csP-07-cCU"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="QAc-DT-OyT" secondAttribute="bottom" id="6RS-ua-ltb"/>
+                                                            <constraint firstItem="QAc-DT-OyT" firstAttribute="leading" secondItem="yaw-GT-D54" secondAttribute="leading" id="7IM-AA-Opu"/>
+                                                            <constraint firstAttribute="trailing" secondItem="QAc-DT-OyT" secondAttribute="trailing" id="R3d-69-lZV"/>
+                                                            <constraint firstItem="QAc-DT-OyT" firstAttribute="top" secondItem="yaw-GT-D54" secondAttribute="top" id="cau-Qa-4KH"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Sf-o8-xNF">
+                                                        <rect key="frame" x="85" y="0.0" width="100" height="50"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5n5-ye-Cti" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="100" id="VKV-6u-gXF"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Weekly"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="kKp-ED-Z4d"/>
+                                                                    <action selector="IntervalTypeRadioActionWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="eGw-Px-f4b"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="5n5-ye-Cti" secondAttribute="trailing" id="8Ai-zB-KT1"/>
+                                                            <constraint firstAttribute="bottom" secondItem="5n5-ye-Cti" secondAttribute="bottom" id="NZo-1w-FsE"/>
+                                                            <constraint firstItem="5n5-ye-Cti" firstAttribute="top" secondItem="8Sf-o8-xNF" secondAttribute="top" id="ohG-UI-H48"/>
+                                                            <constraint firstItem="5n5-ye-Cti" firstAttribute="leading" secondItem="8Sf-o8-xNF" secondAttribute="leading" id="xHs-hU-hSQ"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UFg-g9-a3P">
+                                                        <rect key="frame" x="190" y="0.0" width="90" height="50"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEa-io-SG1" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="90" height="50"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value="Time Interval"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="vBB-AI-1Pf"/>
+                                                                    <action selector="IntervalTypeRadioActionWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="J6C-tM-FhS"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="jEa-io-SG1" firstAttribute="top" secondItem="UFg-g9-a3P" secondAttribute="top" id="3Yf-4B-Tsv"/>
+                                                            <constraint firstAttribute="bottom" secondItem="jEa-io-SG1" secondAttribute="bottom" id="4Rg-If-21i"/>
+                                                            <constraint firstItem="jEa-io-SG1" firstAttribute="leading" secondItem="UFg-g9-a3P" secondAttribute="leading" id="JTT-dJ-qAE"/>
+                                                            <constraint firstAttribute="trailing" secondItem="jEa-io-SG1" secondAttribute="trailing" id="WN3-g9-zRq"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="280" id="PYe-4I-agz"/>
+                                                </constraints>
+                                            </stackView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Period" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ccW-GS-o2K" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="20" y="270" width="60" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="60" id="bJA-rR-WcA"/>
+                                                    <constraint firstAttribute="height" constant="45" id="o3A-dT-A48"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI6-LI-b26">
+                                                <rect key="frame" x="88" y="290.5" width="224" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Interval" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WhM-xl-YQd" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="20" y="325" width="70" height="0.0"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="Buh-aY-EPV"/>
+                                                    <constraint firstAttribute="height" id="WWe-9p-7f0"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AT-pi-m8q">
+                                                <rect key="frame" x="98" y="332" width="214" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="q6B-Tn-eF5">
+                                                <rect key="frame" x="20" y="345" width="170" height="300"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFc-bz-2mh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TYC-dH-LNe" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" Before Breakfast"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_before_breakfastWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="VhS-QD-LSF"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="pvD-S6-uEA"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="TYC-dH-LNe" secondAttribute="bottom" id="Kzg-5a-Rdu"/>
+                                                            <constraint firstItem="TYC-dH-LNe" firstAttribute="leading" secondItem="LFc-bz-2mh" secondAttribute="leading" id="fDo-ov-N70"/>
+                                                            <constraint firstItem="TYC-dH-LNe" firstAttribute="top" secondItem="LFc-bz-2mh" secondAttribute="top" id="ffX-Gy-J2j"/>
+                                                            <constraint firstAttribute="trailing" secondItem="TYC-dH-LNe" secondAttribute="trailing" id="u9Z-QC-2NP"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNc-vJ-h6O">
+                                                        <rect key="frame" x="0.0" y="52.5" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czf-jp-W9M" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" After Breakfast"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_after_breakfastWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="uPs-9I-r4C"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="ol2-GE-W5e"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="Czf-jp-W9M" secondAttribute="bottom" id="LjM-dv-bE8"/>
+                                                            <constraint firstItem="Czf-jp-W9M" firstAttribute="leading" secondItem="jNc-vJ-h6O" secondAttribute="leading" id="pAY-6m-Wbb"/>
+                                                            <constraint firstItem="Czf-jp-W9M" firstAttribute="top" secondItem="jNc-vJ-h6O" secondAttribute="top" id="rQz-gH-TVF"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Czf-jp-W9M" secondAttribute="trailing" id="uWd-dm-RkC"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AIS-GV-HmA">
+                                                        <rect key="frame" x="0.0" y="105" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6t-25-q1o" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" Before Lunch"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_before_lunchWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="YZg-6p-gBL"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="rUS-Gn-s8p"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="b6t-25-q1o" secondAttribute="trailing" id="7zX-VA-w2u"/>
+                                                            <constraint firstItem="b6t-25-q1o" firstAttribute="leading" secondItem="AIS-GV-HmA" secondAttribute="leading" id="DRf-jc-ycB"/>
+                                                            <constraint firstItem="b6t-25-q1o" firstAttribute="top" secondItem="AIS-GV-HmA" secondAttribute="top" id="Qhy-z4-LDX"/>
+                                                            <constraint firstAttribute="bottom" secondItem="b6t-25-q1o" secondAttribute="bottom" id="qTt-tC-7dk"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tks-Pa-Mat">
+                                                        <rect key="frame" x="0.0" y="157.5" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Od3-SB-XAN" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" After Lunch"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_after_lunchWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="gbQ-i3-2OB"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="Y6K-qL-S1x"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="Od3-SB-XAN" firstAttribute="leading" secondItem="Tks-Pa-Mat" secondAttribute="leading" id="0hp-eK-40T"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Od3-SB-XAN" secondAttribute="trailing" id="IIE-Zl-4eT"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Od3-SB-XAN" secondAttribute="bottom" id="Mm2-zI-2Zl"/>
+                                                            <constraint firstItem="Od3-SB-XAN" firstAttribute="top" secondItem="Tks-Pa-Mat" secondAttribute="top" id="o7B-zW-TyR"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5e9-DW-G9m">
+                                                        <rect key="frame" x="0.0" y="210" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9S-Ue-EKQ" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" Before Dinner"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_before_dinnerWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="Gl5-ty-JHZ"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="OqA-MJ-zqa"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="H9S-Ue-EKQ" secondAttribute="bottom" id="G1i-bj-hH7"/>
+                                                            <constraint firstItem="H9S-Ue-EKQ" firstAttribute="leading" secondItem="5e9-DW-G9m" secondAttribute="leading" id="QUU-gj-F1B"/>
+                                                            <constraint firstAttribute="trailing" secondItem="H9S-Ue-EKQ" secondAttribute="trailing" id="xVJ-Td-iUq"/>
+                                                            <constraint firstItem="H9S-Ue-EKQ" firstAttribute="top" secondItem="5e9-DW-G9m" secondAttribute="top" id="yuM-ET-r9g"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d4c-qL-2DE">
+                                                        <rect key="frame" x="0.0" y="262.5" width="170" height="37.5"/>
+                                                        <subviews>
+                                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6VN-H8-UJy" customClass="SKRadioButton" customModule="medocpatient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="170" height="37.5"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" red="0.2066991329" green="0.57667315009999998" blue="0.98524695630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                                        <real key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="titleText" value=" After Dinner"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="marginWidth">
+                                                                        <real key="value" value="5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTextBackgroundColor">
+                                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="Action_after_dinnerWithSender:" destination="0P2-DK-5mo" eventType="touchUpInside" id="IOG-5h-KGG"/>
+                                                                    <action selector="GenderRadioActionWithSender:" destination="dpE-CY-j4C" eventType="touchUpInside" id="GWq-dR-EkX"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="6VN-H8-UJy" secondAttribute="bottom" id="CBR-MT-HdW"/>
+                                                            <constraint firstAttribute="trailing" secondItem="6VN-H8-UJy" secondAttribute="trailing" id="fpD-zI-MEA"/>
+                                                            <constraint firstItem="6VN-H8-UJy" firstAttribute="top" secondItem="d4c-qL-2DE" secondAttribute="top" id="jxx-xY-jA7"/>
+                                                            <constraint firstItem="6VN-H8-UJy" firstAttribute="leading" secondItem="d4c-qL-2DE" secondAttribute="leading" id="n5p-b1-6x4"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="170" id="Ps8-wG-vE6"/>
+                                                    <constraint firstAttribute="height" constant="300" id="enc-Xc-rVv"/>
+                                                </constraints>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3r-wV-zWl">
+                                                <rect key="frame" x="265.5" y="353.5" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3QC-9z-zCX" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="336" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="Duc-Z7-R0S"/>
+                                                    <constraint firstAttribute="width" constant="40" id="JQM-g2-ChZ"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9n-Ts-lhb">
+                                                <rect key="frame" x="265.5" y="406" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0XM-Pj-Zlj" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="388.5" width="40" height="40"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjc-8L-gd5">
+                                                <rect key="frame" x="265.5" y="458.5" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="01Z-G0-6FD" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="441" width="40" height="40"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7l-9h-tGD">
+                                                <rect key="frame" x="265.5" y="511" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xVT-JI-gAz" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="493.5" width="40" height="40"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0US-PY-njE">
+                                                <rect key="frame" x="265.5" y="563.5" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PCT-v9-4tX" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="546" width="40" height="40"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="do2-jS-rQq">
+                                                <rect key="frame" x="265.5" y="616" width="29.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f4L-dw-Odc" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                                                <rect key="frame" x="215.5" y="598.5" width="40" height="40"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                        <integer key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="emn-JM-Jvc">
+                                                <rect key="frame" x="130" y="675" width="60" height="60"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="60" id="0lT-d3-PGa"/>
+                                                    <constraint firstAttribute="height" constant="60" id="Pdb-Gc-gcK"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                                <state key="normal" image="check.png"/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="b7l-9h-tGD" firstAttribute="centerY" secondItem="Od3-SB-XAN" secondAttribute="centerY" id="1Fq-KL-dRn"/>
+                                            <constraint firstItem="0US-PY-njE" firstAttribute="centerY" secondItem="H9S-Ue-EKQ" secondAttribute="centerY" id="1ex-Pi-X0W"/>
+                                            <constraint firstItem="PCT-v9-4tX" firstAttribute="centerY" secondItem="H9S-Ue-EKQ" secondAttribute="centerY" constant="-8" id="1vj-Ab-x4h"/>
+                                            <constraint firstItem="ccW-GS-o2K" firstAttribute="leading" secondItem="9e6-gu-9vq" secondAttribute="leading" id="3gD-mA-hLd"/>
+                                            <constraint firstItem="e6B-Dd-1L0" firstAttribute="top" secondItem="HRd-kS-3TV" secondAttribute="bottom" constant="20" id="6TM-hr-8at"/>
+                                            <constraint firstItem="0XM-Pj-Zlj" firstAttribute="height" secondItem="3QC-9z-zCX" secondAttribute="height" id="6rr-J1-8HU"/>
+                                            <constraint firstItem="AI6-LI-b26" firstAttribute="centerY" secondItem="ccW-GS-o2K" secondAttribute="centerY" constant="8" id="77B-md-3gi"/>
+                                            <constraint firstItem="0US-PY-njE" firstAttribute="leading" secondItem="b7l-9h-tGD" secondAttribute="leading" id="85D-Ow-yG6"/>
+                                            <constraint firstItem="emn-JM-Jvc" firstAttribute="centerX" secondItem="Flv-cv-QDE" secondAttribute="centerX" id="8dg-pK-Dwg"/>
+                                            <constraint firstItem="q6B-Tn-eF5" firstAttribute="top" secondItem="WhM-xl-YQd" secondAttribute="bottom" constant="20" id="96e-8i-vx2"/>
+                                            <constraint firstItem="9AT-pi-m8q" firstAttribute="centerY" secondItem="WhM-xl-YQd" secondAttribute="centerY" constant="7" id="96j-dB-JnT"/>
+                                            <constraint firstItem="PCT-v9-4tX" firstAttribute="height" secondItem="xVT-JI-gAz" secondAttribute="height" id="Auq-Av-abB"/>
+                                            <constraint firstItem="CY5-ql-E9F" firstAttribute="leading" secondItem="HRd-kS-3TV" secondAttribute="trailing" constant="10" id="BsD-i5-LXt"/>
+                                            <constraint firstItem="0XM-Pj-Zlj" firstAttribute="width" secondItem="3QC-9z-zCX" secondAttribute="width" id="CUa-v1-9wX"/>
+                                            <constraint firstItem="9AT-pi-m8q" firstAttribute="leading" secondItem="WhM-xl-YQd" secondAttribute="trailing" constant="8" id="DzU-iH-kwB"/>
+                                            <constraint firstItem="0XM-Pj-Zlj" firstAttribute="centerY" secondItem="Czf-jp-W9M" secondAttribute="centerY" constant="-8" id="EQv-qw-rpv"/>
+                                            <constraint firstItem="f4L-dw-Odc" firstAttribute="centerY" secondItem="6VN-H8-UJy" secondAttribute="centerY" constant="-8" id="Fdq-VE-LaT"/>
+                                            <constraint firstAttribute="trailing" secondItem="AI6-LI-b26" secondAttribute="trailing" constant="8" id="GYs-1r-DT9"/>
+                                            <constraint firstItem="3QC-9z-zCX" firstAttribute="centerY" secondItem="TYC-dH-LNe" secondAttribute="centerY" constant="-8" id="M2l-Op-IQS"/>
+                                            <constraint firstItem="9e6-gu-9vq" firstAttribute="top" secondItem="DyW-T9-45q" secondAttribute="bottom" constant="20" id="OXv-wO-j5f"/>
+                                            <constraint firstItem="wjc-8L-gd5" firstAttribute="centerY" secondItem="b6t-25-q1o" secondAttribute="centerY" id="Oh5-AG-DtA"/>
+                                            <constraint firstItem="wjc-8L-gd5" firstAttribute="leading" secondItem="d9n-Ts-lhb" secondAttribute="leading" id="PiV-u1-dzn"/>
+                                            <constraint firstItem="PCT-v9-4tX" firstAttribute="leading" secondItem="xVT-JI-gAz" secondAttribute="leading" id="PsX-2E-Orv"/>
+                                            <constraint firstItem="xVT-JI-gAz" firstAttribute="centerY" secondItem="Od3-SB-XAN" secondAttribute="centerY" constant="-8" id="Q9q-xe-z0Z"/>
+                                            <constraint firstItem="HRd-kS-3TV" firstAttribute="top" secondItem="9e6-gu-9vq" secondAttribute="bottom" constant="20" id="QZL-Kq-XGr"/>
+                                            <constraint firstItem="WhM-xl-YQd" firstAttribute="top" secondItem="ccW-GS-o2K" secondAttribute="bottom" constant="10" id="Rsi-H6-G6m"/>
+                                            <constraint firstItem="f4L-dw-Odc" firstAttribute="leading" secondItem="PCT-v9-4tX" secondAttribute="leading" id="SEQ-5b-Bpg"/>
+                                            <constraint firstItem="S3r-wV-zWl" firstAttribute="leading" secondItem="3QC-9z-zCX" secondAttribute="trailing" constant="10" id="SKw-ua-vUZ"/>
+                                            <constraint firstItem="b7l-9h-tGD" firstAttribute="leading" secondItem="wjc-8L-gd5" secondAttribute="leading" id="WEi-0s-NDR"/>
+                                            <constraint firstItem="01Z-G0-6FD" firstAttribute="leading" secondItem="0XM-Pj-Zlj" secondAttribute="leading" id="WQe-xu-med"/>
+                                            <constraint firstItem="do2-jS-rQq" firstAttribute="leading" secondItem="0US-PY-njE" secondAttribute="leading" id="XtE-Gp-Czu"/>
+                                            <constraint firstItem="01Z-G0-6FD" firstAttribute="height" secondItem="0XM-Pj-Zlj" secondAttribute="height" id="ZEC-bl-hV7"/>
+                                            <constraint firstItem="0XM-Pj-Zlj" firstAttribute="leading" secondItem="3QC-9z-zCX" secondAttribute="leading" id="apy-uJ-onY"/>
+                                            <constraint firstItem="emn-JM-Jvc" firstAttribute="top" secondItem="q6B-Tn-eF5" secondAttribute="bottom" constant="30" id="bMM-9i-YfG"/>
+                                            <constraint firstItem="9e6-gu-9vq" firstAttribute="trailing" secondItem="DyW-T9-45q" secondAttribute="trailing" id="chh-V4-UkX"/>
+                                            <constraint firstItem="WhM-xl-YQd" firstAttribute="leading" secondItem="ccW-GS-o2K" secondAttribute="leading" id="f5u-vN-Gac"/>
+                                            <constraint firstItem="CY5-ql-E9F" firstAttribute="centerY" secondItem="HRd-kS-3TV" secondAttribute="centerY" id="f9y-cm-250"/>
+                                            <constraint firstItem="q6B-Tn-eF5" firstAttribute="leading" secondItem="ccW-GS-o2K" secondAttribute="leading" id="fiu-1A-r48"/>
+                                            <constraint firstItem="CY5-ql-E9F" firstAttribute="trailing" secondItem="9e6-gu-9vq" secondAttribute="trailing" id="giU-My-kWl"/>
+                                            <constraint firstItem="e6B-Dd-1L0" firstAttribute="centerX" secondItem="Flv-cv-QDE" secondAttribute="centerX" id="hiy-a7-zlE"/>
+                                            <constraint firstItem="xVT-JI-gAz" firstAttribute="width" secondItem="01Z-G0-6FD" secondAttribute="width" id="i58-kc-nuo"/>
+                                            <constraint firstAttribute="trailing" secondItem="9AT-pi-m8q" secondAttribute="trailing" constant="8" id="iwd-Wz-Zqs"/>
+                                            <constraint firstItem="DyW-T9-45q" firstAttribute="leading" secondItem="Flv-cv-QDE" secondAttribute="leading" constant="20" id="jFe-yW-dCe"/>
+                                            <constraint firstItem="ccW-GS-o2K" firstAttribute="top" secondItem="e6B-Dd-1L0" secondAttribute="bottom" id="jex-CA-tch"/>
+                                            <constraint firstItem="PCT-v9-4tX" firstAttribute="width" secondItem="xVT-JI-gAz" secondAttribute="width" id="kkX-QZ-jCp"/>
+                                            <constraint firstItem="xVT-JI-gAz" firstAttribute="leading" secondItem="01Z-G0-6FD" secondAttribute="leading" id="ksV-Aq-gel"/>
+                                            <constraint firstItem="d9n-Ts-lhb" firstAttribute="leading" secondItem="S3r-wV-zWl" secondAttribute="leading" id="l3Q-J3-t34"/>
+                                            <constraint firstItem="xVT-JI-gAz" firstAttribute="height" secondItem="01Z-G0-6FD" secondAttribute="height" id="laO-kf-ZgQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="S3r-wV-zWl" secondAttribute="trailing" constant="25" id="lmh-6x-Dxo"/>
+                                            <constraint firstItem="f4L-dw-Odc" firstAttribute="width" secondItem="PCT-v9-4tX" secondAttribute="width" id="mWN-N4-uo8"/>
+                                            <constraint firstItem="d9n-Ts-lhb" firstAttribute="centerY" secondItem="Czf-jp-W9M" secondAttribute="centerY" id="mfH-sl-z73"/>
+                                            <constraint firstAttribute="bottom" secondItem="emn-JM-Jvc" secondAttribute="bottom" constant="30" id="mzm-Rd-0Fh"/>
+                                            <constraint firstAttribute="trailing" secondItem="DyW-T9-45q" secondAttribute="trailing" constant="20" id="njg-qF-J31"/>
+                                            <constraint firstItem="DyW-T9-45q" firstAttribute="top" secondItem="Flv-cv-QDE" secondAttribute="top" constant="10" id="os8-ry-TtV"/>
+                                            <constraint firstItem="HRd-kS-3TV" firstAttribute="leading" secondItem="9e6-gu-9vq" secondAttribute="leading" id="p4R-xc-bjM"/>
+                                            <constraint firstItem="do2-jS-rQq" firstAttribute="centerY" secondItem="6VN-H8-UJy" secondAttribute="centerY" id="pWU-gX-tbf"/>
+                                            <constraint firstItem="f4L-dw-Odc" firstAttribute="height" secondItem="PCT-v9-4tX" secondAttribute="height" id="rjd-XC-lRk"/>
+                                            <constraint firstItem="01Z-G0-6FD" firstAttribute="width" secondItem="0XM-Pj-Zlj" secondAttribute="width" id="teG-GV-EP4"/>
+                                            <constraint firstItem="9e6-gu-9vq" firstAttribute="leading" secondItem="DyW-T9-45q" secondAttribute="leading" id="v8Z-mW-nbb"/>
+                                            <constraint firstItem="S3r-wV-zWl" firstAttribute="centerY" secondItem="TYC-dH-LNe" secondAttribute="centerY" id="wBm-al-Ajh"/>
+                                            <constraint firstItem="AI6-LI-b26" firstAttribute="leading" secondItem="ccW-GS-o2K" secondAttribute="trailing" constant="8" id="yRm-DF-aG0"/>
+                                            <constraint firstItem="01Z-G0-6FD" firstAttribute="centerY" secondItem="b6t-25-q1o" secondAttribute="centerY" constant="-8" id="zq7-kz-UP1"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Flv-cv-QDE" secondAttribute="trailing" id="CeD-xE-hwN"/>
+                                    <constraint firstItem="Flv-cv-QDE" firstAttribute="height" secondItem="ZK5-oI-wKg" secondAttribute="height" priority="250" id="EWB-cg-WEQ"/>
+                                    <constraint firstItem="Flv-cv-QDE" firstAttribute="leading" secondItem="ZK5-oI-wKg" secondAttribute="leading" id="NB7-L3-bWp"/>
+                                    <constraint firstItem="Flv-cv-QDE" firstAttribute="top" secondItem="ZK5-oI-wKg" secondAttribute="top" id="Sky-w6-aAF"/>
+                                    <constraint firstAttribute="bottom" secondItem="Flv-cv-QDE" secondAttribute="bottom" id="UZN-4W-rXc"/>
+                                    <constraint firstItem="Flv-cv-QDE" firstAttribute="top" secondItem="ZK5-oI-wKg" secondAttribute="top" id="cGp-Wv-BTO"/>
+                                    <constraint firstItem="Flv-cv-QDE" firstAttribute="width" secondItem="ZK5-oI-wKg" secondAttribute="width" id="g5U-kC-Fpt"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HyT-yp-ecQ" firstAttribute="centerX" secondItem="a2X-JB-flN" secondAttribute="centerX" id="4xL-bE-LYL"/>
+                            <constraint firstItem="ZK5-oI-wKg" firstAttribute="leading" secondItem="hjh-vm-r0y" secondAttribute="leading" id="7aR-uo-UNd"/>
+                            <constraint firstItem="7iB-Cj-N8F" firstAttribute="top" secondItem="hjh-vm-r0y" secondAttribute="top" id="A7x-bE-2yn"/>
+                            <constraint firstItem="ZK5-oI-wKg" firstAttribute="trailing" secondItem="hjh-vm-r0y" secondAttribute="trailing" id="BOP-ZY-5pr"/>
+                            <constraint firstItem="HyT-yp-ecQ" firstAttribute="centerY" secondItem="7iB-Cj-N8F" secondAttribute="centerY" id="E44-CP-taE"/>
+                            <constraint firstItem="7iB-Cj-N8F" firstAttribute="leading" secondItem="hjh-vm-r0y" secondAttribute="leading" id="huf-r0-MvH"/>
+                            <constraint firstItem="ZK5-oI-wKg" firstAttribute="top" secondItem="7iB-Cj-N8F" secondAttribute="bottom" id="kaU-hN-b9s"/>
+                            <constraint firstItem="ZK5-oI-wKg" firstAttribute="bottom" secondItem="hjh-vm-r0y" secondAttribute="bottom" id="o1A-bb-Bjx"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hjh-vm-r0y"/>
+                    </view>
+                    <size key="freeformSize" width="320" height="1000"/>
+                    <connections>
+                        <outlet property="Radio_after_breakfast" destination="Czf-jp-W9M" id="9mn-Oh-0Gq"/>
+                        <outlet property="Radio_after_dinner" destination="6VN-H8-UJy" id="gT7-8c-pXB"/>
+                        <outlet property="Radio_after_lunch" destination="Od3-SB-XAN" id="eqA-tj-wtL"/>
+                        <outlet property="Radio_before_breakfast" destination="TYC-dH-LNe" id="Y67-jC-6DD"/>
+                        <outlet property="Radio_before_dinner" destination="H9S-Ue-EKQ" id="Fba-mt-q7Y"/>
+                        <outlet property="Radio_before_lunch" destination="b6t-25-q1o" id="4nC-aW-aF9"/>
+                        <outlet property="close" destination="7iB-Cj-N8F" id="9gA-Cv-X2e"/>
+                        <outlet property="donebtn" destination="emn-JM-Jvc" id="XBO-vn-8cN"/>
+                        <outlet property="height_of_time_interval" destination="WWe-9p-7f0" id="csk-mD-onF"/>
+                        <outlet property="tf_after_breakfast" destination="0XM-Pj-Zlj" id="U1q-4g-hrl"/>
+                        <outlet property="tf_after_dinner" destination="f4L-dw-Odc" id="b9g-ne-xCj"/>
+                        <outlet property="tf_after_lunch" destination="xVT-JI-gAz" id="eJK-uk-AB7"/>
+                        <outlet property="tf_before_breakfast" destination="3QC-9z-zCX" id="F0u-fh-ec5"/>
+                        <outlet property="tf_before_dinner" destination="PCT-v9-4tX" id="Jwx-9n-UC0"/>
+                        <outlet property="tf_before_lunch" destination="01Z-G0-6FD" id="04r-MU-xKd"/>
+                        <outlet property="tf_medicine_name" destination="9e6-gu-9vq" id="nSb-dZ-2zm"/>
+                        <outlet property="tf_medicine_type" destination="HRd-kS-3TV" id="XX0-5X-mYR"/>
+                        <outlet property="tf_patient_Problem" destination="DyW-T9-45q" id="7om-HC-LP9"/>
+                        <outlet property="tf_period" destination="ccW-GS-o2K" id="lHe-ZS-btb"/>
+                        <outlet property="tf_quantity" destination="CY5-ql-E9F" id="uSp-wP-lvp"/>
+                        <outlet property="tf_time_interval" destination="WhM-xl-YQd" id="2f5-nH-8nV"/>
+                        <outlet property="title_period" destination="AI6-LI-b26" id="KGA-AN-p6X"/>
+                        <outlet property="title_time_interval" destination="9AT-pi-m8q" id="LsS-uo-doP"/>
+                        <outletCollection property="IntervalTypeRadio" destination="QAc-DT-OyT" collectionClass="NSMutableArray" id="PVH-3b-tub"/>
+                        <outletCollection property="IntervalTypeRadio" destination="5n5-ye-Cti" collectionClass="NSMutableArray" id="4aZ-RD-aTN"/>
+                        <outletCollection property="IntervalTypeRadio" destination="jEa-io-SG1" collectionClass="NSMutableArray" id="sOi-lB-fal"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VFN-RJ-aKr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3186" y="218"/>
+        </scene>
         <!--Prescription View Controller-->
         <scene sceneID="Phn-JG-7LW">
             <objects>
@@ -2624,10 +3318,10 @@ Before 15 minute of breakfast</string>
                                 <rect key="frame" x="0.0" y="70" width="320" height="498"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzj-ji-c2X">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="520"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="430"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Doctor Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CFL-IJ-GNf" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="20" y="30" width="280" height="50"/>
+                                                <rect key="frame" x="20" y="0.0" width="280" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="fh9-rj-Iwf"/>
                                                 </constraints>
@@ -2644,7 +3338,7 @@ Before 15 minute of breakfast</string>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Doctor Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KRl-Xn-Ouk" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="20" y="100" width="280" height="50"/>
+                                                <rect key="frame" x="20" y="70" width="280" height="50"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -2658,7 +3352,7 @@ Before 15 minute of breakfast</string>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uzb-bb-Lks">
-                                                <rect key="frame" x="20" y="240" width="280" height="50"/>
+                                                <rect key="frame" x="20" y="210" width="280" height="50"/>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Click Prescription Image">
@@ -2666,7 +3360,7 @@ Before 15 minute of breakfast</string>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g9n-3m-a1L">
-                                                <rect key="frame" x="20" y="310" width="280" height="50"/>
+                                                <rect key="frame" x="20" y="280" width="280" height="50"/>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Select Medicine">
@@ -2674,7 +3368,7 @@ Before 15 minute of breakfast</string>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjp-RH-kE5">
-                                                <rect key="frame" x="130" y="410" width="60" height="60"/>
+                                                <rect key="frame" x="130" y="350" width="60" height="60"/>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="53A-7J-FQG"/>
@@ -2684,34 +3378,43 @@ Before 15 minute of breakfast</string>
                                                 <state key="normal" image="check.png"/>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient Problem" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bTl-03-sFa" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="20" y="170" width="280" height="50"/>
+                                                <rect key="frame" x="20" y="140" width="280" height="50"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X9l-ou-tD4">
+                                                <rect key="frame" x="85" y="270" width="150" height="0.0"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="HBJ-G5-Q08"/>
+                                                    <constraint firstAttribute="width" constant="150" id="SJX-h2-cay"/>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="CFL-IJ-GNf" firstAttribute="top" secondItem="vzj-ji-c2X" secondAttribute="top" constant="30" id="2F9-T8-0nC"/>
+                                            <constraint firstItem="CFL-IJ-GNf" firstAttribute="top" secondItem="vzj-ji-c2X" secondAttribute="top" id="2F9-T8-0nC"/>
                                             <constraint firstItem="g9n-3m-a1L" firstAttribute="trailing" secondItem="Uzb-bb-Lks" secondAttribute="trailing" id="2UY-Qu-gUy"/>
                                             <constraint firstItem="g9n-3m-a1L" firstAttribute="leading" secondItem="Uzb-bb-Lks" secondAttribute="leading" id="2hr-Hj-Xzi"/>
                                             <constraint firstItem="Uzb-bb-Lks" firstAttribute="top" secondItem="bTl-03-sFa" secondAttribute="bottom" constant="20" id="6pe-tg-RiZ"/>
                                             <constraint firstItem="KRl-Xn-Ouk" firstAttribute="top" secondItem="CFL-IJ-GNf" secondAttribute="bottom" constant="20" id="8wx-FX-axF"/>
-                                            <constraint firstAttribute="bottom" secondItem="sjp-RH-kE5" secondAttribute="bottom" constant="50" id="9cp-ee-Q4Y"/>
+                                            <constraint firstAttribute="bottom" secondItem="sjp-RH-kE5" secondAttribute="bottom" constant="20" id="9cp-ee-Q4Y"/>
                                             <constraint firstItem="bTl-03-sFa" firstAttribute="leading" secondItem="KRl-Xn-Ouk" secondAttribute="leading" id="Dvu-Od-4Z8"/>
+                                            <constraint firstItem="g9n-3m-a1L" firstAttribute="top" secondItem="X9l-ou-tD4" secondAttribute="bottom" constant="10" id="F97-NM-t9Z"/>
                                             <constraint firstItem="Uzb-bb-Lks" firstAttribute="height" secondItem="KRl-Xn-Ouk" secondAttribute="height" id="Jdc-jv-kP3"/>
                                             <constraint firstItem="KRl-Xn-Ouk" firstAttribute="leading" secondItem="CFL-IJ-GNf" secondAttribute="leading" id="RBY-xL-CeR"/>
                                             <constraint firstItem="Uzb-bb-Lks" firstAttribute="leading" secondItem="KRl-Xn-Ouk" secondAttribute="leading" id="S4u-IS-aIS"/>
-                                            <constraint firstItem="sjp-RH-kE5" firstAttribute="top" secondItem="g9n-3m-a1L" secondAttribute="bottom" constant="50" id="SeV-yR-HlB"/>
+                                            <constraint firstItem="sjp-RH-kE5" firstAttribute="top" secondItem="g9n-3m-a1L" secondAttribute="bottom" constant="20" id="SeV-yR-HlB"/>
                                             <constraint firstItem="bTl-03-sFa" firstAttribute="height" secondItem="KRl-Xn-Ouk" secondAttribute="height" id="ThC-IT-ZNL"/>
                                             <constraint firstItem="KRl-Xn-Ouk" firstAttribute="trailing" secondItem="CFL-IJ-GNf" secondAttribute="trailing" id="XXc-ep-f5R"/>
                                             <constraint firstItem="bTl-03-sFa" firstAttribute="top" secondItem="KRl-Xn-Ouk" secondAttribute="bottom" constant="20" id="ZHx-uF-FOd"/>
                                             <constraint firstItem="CFL-IJ-GNf" firstAttribute="leading" secondItem="vzj-ji-c2X" secondAttribute="leading" constant="20" id="ZPB-24-6EV"/>
+                                            <constraint firstItem="X9l-ou-tD4" firstAttribute="centerX" secondItem="Uzb-bb-Lks" secondAttribute="centerX" id="aMp-3S-jNn"/>
+                                            <constraint firstItem="X9l-ou-tD4" firstAttribute="top" secondItem="Uzb-bb-Lks" secondAttribute="bottom" constant="10" id="cRl-hR-Eo3"/>
                                             <constraint firstItem="g9n-3m-a1L" firstAttribute="height" secondItem="Uzb-bb-Lks" secondAttribute="height" id="dax-bf-i9m"/>
                                             <constraint firstAttribute="trailing" secondItem="CFL-IJ-GNf" secondAttribute="trailing" constant="20" id="e18-TQ-fa1"/>
                                             <constraint firstItem="sjp-RH-kE5" firstAttribute="centerX" secondItem="g9n-3m-a1L" secondAttribute="centerX" id="e2A-5o-sJN"/>
                                             <constraint firstItem="Uzb-bb-Lks" firstAttribute="trailing" secondItem="KRl-Xn-Ouk" secondAttribute="trailing" id="ivs-Y8-ncu"/>
-                                            <constraint firstItem="g9n-3m-a1L" firstAttribute="top" secondItem="Uzb-bb-Lks" secondAttribute="bottom" constant="20" id="kpW-pn-vVS"/>
                                             <constraint firstItem="bTl-03-sFa" firstAttribute="trailing" secondItem="KRl-Xn-Ouk" secondAttribute="trailing" id="m2q-FG-sFV"/>
                                             <constraint firstItem="KRl-Xn-Ouk" firstAttribute="height" secondItem="CFL-IJ-GNf" secondAttribute="height" id="o4g-C5-I7L"/>
                                         </constraints>
@@ -2745,6 +3448,8 @@ Before 15 minute of breakfast</string>
                         <outlet property="btn_clickPrescriptionImages" destination="Uzb-bb-Lks" id="Vvz-7m-aWL"/>
                         <outlet property="btn_selectMedicine" destination="g9n-3m-a1L" id="7I1-Cc-gok"/>
                         <outlet property="close" destination="3e3-4C-eUx" id="DHN-hb-oaB"/>
+                        <outlet property="constant_height_of_img_Prescription" destination="HBJ-G5-Q08" id="9hM-f9-02C"/>
+                        <outlet property="img_Prescription" destination="X9l-ou-tD4" id="GOg-1a-aGC"/>
                         <outlet property="tf_doctorname" destination="CFL-IJ-GNf" id="lIe-nc-JVK"/>
                         <outlet property="tf_doctortype" destination="KRl-Xn-Ouk" id="XuP-vH-Rbz"/>
                         <outlet property="tf_patientproblem" destination="bTl-03-sFa" id="pxG-Ax-WbS"/>

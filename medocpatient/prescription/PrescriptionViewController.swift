@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 import WebKit
 import SDWebImage
-import Network
 
 class PrescriptionViewController: UIViewController {
 

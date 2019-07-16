@@ -21,6 +21,21 @@ extension String {
     func containsIgnoringCase(find: String) -> Bool{
         return self.range(of: find, options: .caseInsensitive) != nil
     }
+    func hasPrefixCheck(prefix: String, isCaseSensitive: Bool) -> Bool {
+        
+        if isCaseSensitive == true {
+            return self.hasPrefix(prefix)
+        } else {
+            var thePrefix: String = prefix, theString: String = self
+            
+            while thePrefix.count != 0 {
+                if theString.count == 0 { return false }
+                if theString.lowercased().first != thePrefix.lowercased().first { return false }
+                theString = String(theString.dropFirst())
+                thePrefix = String(thePrefix.dropFirst())
+            }; return true
+        }
+    }
 }
 extension String {
     //To check text field or String is blank or not
@@ -475,4 +490,33 @@ class AssetExtractor {
         return url
     }
     
+}
+private var __maxLengths = [UITextField: Int]()
+extension UITextField {
+    @IBInspectable var maxLength: Int {
+        get {
+            guard let l = __maxLengths[self] else {
+                return 150 // (global default-limit. or just, Int.max)
+            }
+            return l
+        }
+        set {
+            __maxLengths[self] = newValue
+            addTarget(self, action: #selector(fix), for: .editingChanged)
+        }
+    }
+    @objc func fix(textField: UITextField) {
+        let t = textField.text
+        textField.text = t?.safelyLimitedTo(length: maxLength)
+    }
+}
+
+extension String
+{
+    func safelyLimitedTo(length n: Int)->String {
+        if (self.count <= n) {
+            return self
+        }
+        return String( Array(self).prefix(upTo: n) )
+    }
 }

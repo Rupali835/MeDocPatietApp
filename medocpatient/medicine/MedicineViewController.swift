@@ -29,6 +29,8 @@ class MedicineViewController: UIViewController {
     var timeslot = [String]()
     let image_Types_dataSource = ["Capsules", "Cream", "Drops", "Gel", "Inhaler", "Injection", "Lotion", "Mouthwash", "Ointment", "Others", "Physiotherapy", "Powder", "Spray", "Suppository", "Syrup", "Tablet", "Treatment Session"]
     var images_types = [UIImage?]()
+    var routeFromOtherVC = false
+    var getSelectedMedicine: ((_ data: NSDictionary)->Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,8 @@ class MedicineViewController: UIViewController {
         self.navigationItem.title = "Medicines".localized()
         tableview.sectionHeaderHeight = UITableView.automaticDimension
         tableview.estimatedSectionHeaderHeight = 50;
-        
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(AddAction))
+
        // setupReminder()
         
         DispatchQueue.main.async {
@@ -49,14 +52,21 @@ class MedicineViewController: UIViewController {
         
         NetworkManager.isReachable { _ in
             self.fetchmedicine()
+            self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
             self.fetchmedicine()
+            self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.isUnreachable { _ in
             Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
         }
         // Do any additional setup after loading the view.
+    }
+    @objc func AddAction(){
+        let addMedicineVC = self.storyboard?.instantiateViewController(withIdentifier: "AddMedicineViewController") as! AddMedicineViewController
+        navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addMedicineVC)
+        //self.present(addReportVC, animated: true, completion: nil)
     }
     func setupReminder(){
         self.eventStore = EKEventStore()
@@ -162,7 +172,9 @@ class MedicineViewController: UIViewController {
 //                                    }
 //                                }
                                 DispatchQueue.main.async {
-                                    self.createNewReminder()
+                                    if self.routeFromOtherVC == false {
+                                        self.createNewReminder()
+                                    }
                                 }
                             }
                         }
@@ -552,5 +564,13 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
         medicinecell.SetCellData(d: data, images_types: self.images_types, indexPath: indexPath)
         
         return medicinecell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.routeFromOtherVC == true {
+            let md = self.medicineData.object(at: indexPath.section) as! NSArray
+            let data = md.object(at: indexPath.row) as! NSDictionary
+            self.getSelectedMedicine?(data)
+            navigationController?.popViewController(animated: true)
+        }
     }
 }

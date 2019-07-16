@@ -772,14 +772,14 @@ extension ProfilePageViewController: PassSelectionData { //button action
             button.isSelected = false
         }
         sender.isSelected = true
-        if sender.tag == 5{
-            selectedGender = 1
+        if self.GenderRadio[0].isSelected == true{
+            self.selectedGender = 1
         }
-        else if sender.tag == 6{
-            selectedGender = 2
+        else if self.GenderRadio[1].isSelected == true{
+            self.selectedGender = 2
         }
-        else if sender.tag == 7{
-            selectedGender = 3
+        else if self.GenderRadio[2].isSelected == true{
+            self.selectedGender = 3
         }
     }
    

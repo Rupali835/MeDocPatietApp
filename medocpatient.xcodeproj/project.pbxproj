@@ -48,6 +48,7 @@
 		1C6CD74A22BCC3F000F29D06 /* Powder.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73922BCC3F000F29D06 /* Powder.svg */; };
 		1C6CD74B22BCC3F100F29D06 /* Gel.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73A22BCC3F000F29D06 /* Gel.svg */; };
 		1C6CD74C22BCC3F100F29D06 /* Syrup.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1C6CD73B22BCC3F000F29D06 /* Syrup.svg */; };
+		1C8F9D2E22DDB27800EBC090 /* AddMedicineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9D2D22DDB27800EBC090 /* AddMedicineViewController.swift */; };
 		1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */; };
 		1C93C40F22688EEA00AF6989 /* AddPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */; };
 		1C93C41122688EFF00AF6989 /* ShowPHQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */; };
@@ -257,6 +258,7 @@
 		1C6CD73922BCC3F000F29D06 /* Powder.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Powder.svg; sourceTree = "<group>"; };
 		1C6CD73A22BCC3F000F29D06 /* Gel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gel.svg; sourceTree = "<group>"; };
 		1C6CD73B22BCC3F000F29D06 /* Syrup.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Syrup.svg; sourceTree = "<group>"; };
+		1C8F9D2D22DDB27800EBC090 /* AddMedicineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicineViewController.swift; sourceTree = "<group>"; };
 		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
 		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
 		1C93C41022688EFF00AF6989 /* ShowPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPHQViewController.swift; sourceTree = "<group>"; };
@@ -706,6 +708,7 @@
 			children = (
 				57254BB621D4BF1300B38849 /* MedicineViewController.swift */,
 				57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */,
+				1C8F9D2D22DDB27800EBC090 /* AddMedicineViewController.swift */,
 			);
 			path = medicine;
 			sourceTree = "<group>";
@@ -1166,6 +1169,7 @@
 				57717F6F21F9EC55000EA206 /* CryptLib.m in Sources */,
 				57254B9721D4BE7F00B38849 /* SKRadioButton.swift in Sources */,
 				575259E621D65DE3008DB872 /* QueueToast.swift in Sources */,
+				1C8F9D2E22DDB27800EBC090 /* AddMedicineViewController.swift in Sources */,
 				57692CD121E777F6002DC4D0 /* ImageManager.swift in Sources */,
 				57692CB821E731D6002DC4D0 /* ChartViewController.swift in Sources */,
 				1C93C40C2268853600AF6989 /* PHQ-9ViewController.swift in Sources */,
