@@ -36,6 +36,7 @@ class AddPrescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utilities.shared.cornerRadius(objects: [btn_clickPrescriptionImages,btn_selectMedicine,btn_Done,img_Prescription], number: 10.0)
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         tf_doctortype.addTarget(self, action: #selector(handle_tf_doctortype), for: .editingChanged)
         btn_clickPrescriptionImages.addTarget(self, action: #selector(Action_btn_clickPrescriptionImages), for: .touchUpInside)

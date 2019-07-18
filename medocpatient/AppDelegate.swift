@@ -59,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.registerForPushNotifications()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
-        
         // Override point for customization after application launch.
         return true
     }
+    
     func SwitchLogin(){
         let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginPage")
         window?.rootViewController = loginViewController
@@ -221,8 +221,21 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
             let content = response.notification.request.content
             print(content)
             let attachments = content.attachments as? [UNNotificationAttachment]
-            let snoozeTrigger = UNTimeIntervalNotificationTrigger(
-                timeInterval: 60 * 5,
+            
+            guard let oldTrigger = response.notification.request.trigger as? UNCalendarNotificationTrigger else {
+                debugPrint("Cannot reschedule notification without calendar trigger.")
+                return
+            }
+            
+            let oldcomponents = oldTrigger.dateComponents
+            let currentDate = Calendar.current.date(from: oldcomponents)
+            let addDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate!)
+            print(oldcomponents)
+            let components = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: addDate!)
+            print(components)
+            
+            let snoozeTrigger = UNCalendarNotificationTrigger(
+                dateMatching: components,
                 repeats: false)
             let snoozeRequest = UNNotificationRequest(
                 identifier: attachments?[0].identifier ?? "",
@@ -239,7 +252,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
         
         completionHandler()
     }
-    
+   
     func application(received remoteMessage: MessagingRemoteMessage)
     {
         print(remoteMessage.appData)

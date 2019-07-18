@@ -10,6 +10,7 @@ import UIKit
 import EventKit
 import SVGKit
 import UserNotifications
+import WatchConnectivity
 
 let CategoryIdentifier = "Medicines"
 let SoonzeIdentifier = "Soonze"
@@ -110,31 +111,54 @@ class MedicineViewController: UIViewController {
         content.body = "Cheif Complain: \(body ?? "Not Mentioned")"
         content.categoryIdentifier = CategoryIdentifier
     
-        let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
+       // let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
         
-        let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 5 Minute ⏱", options: [])
+        let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 15 Minute ⏱", options: [])
         let TakenAction = UNNotificationAction(identifier: TakenIdentifier, title: "Medicine Taken! 👍 ", options: [])
 
         let category = UNNotificationCategory(identifier: CategoryIdentifier, actions: [TakenAction,snoozeAction], intentIdentifiers: [], options: [])
         
         UNUserNotificationCenter.current().setNotificationCategories([category])
 
-       // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
 
         for (i,date) in datecomponent.enumerated() {
             let requestidentifier = "notification.id-\(id)-\(i)"
-            if url != nil {
-                if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
-                    content.attachments = [attachment]
-                }
+            if let attachment = create(imageFileIdentifier: requestidentifier, data: UIImage(named: imagename!)?.pngData()! as! NSData, options: nil) {
+                content.attachments = [attachment]
             }
-            
-            
+//            if url != nil {
+//                if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
+//                    content.attachments = [attachment]
+//                }
+//            }
+            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+
             let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
             let request = UNNotificationRequest(identifier: "notification.id-\(id)-\(i)", content: content, trigger: trigger)
             
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            print("request: \(request)")
+            UNUserNotificationCenter.current().add(request) {
+                (error) in
+                if error != nil {
+                    print("Snooze Request Error: \(error?.localizedDescription)")
+                }
+            }
         }
+        
+    }
+    func create(imageFileIdentifier: String, data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
+        
+        let tmpSubFolderName: String = ProcessInfo.processInfo.globallyUniqueString
+        let fileURLPath: String = NSTemporaryDirectory()
+        let tmpSubFolderURL: String = URL(fileURLWithPath: fileURLPath).appendingPathComponent(tmpSubFolderName).absoluteString
+        
+        if ((try? FileManager.default.createDirectory(atPath: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)) != nil) {
+            let fileURL = URL(fileURLWithPath: tmpSubFolderURL).appendingPathComponent(imageFileIdentifier)
+            data.write(to: fileURL, atomically: true)
+            let attachment = try? UNNotificationAttachment(identifier: imageFileIdentifier, url: fileURL, options: options)
+            return attachment!
+        }
+        return nil
         
     }
     func fetchmedicine(){
@@ -174,6 +198,7 @@ class MedicineViewController: UIViewController {
                                 DispatchQueue.main.async {
                                     if self.routeFromOtherVC == false {
                                         self.createNewReminder()
+                                        self.passdataTowatch(bool: true)
                                     }
                                 }
                             }
@@ -200,6 +225,31 @@ class MedicineViewController: UIViewController {
             }
         }) { () -> (Dictionary<String, Any>) in
             ["all":"1"]
+        }
+    }
+    func passdataTowatch(bool: Bool){
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
+            print("App Count: \(notifications.count)")
+            // send a message to the watch if it's reachable
+            
+            if bool == true {
+                if (WCSession.default.isReachable) {
+                    // this is a meaningless message, but it's enough for our purposes
+                    do {
+                        let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
+                        let message = ["notification": data]
+                        WCSession.default.sendMessage(message, replyHandler: nil)
+                    } catch {
+                        print("catch nskeyarchiever")
+                    }
+                }
+            } else {
+                for item in notifications {
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(
+                        withIdentifiers: [item.identifier])
+                    print("App: \(item)")
+                }
+            }
         }
     }
     func createNewReminder(){
@@ -231,18 +281,18 @@ class MedicineViewController: UIViewController {
                 let interval_time = "\(mdata.value(forKey: "interval_time") as! String)"
                 
                 let startDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date!)
-                
+                let Time_dates = GetBeforeAfterTime_Dates(mdata: mdata, startdate: date!)
+
                 switch interval_type {
                 case "1": //"Type: Daily"
                     let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
                     if dueDate != nil {
                         if dueDate! >= Date() {
-                            
+                            self.DailyNotification(dueDate: dueDate!, interval_time: interval_time, Startdate: date!, Time_dates: Time_dates, id: id, medicinename: medicinename, medicine_type: medicine_type, medicine_quantity: medicine_quantity, patient_problem: patient_problem)
                         }
                     }
                     break
                 case "2": //"Type: Weekly"
-                    let Time_dates = GetBeforeAfterTime_Dates(mdata: mdata, startdate: date!)
 
                     let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
                     if dueDate != nil {
@@ -255,7 +305,7 @@ class MedicineViewController: UIViewController {
                     let dueDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
                     if dueDate != nil {
                         if dueDate! >= Date() {
-                            
+                            self.TimeIntervalNotification(dueDate: dueDate!, interval_time: interval_time, Startdate: date!, Time_dates: Time_dates, id: id, medicinename: medicinename, medicine_type: medicine_type, medicine_quantity: medicine_quantity, patient_problem: patient_problem)
                         }
                     }
                     break
@@ -274,7 +324,7 @@ class MedicineViewController: UIViewController {
         let timedate = Calendar.current.date(byAdding: .day, value: -1, to: startdate)
         
         if before_bf == "1"{
-            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
+            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 00, second: 00, of: timedate!)!
             let before_bfalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_bf_time)!, to: breakfastdate)!
             Time_dates.append(before_bfalarmdate)
            // alarmdates.append(EKAlarm(absoluteDate: before_bfalarmdate))
@@ -284,7 +334,7 @@ class MedicineViewController: UIViewController {
         let after_bf_time = "\(mdata.value(forKey: "after_bf_time") as! Int)"
         
         if after_bf == "1" {
-            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: timedate!)!
+            let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 00, second: 00, of: timedate!)!
             let after_bfalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_bf_time)!, to: breakfastdate)!
             Time_dates.append(after_bfalarmdate)
           //  alarmdates.append(EKAlarm(absoluteDate: after_bfalarmdate))
@@ -294,7 +344,7 @@ class MedicineViewController: UIViewController {
         let before_lunch_time = "\(mdata.value(forKey: "before_lunch_time") as! Int)"
         
         if before_lunch == "1"{
-            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
+            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 00, second: 00, of: timedate!)!
             let before_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_lunch_time)!, to: lunchdate)!
             Time_dates.append(before_lunchalarmdate)
           //  alarmdates.append(EKAlarm(absoluteDate: before_lunchalarmdate))
@@ -304,7 +354,7 @@ class MedicineViewController: UIViewController {
         let after_lunch_time = "\(mdata.value(forKey: "after_lunch_time") as! Int)"
         
         if after_lunch == "1"{
-            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: timedate!)!
+            let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 00, second: 00, of: timedate!)!
             let after_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_lunch_time)!, to: lunchdate)!
             Time_dates.append(after_lunchalarmdate)
           //  alarmdates.append(EKAlarm(absoluteDate: after_lunchalarmdate))
@@ -314,7 +364,7 @@ class MedicineViewController: UIViewController {
         let before_dinner_time = "\(mdata.value(forKey: "before_dinner_time") as! Int)"
         
         if before_dinner == "1"{
-            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
+            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 00, second: 00, of: timedate!)!
             let before_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_dinner_time)!, to: dinnerdate)!
             Time_dates.append(before_dinneralarmdate)
          //   alarmdates.append(EKAlarm(absoluteDate: before_dinneralarmdate))
@@ -324,7 +374,7 @@ class MedicineViewController: UIViewController {
         let after_dinner_time = "\(mdata.value(forKey: "after_dinner_time") as! Int)"
         
         if after_dinner == "1"{
-            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: timedate!)!
+            let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 00, second: 00, of: timedate!)!
             let after_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_dinner_time)!, to: dinnerdate)!
             Time_dates.append(after_dinneralarmdate)
         //    alarmdates.append(EKAlarm(absoluteDate: after_dinneralarmdate))
@@ -360,7 +410,7 @@ class MedicineViewController: UIViewController {
                 }
             }
         }
-        
+        print(DailyComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: DailyComponents)
         
 //        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
@@ -439,7 +489,7 @@ class MedicineViewController: UIViewController {
         let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
 
         for date in datesBetweenArray {
-            print("dates: \(date)")
+            //print("dates: \(date)")
             let weekday = Calendar.current.component(.weekday, from: date)
             
             if weekdays.contains(weekday) {
@@ -462,8 +512,8 @@ class MedicineViewController: UIViewController {
                 }
             }
         }
-        
-        self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
+        print(weekdayComponents)
+      //  self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
         
 //        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
 //                              notes: patient_problem,
@@ -492,7 +542,7 @@ class MedicineViewController: UIViewController {
         let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
         
         for date in datesBetweenArray {
-            print("dates: \(date)")
+           // print("dates: \(date)")
             
             for time in Time_dates {
                 let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
@@ -524,7 +574,7 @@ class MedicineViewController: UIViewController {
                 }
             }
         }
-        
+        print(IntervalComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: IntervalComponents)
         
 //        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",

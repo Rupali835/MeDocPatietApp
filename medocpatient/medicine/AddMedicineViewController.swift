@@ -46,6 +46,8 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utilities.shared.cornerRadius(objects: [donebtn], number: 10.0)
+        
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         donebtn.addTarget(self, action: #selector(Action_Done), for: .touchUpInside)
         

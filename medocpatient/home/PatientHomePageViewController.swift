@@ -12,6 +12,7 @@ import SDWebImage
 import WebKit
 import SVGKit
 import UserNotifications
+import WatchConnectivity
 
 class PatientHomePageViewController: UIViewController{
     
@@ -50,7 +51,11 @@ class PatientHomePageViewController: UIViewController{
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        
+        if (WCSession.isSupported()) {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
         for item in icons {
             let image = SVGKImage(named: item)?.uiImage
             image?.accessibilityIdentifier = item
@@ -82,6 +87,7 @@ class PatientHomePageViewController: UIViewController{
         }
         // Do any additional setup after loading the view.
     }
+    
     @objc func moreAction(){
         UIView.animate(withDuration: 0.3) {
             self.MoreView.transform = .identity
@@ -142,17 +148,33 @@ class PatientHomePageViewController: UIViewController{
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     override func viewDidAppear(_ animated: Bool) {
+        
         Name.text = UserDefaults.standard.string(forKey: "name")
         let img = UserDefaults.standard.string(forKey: "profile_image")
         imagesPicView.sd_setImage(with: URL(string: "\(ApiServices.shared.imageorpdfUrl)\(img!)"), placeholderImage: #imageLiteral(resourceName: "man.png"), options: .continueInBackground, completed: nil)
         
+       // passdataTowatch()
+    }
+    func passdataTowatch(){
         UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
             print("App Count: \(notifications.count)")
+            // send a message to the watch if it's reachable
             for item in notifications {
-                //UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.identifier])
-                
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.identifier])
                 print("App: \(item)")
             }
+            
+            if (WCSession.default.isReachable) {
+                // this is a meaningless message, but it's enough for our purposes
+                do {
+                    let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
+                    let message = ["notification": data]
+                    WCSession.default.sendMessage(message, replyHandler: nil)
+                } catch {
+                    print("catch nskeyarchiever")
+                }
+            }
+            
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -389,5 +411,18 @@ extension PatientHomePageViewController: UICollectionViewDataSource, UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+    }
+}
+extension PatientHomePageViewController: WCSessionDelegate{
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("App- session")
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("App- sessionDidBecomeInactive")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("App- sessionDidDeactivate")
     }
 }

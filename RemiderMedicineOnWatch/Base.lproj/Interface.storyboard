@@ -9,21 +9,50 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.21"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Medicines-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="RemiderMedicineOnWatch_Extension">
+                <controller identifier="InterfaceController" title="Medicines" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="RemiderMedicineOnWatch_Extension">
                     <items>
-                        <button width="1" alignment="left" title="Get Count" id="1ps-8O-yM0">
+                        <button width="1" height="25" alignment="left" title="Refresh" id="LiJ-KS-pbz">
+                            <fontDescription key="font" type="system" pointSize="15"/>
                             <connections>
-                                <action selector="Action" destination="AgC-eL-Hgc" id="s81-4L-rkl"/>
+                                <action selector="refeshbuttonAction" destination="AgC-eL-Hgc" id="a5l-zk-cgg"/>
                             </connections>
                         </button>
-                        <label width="136" height="103" alignment="left" text="Label" textAlignment="center" id="0n4-i3-ZuS"/>
+                        <table alignment="left" id="AHa-6J-ado">
+                            <items>
+                                <tableRow identifier="RowController" id="bOA-QA-uDp" customClass="RowController" customModule="RemiderMedicineOnWatch_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" spacing="0.0" id="6fN-jo-Myb">
+                                        <items>
+                                            <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="PnR-iq-i0s">
+                                                <fontDescription key="font" type="boldSystem" pointSize="18"/>
+                                            </label>
+                                            <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="bda-Uk-1WD">
+                                                <color key="textColor" red="0.61882403720000001" green="0.96464198830000003" blue="0.70615473760000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                                            </label>
+                                            <label width="1" alignment="left" text="Label" id="r6n-Z2-3dC">
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="15"/>
+                                            </label>
+                                            <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="Uc2-cu-RZc">
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="15"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="medicinename" destination="PnR-iq-i0s" id="sIW-JQ-6Fq"/>
+                                        <outlet property="medicinetype" destination="bda-Uk-1WD" id="oNy-gH-ySE"/>
+                                        <outlet property="quantity" destination="r6n-Z2-3dC" id="9KW-ow-FzE"/>
+                                        <outlet property="time" destination="Uc2-cu-RZc" id="szr-Mq-UdZ"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
                     </items>
                     <connections>
-                        <outlet property="button" destination="1ps-8O-yM0" id="Qjk-p7-5aU"/>
-                        <outlet property="label" destination="0n4-i3-ZuS" id="z0B-W5-3R4"/>
+                        <outlet property="refeshbutton" destination="LiJ-KS-pbz" id="GOc-TF-BoT"/>
+                        <outlet property="table" destination="AHa-6J-ado" id="Hxp-0j-bUr"/>
                     </connections>
                 </controller>
             </objects>

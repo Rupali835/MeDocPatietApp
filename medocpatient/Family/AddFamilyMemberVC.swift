@@ -33,6 +33,8 @@ class AddFamilyMemberVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utilities.shared.cornerRadius(objects: [Add], number: 10.0)
+        
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         Add.addTarget(self, action: #selector(AddAction), for: .touchUpInside)
        // RelationshipBtn.addTarget(self, action: #selector(Actionselectrelation), for: .touchUpInside)

@@ -258,6 +258,8 @@
 		1C6CD73922BCC3F000F29D06 /* Powder.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Powder.svg; sourceTree = "<group>"; };
 		1C6CD73A22BCC3F000F29D06 /* Gel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gel.svg; sourceTree = "<group>"; };
 		1C6CD73B22BCC3F000F29D06 /* Syrup.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Syrup.svg; sourceTree = "<group>"; };
+		1C6F07C022DEEED600095842 /* RemiderMedicineOnWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RemiderMedicineOnWatch.entitlements; sourceTree = "<group>"; };
+		1C6F07C122DEEEEA00095842 /* NotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationContent.entitlements; sourceTree = "<group>"; };
 		1C8F9D2D22DDB27800EBC090 /* AddMedicineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicineViewController.swift; sourceTree = "<group>"; };
 		1C93C40B2268853500AF6989 /* PHQ-9ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHQ-9ViewController.swift"; sourceTree = "<group>"; };
 		1C93C40E22688EEA00AF6989 /* AddPHQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPHQViewController.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 		1CA2ECEA22D857E90017DD08 /* RemiderMedicineOnWatch */ = {
 			isa = PBXGroup;
 			children = (
+				1C6F07C022DEEED600095842 /* RemiderMedicineOnWatch.entitlements */,
 				1CA2ECEB22D857E90017DD08 /* Interface.storyboard */,
 				1CA2ECEE22D857EB0017DD08 /* Assets.xcassets */,
 				1CA2ECF022D857EB0017DD08 /* Info.plist */,
@@ -546,6 +549,7 @@
 		1CA2ED1D22D8B6730017DD08 /* NotificationContent */ = {
 			isa = PBXGroup;
 			children = (
+				1C6F07C122DEEEEA00095842 /* NotificationContent.entitlements */,
 				1CA2ED1E22D8B6730017DD08 /* NotificationViewController.swift */,
 				1CA2ED2022D8B6730017DD08 /* MainInterface.storyboard */,
 				1CA2ED2322D8B6730017DD08 /* Info.plist */,
@@ -901,6 +905,11 @@
 				TargetAttributes = {
 					1CA2ECE822D857E90017DD08 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					1CA2ECF422D857EB0017DD08 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -912,6 +921,11 @@
 					};
 					1CA2ED1722D8B6730017DD08 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					57254B4B21D4BC5B00B38849 = {
 						CreatedOnToolsVersion = 10.1;
@@ -1287,6 +1301,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RemiderMedicineOnWatch/RemiderMedicineOnWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
@@ -1307,6 +1322,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RemiderMedicineOnWatch/RemiderMedicineOnWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
@@ -1375,6 +1391,7 @@
 		1CA2ED2822D8B6730017DD08 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
@@ -1396,6 +1413,7 @@
 		1CA2ED2922D8B6730017DD08 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;

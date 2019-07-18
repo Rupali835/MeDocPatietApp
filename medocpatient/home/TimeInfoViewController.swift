@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import UserNotifications
+import WatchConnectivity
 
 class TimeInfoViewController: UIViewController {
 
@@ -25,8 +27,100 @@ class TimeInfoViewController: UIViewController {
         btn_ok.setTitle("OK".localized(), for: .normal)
         // Do any additional setup after loading the view.
     }
+//    override func viewDidAppear(_ animated: Bool) {
+//        setlocal()
+//    }
     @IBAction func ok(){
         self.dismiss(animated: true, completion: nil)
+    }
+    func passdataTowatch(){
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
+            print("App Count: \(notifications.count)")
+            // send a message to the watch if it's reachable
+            
+            if (WCSession.default.isReachable) {
+                // this is a meaningless message, but it's enough for our purposes
+                do {
+                    let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
+                    let message = ["notification": data]
+                    WCSession.default.sendMessage(message, replyHandler: nil)
+                } catch {
+                    print("catch nskeyarchiever")
+                }
+            }
+            for item in notifications {
+                UNUserNotificationCenter.current().removePendingNotificationRequests(
+                withIdentifiers: [item.identifier])
+                print("App: \(item)")
+            }
+        }
+    }
+    func setlocal(){
+        let currentDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: Date())
+        
+        var datecomponenets1 = DateComponents()
+        datecomponenets1.day = currentDate.day!
+        datecomponenets1.month = currentDate.month
+        datecomponenets1.year = currentDate.year
+        datecomponenets1.hour = currentDate.hour
+        datecomponenets1.minute = currentDate.minute
+        datecomponenets1.second = currentDate.second! + 10
+        
+        var datecomponenets2 = DateComponents()
+        datecomponenets2.day = currentDate.day!
+        datecomponenets2.month = currentDate.month
+        datecomponenets2.year = currentDate.year
+        datecomponenets2.hour = currentDate.hour
+        datecomponenets2.minute = currentDate.minute! + 2
+        datecomponenets2.second = currentDate.second
+        
+        var datecomponenets3 = DateComponents()
+        datecomponenets3.day = currentDate.day!
+        datecomponenets3.month = currentDate.month
+        datecomponenets3.year = currentDate.year
+        datecomponenets3.hour = currentDate.hour
+        datecomponenets3.minute = currentDate.minute! + 3
+        datecomponenets3.second = currentDate.second
+        
+        LocaladdnotificationSetup(id: 1, title: "1", subtitle: "1.1", body: "2.1", imagename: "Cream", datecomponent: datecomponenets1)
+      //  LocaladdnotificationSetup(id: 2, title: "2", subtitle: "1.2", body: "2.2", imagename: "Capsules", datecomponent: datecomponenets2)
+       // LocaladdnotificationSetup(id: 3, title: "3", subtitle: "1.3", body: "2.3", imagename: "Tablet", datecomponent: datecomponenets3)
+    }
+    func LocaladdnotificationSetup(id: Int,title: String?,subtitle: String?,body: String?,imagename: String?,datecomponent: DateComponents){
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Time to Take \(title ?? "")"
+        content.subtitle = subtitle ?? ""
+        content.body = "Cheif Complain: \(body ?? "Not Mentioned")"
+        content.categoryIdentifier = CategoryIdentifier
+        
+        let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
+        
+        let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 15 Minute ⏱", options: [])
+        let TakenAction = UNNotificationAction(identifier: TakenIdentifier, title: "Medicine Taken! 👍 ", options: [])
+        
+        let category = UNNotificationCategory(identifier: CategoryIdentifier, actions: [TakenAction,snoozeAction], intentIdentifiers: [], options: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        let requestidentifier = "notification.id-\(id)-\(subtitle!)"
+        if url != nil {
+            if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
+                content.attachments = [attachment]
+            }
+        }
+        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: datecomponent, repeats: false)
+        let request = UNNotificationRequest(identifier: requestidentifier, content: content, trigger: trigger)
+        print(request)
+        
+        UNUserNotificationCenter.current().add(request){ (error) in
+            if error != nil {
+                print("Request Error: \(error?.localizedDescription)")
+            }
+        }
+        
     }
 }
 /*
