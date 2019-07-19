@@ -136,7 +136,7 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
         }
         else if self.IntervalTypeRadio[2].isSelected == true{
             self.title_period.text = "Days"
-            self.title_time_interval.text = "times to take Medicine on Before OR After Interval"
+            self.title_time_interval.text = "hour before or/and after interval."
             self.height_of_time_interval.constant = 45
             self.tf_time_interval.isHidden = false
         }
@@ -247,7 +247,7 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
                 return false
             }
             else if self.tf_time_interval.text?.isEmpty == true{
-                Utilities.shared.showToast(text: "Enter How Many Time To Take Medicine on Before OR After Interval", duration: 5.0)
+                Utilities.shared.showToast(text: "Enter How Many Hours.it will remind you to take medicine in Every Hour on Before OR/AND After Interval", duration: 5.0)
                 return false
             }
         }

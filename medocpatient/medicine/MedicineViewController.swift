@@ -123,9 +123,10 @@ class MedicineViewController: UIViewController {
 
         for (i,date) in datecomponent.enumerated() {
             let requestidentifier = "notification.id-\(id)-\(i)"
-            if let attachment = create(imageFileIdentifier: requestidentifier, data: UIImage(named: imagename!)?.pngData()! as! NSData, options: nil) {
-                content.attachments = [attachment]
-            }
+            print("requestidentifier: \(requestidentifier)")
+//            if let attachment = create(imageFileIdentifier: requestidentifier, data: UIImage(named: imagename!)?.pngData()! as! NSData, options: nil) {
+//                content.attachments = [attachment]
+//            }
 //            if url != nil {
 //                if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
 //                    content.attachments = [attachment]
@@ -134,7 +135,7 @@ class MedicineViewController: UIViewController {
             //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
-            let request = UNNotificationRequest(identifier: "notification.id-\(id)-\(i)", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: requestidentifier, content: content, trigger: trigger)
             
             print("request: \(request)")
             UNUserNotificationCenter.current().add(request) {
@@ -234,11 +235,21 @@ class MedicineViewController: UIViewController {
             
             if bool == true {
                 if (WCSession.default.isReachable) {
+
                     // this is a meaningless message, but it's enough for our purposes
                     do {
                         let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
                         let message = ["notification": data]
                         WCSession.default.sendMessage(message, replyHandler: nil)
+                    } catch {
+                        print("catch nskeyarchiever")
+                    }
+                } else {
+                    do {
+                        let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
+                        let def = UserDefaults(suiteName: "group.com.kanishka.medocpatient")
+                        def?.set(data, forKey: "pending_notification")
+                        def?.synchronize()
                     } catch {
                         print("catch nskeyarchiever")
                     }
@@ -405,9 +416,10 @@ class MedicineViewController: UIViewController {
                 component.minute = Time.minute
                 component.second = Time.second
                 
-                if date >= Date(){
-                    DailyComponents.append(component)
-                }
+                print(component)
+               // if date >= Date(){
+                DailyComponents.append(component)
+               // }
             }
         }
         print(DailyComponents)
@@ -483,7 +495,6 @@ class MedicineViewController: UIViewController {
             break;
         }
         
-        print("Adding Weekly Reminder")
         var weekdayComponents = [DateComponents]()
         
         let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
@@ -506,14 +517,14 @@ class MedicineViewController: UIViewController {
                     component.minute = Time.minute
                     component.second = Time.second
                     
-                    if date >= Date(){
+                   // if date >= Date(){
                         weekdayComponents.append(component)
-                    }
+                   // }
                 }
             }
         }
         print(weekdayComponents)
-      //  self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
+        self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
         
 //        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
 //                              notes: patient_problem,
@@ -542,7 +553,7 @@ class MedicineViewController: UIViewController {
         let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
         
         for date in datesBetweenArray {
-           // print("dates: \(date)")
+            print("dates: \(date)")
             
             for time in Time_dates {
                 let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
@@ -553,25 +564,29 @@ class MedicineViewController: UIViewController {
                 component.year = DailyDate.year
                 
                 let int_time = interval_time == "" ? 0 : Int(interval_time)!
-                
-                var eachtime = 0
-                
-                for _ in 0...int_time {
-                    
-                    let addtime = Calendar.current.date(byAdding: .minute, value: eachtime, to: time)!
+                var everytime = 0
+
+                for i in 0...int_time {
+                    print(i)
+                    let addtime = Calendar.current.date(byAdding: .minute, value: everytime, to: time)!
                     
                     let Time = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: addtime)
+                    print(Time)
                     
                     component.hour = Time.hour
                     component.minute = Time.minute
                     component.second = Time.second
                     
-                    eachtime += 15
+                    if i == int_time {
+                        
+                    } else {
+                      //  if date >= Date(){
+                            IntervalComponents.append(component)
+                      //  }
+                        everytime += 60
+                    }
                 }
                 
-                if date >= Date(){
-                    IntervalComponents.append(component)
-                }
             }
         }
         print(IntervalComponents)

@@ -2256,8 +2256,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcj-gb-B8E" customClass="Cardview" customModule="medocpatient" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="10" width="300" height="251"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Daily" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbO-JU-fMr">
-                                                            <rect key="frame" x="75" y="73" width="47.5" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Daily" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbO-JU-fMr">
+                                                            <rect key="frame" x="75" y="73" width="215" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -2356,6 +2356,7 @@ Before 15 minute of breakfast</string>
                                                         <constraint firstItem="2cZ-7Y-ODK" firstAttribute="centerY" secondItem="Zxf-j0-LgI" secondAttribute="centerY" id="13P-Z0-tFj"/>
                                                         <constraint firstItem="uHa-Io-fsX" firstAttribute="centerY" secondItem="mGC-Wp-3ze" secondAttribute="centerY" id="9Tm-VZ-WaJ"/>
                                                         <constraint firstAttribute="bottom" secondItem="Ekw-2X-VZd" secondAttribute="bottom" constant="10" id="Cr9-Sp-FtK"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JbO-JU-fMr" secondAttribute="trailing" constant="10" id="DWB-b9-qqw"/>
                                                         <constraint firstItem="Zxf-j0-LgI" firstAttribute="centerY" secondItem="A8d-2a-Eyf" secondAttribute="centerY" id="DWy-gF-DoE"/>
                                                         <constraint firstItem="osv-ku-Urs" firstAttribute="leading" secondItem="fcj-gb-B8E" secondAttribute="leading" constant="15" id="Dky-YR-azj"/>
                                                         <constraint firstItem="TcN-au-caT" firstAttribute="trailing" secondItem="Y8H-9I-hc9" secondAttribute="trailing" id="Eoo-fw-fib"/>

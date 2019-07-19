@@ -104,11 +104,11 @@ class TimeInfoViewController: UIViewController {
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
         let requestidentifier = "notification.id-\(id)-\(subtitle!)"
-        if url != nil {
-            if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
-                content.attachments = [attachment]
-            }
-        }
+//        if url != nil {
+//            if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
+//                content.attachments = [attachment]
+//            }
+//        }
         //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: datecomponent, repeats: false)

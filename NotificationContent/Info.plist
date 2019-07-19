@@ -25,9 +25,9 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>UNNotificationExtensionCategory</key>
-			<string>Medicines</string>
+			<string>Mediciness</string>
 			<key>UNNotificationExtensionDefaultContentHidden</key>
-			<true/>
+			<false/>
 			<key>UNNotificationExtensionInitialContentSizeRatio</key>
 			<real>1</real>
 		</dict>

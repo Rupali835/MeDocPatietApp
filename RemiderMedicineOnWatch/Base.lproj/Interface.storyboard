@@ -14,16 +14,18 @@
             <objects>
                 <controller identifier="InterfaceController" title="Medicines" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="RemiderMedicineOnWatch_Extension">
                     <items>
-                        <button width="1" height="25" alignment="left" title="Refresh" id="LiJ-KS-pbz">
-                            <fontDescription key="font" type="system" pointSize="15"/>
+                        <button width="1" height="35" alignment="left" title="Refresh" id="LiJ-KS-pbz">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="font" type="boldSystem" pointSize="15"/>
                             <connections>
                                 <action selector="refeshbuttonAction" destination="AgC-eL-Hgc" id="a5l-zk-cgg"/>
                             </connections>
                         </button>
-                        <table alignment="left" id="AHa-6J-ado">
+                        <table alignment="left" spacing="5" pagingScroll="YES" id="AHa-6J-ado">
                             <items>
                                 <tableRow identifier="RowController" id="bOA-QA-uDp" customClass="RowController" customModule="RemiderMedicineOnWatch_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" spacing="0.0" id="6fN-jo-Myb">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" radius="5" spacing="5" id="6fN-jo-Myb">
                                         <items>
                                             <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="PnR-iq-i0s">
                                                 <fontDescription key="font" type="boldSystem" pointSize="18"/>
@@ -36,9 +38,11 @@
                                                 <fontDescription key="font" type="system" weight="medium" pointSize="15"/>
                                             </label>
                                             <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="Uc2-cu-RZc">
-                                                <fontDescription key="font" type="system" weight="semibold" pointSize="15"/>
+                                                <color key="textColor" red="0.9523049857" green="0.57810515169999999" blue="0.0" alpha="0.88770869009999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="14"/>
                                             </label>
                                         </items>
+                                        <edgeInsets key="margins" left="5" right="5" top="5" bottom="5"/>
                                     </group>
                                     <connections>
                                         <outlet property="medicinename" destination="PnR-iq-i0s" id="sIW-JQ-6Fq"/>

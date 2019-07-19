@@ -25,6 +25,7 @@ class InterfaceController: WKInterfaceController {
     
     var pending_notifications = [UNNotificationRequest]()
     var session : WCSession!
+    let def = UserDefaults(suiteName: "group.com.kanishka.medocpatient")
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -33,19 +34,25 @@ class InterfaceController: WKInterfaceController {
     }
     func Show_notification_list(){
         do {
-            let data = UserDefaults.standard.data(forKey: "pending_notification")
+            let data = def?.data(forKey: "pending_notification")
             if data == nil {
                 self.table.setNumberOfRows(0, withRowType: "RowController")
             } else {
                 if let notification = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data!) as? [UNNotificationRequest] {
                     
-                    self.pending_notifications = notification.filter { (filterdata) in
+                    var filter = notification.filter { (filterdata) in
                         let datecomponents = (filterdata.trigger as! UNCalendarNotificationTrigger).dateComponents
                         let triggerdate = Calendar.current.date(from: datecomponents)
                         return triggerdate! >= Date()
                     }
+                    
+                    let sort = filter.sorted {
+                        Calendar.current.date(from: ($0.trigger! as! UNCalendarNotificationTrigger).dateComponents)!.compare(Calendar.current.date(from: ($1.trigger! as! UNCalendarNotificationTrigger).dateComponents)!) == .orderedAscending
+                    }
+                    
+                    self.pending_notifications = sort
                     //self.pending_notifications = notification
-                    print(self.pending_notifications)
+                    print(self.pending_notifications.count)
 
                     self.Setup_tablerows()
                 }
@@ -74,7 +81,17 @@ class InterfaceController: WKInterfaceController {
                 
                 if let time = item.trigger as? UNCalendarNotificationTrigger {
                     let c = time.dateComponents
-                    rowControl.time.setText("\(c.day!)/\(c.month!)/\(c.year!)   \(c.hour!):\(c.minute!)")
+                    let date = Calendar.current.date(from: c)
+                    
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "h:mm a 'on' dd/MM/yy"
+                    formatter.amSymbol = "AM"
+                    formatter.pmSymbol = "PM"
+                    
+                    let dateString = formatter.string(from: date!)
+                    print(dateString)
+                    rowControl.time.setText(dateString)
+                    //rowControl.time.setText("\(c.day!)/\(c.month!)/\(c.year!)   \(c.hour!):\(c.minute!)")
                 }
             }
         }
@@ -92,6 +109,7 @@ class InterfaceController: WKInterfaceController {
             self.session.delegate = self
             self.session.activate()
         }
+        
         pending_notifications = [UNNotificationRequest]()
         self.table.setNumberOfRows(0, withRowType: "RowController")
         Show_notification_list()
@@ -125,8 +143,8 @@ extension InterfaceController: WCSessionDelegate{
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
       //  print(message)
         DispatchQueue.main.async {
-            UserDefaults.standard.set(message["notification"], forKey: "pending_notification")
-            UserDefaults.standard.synchronize()
+            self.def?.set(message["notification"], forKey: "pending_notification")
+            self.def?.synchronize()
             self.Show_notification_list()
         }
     }
