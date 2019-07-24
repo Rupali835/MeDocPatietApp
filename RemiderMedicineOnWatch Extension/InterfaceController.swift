@@ -26,15 +26,29 @@ class InterfaceController: WKInterfaceController {
     var pending_notifications = [UNNotificationRequest]()
     var session : WCSession!
     let def = UserDefaults(suiteName: "group.com.kanishka.medocpatient")
+    var data : Data?
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         //UserDefaults.standard.set(Data(), forKey: "pending_notification")
         // Configure interface objects here.
     }
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user
+        super.willActivate()
+        if WCSession.isSupported() {
+            self.session = WCSession.default
+            self.session.delegate = self
+            self.session.activate()
+        }
+        
+        pending_notifications = [UNNotificationRequest]()
+        self.table.setNumberOfRows(0, withRowType: "RowController")
+        Show_notification_list()
+    }
     func Show_notification_list(){
         do {
-            let data = def?.data(forKey: "pending_notification")
+            data = self.def?.data(forKey: "pending_notification")
             if data == nil {
                 self.table.setNumberOfRows(0, withRowType: "RowController")
             } else {
@@ -101,19 +115,6 @@ class InterfaceController: WKInterfaceController {
             self.Show_notification_list()
         }
     }
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-        if WCSession.isSupported() {
-            self.session = WCSession.default
-            self.session.delegate = self
-            self.session.activate()
-        }
-        
-        pending_notifications = [UNNotificationRequest]()
-        self.table.setNumberOfRows(0, withRowType: "RowController")
-        Show_notification_list()
-    }
     
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
@@ -143,9 +144,33 @@ extension InterfaceController: WCSessionDelegate{
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
       //  print(message)
         DispatchQueue.main.async {
-            self.def?.set(message["notification"], forKey: "pending_notification")
-            self.def?.synchronize()
-            self.Show_notification_list()
+            if let notification = message["notification"] {
+                self.def?.set(notification, forKey: "pending_notification")
+                self.def?.synchronize()
+                self.Show_notification_list()
+            }
+            else if let addsooze = message["AddSoonze"] as? Data {
+                self.data = self.def?.data(forKey: "pending_notification")
+                
+                do {
+                    let soonzenotification = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(addsooze) as? UNNotificationRequest
+                    print("soonze;\(soonzenotification)")
+
+                    var notification = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(self.data!) as? [UNNotificationRequest]
+                    
+                    notification?.append(soonzenotification!)
+                    
+                    let data = try? NSKeyedArchiver.archivedData(withRootObject: notification, requiringSecureCoding: false)
+                    
+                    self.def?.set(data, forKey: "pending_notification")
+                    self.def?.synchronize()
+                    self.Show_notification_list()
+                } catch { }
+            }
+            else {
+                self.Show_notification_list()
+            }
         }
     }
+    
 }

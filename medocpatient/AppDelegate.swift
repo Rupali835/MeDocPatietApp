@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceTokenString: String?
     var notificationBadgeCount = Int(0)
     var fcm_token : String?
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         application.statusBarStyle = .default
@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.registerForPushNotifications()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
+        
         // Override point for customization after application launch.
         return true
     }
@@ -218,7 +219,8 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
         print(userInfo)
         
         if response.actionIdentifier == SoonzeIdentifier {
-            let content = response.notification.request.content
+            let request = response.notification.request
+            let content = request.content
             print(content)
             let attachments = content.attachments as? [UNNotificationAttachment]
             
@@ -238,7 +240,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
                 dateMatching: components,
                 repeats: false)
             let snoozeRequest = UNNotificationRequest(
-                identifier: attachments?[0].identifier ?? "",
+                identifier: request.identifier,
                 content: content,
                 trigger: snoozeTrigger)
             center.add(snoozeRequest){
@@ -246,9 +248,46 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
                 if error != nil {
                     print("Snooze Request Error: \(error?.localizedDescription)")
                 }
+                else {
+                    if (WCSession.default.isReachable) {
+                        do {
+                            let data = try NSKeyedArchiver.archivedData(withRootObject: snoozeRequest, requiringSecureCoding: false)
+                            let message = ["AddSoonze": data]
+                            WCSession.default.sendMessage(message, replyHandler: nil)
+                        } catch {
+                            print("catch nskeyarchiever")
+                        }
+                    }
+                }
             }
         }
-    
+        else if response.actionIdentifier == TakenIdentifier {
+            let request = response.notification.request
+            let content = response.notification.request.content
+            print(content)
+            
+            let medicineid: String = String(request.identifier.split(separator: "-")[1])
+            
+            let takendata = ["id": medicineid,"time": Date()] as [String : Any]
+            var gettakenmedicinetime = UserDefaults.standard.array(forKey: "TakenMedicineTime") as? [[String: Any]]
+            
+            if gettakenmedicinetime?.count == 0 || gettakenmedicinetime == nil {
+                var dict = [[String: Any]]()
+                dict.append(takendata)
+                UserDefaults.standard.set(dict, forKey: "TakenMedicineTime")
+                UserDefaults.standard.synchronize()
+            } else {
+                gettakenmedicinetime?.append(takendata)
+                UserDefaults.standard.set(gettakenmedicinetime, forKey: "TakenMedicineTime")
+                UserDefaults.standard.synchronize()
+            }
+            
+            
+            if (WCSession.default.isReachable) {
+                let message = ["refresh": true]
+                WCSession.default.sendMessage(message, replyHandler: nil)
+            }
+        }
         
         completionHandler()
     }
@@ -269,7 +308,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
-    func instance() ->  AppDelegate{
+    func instance() -> AppDelegate{
         return AppDelegate()
     }
 }

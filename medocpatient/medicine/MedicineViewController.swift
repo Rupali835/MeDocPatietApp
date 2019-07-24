@@ -235,21 +235,10 @@ class MedicineViewController: UIViewController {
             
             if bool == true {
                 if (WCSession.default.isReachable) {
-
-                    // this is a meaningless message, but it's enough for our purposes
                     do {
                         let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
                         let message = ["notification": data]
                         WCSession.default.sendMessage(message, replyHandler: nil)
-                    } catch {
-                        print("catch nskeyarchiever")
-                    }
-                } else {
-                    do {
-                        let data = try NSKeyedArchiver.archivedData(withRootObject: notifications, requiringSecureCoding: false)
-                        let def = UserDefaults(suiteName: "group.com.kanishka.medocpatient")
-                        def?.set(data, forKey: "pending_notification")
-                        def?.synchronize()
                     } catch {
                         print("catch nskeyarchiever")
                     }

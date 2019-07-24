@@ -33,6 +33,8 @@ class MedicineTableViewCell: UITableViewCell {
     @IBOutlet var end_year: UILabel!
     @IBOutlet var end_time: UILabel!
     
+    @IBOutlet var lastmedicinetakentime : UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,6 +48,7 @@ class MedicineTableViewCell: UITableViewCell {
     
     func SetCellData(d: NSDictionary,images_types: [UIImage?],indexPath: IndexPath){
         var timeslot = [String]()
+        let id = d.value(forKey: "id") as? Int ?? 0
 
         timeslot.removeAll()
         
@@ -224,15 +227,35 @@ class MedicineTableViewCell: UITableViewCell {
             // medicinecell.end_time.text = dateSeparate[3]
             
             if endDate! >= Date() {
-                print("\(indexPath.row)-Current")
+                print("\(indexPath.section)/\(indexPath.row)-Current-\(name)")
                 self.cardview.backgroundColor = UIColor(hexString: "#69f0ae")
                 self.currentMedicineColor(primarycolor: UIColor.black, secondarycolor: UIColor.darkGray)
             }
             else {
-                print("\(indexPath.row)-Non-Current")
+                print("\(indexPath.section)/\(indexPath.row)-NonCurrent-\(name)")
                 self.cardview.backgroundColor = UIColor.white
                 self.non_currentMedicineColor(primarycolor: UIColor.black, secondarycolor: .darkGray)
             }
+        }
+        self.lastmedicinetakentime.text = ""
+        let takenmedicineArray = UserDefaults.standard.array(forKey: "TakenMedicineTime") as? [[String: Any]]
+        
+        do {
+            if let takenarray = takenmedicineArray {
+                for item in takenarray {
+                    if item["id"] as! String == String(id) {
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "h:mm a 'on' dd/MM/yy"
+                        formatter.amSymbol = "AM"
+                        formatter.pmSymbol = "PM"
+                        let date = item["time"] as? Date
+                        let dateString = formatter.string(from: date!)
+                        self.lastmedicinetakentime.text = "Last Medicine Taken Time:\n\(dateString)"
+                    }
+                }
+            }
+        } catch {
+            print("catch takenmedicineArray")
         }
     }
 
