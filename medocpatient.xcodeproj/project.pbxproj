@@ -99,8 +99,10 @@
 		1CB5837122CF5A23003FF55A /* IQToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB5836B22CF5A22003FF55A /* IQToolbar.swift */; };
 		1CB5837222CF5A23003FF55A /* IQInvocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB5836C22CF5A22003FF55A /* IQInvocation.swift */; };
 		1CB5837422CF5A2B003FF55A /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1CB5837322CF5A2B003FF55A /* IQKeyboardManager.bundle */; };
+		1CBDB9EE22F2C53A00CE55F9 /* ZoomImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBDB9ED22F2C53A00CE55F9 /* ZoomImagesCollectionViewController.swift */; };
 		1CC43B9F2265A73000534E6B /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC43B9E2265A73000534E6B /* SelectionViewController.swift */; };
 		1CC43BA12265A7D000534E6B /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */; };
+		1CDEE50C22F07F1900E58413 /* addmedicinecell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEE50B22F07F1900E58413 /* addmedicinecell.swift */; };
 		1CE2F11C22DC4409002A145E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57254B6721D4BD6B00B38849 /* Assets.xcassets */; };
 		1CE2F11F22DC9253002A145E /* AddPrescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE2F11E22DC9253002A145E /* AddPrescriptionViewController.swift */; };
 		1CF88D8222BA35550024AA9D /* blood-pressure.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1CF88D7E22BA35550024AA9D /* blood-pressure.svg */; };
@@ -316,8 +318,10 @@
 		1CB5836B22CF5A22003FF55A /* IQToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQToolbar.swift; sourceTree = "<group>"; };
 		1CB5836C22CF5A22003FF55A /* IQInvocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IQInvocation.swift; sourceTree = "<group>"; };
 		1CB5837322CF5A2B003FF55A /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
+		1CBDB9ED22F2C53A00CE55F9 /* ZoomImagesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomImagesCollectionViewController.swift; sourceTree = "<group>"; };
 		1CC43B9E2265A73000534E6B /* SelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		1CC43BA02265A7D000534E6B /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		1CDEE50B22F07F1900E58413 /* addmedicinecell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addmedicinecell.swift; sourceTree = "<group>"; };
 		1CE2F11E22DC9253002A145E /* AddPrescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPrescriptionViewController.swift; sourceTree = "<group>"; };
 		1CF88D7E22BA35550024AA9D /* blood-pressure.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "blood-pressure.svg"; sourceTree = "<group>"; };
 		1CF88D7F22BA35550024AA9D /* scale.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scale.svg; sourceTree = "<group>"; };
@@ -628,6 +632,7 @@
 				57254BA221D4BE9800B38849 /* QRViewController.swift */,
 				57717F6821F9AF30000EA206 /* AboutUsViewController.swift */,
 				57717F6A21F9CED6000EA206 /* ContactUsViewController.swift */,
+				1CBDB9ED22F2C53A00CE55F9 /* ZoomImagesCollectionViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -668,7 +673,6 @@
 		57254B4E21D4BC5B00B38849 /* medocpatient */ = {
 			isa = PBXGroup;
 			children = (
-				1C60D0A822C9F3BD00637F40 /* Textfield Icons */,
 				575259DD21D60FDC008DB872 /* medocpatient.entitlements */,
 				57254B6821D4BD6B00B38849 /* AppDelegate.swift */,
 				57254B6721D4BD6B00B38849 /* Assets.xcassets */,
@@ -678,6 +682,7 @@
 				575D2E5721F5D34700501D20 /* GoogleService-Info.plist */,
 				57861E7A21D4C67200927E33 /* medocpatient.xcdatamodeld */,
 				1C1052292280553200778367 /* R_4179_1521627488625_0.pdf */,
+				1C60D0A822C9F3BD00637F40 /* Textfield Icons */,
 				1C97D6D222B0E4F5009BC7B9 /* SVG Icons */,
 				1C6CD72A22BCC3B700F29D06 /* MedicineTypeIconSVG */,
 				57254B8D21D4BE6600B38849 /* utility */,
@@ -713,6 +718,7 @@
 				57254BB621D4BF1300B38849 /* MedicineViewController.swift */,
 				57254BB721D4BF1300B38849 /* MedicineTableViewCell.swift */,
 				1C8F9D2D22DDB27800EBC090 /* AddMedicineViewController.swift */,
+				1CDEE50B22F07F1900E58413 /* addmedicinecell.swift */,
 			);
 			path = medicine;
 			sourceTree = "<group>";
@@ -1194,6 +1200,7 @@
 				57254BBA21D4BF1300B38849 /* MedicineTableViewCell.swift in Sources */,
 				57254BCC21D4BF7900B38849 /* PrescriptionTableViewCell.swift in Sources */,
 				57254BA521D4BE9900B38849 /* PatientTableViewCell.swift in Sources */,
+				1CDEE50C22F07F1900E58413 /* addmedicinecell.swift in Sources */,
 				57254B9F21D4BE7F00B38849 /* DataModel.swift in Sources */,
 				5773ED4421F06E79001497E4 /* Cardview.swift in Sources */,
 				1CB5835622CF59F2003FF55A /* IQKeyboardManager.swift in Sources */,
@@ -1209,6 +1216,7 @@
 				1CB5836F22CF5A23003FF55A /* IQTitleBarButtonItem.swift in Sources */,
 				57254B6D21D4BD6C00B38849 /* AppDelegate.swift in Sources */,
 				575259E721D65DE3008DB872 /* EasyToastConfiguration.swift in Sources */,
+				1CBDB9EE22F2C53A00CE55F9 /* ZoomImagesCollectionViewController.swift in Sources */,
 				1CC43BA12265A7D000534E6B /* SelectionTableViewCell.swift in Sources */,
 				1C235D5D227ACC2C000FA40B /* Extensions.swift in Sources */,
 				57254BC621D4BF5100B38849 /* AddReportViewController.swift in Sources */,
@@ -1303,17 +1311,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RemiderMedicineOnWatch/RemiderMedicineOnWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				IBSC_MODULE = RemiderMedicineOnWatch_Extension;
 				INFOPLIST_FILE = RemiderMedicineOnWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -1324,17 +1333,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RemiderMedicineOnWatch/RemiderMedicineOnWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				IBSC_MODULE = RemiderMedicineOnWatch_Extension;
 				INFOPLIST_FILE = RemiderMedicineOnWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -1344,7 +1354,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "RemiderMedicineOnWatch Extension/RemiderMedicineOnWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = "RemiderMedicineOnWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1354,12 +1364,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.watchkitapp.extensions;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient watchkitapp extensions";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -1369,7 +1379,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "RemiderMedicineOnWatch Extension/RemiderMedicineOnWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = "RemiderMedicineOnWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1379,12 +1389,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.watchkitapp.extensions;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient watchkitapp extensions";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -1393,7 +1403,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -1404,6 +1414,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient NotificationContent";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1415,7 +1426,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MC8SFM55TJ;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -1426,6 +1437,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient NotificationContent";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1569,7 +1581,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient";
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -1596,7 +1608,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kanishka.medocpatient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = medocPatientDevelopmentCert;
+				PROVISIONING_PROFILE_SPECIFIER = "Development Medoc Patient";
 				SWIFT_OBJC_BRIDGING_HEADER = "medocpatient/utility/medocpatient-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

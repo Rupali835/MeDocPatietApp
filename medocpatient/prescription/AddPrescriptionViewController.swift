@@ -10,8 +10,11 @@ import UIKit
 import DropDown
 import DBAttachmentPickerController
 import MobileCoreServices
+import Alamofire
 
 class AddPrescriptionViewController: UIViewController {
+    
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
     @IBOutlet var close : UIButton!
 
@@ -19,43 +22,67 @@ class AddPrescriptionViewController: UIViewController {
     @IBOutlet var tf_doctortype: UITextField!
     @IBOutlet var tf_patientproblem: UITextField!
     
-    @IBOutlet var img_Prescription: UIImageView!
-    @IBOutlet var constant_height_of_img_Prescription: NSLayoutConstraint!
-    
     @IBOutlet var btn_clickPrescriptionImages : UIButton!
     @IBOutlet var btn_selectMedicine : UIButton!
     @IBOutlet var btn_Done : UIButton!
     
+    @IBOutlet var collectionview: UICollectionView!
+    @IBOutlet var tableview: UITableView!
+    @IBOutlet var height_of_collectionview: NSLayoutConstraint!
+    @IBOutlet var height_of_tableview: NSLayoutConstraint!
+
     var doctortypelist = [[String:String]]()
     var filter_doctortypelist = [[String:String]]()
-    let dropdown = DropDown()
-    var selectedmedicineid = 0
+    let dropdown_doctortype = DropDown()
+    let dropdown_doctorname = DropDown()
     var pdfurl = URL(string: "NF")!
-    var imagename = ""
     var APC = DBAttachmentPickerController()
-    
+    var doctorlist = NSArray()
+    var filter_doctorlist = NSArray()
+    var images = [[String:Any]]()
+    var allmedicine = [NSDictionary]()
+    var doctorid = "0"
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utilities.shared.cornerRadius(objects: [btn_clickPrescriptionImages,btn_selectMedicine,btn_Done,img_Prescription], number: 10.0)
+        height_of_collectionview.constant = 0
+        height_of_tableview.constant = 0
+        
+        Utilities.shared.cornerRadius(objects: [btn_clickPrescriptionImages,btn_selectMedicine,btn_Done], number: 10.0)
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        tf_doctortype.addTarget(self, action: #selector(handle_tf_doctortype), for: .editingChanged)
+     //   tf_doctorname.addTarget(self, action: #selector(handle_tf_doctorname), for: .editingChanged)
+     //   tf_doctortype.addTarget(self, action: #selector(handle_tf_doctortype), for: .editingChanged)
         btn_clickPrescriptionImages.addTarget(self, action: #selector(Action_btn_clickPrescriptionImages), for: .touchUpInside)
         btn_selectMedicine.addTarget(self, action: #selector(Action_btn_selectMedicine), for: .touchUpInside)
         btn_Done.addTarget(self, action: #selector(Action_btn_Done), for: .touchUpInside)
 
-        dropdown.anchorView = tf_doctortype
+     //   dropdown_doctorname.anchorView = tf_doctorname
         
-        dropdown.direction = .bottom
-        dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
+//        dropdown_doctorname.direction = .bottom
+//        dropdown_doctorname.bottomOffset = CGPoint(x: 0, y:(dropdown_doctorname.anchorView?.plainView.bounds.height)!)
+//
+//        dropdown_doctorname.width = self.tf_doctorname.frame.width
+//
+//        dropdown_doctorname.selectionAction = { [unowned self] (index: Int, item: String) in
+//            self.tf_doctorname.text = item
+//            let d = self.filter_doctorlist.object(at: index) as? NSDictionary
+//            self.doctorid = "\(d?.value(forKey: "doctorId") as! Int)"
+//            print("Selected item: \(item) at index: \(index)")
+//        }
         
-        DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 15)
-        dropdown.width = self.tf_doctortype.frame.width
+       // dropdown_doctortype.anchorView = tf_doctortype
         
-        dropdown.selectionAction = { [unowned self] (index: Int, item: String) in
-            self.tf_doctortype.text = item
-            print("Selected item: \(item) at index: \(index)")
-        }
-        
+//        dropdown_doctortype.direction = .bottom
+//        dropdown_doctortype.bottomOffset = CGPoint(x: 0, y:(dropdown_doctortype.anchorView?.plainView.bounds.height)!)
+//
+//        dropdown_doctortype.width = self.tf_doctortype.frame.width
+//
+//        dropdown_doctortype.selectionAction = { [unowned self] (index: Int, item: String) in
+//            self.tf_doctortype.text = item
+//            print("Selected item: \(item) at index: \(index)")
+//        }
+//        DropDown.appearance().textFont = UIFont.boldSystemFont(ofSize: 15)
+
         NetworkManager.isReachable { _ in
             self.fetchDoctorType()
         }
@@ -68,6 +95,7 @@ class AddPrescriptionViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+
     @objc func Action_btn_clickPrescriptionImages(){
         self.tf_patientproblem.endEditing(true)
         self.tf_doctorname.endEditing(true)
@@ -79,23 +107,25 @@ class AddPrescriptionViewController: UIViewController {
                     self.Action_btn_clickPrescriptionImages()
                 } else {
                     self.APC = DBAttachmentPickerController(finishPicking: { (attachmentArray) in
-                        attachmentArray[0].loadOriginalImage(completion: { (image) in
-                            let timestamp = Date().toMillis()
-                            image?.accessibilityIdentifier = String(describing: timestamp)
-                            self.imagename = "\(String(describing: timestamp!)).jpg"
-                            self.img_Prescription.image = image
-                            self.pdfurl = URL(string: "NF")!
-                            self.constant_height_of_img_Prescription.constant = 150
-                        })
-                        
+                        for (index,attachment) in attachmentArray.enumerated() {
+                            attachment.loadOriginalImage(completion: { (image) in
+                                let timestamp = Date().toMillis()
+                                image?.accessibilityIdentifier = String(describing: timestamp)
+                                let imagename = "\(String(describing: timestamp!)).jpg"
+                                self.images.append(["name": imagename,"image" : image])
+                            })
+                        }
+                        DispatchQueue.main.async {
+                            self.height_of_collectionview.constant = attachmentArray.count > 0 ? 150 : 0
+                            self.collectionview.reloadData()
+                        }
+                        self.pdfurl = URL(string: "NF")!
                     }, cancel: nil)
                     self.APC.mediaType = [.image]
-                    self.APC.allowsMultipleSelection = false
+                    self.APC.allowsMultipleSelection = true
                     self.APC.allowsSelectionFromOtherApps = false
                     self.APC.present(on: self)
-                    
                 }
-                
             }
         }) {
             print("pdf")
@@ -109,14 +139,14 @@ class AddPrescriptionViewController: UIViewController {
         
     }
     @objc func Action_btn_selectMedicine(){
-        let addMedicineVC = self.storyboard?.instantiateViewController(withIdentifier: "MedicineViewController") as! MedicineViewController
-        addMedicineVC.routeFromOtherVC = true
+        let addMedicineVC = self.storyboard?.instantiateViewController(withIdentifier: "AddMedicineViewController") as! AddMedicineViewController
+     //   addMedicineVC.routeFromOtherVC = true
         addMedicineVC.getSelectedMedicine = { data in
-            let id = data.value(forKey: "id") as? Int ?? 0
-            let patient_problem = data.value(forKey: "medicine_name") as? String ?? self.btn_selectMedicine.titleLabel?.text
-            self.selectedmedicineid = id
-            self.btn_selectMedicine.setTitle(patient_problem, for: .normal)
-            print(data)
+            DispatchQueue.main.async {
+                self.allmedicine = data
+                self.height_of_tableview.constant = data.count > 0 ? 300 : 0
+                self.tableview.reloadData()
+            }
         }
         navigationController?.pushViewController(addMedicineVC, animated: true)
     }
@@ -125,21 +155,152 @@ class AddPrescriptionViewController: UIViewController {
             Utilities.shared.showToast(text: "Write Doctor Name", duration: 3.0)
         }
         else if (self.tf_doctortype.text?.isEmpty)! {
-            Utilities.shared.showToast(text: "Write Doctor Type Name", duration: 3.0)
+            Utilities.shared.showToast(text: "Write Doctor Type", duration: 3.0)
         }
         else if (self.tf_patientproblem.text?.isEmpty)! {
             Utilities.shared.showToast(text: "Write Patient Problem", duration: 3.0)
         }
-        else if self.img_Prescription.image == nil{
-            Utilities.shared.showToast(text: "Click One Image", duration: 3.0)
-        }
-        else if self.selectedmedicineid == 0{
-            Utilities.shared.showToast(text: "Select Medicine", duration: 3.0)
+        else if self.images.count == 0 {
+            Utilities.shared.showToast(text: (self.btn_clickPrescriptionImages.titleLabel?.text!)!, duration: 3.0)
         }
         else {
-            Utilities.shared.showToast(text: "Done", duration: 3.0)
+            self.uploadprescription()
         }
     }
+    func json(from object:Any) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject:  object, options: []) else
+        {
+            return nil
+        }
+        
+        return String(data: data, encoding: String.Encoding.utf8)
+    }
+    func uploadprescription(){
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait Adding Prescription")
+        let uploadUrl = ApiServices.shared.baseUrl + "add-prescription-file"
+        let header = ["Authorization": "Bearer \(bearertoken!)",
+                      "Content-Type": "application/json",
+                      "Accept": "application/json"]
+        
+        var Param = [String:Any]()
+        if self.tf_doctorname.text?.isEmpty == false {
+            Param["doctorName"] = self.tf_doctorname.text!
+           // Param["doctor_id"] = self.doctorid
+        }
+        if self.tf_doctortype.text?.isEmpty == false {
+            Param["doctorType"] = self.tf_doctortype.text!
+        }
+        if self.tf_patientproblem.text?.isEmpty == false {
+            Param["patient_problem"] = self.tf_patientproblem.text!
+        }
+        if self.allmedicine.count > 0 {
+            Param["medicines"] = (json(from: self.allmedicine)!)
+        }
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                var imageindex = 0
+                var mimetype = ""
+                var data = Data()
+                var image = UIImage()
+                
+                for item in self.images{
+                    if self.pdfurl.absoluteString != "NF"{
+                        data = try! Data(contentsOf: self.pdfurl)
+                        mimetype = "application/pdf"
+                    } else {
+                        if let img = item["image"] as? UIImage{
+                            data = img.jpegData(compressionQuality: 0.0)!
+                            mimetype = "image/jpg"
+                            image = img
+                        }
+                    }
+                    
+                    multipartFormData.append(data, withName: "p_added_by_patient[]", fileName: item["name"] as! String, mimeType: mimetype)
+                    imageindex = imageindex + 1
+                    
+                    for (key, value) in Param {
+                        multipartFormData.append("\(value)".data(using: String.Encoding.utf8)!, withName: key)
+                    }
+                }
+        }, usingThreshold : SessionManager.multipartFormDataEncodingMemoryThreshold,
+           to : uploadUrl,
+           method: .post,
+           headers: header)
+        { (result) in
+            switch result{
+            case .success(let upload, _, _):
+                upload.uploadProgress(closure: { (Progress) in
+                    print("Upload Progress: \(Progress.fractionCompleted)")
+                })
+                upload.responseJSON { resp in
+                    if let JSON = resp.result.value as? [String: Any] {
+                        print("Response : ",JSON)
+                        let msg = JSON["msg"] as? String
+                        if msg == "success"{
+                            if let pres = JSON["prescription"] as? [String:Any] {
+                                if let id = pres["id"] as? Int {
+                                    if self.allmedicine.count > 0 {
+                                        self.uploadmedicineby(prescription_id: id)
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            Utilities.shared.RemoveLoaderView()
+                                            NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
+                                            Utilities.shared.showToast(text: "Prescription Added Successfully", duration: 3.0)
+                                            self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            Utilities.shared.RemoveLoaderView()
+                            Utilities.shared.showToast(text: msg!, duration: 3.0)
+                        }
+                    }
+                }
+            case .failure(let encodingError):
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
+                }
+                print(encodingError)
+            }
+        }
+    }
+    func uploadmedicineby(prescription_id: Int){
+        var param : [String: Any] = ["prescription_id": prescription_id,
+                                     "medicines": self.json(from: self.allmedicine)!]
+        
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "add-medicines-for-a-prescription", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        DispatchQueue.main.async {
+                            Utilities.shared.RemoveLoaderView()
+                            NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
+                            Utilities.shared.showToast(text: "Prescription & Medicines Added Successfully", duration: 3.0)
+                            self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                        }
+                    } else {
+                        DispatchQueue.main.sync {
+                            Utilities.shared.RemoveLoaderView()
+                            Utilities.shared.showToast(text: msg, duration: 3.0)
+                        }
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
+                }
+                print("catch medicine")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            param
+        }
+    }
+   
     func fetchDoctorType(){
         ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "type_of_doctors", bearertoken: "") {
             do {
@@ -169,19 +330,35 @@ class AddPrescriptionViewController: UIViewController {
     }
     @objc func handle_tf_doctortype(){
         if (self.tf_doctortype.text?.isEmpty)! {
-            dropdown.hide()
+            dropdown_doctortype.hide()
             filter_doctortypelist = self.doctortypelist
-            self.dropdown.dataSource = self.filter_doctortypelist.map { $0["name"]! }
-            print(self.dropdown.dataSource.count)
-            self.dropdown.reloadAllComponents()
+            self.dropdown_doctortype.dataSource = self.filter_doctortypelist.map { $0["name"]! }
+            print(self.dropdown_doctortype.dataSource.count)
+            self.dropdown_doctortype.reloadAllComponents()
         } else {
-            dropdown.show()
+            dropdown_doctortype.show()
             filter_doctortypelist = self.doctortypelist.filter { $0["name"]!
                                         .hasPrefixCheck(prefix: self.tf_doctortype.text!,
                                          isCaseSensitive: false) }.map { $0 }
-            dropdown.dataSource = self.filter_doctortypelist.map { $0["name"]! }
-            print(self.dropdown.dataSource.count)
-            self.dropdown.reloadAllComponents()
+            dropdown_doctortype.dataSource = self.filter_doctortypelist.map { $0["name"]! }
+            print(self.dropdown_doctortype.dataSource.count)
+            self.dropdown_doctortype.reloadAllComponents()
+        }
+    }
+    @objc func handle_tf_doctorname(){
+        if (self.tf_doctorname.text?.isEmpty)! {
+            dropdown_doctorname.hide()
+            filter_doctorlist = self.doctorlist
+            self.dropdown_doctorname.dataSource = self.filter_doctorlist.map { ($0 as! NSDictionary).value(forKey: "doctorName") as! String}
+            print(self.dropdown_doctorname.dataSource.count)
+            self.dropdown_doctorname.reloadAllComponents()
+        } else {
+            dropdown_doctorname.show()
+            filter_doctorlist = self.doctorlist.filter { (($0 as! NSDictionary).value(forKey: "doctorName") as! String).hasPrefixCheck(prefix: self.tf_doctorname.text!,
+                isCaseSensitive: false) }.map { $0 } as NSArray
+            dropdown_doctorname.dataSource = self.filter_doctorlist.map { ($0 as! NSDictionary).value(forKey: "doctorName") as! String }
+            print(self.dropdown_doctorname.dataSource.count)
+            self.dropdown_doctorname.reloadAllComponents()
         }
     }
 }
@@ -189,9 +366,40 @@ extension AddPrescriptionViewController: UIDocumentPickerDelegate,UINavigationCo
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         let myURL = url as URL
         pdfurl = myURL
-        self.imagename = myURL.lastPathComponent
-        self.img_Prescription.image = #imageLiteral(resourceName: "placeholder--pdf.png")
-        self.constant_height_of_img_Prescription.constant = 150
+        let name = myURL.lastPathComponent
+        self.images.append(["name": name,"image" : #imageLiteral(resourceName: "placeholder--pdf.png")])
+        DispatchQueue.main.async {
+            self.collectionview.reloadData()
+        }
         print("import result : \(myURL)")
     }
+}
+extension AddPrescriptionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imagecollection", for: indexPath) as! imagecollection
+        cell.images.image = self.images[indexPath.row]["image"] as? UIImage
+        return cell
+    }
+    
+}
+extension AddPrescriptionViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.allmedicine.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "addmedicinecell") as! addmedicinecell
+        cell.SetCellData(d: allmedicine[indexPath.row], indexPath: indexPath)
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+class imagecollection: UICollectionViewCell {
+    @IBOutlet var images: UIImageView!
 }

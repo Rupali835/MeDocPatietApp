@@ -15,6 +15,7 @@ import WatchConnectivity
 let CategoryIdentifier = "Medicines"
 let SoonzeIdentifier = "Soonze"
 let TakenIdentifier = "Taken Medicine"
+let group = "group.com.kanishka.medocpatient"
 
 class MedicineViewController: UIViewController {
 
@@ -31,7 +32,10 @@ class MedicineViewController: UIViewController {
     let image_Types_dataSource = ["Capsules", "Cream", "Drops", "Gel", "Inhaler", "Injection", "Lotion", "Mouthwash", "Ointment", "Others", "Physiotherapy", "Powder", "Spray", "Suppository", "Syrup", "Tablet", "Treatment Session"]
     var images_types = [UIImage?]()
     var routeFromOtherVC = false
-    var getSelectedMedicine: ((_ data: NSDictionary)->Void)?
+    var getSelectedMedicine: ((_ data: NSArray)->Void)?
+    var Prescriptiondata = NSArray()
+    var alerttableview = UITableView()
+    var editRadiusAlert = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,22 +56,74 @@ class MedicineViewController: UIViewController {
         }
         
         NetworkManager.isReachable { _ in
+            self.fetchPrescription()
             self.fetchmedicine()
             self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
+            self.fetchPrescription()
             self.fetchmedicine()
             self.navigationItem.rightBarButtonItem = add
         }
         NetworkManager.isUnreachable { _ in
             Utilities.shared.centermsg(msg: "No Internet Connection", view: self.view)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(reloaddata), name: NSNotification.Name("reloaddata"), object: nil)
+        
+        self.tableview_Alert(title: "Select Prescription For Adding Medicine", msg: nil)
         // Do any additional setup after loading the view.
     }
+    @objc func reloaddata(){
+        NetworkManager.isReachable { _ in
+            self.fetchmedicine()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .default
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    func tableview_Alert(title: String?,msg: String?){
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: 250,height: 250)
+        alerttableview = UITableView(frame: CGRect(x: 0, y: 0, width: 250, height: 240))
+        alerttableview.delegate = self
+        alerttableview.dataSource = self
+        vc.view.addSubview(alerttableview)
+        editRadiusAlert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
+        editRadiusAlert.setValue(vc, forKey: "contentViewController")
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
+        
+        editRadiusAlert.addAction(cancelAction)
+    }
+    func fetchPrescription(){
+        ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "prescriptions", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(json)
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        if let p_data = json.value(forKey: "data") as? NSArray{
+                            self.Prescriptiondata = p_data
+                        }
+                    }
+                }
+            } catch {
+                print("catch")
+            }
+        })
+    }
     @objc func AddAction(){
-        let addMedicineVC = self.storyboard?.instantiateViewController(withIdentifier: "AddMedicineViewController") as! AddMedicineViewController
-        navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addMedicineVC)
-        //self.present(addReportVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.alerttableview.reloadData()
+            self.present(self.editRadiusAlert, animated: true, completion:{})
+        }
     }
     func setupReminder(){
         self.eventStore = EKEventStore()
@@ -110,7 +166,7 @@ class MedicineViewController: UIViewController {
         content.subtitle = subtitle ?? ""
         content.body = "Cheif Complain: \(body ?? "Not Mentioned")"
         content.categoryIdentifier = CategoryIdentifier
-    
+        
        // let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
         
         let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 15 Minute ⏱", options: [])
@@ -119,7 +175,6 @@ class MedicineViewController: UIViewController {
         let category = UNNotificationCategory(identifier: CategoryIdentifier, actions: [TakenAction,snoozeAction], intentIdentifiers: [], options: [])
         
         UNUserNotificationCenter.current().setNotificationCategories([category])
-
 
         for (i,date) in datecomponent.enumerated() {
             let requestidentifier = "notification.id-\(id)-\(i)"
@@ -196,6 +251,7 @@ class MedicineViewController: UIViewController {
 //                                        }
 //                                    }
 //                                }
+                              //  self.passdataTowatch(bool: false)
                                 DispatchQueue.main.async {
                                     if self.routeFromOtherVC == false {
                                         self.createNewReminder()
@@ -406,9 +462,7 @@ class MedicineViewController: UIViewController {
                 component.second = Time.second
                 
                 print(component)
-               // if date >= Date(){
                 DailyComponents.append(component)
-               // }
             }
         }
         print(DailyComponents)
@@ -506,9 +560,7 @@ class MedicineViewController: UIViewController {
                     component.minute = Time.minute
                     component.second = Time.second
                     
-                   // if date >= Date(){
-                        weekdayComponents.append(component)
-                   // }
+                    weekdayComponents.append(component)
                 }
             }
         }
@@ -544,7 +596,25 @@ class MedicineViewController: UIViewController {
         for date in datesBetweenArray {
             print("dates: \(date)")
             
-            for time in Time_dates {
+            for (index,hour) in (1...24).enumerated() {
+                let int_time = interval_time == "" ? 0 : Int(interval_time)!
+                if index % int_time == 0{
+                    print("time interval:\(hour)")
+                    let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
+                    
+                    var component = DateComponents()
+                    component.day = DailyDate.day
+                    component.month = DailyDate.month
+                    component.year = DailyDate.year
+                    component.hour = hour
+                    component.minute = 0
+                    component.second = 0
+                    
+                    IntervalComponents.append(component)
+                }
+            }
+            
+          /*  for time in Time_dates {
                 let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
                 
                 var component = DateComponents()
@@ -576,7 +646,7 @@ class MedicineViewController: UIViewController {
                     }
                 }
                 
-            }
+            }*/
         }
         print(IntervalComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: IntervalComponents)
@@ -592,39 +662,101 @@ class MedicineViewController: UIViewController {
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let md = self.medicineData.object(at: section) as! NSArray
-        return md.count
+        if tableView == self.alerttableview {
+            return self.Prescriptiondata.count
+        }
+        if tableView == self.tableview {
+            let md = self.medicineData.object(at: section) as! NSArray
+            return md.count
+        }
+        return 0
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.prescription.count
+        if tableView == self.alerttableview {
+            return 1
+        }
+        if tableView == self.tableview {
+            return self.prescription.count
+        }
+        return 0
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "headercell") as! headercell
-        let d = self.prescription.object(at: section) as! NSDictionary
-        let patient_problem = d.value(forKey: "patient_problem") as! String
-        header.titles.text = patient_problem
-        return header
+        if tableView == self.tableview {
+            let header = tableView.dequeueReusableCell(withIdentifier: "headercell") as! headercell
+            let d = self.prescription.object(at: section) as! NSDictionary
+            let patient_problem = d.value(forKey: "patient_problem") as! String
+            header.titles.text = patient_problem
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            tapRecognizer.delegate = self as? UIGestureRecognizerDelegate
+            tapRecognizer.numberOfTapsRequired = 1
+            tapRecognizer.numberOfTouchesRequired = 1
+            header.addGestureRecognizer(tapRecognizer)
+            return header
+        }
+        return UIView(frame: .zero)
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView == self.tableview {
+            return UITableView.automaticDimension
+        }
+        return 0
+    }
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        print("Tapped")
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        if tableView == self.alerttableview  {
+            return UITableView.automaticDimension
+        }
+        if tableView == self.tableview {
+            return UITableView.automaticDimension
+        }
+        return 300
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
-        let md = self.medicineData.object(at: indexPath.section) as! NSArray
-        let data = md.object(at: indexPath.row) as! NSDictionary
-        
-        timeslot.removeAll()
-
-        medicinecell.SetCellData(d: data, images_types: self.images_types, indexPath: indexPath)
-        
-        return medicinecell
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.routeFromOtherVC == true {
+        if tableView == self.alerttableview {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+            let data = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
+            let patient_id = data.value(forKey: "patient_id") as? String
+            let name = data.value(forKey: "patient_problem") as? String
+            cell.textLabel?.text = name!
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            return cell
+        }
+        if tableView == self.tableview {
+            
+            let medicinecell = tableView.dequeueReusableCell(withIdentifier: "MedicineCell") as! MedicineTableViewCell
             let md = self.medicineData.object(at: indexPath.section) as! NSArray
             let data = md.object(at: indexPath.row) as! NSDictionary
-            self.getSelectedMedicine?(data)
-            navigationController?.popViewController(animated: true)
+            
+            timeslot.removeAll()
+            
+            medicinecell.SetCellData(d: data, images_types: self.images_types, indexPath: indexPath)
+            
+            return medicinecell
+        }
+        return UITableViewCell()
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView == self.alerttableview {
+            let addMedicineVC = self.storyboard?.instantiateViewController(withIdentifier: "AddMedicineViewController") as! AddMedicineViewController
+            addMedicineVC.images_types = self.images_types
+            let data = self.Prescriptiondata.object(at: indexPath.row) as! NSDictionary
+            let id = data.value(forKey: "id") as? Int ?? 0
+            addMedicineVC.prescriptionID = id
+            self.editRadiusAlert.dismiss(animated: true, completion: nil)
+            navigationController?.pushViewControllerWithFlipAnimation(Self: self, pushVC: addMedicineVC)
+            //self.present(addMedicineVC, animated: true, completion: nil)
+        }
+        if tableView == self.tableview {
+            if self.routeFromOtherVC == true {
+                let md = self.medicineData.object(at: indexPath.section) as! NSArray
+                let data = md.object(at: indexPath.row) as! NSDictionary
+                self.getSelectedMedicine?(md)
+                navigationController?.popViewController(animated: true)
+            }
         }
     }
+    
 }

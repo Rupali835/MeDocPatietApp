@@ -9,11 +9,12 @@
 import UIKit
 
 class AddMedicineViewController: UIViewController , UITextFieldDelegate{
+    
+    let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
 
     @IBOutlet var close : UIButton!
     @IBOutlet var IntervalTypeRadio: [SKRadioButton]!
     
-    @IBOutlet var tf_patient_Problem : UITextField!
     @IBOutlet var tf_medicine_name : UITextField!
     @IBOutlet var tf_medicine_type : UITextField!
     @IBOutlet var tf_quantity : UITextField!
@@ -23,7 +24,9 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
     @IBOutlet var title_period: UILabel!
     @IBOutlet var title_time_interval: UILabel!
     @IBOutlet var height_of_time_interval: NSLayoutConstraint!
+    @IBOutlet var height_of_beforeafter_view: NSLayoutConstraint!
 
+    @IBOutlet var view_beforeafter: UIView!
     @IBOutlet var tf_before_breakfast : UITextField!
     @IBOutlet var tf_after_breakfast : UITextField!
     @IBOutlet var tf_before_lunch : UITextField!
@@ -31,6 +34,7 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
     @IBOutlet var tf_before_dinner : UITextField!
     @IBOutlet var tf_after_dinner : UITextField!
 
+    
     @IBOutlet var Radio_before_breakfast: SKRadioButton!
     @IBOutlet var Radio_after_breakfast: SKRadioButton!
     @IBOutlet var Radio_before_lunch: SKRadioButton!
@@ -38,17 +42,29 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
     @IBOutlet var Radio_before_dinner: SKRadioButton!
     @IBOutlet var Radio_after_dinner: SKRadioButton!
     
-    @IBOutlet var donebtn: UIButton!
-    var selectedIndex_MedicineType = 0
+    @IBOutlet var addbtn: UIButton!
     
+    @IBOutlet var tableview: UITableView!
+    @IBOutlet var height_of_tableview: NSLayoutConstraint!
+    @IBOutlet var donebtn: UIButton!
+    
+    var selectedIndex_MedicineType = 0
+    var allmedicine = [NSDictionary]()
+    var timeslot = [String]()
+    var images_types = [UIImage?]()
+    var getSelectedMedicine: ((_ data: [NSDictionary])->Void)?
+    var prescriptionID = 0
+
     var medicineType = ["Capsules", "Cream", "Drops", "Gel", "Inhaler", "Injection", "Lotion", "Mouthwash", "Ointment", "Others", "Physiotherapy", "Powder", "Spray", "Suppository", "Syrup", "Tablet", "Treatment Session"]
     let pickerview = UIPickerView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utilities.shared.cornerRadius(objects: [donebtn], number: 10.0)
+        self.height_of_tableview.constant = 0
+        Utilities.shared.cornerRadius(objects: [addbtn,donebtn], number: 10.0)
         
         close.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
+        addbtn.addTarget(self, action: #selector(Action_Add), for: .touchUpInside)
         donebtn.addTarget(self, action: #selector(Action_Done), for: .touchUpInside)
         
         tf_before_breakfast.addTarget(self, action: #selector(Handle_tf_before_breakfast), for: .editingChanged)
@@ -127,34 +143,129 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
             self.title_time_interval.text = ""
             self.height_of_time_interval.constant = 0
             self.tf_time_interval.isHidden = true
+            self.height_of_beforeafter_view.constant = 300
+            self.view_beforeafter.isHidden = false
         }
         else if self.IntervalTypeRadio[1].isSelected == true{
             self.title_period.text = "Weeks"
             self.title_time_interval.text = "day in a Week"
             self.height_of_time_interval.constant = 45
             self.tf_time_interval.isHidden = false
+            self.height_of_beforeafter_view.constant = 300
+            self.view_beforeafter.isHidden = false
         }
         else if self.IntervalTypeRadio[2].isSelected == true{
             self.title_period.text = "Days"
-            self.title_time_interval.text = "hour before or/and after interval."
+            self.title_time_interval.text = "hours"//before or/and after interval.
             self.height_of_time_interval.constant = 45
             self.tf_time_interval.isHidden = false
+            self.height_of_beforeafter_view.constant = 0
+            self.view_beforeafter.isHidden = true
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .lightContent
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        UIApplication.shared.statusBarStyle = .default
+//    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        UIApplication.shared.statusBarStyle = .lightContent
+//    }
     @objc func closeAction(){
         // self.dismiss(animated: true, completion: nil)
-        navigationController?.popViewControllerWithFlipAnimation(Self: self)
+        navigationController?.popViewController(animated: true)//.popViewControllerWithFlipAnimation(Self: self)
+    }
+    @objc func Action_Add(){
+        print(Validation())
+        if Validation() == true {
+            Utilities.shared.showToast(text: "Medicine Added", duration: 3.0)
+            self.allmedicine.append(oneMedicineData())
+            
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0, animations: {
+                    self.tableview.layoutIfNeeded()
+                    self.height_of_tableview.constant = 300
+                }) { (complete) in
+                    self.tableview.reloadData()
+                }
+            }
+            allclearfield()
+        }
+    }
+    func allclearfield(){
+        tf_medicine_name.text = ""
+        tf_medicine_type.text = ""
+        tf_quantity.text = ""
+        self.IntervalTypeRadio.forEach { (button) in
+            button.isSelected = false
+        }
+        tf_period.text = ""
+        tf_time_interval.text = ""
+        Radio_before_breakfast.isSelected = false
+        tf_before_breakfast.text = ""
+        Radio_after_breakfast.isSelected = false
+        tf_after_breakfast.text = ""
+        Radio_before_lunch.isSelected = false
+        tf_before_lunch.text = ""
+        Radio_after_lunch.isSelected = false
+        tf_after_lunch.text = ""
+        Radio_before_dinner.isSelected = false
+        tf_before_dinner.text = ""
+        Radio_after_dinner.isSelected = false
+        tf_after_dinner.text = ""
     }
     @objc func Action_Done(){
-        print(Validation())
-        print(postdata().sorted(by: { $0.0 < $1.0 })
-)
+        print(json(from: self.allmedicine))
+        if self.allmedicine.count == 0 {
+            Utilities.shared.showToast(text: "You have to add atleast one medicine", duration: 3.0)
+        }
+        else if prescriptionID != 0{
+            self.uploadmedicineby(prescription_id: prescriptionID)
+        }
+        else {
+            self.getSelectedMedicine?(self.allmedicine)
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    func uploadmedicineby(prescription_id: Int){
+        Utilities.shared.ShowLoaderView(view: self.view, Message: "Medicine Adding")
+        var param : [String: Any] = ["prescription_id": prescription_id,
+                                     "medicines": self.json(from: self.allmedicine)!]
+        
+        ApiServices.shared.FetchPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "add-medicines-for-a-prescription", bearertoken: bearertoken!, onSuccessCompletion: {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if let msg = json.value(forKey: "msg") as? String {
+                    if msg == "success" {
+                        DispatchQueue.main.async {
+                            Utilities.shared.RemoveLoaderView()
+                            NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
+                            Utilities.shared.showToast(text: "Medicines Added Successfully", duration: 3.0)
+                            self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                        }
+                    } else {
+                        DispatchQueue.main.sync {
+                            Utilities.shared.RemoveLoaderView()
+                            Utilities.shared.showToast(text: msg, duration: 3.0)
+                        }
+                    }
+                }
+            } catch {
+                DispatchQueue.main.sync {
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
+                }
+                print("catch medicine")
+            }
+        }) { () -> (Dictionary<String, Any>) in
+            param
+        }
+    }
+    func json(from object:Any) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject:  object, options: []) else
+        {
+            return nil
+        }
+        
+        return String(data: data, encoding: String.Encoding.utf8)
     }
     @IBAction func Action_before_breakfast(sender: SKRadioButton){
         if sender.isSelected == false {
@@ -205,11 +316,7 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
         }
     }
     func Validation()->Bool{
-        if self.tf_patient_Problem.text?.isEmpty == true {
-            Utilities.shared.showToast(text: "Enter \(self.tf_patient_Problem.placeholder!)", duration: 3.0)
-            return false
-        }
-        else if self.tf_medicine_name.text?.isEmpty == true {
+        if self.tf_medicine_name.text?.isEmpty == true {
             Utilities.shared.showToast(text: "Enter \(self.tf_medicine_name.placeholder!)", duration: 3.0)
             return false
         }
@@ -247,22 +354,24 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
                 return false
             }
             else if self.tf_time_interval.text?.isEmpty == true{
-                Utilities.shared.showToast(text: "Enter How Many Hours.it will remind you to take medicine in Every Hour on Before OR/AND After Interval", duration: 5.0)
+                Utilities.shared.showToast(text: "Enter How Many Hours.", duration: 5.0)
+                return false
+            }//it will remind you to take medicine in Every Hour on Before OR/AND After Interval
+        }
+        if self.IntervalTypeRadio[2].isSelected == false {
+            if self.Radio_before_breakfast.isSelected == false &&
+                self.Radio_after_breakfast.isSelected == false &&
+                self.Radio_before_lunch.isSelected == false &&
+                self.Radio_after_lunch.isSelected == false &&
+                self.Radio_before_dinner.isSelected == false &&
+                self.Radio_after_dinner.isSelected == false {
+                Utilities.shared.showToast(text: "You have to Atleast Select One \"Before OR After\" Time", duration: 3.0)
                 return false
             }
         }
-        if self.Radio_before_breakfast.isSelected == false &&
-           self.Radio_after_breakfast.isSelected == false &&
-           self.Radio_before_lunch.isSelected == false &&
-           self.Radio_after_lunch.isSelected == false &&
-           self.Radio_before_dinner.isSelected == false &&
-           self.Radio_after_dinner.isSelected == false {
-            Utilities.shared.showToast(text: "You have to Atleast Select One \"Before OR After\" Time", duration: 3.0)
-            return false
-        }
         return true
     }
-    func postdata()->[String: Any]{
+    func oneMedicineData()->NSDictionary{
         var dict = [String: Any]()
         dict["after_bf"] = self.Radio_after_breakfast.isSelected == true ? 1 : 0
         dict["after_bf_time"] = self.Radio_after_breakfast.isSelected == true ? self.tf_after_breakfast.text == "" ? 0 : Int(self.tf_after_breakfast.text!) : 0
@@ -293,12 +402,13 @@ class AddMedicineViewController: UIViewController , UITextFieldDelegate{
         }
 
         dict["interval_period"] = Int(self.tf_period.text!)
-        dict["interval_time"] = Int(self.tf_time_interval.text!)
+        dict["interval_time"] = self.tf_time_interval.text!
         dict["medicine_name"] = self.tf_medicine_name.text!
-        dict["medicine_quantity"] = Int(self.tf_quantity.text!)
+        dict["medicine_quantity"] = self.tf_quantity.text!
         dict["medicine_type"] = self.tf_medicine_type.text!
         
-        return dict
+        let nsdict = NSDictionary(dictionary: dict)
+        return nsdict
     }
 }
 extension AddMedicineViewController: UIPickerViewDelegate,UIPickerViewDataSource{
@@ -337,4 +447,17 @@ extension AddMedicineViewController: UIPickerViewDelegate,UIPickerViewDataSource
         return label
     }
     
+}
+extension AddMedicineViewController: UITableViewDataSource , UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.allmedicine.count
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let addcell = tableView.dequeueReusableCell(withIdentifier: "addmedicinecell") as! addmedicinecell
+        addcell.SetCellData(d: allmedicine[indexPath.row], indexPath: indexPath)
+        return addcell
+    }
 }

@@ -30,8 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let session = WCSession.default
             session.delegate = self
             session.activate()
+            if session.isPaired != true {
+                print("Apple Watch is not paired")
+            }
+            
+            if session.isWatchAppInstalled != true {
+                print("WatchKit app is not installed")
+            }
+        } else {
+            print("WatchConnectivity is not supported on this device")
         }
-         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset.init(horizontal: -500.0, vertical: 0.0), for: .default)
 
         let Logged = UserDefaults.standard.bool(forKey: "Logged")
         if Logged == true{
@@ -218,6 +227,7 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
         let userInfo = response.notification.request.content.userInfo
         print(userInfo)
         
+        
         if response.actionIdentifier == SoonzeIdentifier {
             let request = response.notification.request
             let content = request.content
@@ -268,18 +278,20 @@ extension AppDelegate:  UNUserNotificationCenterDelegate, MessagingDelegate{
             
             let medicineid: String = String(request.identifier.split(separator: "-")[1])
             
+            let def = UserDefaults(suiteName: group)
+            
             let takendata = ["id": medicineid,"time": Date()] as [String : Any]
-            var gettakenmedicinetime = UserDefaults.standard.array(forKey: "TakenMedicineTime") as? [[String: Any]]
+            var gettakenmedicinetime = def?.array(forKey: "TakenMedicineTime") as? [[String: Any]]
             
             if gettakenmedicinetime?.count == 0 || gettakenmedicinetime == nil {
                 var dict = [[String: Any]]()
                 dict.append(takendata)
-                UserDefaults.standard.set(dict, forKey: "TakenMedicineTime")
-                UserDefaults.standard.synchronize()
+                def?.set(dict, forKey: "TakenMedicineTime")
+                def?.synchronize()
             } else {
                 gettakenmedicinetime?.append(takendata)
-                UserDefaults.standard.set(gettakenmedicinetime, forKey: "TakenMedicineTime")
-                UserDefaults.standard.synchronize()
+                def?.set(gettakenmedicinetime, forKey: "TakenMedicineTime")
+                def?.synchronize()
             }
             
             

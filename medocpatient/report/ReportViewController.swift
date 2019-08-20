@@ -12,18 +12,16 @@ import WebKit
 class Reports {
     var created_at : String!
     var created_by : String!
-    var dataName : String!
-    var dataTag : String!
+    var image_name : [[String:String]]!
     var patient_id : String!
     var prescription_id : String!
     var report_id : String!
     var tag : String!
     
-    init(created_at: String,created_by: String,dataName: String,dataTag: String,patient_id: String,prescription_id: String,report_id: String,tag: String) {
+    init(created_at: String,created_by: String,image_name: [[String:String]],patient_id: String,prescription_id: String,report_id: String,tag: String) {
         self.created_at = created_at
         self.created_by = created_by
-        self.dataName = dataName
-        self.dataTag = dataTag
+        self.image_name = image_name
         self.patient_id = patient_id
         self.prescription_id = prescription_id
         self.report_id = report_id
@@ -129,16 +127,13 @@ class ReportViewController: UIViewController {
                     let report_id = data.value(forKey: "report_id") as! Int
                     let tag = data.value(forKey: "tag") as! String
                     
-                    let jsonArray = image.convertIntoJsonArray()
-                    if jsonArray!.count > 0 {
-                        for (index,item) in jsonArray!.enumerated() {
-                            if let dict = jsonArray!.object(at: index) as? NSDictionary{
-                                let data = item as! [String:String]
-                                let report = Reports(created_at: created_at, created_by: "\(created_by)", dataName: data["dataName"]!, dataTag: data["dataTag"]!, patient_id: patient_id, prescription_id: "\(prescription_id)", report_id: "\(report_id)", tag: tag)
-                                self.reportdata.append(report)
-                            }
+                    if let jsonArray = image.convertIntoJsonStringAny() {
+                        if jsonArray.count > 0 {
+                            let report = Reports(created_at: created_at, created_by: "\(created_by)", image_name: jsonArray, patient_id: patient_id, prescription_id: "\(prescription_id)", report_id: "\(report_id)", tag: tag)
+                            self.reportdata.append(report)
                         }
                     }
+                    
                 }
             }
         }
@@ -195,7 +190,7 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
         reportcell.year.text = dateSeparate[2]
         reportcell.time.text = dateSeparate[3]
         
-        reportcell.remark.text = data.dataTag//"Report name: \(data.dataTag!)"
+        reportcell.remark.text = data.image_name[0]["dataTag"]//"Report name: \(data.dataTag!)"
         for item in self.prescriptionsgeneraldata {
             if "\(item.prescription_id!)" == data.prescription_id {
                 reportcell.pre.text = item.patientProblem!//"Prescription: \(item.patientProblem!)"
@@ -204,10 +199,10 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
                 reportcell.pre.text = "Not Selected"//"No Prescription Selected"
             }
         }
-        if data.dataName.contains(find: ".pdf") {
+        if (data.image_name[0]["dataName"]?.contains(find: ".pdf"))! {
             reportcell.images.sd_setImage(with: URL(string: ""), placeholderImage: #imageLiteral(resourceName: "pdf"), options: .continueInBackground, completed: nil)
         } else {
-            reportcell.images.sd_setImage(with: URL(string: "\(ApiServices.shared.imageorpdfUrl)\(data.dataName!)"), placeholderImage: #imageLiteral(resourceName: "placeholder"), options: .continueInBackground, completed: nil)
+            reportcell.images.sd_setImage(with: URL(string: "\(ApiServices.shared.imageorpdfUrl)\(data.image_name[0]["dataName"]!)"), placeholderImage: #imageLiteral(resourceName: "placeholder"), options: .continueInBackground, completed: nil)
         }
         return reportcell
     }
@@ -218,8 +213,8 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
         let cell = self.tableview.cellForRow(at: indexPath) as! ReportTableViewCell
         let data = self.reportdata[indexPath.row]
         
-        if data.dataName.contains(find: ".pdf") {
-            let urlstr = "\(ApiServices.shared.imageorpdfUrl)\(data.dataName!)"
+        if (data.image_name[0]["dataName"]?.contains(find: ".pdf"))! {
+            let urlstr = "\(ApiServices.shared.imageorpdfUrl)\(data.image_name[0]["dataName"]!)"
             let webView = WKWebView(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height - 64))
             print("url:\(urlstr)")
             let urlRequest = URLRequest(url: URL(string: urlstr)!)
@@ -229,10 +224,11 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, WKNa
             pdfVC.view.addSubview(webView)
             self.navigationController?.pushViewController(pdfVC, animated: true)
         } else {
-            if cell.images.image == #imageLiteral(resourceName: "placeholder.jpg"){
-                
-            } else {
-                Utilities.shared.go_to_zoomimageview(vc: self, image: cell.images.image!)
+            if cell.images.image != #imageLiteral(resourceName: "placeholder.jpg"){
+                //Utilities.shared.go_to_zoomimageview(vc: self, image: cell.images.image!)
+                let zoomvc = self.storyboard?.instantiateViewController(withIdentifier: "ZoomImagesCollectionViewController") as! ZoomImagesCollectionViewController
+                zoomvc.imagesinstr = data.image_name.map { $0["dataName"]! }
+                navigationController?.pushViewController(zoomvc, animated: true)
             }
         }
     }
@@ -250,6 +246,18 @@ extension String {
     func convertIntoJsonArray()->NSArray?{
         do {
             if let jsonArray = try JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options : .allowFragments) as? NSArray {
+                return jsonArray
+            } else {
+                print("bad json")
+            }
+        } catch let error as NSError {
+            print(error)
+        }
+        return nil
+    }
+    func convertIntoJsonStringAny()->[[String:String]]?{
+        do {
+            if let jsonArray = try JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options : .allowFragments) as? [[String:String]] {
                 return jsonArray
             } else {
                 print("bad json")

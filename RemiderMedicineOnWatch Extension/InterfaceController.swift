@@ -11,6 +11,8 @@ import Foundation
 import UserNotifications
 import WatchConnectivity
 
+let group = "group.com.kanishka.medocpatient"
+
 class RowController: NSObject {
     @IBOutlet weak var medicinename: WKInterfaceLabel!
     @IBOutlet weak var medicinetype: WKInterfaceLabel!
@@ -25,7 +27,7 @@ class InterfaceController: WKInterfaceController {
     
     var pending_notifications = [UNNotificationRequest]()
     var session : WCSession!
-    let def = UserDefaults(suiteName: "group.com.kanishka.medocpatient")
+    let def = UserDefaults(suiteName: group)
     var data : Data?
     
     override func awake(withContext context: Any?) {

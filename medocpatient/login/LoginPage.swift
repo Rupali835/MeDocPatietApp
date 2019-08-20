@@ -7,7 +7,7 @@
 //
 //9876545677 & Kalyani@123
 //8108091854 & Prashant@123
-//7738260306 & Amit@123
+//7738260306 & Amit@123 // $2y$10$jx1/Ti99JzKeR5DIpKzpXuwBsblxjo67q8j116YkoiYZ4lCc.0cD2 // $2y$10$JXzH8fH1GPJx0DOa21ydnelsnULll1alKAWKqpjLj8gPcvYAmo1fy
 //9619913968 & Sunil@123 & Krish@123
 //8850214693 & Meera@123
 
@@ -187,30 +187,22 @@ class LoginPage: UIViewController, UITextFieldDelegate{
                     }
                 }
                 else if msg == "User not registered"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        Utilities.shared.RemoveLoaderView()
-                        Utilities.shared.showToast(text: "\(msg)", duration: 3.0)
-                    }
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "\(msg)", duration: 3.0)
                 }
                 else if msg == "Unauthorised"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        Utilities.shared.RemoveLoaderView()
-                        Utilities.shared.showToast(text: "Maybe You Entered Wrong Password", duration: 3.0)
-                    }
+                    Utilities.shared.RemoveLoaderView()
+                    Utilities.shared.showToast(text: "Maybe You Entered Wrong Password", duration: 3.0)
                 }
                 else if msg == "fail"{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        Utilities.shared.RemoveLoaderView()
-                        let reason = json.value(forKey: "reason") as! String
-                        Utilities.shared.showToast(text: reason, duration: 3.0)
-                    }
+                    Utilities.shared.RemoveLoaderView()
+                    let reason = json.value(forKey: "reason") as! String
+                    Utilities.shared.showToast(text: reason, duration: 3.0)
                 }
             } catch {
                 print("catch")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    Utilities.shared.RemoveLoaderView()
-                    Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
-                }
+                Utilities.shared.RemoveLoaderView()
+                Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
             }
         })
     }
@@ -470,6 +462,7 @@ extension LoginPage {
                 if msg == "success" {
                     
                     DispatchQueue.main.async {
+                        Utilities.shared.RemoveLoaderView()
                         self.alertwithtext.dismissAlertView()
                         Utilities.shared.alertview(title: msg, msg: "Password Reset Successfully", dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
                             
@@ -480,13 +473,14 @@ extension LoginPage {
                     }
                     
                 } else {
-                    Utilities.shared.alertview(title: "Alert", msg: msg, dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
-                        
-                    }, dismissAction: {})
+                    DispatchQueue.main.async {
+                        Utilities.shared.RemoveLoaderView()
+                        Utilities.shared.alertview(title: "Alert", msg: msg, dismisstitle: "Ok", mutlipleButtonAdd: { (alert) in
+                            
+                        }, dismissAction: {})
+                    }
+                    
                     // Utilities.shared.showToast(text: msg, duration: 3.0)
-                }
-                DispatchQueue.main.async {
-                    Utilities.shared.RemoveLoaderView()
                 }
             } catch {
                 print("catch fetchchange_password")

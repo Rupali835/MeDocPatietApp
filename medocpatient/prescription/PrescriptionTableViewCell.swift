@@ -16,6 +16,7 @@ class PrescriptionTableViewCell: UITableViewCell {
     @IBOutlet var month: UILabel!
     @IBOutlet var year: UILabel!
     @IBOutlet var time: UILabel!
+    @IBOutlet var addedby: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

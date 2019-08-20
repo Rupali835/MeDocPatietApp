@@ -80,10 +80,12 @@ class PatientHomePageViewController: UIViewController{
         followupBtn.addTarget(self, action: #selector(ActionFollowUp), for: .touchUpInside)
 
         NetworkManager.isReachable { _ in
-            self.fetchPrescription()
+            //self.fetchPrescription()
+            self.fetchVisitCount()
         }
         NetworkManager.sharedInstance.reachability.whenReachable = { _ in
-            self.fetchPrescription()
+            //self.fetchPrescription()
+            self.fetchVisitCount()
         }
         // Do any additional setup after loading the view.
     }
@@ -118,6 +120,22 @@ class PatientHomePageViewController: UIViewController{
         let Prescriptionvc = self.storyboard?.instantiateViewController(withIdentifier: "PrescriptionViewController") as! PrescriptionViewController
         Prescriptionvc.navigationItem.title = "Prescription".localized()
         self.splitnavigate(vc: Prescriptionvc)
+    }
+    func fetchVisitCount(){
+        ApiServices.shared.FetchformPostDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "patient-clinic-visits", bearertoken: bearertoken!, parameter: "") {
+            do {
+                let json = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                if var total_visit = json.value(forKey: "total_visits") as? [[String:Any]] {
+                    print(total_visit)
+                    let count: Int = total_visit.map { $0["total_visits"] as! Int }.reduce(0, +)
+                    DispatchQueue.main.async {
+                        self.followupBtn.setTitle("Follow Up \(count) Times", for: .normal)
+                    }
+                }
+            } catch {
+                print("catch patient-clinic-visits")
+            }
+        }
     }
     func fetchPrescription(){
         ApiServices.shared.FetchGetDataFromUrl(vc: self, Url: ApiServices.shared.baseUrl + "prescriptions", bearertoken: bearertoken!, onSuccessCompletion: {

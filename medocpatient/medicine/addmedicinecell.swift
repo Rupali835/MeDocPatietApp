@@ -1,55 +1,32 @@
 //
-//  MedicineTableViewCell.swift
-//  MedocPatient
+//  File.swift
+//  medocpatient
 //
-//  Created by Prem Sahni on 10/12/18.
-//  Copyright © 2018 Kanishka. All rights reserved.
+//  Created by Nishikant Ashok UMBARKAR on 30/7/19.
+//  Copyright © 2019 kspl. All rights reserved.
 //
 
 import UIKit
 
-class MedicineTableViewCell: UITableViewCell {
-
+class addmedicinecell: UITableViewCell {
+    
     @IBOutlet var cardview: Cardview!
     
     @IBOutlet var name: UILabel!
     @IBOutlet var type: UILabel!
-    @IBOutlet var img_type: UIImageView!
     @IBOutlet var timeslot: UILabel!
     @IBOutlet var interval_time: UILabel!
     @IBOutlet var interval_type: UILabel!
     @IBOutlet var interval_period: UILabel!
     @IBOutlet var beforeaftertime: UILabel!
     
-    @IBOutlet var start_date: UILabel!
-    @IBOutlet var start_month: UILabel!
-    @IBOutlet var start_year: UILabel!
-    @IBOutlet var start_time: UILabel!
-    
-    @IBOutlet var to: UILabel!
-    
-    @IBOutlet var end_date: UILabel!
-    @IBOutlet var end_month: UILabel!
-    @IBOutlet var end_year: UILabel!
-    @IBOutlet var end_time: UILabel!
-    
-    @IBOutlet var lastmedicinetakentime : UILabel!
-
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    func SetCellData(d: NSDictionary,images_types: [UIImage?],indexPath: IndexPath){
+    func SetCellData(d: NSDictionary,indexPath: IndexPath){
         var timeslot = [String]()
-        let id = d.value(forKey: "id") as? Int ?? 0
-
+        
         timeslot.removeAll()
         
         let name = d.value(forKey: "medicine_name") as! String
@@ -151,20 +128,8 @@ class MedicineTableViewCell: UITableViewCell {
             self.interval_period.text = ""
             self.interval_time.text = ""
         }
-        self.name.text = name //+ "(\(medicine_type))"
-        
-        let created_by = d.value(forKey: "created_by") as? Int
-        if created_by == 0 {
-            self.type.text = medicine_type + "\n\"medicine added by me\""
-        } else {
-            self.type.text = medicine_type
-        }
-        
-        for (index,item) in images_types.enumerated() {
-            if item?.accessibilityIdentifier == medicine_type {
-                self.img_type.image = item
-            }
-        }
+        self.name.text = name
+        self.type.text = medicine_type
         
         var breakfast = Int()
         var lunch = Int()
@@ -210,126 +175,5 @@ class MedicineTableViewCell: UITableViewCell {
             }
         }
         
-        let created_at = d.value(forKey: "created_at") as! String
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let date = df.date(from: created_at)
-        
-        let df1 = DateFormatter()
-        df1.dateFormat = "dd MMM yyyy HH:mm:ss"
-        let datestr = df1.string(from: date!)
-        
-        let Start_dateSeparate = datestr.components(separatedBy: .whitespaces)
-        
-        self.start_date.text = Start_dateSeparate[0]
-        self.start_month.text = Start_dateSeparate[1]
-        self.start_year.text = Start_dateSeparate[2]
-        // medicinecell.start_time.text = dateSeparate[3]
-        
-        var endDate: Date?
-        
-        switch interval_type {
-        case "1":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-        case "2":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)! * 7, to: date!)
-        case "3":
-            endDate = Calendar.current.date(byAdding: .day, value: Int(interval_period)!, to: date!)
-        default:
-            break;
-        }
-        
-        if endDate != nil {
-            let df1 = DateFormatter()
-            df1.dateFormat = "dd MMM yyyy HH:mm:ss"
-            let datestr = df1.string(from: endDate!)
-            
-            let End_dateSeparate = datestr.components(separatedBy: .whitespaces)
-            
-            self.end_date.text = End_dateSeparate[0]
-            self.end_month.text = End_dateSeparate[1]
-            self.end_year.text = End_dateSeparate[2]
-            // medicinecell.end_time.text = dateSeparate[3]
-            
-            if endDate! >= Date() {
-                print("\(indexPath.section)/\(indexPath.row)-Current-\(name)")
-                self.cardview.backgroundColor = UIColor(hexString: "#69f0ae")
-                self.currentMedicineColor(primarycolor: UIColor.black, secondarycolor: UIColor.darkGray)
-            }
-            else {
-                print("\(indexPath.section)/\(indexPath.row)-NonCurrent-\(name)")
-                self.cardview.backgroundColor = UIColor.white
-                self.non_currentMedicineColor(primarycolor: UIColor.black, secondarycolor: .darkGray)
-            }
-        }
-        self.lastmedicinetakentime.text = ""
-        let takenmedicineArray = UserDefaults(suiteName: group)?.array(forKey: "TakenMedicineTime") as? [[String: Any]]
-        
-        do {
-            if let takenarray = takenmedicineArray {
-                for item in takenarray {
-                    if item["id"] as! String == String(id) {
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "h:mm a 'on' dd/MM/yy"
-                        formatter.amSymbol = "AM"
-                        formatter.pmSymbol = "PM"
-                        let date = item["time"] as? Date
-                        let dateString = formatter.string(from: date!)
-                        self.lastmedicinetakentime.text = "Last Medicine Taken Time:\n\(dateString)"
-                    }
-                }
-            }
-        } catch {
-            print("catch takenmedicineArray")
-        }
-    }
-
-    func currentMedicineColor(primarycolor: UIColor,secondarycolor: UIColor){
-        name.textColor = primarycolor
-        interval_type.textColor = primarycolor
-        start_date.textColor = primarycolor
-        start_month.textColor = primarycolor
-        start_year.textColor = primarycolor
-        end_date.textColor = primarycolor
-        end_month.textColor = primarycolor
-        end_year.textColor = primarycolor
-        beforeaftertime.textColor = primarycolor
-        
-        type.textColor = secondarycolor
-        timeslot.textColor = secondarycolor
-        interval_period.textColor = secondarycolor
-        interval_time.textColor = secondarycolor
-    }
-    func non_currentMedicineColor(primarycolor: UIColor,secondarycolor: UIColor){
-        name.textColor = primarycolor
-        interval_type.textColor = primarycolor
-        start_date.textColor = primarycolor
-        start_month.textColor = primarycolor
-        start_year.textColor = primarycolor
-        end_date.textColor = primarycolor
-        end_month.textColor = primarycolor
-        end_year.textColor = primarycolor
-        beforeaftertime.textColor = primarycolor
-        
-        type.textColor = secondarycolor
-        timeslot.textColor = secondarycolor
-        interval_period.textColor = secondarycolor
-        interval_time.textColor = secondarycolor
-    }
-}
-class headercell: UITableViewCell {
-    
-    @IBOutlet var titles: UILabel!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
 }
