@@ -151,13 +151,13 @@ class AddPrescriptionViewController: UIViewController {
         navigationController?.pushViewController(addMedicineVC, animated: true)
     }
     @objc func Action_btn_Done(){
-        if (self.tf_doctorname.text?.isEmpty)! {
-            Utilities.shared.showToast(text: "Write Doctor Name", duration: 3.0)
-        }
-        else if (self.tf_doctortype.text?.isEmpty)! {
-            Utilities.shared.showToast(text: "Write Doctor Type", duration: 3.0)
-        }
-        else if (self.tf_patientproblem.text?.isEmpty)! {
+        //        if (self.tf_doctorname.text?.isEmpty)! {
+        //            Utilities.shared.showToast(text: "Write Doctor Name", duration: 3.0)
+        //        }
+        //        else if (self.tf_doctortype.text?.isEmpty)! {
+        //            Utilities.shared.showToast(text: "Write Doctor Type", duration: 3.0)
+        //        }
+        if (self.tf_patientproblem.text?.isEmpty)! {
             Utilities.shared.showToast(text: "Write Patient Problem", duration: 3.0)
         }
         else if self.images.count == 0 {
@@ -179,23 +179,23 @@ class AddPrescriptionViewController: UIViewController {
         Utilities.shared.ShowLoaderView(view: self.view, Message: "Please Wait Adding Prescription")
         let uploadUrl = ApiServices.shared.baseUrl + "add-prescription-file"
         let header = ["Authorization": "Bearer \(bearertoken!)",
-                      "Content-Type": "application/json",
-                      "Accept": "application/json"]
+            "Content-Type": "application/json",
+            "Accept": "application/json"]
         
         var Param = [String:Any]()
-        if self.tf_doctorname.text?.isEmpty == false {
-            Param["doctorName"] = self.tf_doctorname.text!
-           // Param["doctor_id"] = self.doctorid
-        }
-        if self.tf_doctortype.text?.isEmpty == false {
-            Param["doctorType"] = self.tf_doctortype.text!
-        }
-        if self.tf_patientproblem.text?.isEmpty == false {
-            Param["patient_problem"] = self.tf_patientproblem.text!
-        }
-        if self.allmedicine.count > 0 {
-            Param["medicines"] = (json(from: self.allmedicine)!)
-        }
+        //if self.tf_doctorname.text?.isEmpty == false {
+        Param["doctorName"] = self.tf_doctorname.text!
+        // Param["doctor_id"] = self.doctorid
+        // }
+        //if self.tf_doctortype.text?.isEmpty == false {
+        Param["doctorType"] = self.tf_doctortype.text!
+        // }
+        //  if self.tf_patientproblem.text?.isEmpty == false {
+        Param["patient_problem"] = self.tf_patientproblem.text!
+        //  }
+        //        if self.allmedicine.count > 0 {
+        //            Param["medicines"] = (json(from: self.allmedicine)!)
+        //        }
         
         Alamofire.upload(
             multipartFormData: { multipartFormData in
@@ -236,25 +236,29 @@ class AddPrescriptionViewController: UIViewController {
                 upload.responseJSON { resp in
                     if let JSON = resp.result.value as? [String: Any] {
                         print("Response : ",JSON)
-                        let msg = JSON["msg"] as? String
-                        if msg == "success"{
-                            if let pres = JSON["prescription"] as? [String:Any] {
-                                if let id = pres["id"] as? Int {
-                                    if self.allmedicine.count > 0 {
-                                        self.uploadmedicineby(prescription_id: id)
-                                    } else {
-                                        DispatchQueue.main.async {
-                                            Utilities.shared.RemoveLoaderView()
-                                            NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
-                                            Utilities.shared.showToast(text: "Prescription Added Successfully", duration: 3.0)
-                                            self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                        if let msg = JSON["msg"] as? String {
+                            if msg == "success"{
+                                if let pres = JSON["prescription"] as? [String:Any] {
+                                    if let id = pres["id"] as? Int {
+                                        if self.allmedicine.count > 0 {
+                                            self.uploadmedicineby(prescription_id: id)
+                                        } else {
+                                            DispatchQueue.main.async {
+                                                Utilities.shared.RemoveLoaderView()
+                                                NotificationCenter.default.post(name: NSNotification.Name("reloaddata"), object: nil)
+                                                Utilities.shared.showToast(text: "Prescription Added Successfully", duration: 3.0)
+                                                self.navigationController?.popViewControllerWithFlipAnimation(Self: self)
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                Utilities.shared.RemoveLoaderView()
+                                Utilities.shared.showToast(text: msg, duration: 3.0)
                             }
                         } else {
                             Utilities.shared.RemoveLoaderView()
-                            Utilities.shared.showToast(text: msg!, duration: 3.0)
+                            Utilities.shared.showToast(text: "Something Went Wrong", duration: 3.0)
                         }
                     }
                 }
