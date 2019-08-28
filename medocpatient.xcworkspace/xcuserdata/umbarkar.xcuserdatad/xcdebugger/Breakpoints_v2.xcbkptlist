@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "medocpatient/login/LoginPage.swift"
-            timestampString = "586708574.297007"
+            timestampString = "588685321.457181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "533"
+            endingLineNumber = "533"
+            landmarkName = "addNewPassword(title:msg:Token:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,13 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "medocpatient/login/LoginPage.swift"
-            timestampString = "586708574.297069"
+            timestampString = "588685321.457315"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "499"
+            endingLineNumber = "499"
+            landmarkName = "EnterOTP(title:msg:log_id:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "medocpatient/login/LoginPage.swift"
-            timestampString = "586708574.297112"
+            timestampString = "588685321.457391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "390"
+            endingLineNumber = "390"
+            landmarkName = "fetchforgot_password_approve(login_id:otp:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,13 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "medocpatient/login/LoginPage.swift"
-            timestampString = "586708574.297151"
+            timestampString = "588685321.4574521"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "463"
+            endingLineNumber = "463"
+            landmarkName = "fetchchange_password(token:newPassword:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

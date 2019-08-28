@@ -59,13 +59,6 @@ class LoginPage: UIViewController, UITextFieldDelegate{
 
         LoginNow.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         
-//        let textFieldFrame = CGRect(x: 150, y: 100, width: 120, height: 45)
-//        
-//        let textField1 = SkyFloatingLabelTextFieldWithIcon(frame: textFieldFrame,iconType: .image)
-//        textField1.placeholder = "Departure"
-//        textField1.title = "Flying from"
-//        textField1.iconImage = UIImage(named: "users")
-//        self.view.addSubview(textField1)
         // Do any additional setup after loading the view, typically from a nib.
     }
     override func viewWillAppear(_ animated: Bool) {

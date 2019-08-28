@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import EventKit
 import SVGKit
 import UserNotifications
 import WatchConnectivity
@@ -22,9 +21,6 @@ class MedicineViewController: UIViewController {
     @IBOutlet var tableview: UITableView!
     
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
-
-    var eventStore: EKEventStore!
-    var reminders: [EKReminder]!
     
     var medicineData = NSMutableArray()
     var prescription = NSMutableArray()
@@ -45,8 +41,6 @@ class MedicineViewController: UIViewController {
         tableview.estimatedSectionHeaderHeight = 50;
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(AddAction))
 
-       // setupReminder()
-        
         DispatchQueue.main.async {
             for medicine_type in self.image_Types_dataSource {
                 let image = SVGKImage(named: medicine_type)?.uiImage
@@ -125,40 +119,6 @@ class MedicineViewController: UIViewController {
             self.present(self.editRadiusAlert, animated: true, completion:{})
         }
     }
-    func setupReminder(){
-        self.eventStore = EKEventStore()
-        self.reminders = [EKReminder]()
-        
-        self.eventStore.requestAccess(to: EKEntityType.reminder) { (granted, error) in
-            if granted {
-                // 2
-                let predicate = self.eventStore.predicateForReminders(in: nil)
-                self.eventStore.fetchReminders(matching: predicate, completion: { (reminders) in
-                    self.reminders = reminders
-                })
-            } else {
-                print("The app is not permitted to access reminders, make sure to grant permission in the settings and try again")
-            }
-        }
-    }
-    func addreminderSetup(title: String,notes: String?,startdate: DateComponents?,duedate: DateComponents?,completiondate: Date?,alarmdates: [EKAlarm]?,recurrenceRule: [EKRecurrenceRule]?){
-        let reminder = EKReminder(eventStore: self.eventStore)
-        
-        reminder.title = "Time to Take \(title)"
-        reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
-        reminder.notes = "Cheif Complain: \(notes ?? "Not Mentioned")"
-        reminder.startDateComponents = startdate
-        reminder.dueDateComponents = duedate
-        reminder.completionDate = nil
-        reminder.alarms = alarmdates
-        reminder.recurrenceRules = recurrenceRule
-        
-        do {
-            try self.eventStore.save(reminder, commit: true)
-        } catch {
-            print("Error creating and saving new reminder : \(error)")
-        }
-    }
     func LocaladdnotificationSetup(id: Int,title: String?,subtitle: String?,body: String?,imagename: String?,datecomponent: [DateComponents]){
         
         let content = UNMutableNotificationContent()
@@ -166,8 +126,6 @@ class MedicineViewController: UIViewController {
         content.subtitle = subtitle ?? ""
         content.body = "Cheif Complain: \(body ?? "Not Mentioned")"
         content.categoryIdentifier = CategoryIdentifier
-        
-       // let url = AssetExtractor.createLocalUrl(forImageNamed: imagename!)
         
         let snoozeAction = UNNotificationAction(identifier: SoonzeIdentifier, title: "Snooze 15 Minute ⏱", options: [])
         let TakenAction = UNNotificationAction(identifier: TakenIdentifier, title: "Medicine Taken! 👍 ", options: [])
@@ -179,16 +137,6 @@ class MedicineViewController: UIViewController {
         for (i,date) in datecomponent.enumerated() {
             let requestidentifier = "notification.id-\(id)-\(i)"
             print("requestidentifier: \(requestidentifier)")
-//            if let attachment = create(imageFileIdentifier: requestidentifier, data: UIImage(named: imagename!)?.pngData()! as! NSData, options: nil) {
-//                content.attachments = [attachment]
-//            }
-//            if url != nil {
-//                if let attachment = try? UNNotificationAttachment(identifier: requestidentifier, url: url!, options: nil) {
-//                    content.attachments = [attachment]
-//                }
-//            }
-            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-
             let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
             let request = UNNotificationRequest(identifier: requestidentifier, content: content, trigger: trigger)
             
@@ -241,17 +189,7 @@ class MedicineViewController: UIViewController {
                                 }
                                 print("medicines-\(self.medicineData)")
                                 print("prescription-\(self.prescription)")
-//                                for (index,remind) in self.reminders.enumerated() {
-//                                    if (remind.notes?.contains(find: "Cheif Complain:"))! {
-//                                        do {
-//                                            try self.eventStore.remove(remind, commit: true)
-//                                            print("Already Added Remove")
-//                                        } catch {
-//                                            print("catch")
-//                                        }
-//                                    }
-//                                }
-                              //  self.passdataTowatch(bool: false)
+                                
                                 DispatchQueue.main.async {
                                     if self.routeFromOtherVC == false {
                                         self.createNewReminder()
@@ -326,8 +264,6 @@ class MedicineViewController: UIViewController {
                 let medicine_type = "\(mdata.value(forKey: "medicine_type") as! String)"
                 let medicine_quantity = " - (Quantity: \(mdata.value(forKey: "medicine_quantity") as! String))"
                 
-               // var alarmdates = [EKAlarm]()
-                
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 let date = dateFormatter.date(from: created_at)
@@ -336,7 +272,6 @@ class MedicineViewController: UIViewController {
                 let interval_period = "\(mdata.value(forKey: "interval_period") as! Int)"
                 let interval_time = "\(mdata.value(forKey: "interval_time") as! String)"
                 
-                let startDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date!)
                 let Time_dates = GetBeforeAfterTime_Dates(mdata: mdata, startdate: date!)
 
                 switch interval_type {
@@ -383,7 +318,6 @@ class MedicineViewController: UIViewController {
             let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 00, second: 00, of: timedate!)!
             let before_bfalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_bf_time)!, to: breakfastdate)!
             Time_dates.append(before_bfalarmdate)
-           // alarmdates.append(EKAlarm(absoluteDate: before_bfalarmdate))
         }
         
         let after_bf = "\(mdata.value(forKey: "after_bf") as! Int)"
@@ -393,7 +327,6 @@ class MedicineViewController: UIViewController {
             let breakfastdate = Calendar.current.date(bySettingHour: 8, minute: 00, second: 00, of: timedate!)!
             let after_bfalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_bf_time)!, to: breakfastdate)!
             Time_dates.append(after_bfalarmdate)
-          //  alarmdates.append(EKAlarm(absoluteDate: after_bfalarmdate))
         }
         
         let before_lunch = "\(mdata.value(forKey: "before_lunch") as! Int)"
@@ -403,7 +336,6 @@ class MedicineViewController: UIViewController {
             let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 00, second: 00, of: timedate!)!
             let before_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_lunch_time)!, to: lunchdate)!
             Time_dates.append(before_lunchalarmdate)
-          //  alarmdates.append(EKAlarm(absoluteDate: before_lunchalarmdate))
         }
         
         let after_lunch = "\(mdata.value(forKey: "after_lunch") as! Int)"
@@ -413,7 +345,6 @@ class MedicineViewController: UIViewController {
             let lunchdate = Calendar.current.date(bySettingHour: 13, minute: 00, second: 00, of: timedate!)!
             let after_lunchalarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_lunch_time)!, to: lunchdate)!
             Time_dates.append(after_lunchalarmdate)
-          //  alarmdates.append(EKAlarm(absoluteDate: after_lunchalarmdate))
         }
         
         let before_dinner = "\(mdata.value(forKey: "before_dinner") as! Int)"
@@ -423,7 +354,6 @@ class MedicineViewController: UIViewController {
             let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 00, second: 00, of: timedate!)!
             let before_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: -Int(before_dinner_time)!, to: dinnerdate)!
             Time_dates.append(before_dinneralarmdate)
-         //   alarmdates.append(EKAlarm(absoluteDate: before_dinneralarmdate))
         }
         
         let after_dinner = "\(mdata.value(forKey: "after_dinner") as! Int)"
@@ -433,7 +363,6 @@ class MedicineViewController: UIViewController {
             let dinnerdate = Calendar.current.date(bySettingHour: 20, minute: 00, second: 00, of: timedate!)!
             let after_dinneralarmdate = Calendar.current.date(byAdding: .minute, value: Int(after_dinner_time)!, to: dinnerdate)!
             Time_dates.append(after_dinneralarmdate)
-        //    alarmdates.append(EKAlarm(absoluteDate: after_dinneralarmdate))
         }
         return Time_dates
     }
@@ -468,70 +397,31 @@ class MedicineViewController: UIViewController {
         print(DailyComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: DailyComponents)
         
-//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-//                              notes: patient_problem,
-//                              startdate: startDatecomponent,
-//                              duedate: dueDatecomponent,
-//                              completiondate: dueDate,
-//                              alarmdates: alarmdates,
-//                              recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: 1, end: EKRecurrenceEnd(end: dueDate!))])
-        
     }
     func WeeklyNotification(dueDate: Date,interval_time: String,Startdate: Date,Time_dates: [Date],id: Int,medicinename: String,medicine_type: String,medicine_quantity: String,patient_problem: String){
         
-        var dueDatecomponent = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: dueDate)
-        
-        var daysofWeek = [EKRecurrenceDayOfWeek]()
         var weekdays = [Int]()
         
         switch Int(interval_time)!{
         case 1:
-           // daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
             weekdays = [4]
             break;
         case 2:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
             weekdays = [3,6]
             break;
         case 3:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
             weekdays = [2,4,6]
             break;
         case 4:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
             weekdays = [2,4,6,1]
             break;
         case 5:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
             weekdays = [1,2,4,6,7]
             break;
         case 6:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
             weekdays = [1,2,3,5,6,7]
             break;
         case 7:
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.sunday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.monday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.tuesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.wednesday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.thursday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.friday))
-//            daysofWeek.append(EKRecurrenceDayOfWeek(EKWeekday.saturday))
             weekdays = [1,2,3,4,5,6,7]
             break;
         default:
@@ -543,7 +433,6 @@ class MedicineViewController: UIViewController {
         let datesBetweenArray = Date.dates(from: Startdate, to: dueDate)
 
         for date in datesBetweenArray {
-            //print("dates: \(date)")
             let weekday = Calendar.current.component(.weekday, from: date)
             
             if weekdays.contains(weekday) {
@@ -566,23 +455,6 @@ class MedicineViewController: UIViewController {
         }
         print(weekdayComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: weekdayComponents)
-        
-//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity,
-//                              notes: patient_problem,
-//                              startdate: startDatecomponent,
-//                              duedate: dueDatecomponent,
-//                              completiondate: dueDate,
-//                              alarmdates: alarmdates,
-//                              recurrenceRule:
-//            [EKRecurrenceRule(recurrenceWith: .weekly,
-//                              interval: Int(interval_period)!,
-//                              daysOfTheWeek: daysofWeek,
-//                              daysOfTheMonth: nil,
-//                              monthsOfTheYear: nil,
-//                              weeksOfTheYear: nil,
-//                              daysOfTheYear: nil,
-//                              setPositions: nil,
-//                              end: EKRecurrenceEnd(end: dueDate!))])
     }
     func TimeIntervalNotification(dueDate: Date,interval_time: String,Startdate: Date,Time_dates: [Date],id: Int,medicinename: String,medicine_type: String,medicine_quantity: String,patient_problem: String){
         
@@ -613,51 +485,9 @@ class MedicineViewController: UIViewController {
                     IntervalComponents.append(component)
                 }
             }
-            
-          /*  for time in Time_dates {
-                let DailyDate = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: date)
-                
-                var component = DateComponents()
-                component.day = DailyDate.day
-                component.month = DailyDate.month
-                component.year = DailyDate.year
-                
-                let int_time = interval_time == "" ? 0 : Int(interval_time)!
-                var everytime = 0
-
-                for i in 0...int_time {
-                    print(i)
-                    let addtime = Calendar.current.date(byAdding: .minute, value: everytime, to: time)!
-                    
-                    let Time = Calendar.current.dateComponents([ .day, .month, .year, .hour, .minute, .second], from: addtime)
-                    print(Time)
-                    
-                    component.hour = Time.hour
-                    component.minute = Time.minute
-                    component.second = Time.second
-                    
-                    if i == int_time {
-                        
-                    } else {
-                      //  if date >= Date(){
-                            IntervalComponents.append(component)
-                      //  }
-                        everytime += 60
-                    }
-                }
-                
-            }*/
         }
         print(IntervalComponents)
         self.LocaladdnotificationSetup(id: id, title: medicinename, subtitle: medicine_type + medicine_quantity, body: patient_problem, imagename: medicine_type, datecomponent: IntervalComponents)
-        
-//        self.addreminderSetup(title: medicinename + medicine_type + medicine_quantity + " " + " \(interval_time) Times in a day",
-//            notes: patient_problem,
-//            startdate: startDatecomponent,
-//            duedate: dueDatecomponent,
-//            completiondate: dueDate,
-//            alarmdates: alarmdates,
-//            recurrenceRule: [EKRecurrenceRule(recurrenceWith: .daily, interval: Int(interval_period)!, end: EKRecurrenceEnd(end: dueDate!))])
     }
 }
 extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
@@ -731,7 +561,7 @@ extension MedicineViewController: UITableViewDataSource , UITableViewDelegate {
             
             timeslot.removeAll()
             
-            medicinecell.SetCellData(d: data, images_types: self.images_types, indexPath: indexPath)
+            medicinecell.SetCellData(data: data, images_types: self.images_types, indexPath: indexPath)
             
             return medicinecell
         }

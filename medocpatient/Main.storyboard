@@ -2068,9 +2068,9 @@
                     <connections>
                         <outlet property="btn_ok" destination="eDA-sN-wYd" id="DYo-sv-Jje"/>
                         <outlet property="lbl_breakfast" destination="Piz-eN-De8" id="8Dx-Z0-93h"/>
-                        <outlet property="lbl_dinner" destination="Bhp-aE-845" id="xwE-4n-Hc3"/>
+                        <outlet property="lbl_dinner" destination="hnF-cf-HxN" id="jPX-B5-RWz"/>
                         <outlet property="lbl_headertitle" destination="xKo-VP-0KZ" id="UJ3-4e-Jhq"/>
-                        <outlet property="lbl_lunch" destination="hnF-cf-HxN" id="aZb-BJ-wy6"/>
+                        <outlet property="lbl_lunch" destination="Bhp-aE-845" id="0bp-Qy-LAz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Vr-pE-MMV" userLabel="First Responder" sceneMemberID="firstResponder"/>

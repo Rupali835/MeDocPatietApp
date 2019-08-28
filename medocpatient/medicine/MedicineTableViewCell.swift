@@ -37,6 +37,25 @@ class MedicineTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        name.text = ""
+        type.text = ""
+        timeslot.text = ""
+        interval_time.text = ""
+        interval_type.text = ""
+        interval_period.text = ""
+        beforeaftertime.text = ""
+        
+        start_date.text = ""
+        start_month.text = ""
+        start_year.text = ""
+      //  start_time.text = ""
+        
+        end_date.text = ""
+        end_month.text = ""
+        end_year.text = ""
+      //  end_time.text = ""
+        
+        lastmedicinetakentime.text = ""
         // Initialization code
     }
 
@@ -46,15 +65,63 @@ class MedicineTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func SetCellData(d: NSDictionary,images_types: [UIImage?],indexPath: IndexPath){
-        var timeslot = [String]()
-        let id = d.value(forKey: "id") as? Int ?? 0
-
-        timeslot.removeAll()
+    func SetCellData(data: NSDictionary,images_types: [UIImage?],indexPath: IndexPath){
         
-        let name = d.value(forKey: "medicine_name") as! String
-        let medicine_type = d.value(forKey: "medicine_type") as! String
-        let medicine_quantity = d.value(forKey: "medicine_quantity") as! String
+        let id = data.value(forKey: "id") as? Int ?? 0
+        let created_by = data.value(forKey: "created_by") as? Int
+
+        let name = data.value(forKey: "medicine_name") as! String
+        let medicine_type = data.value(forKey: "medicine_type") as! String
+        let medicine_quantity = data.value(forKey: "medicine_quantity") as! String
+        
+        let interval_period = "\(data.value(forKey: "interval_period") as! Int)"
+        let interval_time = data.value(forKey: "interval_time") as! String
+        let interval_type = "\(data.value(forKey: "interval_type") as! Int)"
+        
+        self.name.text = name
+        
+        if created_by == 0 {
+            self.type.text = medicine_type + "\n\"medicine added by me\""
+        } else {
+            self.type.text = medicine_type
+        }
+        
+        for (index,item) in images_types.enumerated() {
+            if item?.accessibilityIdentifier == medicine_type {
+                self.img_type.image = item
+            }
+        }
+        
+        switch interval_type {
+        case "1": //daily
+            self.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
+            self.interval_period.text = "Period: \(interval_period) days"
+            self.interval_time.text = "";
+        case "2": //weekly
+            self.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
+            self.interval_period.text = "Period: \(interval_period) weeks"
+            self.interval_time.text = "Times: \(interval_time) times in a week";
+        case "3": // timeinterval
+            self.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
+            self.interval_period.text = "Period: \(interval_period) days"
+            let times = (8...24).count / Int(interval_time)!
+            self.interval_time.text = "Times: \(times) times in a day";
+        default:
+            print("none")
+        }
+        
+        beforeAftertime(d: data, interval_type: interval_type, interval_time: interval_time)
+        
+        setDate(d: data, interval_type: interval_type,interval_period: interval_period)
+        
+        takenmadicine(id: id)
+        
+    }
+    
+    func beforeAftertime(d: NSDictionary,interval_type: String,interval_time: String){
+        var timeslot = [String]()
+        
+        timeslot.removeAll()
         
         let before_bf = "\(d.value(forKey: "before_bf") as! Int)"
         let before_bf_time = "\(d.value(forKey: "before_bf_time") as! Int)"
@@ -127,45 +194,6 @@ class MedicineTableViewCell: UITableViewCell {
                 }
             }
         }
-        
-        let interval_period = "\(d.value(forKey: "interval_period") as! Int)"
-        let interval_time = d.value(forKey: "interval_time") as! String
-        let interval_type = "\(d.value(forKey: "interval_type") as! Int)"
-        
-        switch interval_type {
-        case "1":
-            self.interval_type.text = "Daily - (Quantity: \(medicine_quantity))"
-            self.interval_period.text = "Period: \(interval_period) days"
-            self.interval_time.text = "";
-        case "2":
-            self.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
-            self.interval_period.text = "Period: \(interval_period) weeks"
-            self.interval_time.text = "Times: \(interval_time) times in a week";
-        case "3":
-            self.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
-            self.interval_period.text = "Period: \(interval_period) days"
-            let times = (8...24).count / Int(interval_time)!
-            self.interval_time.text = "Times: \(times) times in a day";
-        default:
-            self.interval_type.text = ""
-            self.interval_period.text = ""
-            self.interval_time.text = ""
-        }
-        self.name.text = name //+ "(\(medicine_type))"
-        
-        let created_by = d.value(forKey: "created_by") as? Int
-        if created_by == 0 {
-            self.type.text = medicine_type + "\n\"medicine added by me\""
-        } else {
-            self.type.text = medicine_type
-        }
-        
-        for (index,item) in images_types.enumerated() {
-            if item?.accessibilityIdentifier == medicine_type {
-                self.img_type.image = item
-            }
-        }
-        
         var breakfast = Int()
         var lunch = Int()
         var dinner = Int()
@@ -184,32 +212,43 @@ class MedicineTableViewCell: UITableViewCell {
             dinner = 1
         }
         
-        if breakfast == 0 && lunch == 0 && dinner == 0 {
+        if interval_type == "3" {
             self.timeslot.text = ""
-            self.beforeaftertime.text = ""
-        } else {
-            if interval_type == "3" {
-                self.timeslot.text = ""
-                var time = [String]()
-                for (index,hour) in (8...24).enumerated() {
-                    let int_time = interval_time == "" ? 0 : Int(interval_time)!
-                    if index % int_time == 0{
-                        if hour > 12 {
-                            let h = "\(hour - 12) PM"
-                            time.append(h)
-                        } else {
-                            let h = "\(hour) AM"
-                            time.append(h)
-                        }
+            var time = [String]()
+            for (index,hour) in (8...24).enumerated() {
+                let int_time = interval_time == "" ? 0 : Int(interval_time)!
+                if index % int_time == 0{
+                    if hour == 12 {
+                        let h = "12 PM"
+                        time.append(h)
+                    }
+                    else if hour == 24 {
+                        let h = "12 AM"
+                        time.append(h)
+                    }
+                    else if hour > 12 {
+                        let h = "\(hour - 12) PM"
+                        time.append(h)
+                    }
+                    else {
+                        let h = "\(hour) AM"
+                        time.append(h)
                     }
                 }
-                self.beforeaftertime.text = time.joined(separator: " , ")
-            } else {
-                self.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
-                self.beforeaftertime.text = "# \(timeslot.joined(separator: "\n# "))"
             }
+            self.interval_time.text = "Times: \(time.count) times in a day";
+            self.beforeaftertime.text = time.joined(separator: " , ")
         }
-        
+        else if breakfast == 0 && lunch == 0 && dinner == 0 {
+            //ignore
+        }
+        else {
+            self.timeslot.text = "\(breakfast)-\(lunch)-\(dinner)"
+            self.beforeaftertime.text = "# \(timeslot.joined(separator: "\n# "))"
+        }
+    }
+    
+    func setDate(d: NSDictionary,interval_type: String,interval_period: String){
         let created_at = d.value(forKey: "created_at") as! String
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -252,17 +291,19 @@ class MedicineTableViewCell: UITableViewCell {
             // medicinecell.end_time.text = dateSeparate[3]
             
             if endDate! >= Date() {
-                print("\(indexPath.section)/\(indexPath.row)-Current-\(name)")
+                // print("\(indexPath.section)/\(indexPath.row)-Current-\(name)-type-\(interval_type)")
                 self.cardview.backgroundColor = UIColor(hexString: "#69f0ae")
                 self.currentMedicineColor(primarycolor: UIColor.black, secondarycolor: UIColor.darkGray)
             }
             else {
-                print("\(indexPath.section)/\(indexPath.row)-NonCurrent-\(name)")
+                // print("\(indexPath.section)/\(indexPath.row)-NonCurrent-\(name)-type-\(interval_type)")
                 self.cardview.backgroundColor = UIColor.white
                 self.non_currentMedicineColor(primarycolor: UIColor.black, secondarycolor: .darkGray)
             }
         }
-        self.lastmedicinetakentime.text = ""
+    }
+    
+    func takenmadicine(id: Int){
         let takenmedicineArray = UserDefaults(suiteName: group)?.array(forKey: "TakenMedicineTime") as? [[String: Any]]
         
         do {
@@ -300,6 +341,7 @@ class MedicineTableViewCell: UITableViewCell {
         interval_period.textColor = secondarycolor
         interval_time.textColor = secondarycolor
     }
+    
     func non_currentMedicineColor(primarycolor: UIColor,secondarycolor: UIColor){
         name.textColor = primarycolor
         interval_type.textColor = primarycolor
@@ -316,6 +358,7 @@ class MedicineTableViewCell: UITableViewCell {
         interval_period.textColor = secondarycolor
         interval_time.textColor = secondarycolor
     }
+    
 }
 class headercell: UITableViewCell {
     
