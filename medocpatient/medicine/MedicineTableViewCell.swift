@@ -100,7 +100,8 @@ class MedicineTableViewCell: UITableViewCell {
         case "2": //weekly
             self.interval_type.text = "Weekly - (Quantity: \(medicine_quantity))"
             self.interval_period.text = "Period: \(interval_period) weeks"
-            self.interval_time.text = "Times: \(interval_time) times in a week";
+            let wt = getWeekdayText(interval_time: interval_time)
+            self.interval_time.text = "Times: \(interval_time) times in a week \n   \(wt)";
         case "3": // timeinterval
             self.interval_type.text = "Time interval - (Quantity: \(medicine_quantity))"
             self.interval_period.text = "Period: \(interval_period) days"
@@ -247,7 +248,36 @@ class MedicineTableViewCell: UITableViewCell {
             self.beforeaftertime.text = "# \(timeslot.joined(separator: "\n# "))"
         }
     }
-    
+    func getWeekdayText(interval_time: String)->String{
+        var weekdays = [String]()
+        
+        switch Int(interval_time)!{
+        case 1:
+            weekdays = ["Wed"]//[4]
+            break;
+        case 2:
+            weekdays = ["Tue","Fri"]//[3,6]
+            break;
+        case 3:
+            weekdays = ["Mon","Wed","Fri"]//[2,4,6]
+            break;
+        case 4:
+            weekdays = ["Sun","Mon","Wed","Fri"]//[2,4,6,1]
+            break;
+        case 5:
+            weekdays = ["Sun","Mon","Wed","Fri","Sat"]//[1,2,4,6,7]
+            break;
+        case 6:
+            weekdays = ["Sun","Mon","Tue","Thu","Fri","Sat"]//[1,2,3,5,6,7]
+            break;
+        case 7:
+            weekdays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]//[1,2,3,4,5,6,7]
+            break;
+        default:
+            break;
+        }
+        return weekdays.joined(separator: " , ")
+    }
     func setDate(d: NSDictionary,interval_type: String,interval_period: String){
         let created_at = d.value(forKey: "created_at") as! String
         let df = DateFormatter()
