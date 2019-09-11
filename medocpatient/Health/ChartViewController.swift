@@ -76,12 +76,14 @@ class ChartViewController: UIViewController {
                 
                 if self.selectedtitle == "Blood Pressure"{
                     let arr = blood_pressure.split(separator: "/")
-                    let systolic = arr[0]
-                    let diastolic = arr[1]
-                    if blood_pressure != "0/0" {
-                        appendvalue.append(Double(systolic)!)
-                        appendvalue2.append(Double(diastolic)!)
-                        xAxisValue.append(datestr)
+                    if arr.count > 1 {
+                        let systolic = arr[0]
+                        let diastolic = arr[1]
+                        if blood_pressure != "0/0" {
+                            appendvalue.append(Double(systolic)!)
+                            appendvalue2.append(Double(diastolic)!)
+                            xAxisValue.append(datestr)
+                        }
                     }
                 }
                 else if self.selectedtitle == "Height"{

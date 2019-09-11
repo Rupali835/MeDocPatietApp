@@ -468,7 +468,7 @@ class MedicineViewController: UIViewController {
         for date in datesBetweenArray {
             print("dates: \(date)")
             
-            for (index,hour) in (1...24).enumerated() {
+            for (index,hour) in (8...24).enumerated() {
                 let int_time = interval_time == "" ? 0 : Int(interval_time)!
                 if index % int_time == 0{
                     print("time interval:\(hour)")
