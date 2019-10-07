@@ -8,7 +8,6 @@
 //
 
 import UIKit
-import CryptoSwift
 
 class QRViewController: UIViewController {
 
@@ -28,8 +27,9 @@ class QRViewController: UIViewController {
         let patientid = UserDefaults.standard.string(forKey: "Patient_id")
         tableview.tableFooterView = UIView(frame: .zero)
         let text = "\(patientid!)"
-        
+                
         let cipherText = cryptLib.encryptPlainTextRandomIV(withPlainText: text, key: key)
+
         print("cipherText \(cipherText! as String)")
         
         let data = cipherText!.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
@@ -43,8 +43,8 @@ class QRViewController: UIViewController {
         displayQRCodeImage()
         print(text)
         
-        let decryptedString = cryptLib.decryptCipherTextRandomIV(withCipherText: cipherText, key: key)
-        print("decryptedString \(decryptedString! as String)")
+        let decryptedString = cryptLib.decryptCipherTextRandomIV(withCipherText: cipherText!, key: key)
+        print("decryptedString \(decryptedString)")
         // Do any additional setup after loading the view.
     }
 

@@ -193,12 +193,18 @@ extension SelectionViewController: UITableViewDataSource, UITableViewDelegate {
                 self.selectedrowdata.append(data[indexPath.row])
             }
         }
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
+        }
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .none
             let findindex = self.selectedrowdata.firstIndex(of: data[indexPath.row])
             self.selectedrowdata.remove(at: findindex!)
+        }
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
         }
     }
 }

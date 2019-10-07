@@ -14,6 +14,8 @@ class PHQCell: UITableViewCell {
     @IBOutlet var month: UILabel!
     @IBOutlet var year: UILabel!
     @IBOutlet var time: UILabel!
+    @IBOutlet var totalscore: UILabel!
+    @IBOutlet var status: UILabel!
 }
 class PHQ_9ViewController: UIViewController {
 
@@ -80,6 +82,7 @@ class PHQ_9ViewController: UIViewController {
         ApiServices.shared.FetchformPostDataFromUrl(vc: self, Url: ApiServices.shared.medocDoctorUrl + "get_phq", bearertoken: bearertoken!, parameter: "patient_id=\(self.p_id!)") {
             do {
                 let jsondict = try JSONSerialization.jsonObject(with: ApiServices.shared.data, options: .mutableContainers) as! NSDictionary
+                print(jsondict as! AnyObject)
                 let msg = jsondict.value(forKey: "msg") as! String
                 self.deletePHQData()
                 if msg == "success" {
@@ -172,6 +175,34 @@ extension PHQ_9ViewController : UITableViewDataSource, UITableViewDelegate {
         cell.year.text = dateSeparate[2]
         cell.time.text = dateSeparate[3]
         
+        var count = 0
+        var status = ""
+        
+        if let que_ansarr = self.items[indexPath.row].que_ans?.convertIntoJsonArray() {
+            for (index,_) in que_ansarr.enumerated() {
+                let data = que_ansarr.object(at: index) as! NSDictionary
+                if let answer = data.value(forKey: "answer") as? Int {
+                    count = count + answer
+                }
+            }
+        }
+        
+        if count < 5 {
+            status = "None".localized()
+        }
+        else if count >= 5 && count < 10 {
+            status = "Mild".localized()
+        }
+        else if count >= 10 && count < 20 {
+            status = "Moderate".localized()
+        }
+        else if count >= 20 {
+            status = "Moderately Severe".localized()
+        }
+        
+        cell.status.text = "Status: \(status)"
+        cell.totalscore.text = "Total: \(count)/27"
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -180,7 +211,9 @@ extension PHQ_9ViewController : UITableViewDataSource, UITableViewDelegate {
         let created_at = "\(cell.date.text!) \(cell.month.text!) \(cell.year.text!) \(cell.time.text!)"
         let que_ans = self.items[indexPath.row].que_ans!
         vc.faq = self.faq
-        vc.que_ansarr = que_ans.convertIntoJsonArray()!
+        if let q_a = que_ans.convertIntoJsonArray() {
+            vc.que_ansarr = q_a
+        }
         vc.navigationItem.title = created_at
         self.navigationController?.pushViewController(vc, animated: true)
     }

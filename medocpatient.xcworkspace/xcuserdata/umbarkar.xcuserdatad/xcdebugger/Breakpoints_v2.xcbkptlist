@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+   uuid = "52687146-41BD-49A8-9E63-FB9F5784B239"
    type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "27289F01-ADE3-453C-80DE-D707C7EB4623"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -22,6 +24,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "3C78D2C8-18F8-4FFE-9885-52CD11B69E60"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -38,6 +41,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "BD044049-4974-4CB6-9E92-7CCC0F9EC236"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -54,16 +58,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2F17CC24-1A45-47A8-B40F-DFA789980CC4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "medocpatient/login/LoginPage.swift"
-            timestampString = "588685321.4574521"
+            filePath = "medocpatient/prescription/AddPrescriptionViewController.swift"
+            timestampString = "590049372.319978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
-            landmarkName = "fetchchange_password(token:newPassword:)"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "uploadprescription()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

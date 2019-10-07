@@ -88,8 +88,6 @@ class AddPHQViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.finalanswerview.removeFromSuperview()
                     self.uploadphq()
-                    NotificationCenter.default.post(name: NSNotification.Name("reloadphq"), object: self)
-                    self.navigationController?.popViewController(animated: true)
                 }
             }
             NetworkManager.isUnreachable { _ in
@@ -196,35 +194,35 @@ extension AddPHQViewController : UITableViewDataSource, UITableViewDelegate {
             dict["questionId"] = index
             switch item.Answer {
             case "Not at all":
-                dict["answer"] = "0"
+                dict["answer"] = 0
                 break;
             case "Several days":
-                dict["answer"] = "1"
+                dict["answer"] = 1
                 break;
             case "Most than half day":
-                dict["answer"] = "2"
+                dict["answer"] = 2
                 break;
             case "Nearly every day":
-                dict["answer"] = "3"
+                dict["answer"] = 3
                 break;
             default:
-                dict["answer"] = "0"
+                dict["answer"] = 0
                 break;
             }
             self.queans.append(dict)
         }
-        var finalanswerid = ""
+        var finalanswerid = 1
         switch self.final_answer_title {
         case self.FinalAnswerRadio[0].titleText:
-            finalanswerid = "1"
+            finalanswerid = 1
         case self.FinalAnswerRadio[1].titleText:
-            finalanswerid = "2"
+            finalanswerid = 2
         case self.FinalAnswerRadio[2].titleText:
-            finalanswerid = "3"
+            finalanswerid = 3
         case self.FinalAnswerRadio[3].titleText:
-            finalanswerid = "4"
+            finalanswerid = 4
         default:
-            finalanswerid = "1"
+            finalanswerid = 1
         }
         print(self.queans)
         let prettyjson = String(data: try! JSONSerialization.data(withJSONObject: self.queans, options: .prettyPrinted), encoding: String.Encoding.utf8)!
@@ -234,7 +232,9 @@ extension AddPHQViewController : UITableViewDataSource, UITableViewDelegate {
                 let msg = json.value(forKey: "msg") as! String
                 if msg == "success" {
                     DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: NSNotification.Name("reloadphq"), object: self)
                         Utilities.shared.showToast(text: "Submitted PHQ Successfully", duration: 3.0)
+                        self.navigationController?.popViewController(animated: true)
                     }
                 }
                 print(json)

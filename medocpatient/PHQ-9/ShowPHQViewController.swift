@@ -30,11 +30,11 @@ class ShowPHQViewController: UIViewController {
         
         for (index,_) in self.que_ansarr.enumerated() {
             let data = self.que_ansarr.object(at: index) as! NSDictionary
-            if let answer = data.value(forKey: "answer") as? String {
-                count = count + Int(answer)!
+            if let answer = data.value(forKey: "answer") as? Int {
+                count = count + answer
             }
         }
-        self.lbltotal.text = "Total = \(count) / 27"
+        self.lbltotal.text = "Total: \(count)/27"
         
         if count < 5 {
             self.lblstatus.text = "None".localized()
@@ -45,7 +45,7 @@ class ShowPHQViewController: UIViewController {
         else if count >= 10 && count < 20 {
             self.lblstatus.text = "Moderate".localized()
         }
-        else if count >= 20{
+        else if count >= 20 {
             self.lblstatus.text = "Moderately Severe".localized()
         }
         // Do any additional setup after loading the view.
@@ -59,7 +59,7 @@ extension ShowPHQViewController : UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShowPHQCell") as! ShowPHQCell
         let data = self.que_ansarr.object(at: indexPath.row) as! NSDictionary
         let qid = data.value(forKey: "questionId") as! Int
-        let answer = data.value(forKey: "answer") as! String
+        let answer = data.value(forKey: "answer") as! Int
         for (index,item) in self.faq.enumerated() {
             if qid == index {
                 cell.question.text = item.Question.localized()
@@ -67,16 +67,16 @@ extension ShowPHQViewController : UITableViewDataSource, UITableViewDelegate {
             }
         }
         switch answer {
-        case "0":
+        case 0:
             cell.answer.text = "Not at all".localized()
             break;
-        case "1":
+        case 1:
             cell.answer.text = "Several days".localized()
             break;
-        case "2":
+        case 2:
             cell.answer.text = "Most than half day".localized()
             break;
-        case "3":
+        case 3:
             cell.answer.text = "Nearly every day".localized()
             break;
         default:
