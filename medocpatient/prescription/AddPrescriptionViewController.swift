@@ -124,7 +124,10 @@ class AddPrescriptionViewController: UIViewController {
                     self.APC.mediaType = [.image]
                     self.APC.allowsMultipleSelection = true
                     self.APC.allowsSelectionFromOtherApps = false
-                    self.APC.present(on: self)
+                    
+                    DispatchQueue.main.async {
+                        self.APC.present(on: self)
+                    }
                 }
             }
         }) {

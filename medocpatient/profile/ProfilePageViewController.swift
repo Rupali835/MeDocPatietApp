@@ -704,7 +704,9 @@ extension ProfilePageViewController: PassSelectionData { //button action
                 self.APC.mediaType = [.image]
                 self.APC.allowsMultipleSelection = false
                 self.APC.allowsSelectionFromOtherApps = false
-                self.APC.present(on: self)
+                DispatchQueue.main.async {
+                    self.APC.present(on: self)
+                }
             }
         }
     }

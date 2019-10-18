@@ -39,9 +39,9 @@ class PatientHomePageViewController: UIViewController{
     
     
     //let icons = [#imageLiteral(resourceName: "users"),#imageLiteral(resourceName: "reports"),#imageLiteral(resourceName: "prescription.png"),#imageLiteral(resourceName: "pills.png"),#imageLiteral(resourceName: "qrcode.png"),#imageLiteral(resourceName: "cardiogram"),#imageLiteral(resourceName: "question"),#imageLiteral(resourceName: "my-space.png"),#imageLiteral(resourceName: "support.png"),#imageLiteral(resourceName: "reading.png"),#imageLiteral(resourceName: "family.png")]
-    let icons = ["group.svg","report.svg","prescription.svg","pills.svg","qr-code.svg","hospital.svg","question.svg","teamwork.svg","customer-support.svg","guide.svg","family.svg"]
+    let icons = ["group.svg","report.svg","prescription.svg","pills.svg","qr-code.svg","hospital.svg","question.svg","teamwork.svg","customer-support.svg","guide.svg","family.svg"]//
 
-    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]
+    let titles = ["Profile","Reports","Prescription","Medicines","QR Code","Health","FAQ","About us","Contact us","Disha Guideline","Family"]//
     let appdel = UIApplication.shared.delegate as! AppDelegate
     let user = User()
     let bearertoken = UserDefaults.standard.string(forKey: "bearertoken")
