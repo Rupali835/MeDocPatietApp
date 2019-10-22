@@ -35,10 +35,17 @@ class ChartViewController: UIViewController {
         axisFormatDelegate = self
         updateChart()
         tableview.tableFooterView = UIView(frame: .zero)
+        viewChart.noDataText = "No Data Found to Show on Graph"
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.statusBarStyle = .darkContent
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.statusBarStyle = .default
+        }
+       // UIApplication.shared.statusBarStyle = .default
     }
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.statusBarStyle = .lightContent
@@ -179,7 +186,12 @@ class ChartViewController: UIViewController {
             chartDataSet.circleHoleColor = skyblue.withAlphaComponent(0.5)
             chartData = LineChartData(dataSet: chartDataSet)
         }
-        viewChart.data = chartData
+        if values.count == 0 {
+            viewChart.data = nil
+        }
+        else {
+            viewChart.data = chartData
+        }
         viewChart.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
         viewChart.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)
         viewChart.rightAxis.labelFont = UIFont.boldSystemFont(ofSize: 10)

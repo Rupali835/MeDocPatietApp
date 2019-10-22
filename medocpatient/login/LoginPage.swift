@@ -65,7 +65,13 @@ class LoginPage: UIViewController, UITextFieldDelegate{
         UIApplication.shared.statusBarStyle = .lightContent
     }
     override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.statusBarStyle = .darkContent
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.statusBarStyle = .default
+        }
+       // UIApplication.shared.statusBarStyle = .default
     }
     @objc func updatePatient(){
         if PatientTextField.isFirstResponder {

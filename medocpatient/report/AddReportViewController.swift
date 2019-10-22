@@ -12,6 +12,7 @@ import CoreData
 import DropDown
 import MobileCoreServices
 import Alamofire
+import PDFKit
 
 class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate {
     
@@ -65,7 +66,13 @@ class AddReportViewController: UIViewController,DBAssetPickerControllerDelegate 
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.statusBarStyle = .darkContent
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.statusBarStyle = .default
+        }
+       // UIApplication.shared.statusBarStyle = .default
     }
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.statusBarStyle = .lightContent
@@ -255,10 +262,33 @@ extension AddReportViewController: UIDocumentPickerDelegate,UINavigationControll
         let myURL = url as URL
         pdfurl = myURL
         let name = myURL.lastPathComponent
-        self.images.append(["dataName": name,"dataTag": self.tf_reportname.text!,"image" : #imageLiteral(resourceName: "placeholder--pdf.png")])
+        
         DispatchQueue.main.async {
+            var pdfimage = UIImage(named: "pdf")!
+            if self.pdfThumbnail(url: myURL) != nil {
+                pdfimage = self.pdfThumbnail(url: myURL)!
+            }
+            let data = ["dataName": name,"dataTag": self.tf_reportname.text!,"image" : pdfimage] as [String : Any]
+            self.images.append(data)
+            self.height_of_collectionview.constant = self.images.count > 0 ? 150 : 0
             self.collectionview.reloadData()
         }
+    }
+    func pdfThumbnail(url: URL, width: CGFloat = 120) -> UIImage? {
+      guard let data = try? Data(contentsOf: url),
+      let page = PDFDocument(data: data)?.page(at: 0) else {
+        return nil
+      }
+
+      let pageSize = page.bounds(for: .mediaBox)
+      let pdfScale = width / pageSize.width
+
+      // Apply if you're displaying the thumbnail on screen
+      let scale = UIScreen.main.scale * pdfScale
+      let screenSize = CGSize(width: pageSize.width * scale,
+                              height: pageSize.height * scale)
+
+      return page.thumbnail(of: screenSize, for: .mediaBox)
     }
 }
 extension AddReportViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

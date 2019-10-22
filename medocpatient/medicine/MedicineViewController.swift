@@ -73,7 +73,13 @@ class MedicineViewController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.statusBarStyle = .darkContent
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.statusBarStyle = .default
+        }
+      //  UIApplication.shared.statusBarStyle = .default
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
